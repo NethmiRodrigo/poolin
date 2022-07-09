@@ -26,7 +26,7 @@ export const errorResponder = (
   const status = error.statusCode || 500;
   response.status(status).json({
     message: error.message || undefined,
-    error: Object.keys(error.complexObject).length
+    error: Object.keys(error.complexObject || {}).length
       ? error.complexObject
       : undefined,
   });
