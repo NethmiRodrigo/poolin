@@ -15,10 +15,12 @@ dotenv.config();
 
 const app = express();
 
+/** Middleware */
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(trim);
 
+/** API Routes */
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 
