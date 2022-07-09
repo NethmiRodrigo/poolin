@@ -4,7 +4,12 @@ import { Request, Response, NextFunction } from "express";
 Utility function to log errors thrown from any endpoint
 */
 export const errorLogger = (error, request, response, next) => {
-  console.log(`❌ [ERROR] [${error.statusCode || 500}] - ${error.message}`);
+  if (error.message)
+    console.log(`❌ [ERROR] [${error.statusCode || 500}] - ${error.message}`);
+  if (error.complexObject) {
+    console.log(`❌ [ERROR] [${error.statusCode || 500}]`);
+    console.table(error.complexObject);
+  }
 
   /* Log full stack trace [comment out to reduce clutter] */
   // console.log(error);
