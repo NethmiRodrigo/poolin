@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "express-async-errors";
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
@@ -6,7 +7,9 @@ import { AppDataSource } from "./data-source";
 
 import authRoutes from "./routes/auth";
 
+/** Middleware */
 import trim from "./middleware/trim";
+import { errorLogger, errorResponder } from "./util/error-handler";
 
 dotenv.config();
 
@@ -19,8 +22,23 @@ app.use(trim);
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 
-app.listen(process.env.POT, async () => {
-  console.log("Poolin server is running at http://localhost:5000");
+// Upsteam error handling
+app.use(errorLogger);
+app.use(errorResponder);
+
+app.listen(process.env.PORT, async () => {
+  console.log(`
+  ▄███████▄  ▄██████▄   ▄██████▄   ▄█             ▄█   ███▄▄▄▄   
+  ███    ███ ███    ███ ███    ███ ███                 ███▀▀▀██▄ 
+  ███    ███ ███    ███ ███    ███ ███            ███▌ ███   ███ 
+  ███    ███ ███    ███ ███    ███ ███            ███▌ ███   ███ 
+▀█████████▀  ███    ███ ███    ███ ███            ███▌ ███   ███ 
+  ███        ███    ███ ███    ███ ███            ███  ███   ███ 
+  ███        ███    ███ ███    ███ ███▌    ▄      ███  ███   ███ 
+ ▄████▀       ▀██████▀   ▀██████▀  █████▄▄██      █▀    ▀█   █▀  
+                                   ▀                             
+                 🚘 Pool-in server running at https://localhost:5000                                                                                                                                             
+  `);
   try {
     await AppDataSource.initialize();
     console.log("Database is connected!");
