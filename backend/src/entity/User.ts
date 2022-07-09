@@ -1,16 +1,54 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { IsEmail, Length } from "class-validator";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  Index,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BeforeInsert,
+} from "typeorm";
+import bcrypt from "bcrypt";
+import { Exclude, instanceToPlain } from "class-transformer";
 
 @Entity("users")
-export class User {
+export class User extends BaseEntity {
+  constructor(user?: Partial<User>) {
+    super();
+    Object.assign(this, user);
+  }
+
+  @Exclude()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  firstName: string;
+  @Index()
+  @IsEmail()
+  @Column({ unique: true })
+  email: string;
+
+  @Index()
+  @Column({ nullable: true })
+  @Exclude()
+  name: string;
 
   @Column()
-  lastName: string;
+  @Length(8, 255, { message: "Password must be atleast 8 characters" })
+  password: string;
 
-  @Column()
-  age: number;
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
+
+  toJSON() {
+    return instanceToPlain(this);
+  }
 }
