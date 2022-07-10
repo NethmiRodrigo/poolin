@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/widget_funtions.dart';
+import 'package:mobile/utils/widget_functions.dart';
 import '../theme.dart';
 
 void main() {
@@ -39,6 +39,7 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                addVerticalSpace(48),
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
@@ -57,31 +58,36 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 addVerticalSpace(48),
                 const TextField(
-                    obscureText: true,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Enter University Email',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    )),
+                  prefixIcon: Icon(Icons.email_outlined),
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter University Email',
+                  isDense: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                )),
                 addVerticalSpace(24),
                 const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.lock),
+                    isDense: true,
                     border: OutlineInputBorder(),
                     hintText: 'Enter a password',
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   ),
                 ),
                 addVerticalSpace(24),
                 const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.lock),
+                    isDense: true,
                     border: OutlineInputBorder(),
                     hintText: 'Confirm password',
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   ),
                 ),
                 addVerticalSpace(40),
