@@ -3,6 +3,7 @@ import "express-async-errors";
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import { AppDataSource } from "./data-source";
 
 import authRoutes from "./routes/auth";
@@ -19,12 +20,13 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(trim);
+app.use(cookieParser());
 
 /** API Routes */
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 
-// Upsteam error handling
+// Upstream error handling
 app.use(errorLogger);
 app.use(errorResponder);
 
