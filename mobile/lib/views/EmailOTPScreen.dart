@@ -108,6 +108,17 @@ class _HomePageState extends State<HomePage> {
                   },
                   appContext: context,
                 ),
+                addVerticalSpace(56),
+                TextButton(
+                  style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(16.0),
+                      primary: Colors.white,
+                      backgroundColor: Colors.black,
+                      minimumSize: const Size.fromHeight(50),
+                      textStyle: Theme.of(context).textTheme.bodyText1),
+                  onPressed: () {},
+                  child: const Text('Verify Email'),
+                ),
               ],
             ),
           ),

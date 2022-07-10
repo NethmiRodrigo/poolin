@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../theme.dart';
@@ -51,15 +52,15 @@ class _HomePageState extends State<HomePage> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
-                    'STEP 4/5',
+                    'STEP 3/5',
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 addVerticalSpace(40),
-                const Icon(Icons.lock_outline_rounded, size: 110),
+                const Icon(Icons.phone_android_rounded, size: 110),
                 addVerticalSpace(40),
                 Text(
-                  "Enter the code",
+                  "Add phone number",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
@@ -67,46 +68,28 @@ class _HomePageState extends State<HomePage> {
                 ),
                 addVerticalSpace(16),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 88),
+                  padding: const EdgeInsets.symmetric(horizontal: 48),
                   child: Text(
-                    'We sent a one-time code via SMS to confirm',
+                    'A 4-digit OTP will be sent via SMS to verify your number',
                     style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.center,
                   ),
                 ),
                 addVerticalSpace(48),
-                PinCodeTextField(
-                  length: 4,
-                  obscureText: false,
-                  animationType: AnimationType.fade,
-                  pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 72,
-                      inactiveFillColor: Colors.white,
-                      fieldWidth: 72,
-                      activeFillColor: Colors.white,
-                      activeColor: Colors.black,
-                      borderWidth: 1,
-                      selectedColor: Colors.blue,
-                      selectedFillColor: Colors.white,
-                      inactiveColor: Colors.black),
-                  animationDuration: const Duration(milliseconds: 300),
-                  enableActiveFill: true,
-                  controller: textEditingController,
-                  onCompleted: (v) {
-                    debugPrint("Completed");
+                IntlPhoneField(
+                  flagsButtonPadding: EdgeInsets.only(left: 16),
+                  showDropdownIcon: false,
+                  decoration: InputDecoration(
+                    hintText: 'Phone Number',
+                    isDense: true,
+                    border: OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  ),
+                  initialCountryCode: 'LK',
+                  onChanged: (phone) {
+                    print(phone.completeNumber);
                   },
-                  onChanged: (value) {
-                    debugPrint(value);
-                    setState(() {
-                      currentText = value;
-                    });
-                  },
-                  beforeTextPaste: (text) {
-                    return true;
-                  },
-                  appContext: context,
                 ),
                 addVerticalSpace(56),
                 TextButton(
@@ -117,14 +100,9 @@ class _HomePageState extends State<HomePage> {
                       minimumSize: const Size.fromHeight(50),
                       textStyle: Theme.of(context).textTheme.bodyText1),
                   onPressed: () {},
-                  child: const Text('Verify Phone Number'),
+                  child: const Text('Proceed'),
                 ),
                 addVerticalSpace(16),
-                Text(
-                  'Didn’t receive a code? Try Again',
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.left,
-                ),
               ],
             ),
           ),
