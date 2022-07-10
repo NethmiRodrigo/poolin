@@ -10,6 +10,14 @@ class AppTheme {
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),
       fontFamily: 'Satoshi',
+      inputDecorationTheme: const InputDecorationTheme(
+        labelStyle: TextStyle(color: Colors.black),
+        hintStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 16,
+            fontFamily: 'Satoshi',
+            fontWeight: FontWeight.w300),
+      ),
       textTheme: ThemeData.light().textTheme.copyWith(
             headline1: const TextStyle(
               fontFamily: 'Satoshi',
