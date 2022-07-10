@@ -24,12 +24,54 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          'Create your account',
-          style: Theme.of(context).textTheme.headline3,
-          textAlign: TextAlign.center,
+    return Scaffold(
+      body: Container(
+        child: Column(
+          children: [
+            Text(
+              'Step 1/5',
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              'Create your account',
+              style: Theme.of(context).textTheme.headline3,
+              textAlign: TextAlign.left,
+            ),
+            const TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter University Email',
+              ),
+            ),
+            const TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter a password',
+              ),
+            ),
+            const TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Confirm password',
+              ),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(16.0),
+                  textStyle: Theme.of(context).textTheme.bodyText1),
+              onPressed: () {},
+              child: const Text('Proceed'),
+            ),
+            Text(
+              'Already have an account? Log in',
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.left,
+            ),
+          ],
         ),
       ),
     );
