@@ -33,6 +33,7 @@ class RegisterScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.left,
             ),
+            Image.asset('assets/images/logo.png'),
             Text(
               'Create your account',
               style: Theme.of(context).textTheme.headline3,
