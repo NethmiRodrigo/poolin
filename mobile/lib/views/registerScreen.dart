@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/widget_funtions.dart';
 import '../theme.dart';
 
 void main() {
@@ -54,26 +55,36 @@ class RegisterScreen extends StatelessWidget {
                       .merge(TextStyle(color: Colors.black)),
                   textAlign: TextAlign.left,
                 ),
+                addVerticalSpace(48),
                 const TextField(
                     obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Enter University Email',
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     )),
+                addVerticalSpace(24),
                 const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter a password',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   ),
                 ),
+                addVerticalSpace(24),
                 const TextField(
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Confirm password',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   ),
                 ),
+                addVerticalSpace(40),
                 TextButton(
                   style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(16.0),
@@ -84,6 +95,7 @@ class RegisterScreen extends StatelessWidget {
                   onPressed: () {},
                   child: const Text('Proceed'),
                 ),
+                addVerticalSpace(16),
                 Text(
                   'Already have an account? Log in',
                   style: Theme.of(context).textTheme.bodyText1,
