@@ -39,7 +39,7 @@ app.listen(process.env.PORT, async () => {
   ███        ███    ███ ███    ███ ███▌    ▄      ███  ███   ███ 
  ▄████▀       ▀██████▀   ▀██████▀  █████▄▄██      █▀    ▀█   █▀  
                                    ▀                             
-                 🚘 Pool-in server running at https://localhost:5000                                                                                                                                             
+                 🚘 Pool-in server running at http://localhost:5000                                                                                                                                             
   `);
   try {
     await AppDataSource.initialize();

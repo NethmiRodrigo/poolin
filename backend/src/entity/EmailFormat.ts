@@ -1,4 +1,3 @@
-import { IsEmail } from "class-validator";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,7 +6,7 @@ import {
 } from "typeorm";
 import { Exclude, instanceToPlain } from "class-transformer";
 
-@Entity("email_format")
+@Entity("email_formats")
 export class EmailFormat extends BaseEntity {
   constructor(emailFormat?: Partial<EmailFormat>) {
     super();
@@ -18,7 +17,6 @@ export class EmailFormat extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @IsEmail()
   @Column({ nullable: false })
   emailFormat: string;
 
