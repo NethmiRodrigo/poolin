@@ -14,6 +14,7 @@ import auth from "../middleware/auth";
 import { getMailer, sendPlainMail } from "../util/mailer";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
+import { checkIfDateIsExpired } from "../util/date-checker";
 
 /** Entities */
 import { User } from "../entity/User";
@@ -147,8 +148,7 @@ const verifyResetPasswordOTP = async (req: Request, res: Response) => {
   if (forgotPasswordEntity.used)
     throw new AppError(400, {}, "OTP is invalid. Please try again");
 
-  const today = new Date();
-  if (today > forgotPasswordEntity.expiresAt)
+  if (checkIfDateIsExpired)
     throw new AppError(
       400,
       {},
@@ -182,6 +182,9 @@ const resetPassword = async (req: Request, res: Response) => {
   if (!forgotPasswordEntity) throw new AppError(400, {}, "Invalid OTP");
   if (!forgotPasswordEntity.used)
     throw new AppError(400, {}, "OTP has not being verified");
+
+  if (checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
+    throw new AppError(400, {}, "Password reset request has expired");
 
   const user = await User.findOneBy({ email });
   if (!user) throw new AppError(400, {}, "User cannot be found");
