@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/views/EmailOTPScreen.dart';
 
@@ -13,6 +14,7 @@ class RegisterScreen extends StatefulWidget {
 
 class RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
 
@@ -62,6 +64,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      controller: _email,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
                         border: OutlineInputBorder(),
@@ -133,19 +136,26 @@ class RegisterScreenState extends State<RegisterScreen> {
                           backgroundColor: Colors.black,
                           minimumSize: const Size.fromHeight(50),
                           textStyle: Theme.of(context).textTheme.bodyText1),
-                      onPressed: () {
+                      onPressed: () async {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const EmailOTPScreen()),
+                          // );
+                          print(_email.text);
+                          print(_pass.text);
+                          print(_confirmPass.text);
+                          register(_email.text, _pass.text, _confirmPass.text);
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const EmailOTPScreen()),
                           );
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   const SnackBar(content: Text('Processing Data')),
-                          // );
                         }
                       },
                       child: const Text('Proceed'),

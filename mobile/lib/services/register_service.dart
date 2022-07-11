@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-register(String email, contact, pass, conpass) async {
+Future<bool> register(String email, pass, conpass) async {
   Map data = {
-    'Email': email,
-    'Mobile': contact,
-    'Password': pass,
-    'RetypePassword': conpass,
+    'email': email,
+    'password': pass,
+    'confirmPassword': conpass,
   };
   print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('https://example.com/whatsit/create');
+  var url = Uri.parse('https://localhost:5000/api/auth/verifyCredentials');
   var response = await http.post(
     url,
     body: body,
@@ -24,10 +23,12 @@ register(String email, contact, pass, conpass) async {
   print(response.body);
   print(response.statusCode);
   if (response.statusCode == 200) {
-    //Or put here your next screen using Navigator.push() method
     print('success');
+    //Or put here your next screen using Navigator.push() method
+    return true;
   } else {
-    print('error');
+    print('fail');
+    return false;
   }
 }
 
