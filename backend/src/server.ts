@@ -2,7 +2,6 @@ import "reflect-metadata";
 import "express-async-errors";
 import express from "express";
 import morgan from "morgan";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { AppDataSource } from "./data-source";
 
@@ -11,8 +10,7 @@ import authRoutes from "./routes/auth";
 /** Middleware */
 import trim from "./middleware/trim";
 import { errorLogger, errorResponder } from "./util/error-handler";
-
-dotenv.config();
+import { User } from "./entity/User";
 
 const app = express();
 
@@ -41,7 +39,7 @@ app.listen(process.env.PORT, async () => {
   ███        ███    ███ ███    ███ ███▌    ▄      ███  ███   ███ 
  ▄████▀       ▀██████▀   ▀██████▀  █████▄▄██      █▀    ▀█   █▀  
                                    ▀                             
-                 🚘 Pool-in server running at https://localhost:5000                                                                                                                                             
+                 🚘 Pool-in server running at https://localhost:${process.env.PORT}                                                                                                                                           
   `);
   try {
     await AppDataSource.initialize();
