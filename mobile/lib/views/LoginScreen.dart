@@ -15,14 +15,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login Screen',
       theme: AppTheme().themeData,
-      home: const LoginScreen(),
+      home: MyForm(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class MyForm extends StatelessWidget {
+  final _key = GlobalKey<FormState>();
+// class LoginScreen extends StatelessWidget {
+//   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,53 +52,81 @@ class LoginScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 addVerticalSpace(48),
-                const TextField(
-                    decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email_outlined),
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter University Email',
-                  isDense: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                )),
-                addVerticalSpace(24),
-                const TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    isDense: true,
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter password',
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                Form(
+                    key: _key,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.email_outlined),
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter University Email',
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 16),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+
+                            return null;
+                          },
+                        ),
+                        addVerticalSpace(24),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            isDense: true,
+                            border: OutlineInputBorder(),
+                            hintText: 'Enter password',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 16),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            } else if (value.length < 8) {
+                              return 'Password length must be atleast 8 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        addVerticalSpace(10),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'Forgot password?',
+                            style: Theme.of(context).textTheme.bodyText1,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        addVerticalSpace(40),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(16.0),
+                              primary: Colors.white,
+                              backgroundColor: Colors.black,
+                              minimumSize: const Size.fromHeight(50),
+                              textStyle: Theme.of(context).textTheme.bodyText1),
+                          onPressed: () {
+                            if (_key.currentState!.validate()) {
+                              print("Your data is submitted");
+                            }
+                          },
+                          child: const Text('Sign in'),
+                        ),
+                        addVerticalSpace(16),
+                        Text(
+                          'Not a member? Register now',
+                          style: Theme.of(context).textTheme.bodyText1,
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                addVerticalSpace(10),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    'Forgot password?',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                addVerticalSpace(40),
-                TextButton(
-                  style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(16.0),
-                      primary: Colors.white,
-                      backgroundColor: Colors.black,
-                      minimumSize: const Size.fromHeight(50),
-                      textStyle: Theme.of(context).textTheme.bodyText1),
-                  onPressed: () {},
-                  child: const Text('Sign in'),
-                ),
-                addVerticalSpace(16),
-                Text(
-                  'Not a member? Register now',
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.left,
-                ),
               ],
             ),
           ),
