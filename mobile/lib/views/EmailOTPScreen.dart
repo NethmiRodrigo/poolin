@@ -3,32 +3,14 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../theme.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class EmailOTPScreen extends StatefulWidget {
+  const EmailOTPScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'KindaCode.com',
-      theme: AppTheme().themeData,
-      home: const HomePage(),
-    );
-  }
+  _EmailOTPScreenState createState() => _EmailOTPScreenState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _EmailOTPScreenState extends State<EmailOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
 
