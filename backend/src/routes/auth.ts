@@ -3,10 +3,14 @@ import { isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
+import { getConnection } from "typeorm";
 
 import { User } from "../entity/User";
 import { EmailFormat } from "../entity/EmailFormat";
+import { TempUser } from "../entity/TempUser";
 import { AppError } from "../util/error-handler";
+
+// const userRepository = dataSource.getRepository(TempUser)
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -51,12 +55,11 @@ const verifyCredentials = async (req: Request, res: Response) => {
   // check password strength
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
-  // check if email already registered
+  // check if email is already registered
   const user = await User.findOneBy({ email });
-
   if (user) throw new AppError(401, {}, "Email already registered");
 
-  // check if email belongs to supported domain
+  // check if email belongs to any supported domain
   const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
 
   let isValid = false;
@@ -70,11 +73,14 @@ const verifyCredentials = async (req: Request, res: Response) => {
 
   if(!isValid) throw new AppError(401, {}, "Invalid email");
 
-  return res.json({ });
+  // save user credentials in temporary entity
+  const tempUser = await TempUser.create({ email: email, password: password }).save()
+
+  // return res.json({ true });
 };
 
 const router = Router();
 router.post("/login", login);
-router.post("/verifyCredentials", verifyCredentials);
+router.get("/verifyCredentials", verifyCredentials);
 
 export default router;
