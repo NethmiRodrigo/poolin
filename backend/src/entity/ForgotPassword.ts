@@ -30,6 +30,9 @@ export class ForgotPassword extends BaseEntity {
   @Column()
   otp: string;
 
+  @Column()
+  used: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 
