@@ -12,6 +12,7 @@
       "experimentalDecorators": true,
       "sourceMap": true,
       "esModuleInterop": true,
-      "strict": false
+      "strict": false,
+      "typeRoots": ["./src/types/*/*"]
    }
 }
