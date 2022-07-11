@@ -6,7 +6,7 @@ Utility function to log errors thrown from any endpoint
 export const errorLogger = (error, request, response, next) => {
   if (error.message)
     console.log(`❌ [ERROR] [${error.statusCode || 500}] - ${error.message}`);
-  if (error.complexObject) {
+  if (error.complexObject && Object.keys(error.complexObject).length) {
     console.log(`❌ [ERROR] [${error.statusCode || 500}]`);
     console.table(error.complexObject);
   }

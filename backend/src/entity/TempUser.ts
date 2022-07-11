@@ -8,16 +8,15 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  BeforeUpdate,
 } from "typeorm";
 import bcrypt from "bcrypt";
 import { Exclude, instanceToPlain } from "class-transformer";
 
-@Entity("users")
-export class User extends BaseEntity {
-  constructor(user?: Partial<User>) {
+@Entity("temp_users")
+export class TempUser extends BaseEntity {
+  constructor(tempUser?: Partial<TempUser>) {
     super();
-    Object.assign(this, user);
+    Object.assign(this, tempUser);
   }
 
   @Exclude()
@@ -29,24 +28,31 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Index()
   @Column({ nullable: true })
-  @Exclude()
-  name: string;
-
-  @Column()
   @Length(8, 255, { message: "Password must be atleast 8 characters" })
   password: string;
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column({ nullable: true })
+  emailOTP: string;
+
+  @Column({ nullable: true })
+  emailOTPSentAt: Date;
+
+  @Column({ nullable: true })
+  smsOTP: string;
+
+  @Column({ nullable: true })
+  smsOTPSentAt: Date;
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 8);
+  }
+
+  toJSON() {
+    return instanceToPlain(this);
   }
 }

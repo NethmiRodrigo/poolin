@@ -1,7 +1,7 @@
 {
-   "name": "typeorm-sample",
+   "name": "poolin",
    "version": "0.0.1",
-   "description": "Awesome project developed with TypeORM.",
+   "description": "Poolin API",
    "type": "commonjs",
    "devDependencies": {
       "@types/express": "^4.17.13",
@@ -17,6 +17,7 @@
       "@types/cookie-parser": "^1.4.3",
       "@types/jsonwebtoken": "^8.5.8",
       "@types/morgan": "^1.9.3",
+      "@types/nodemailer": "^6.4.4",
       "bcrypt": "^5.0.1",
       "class-transformer": "^0.5.1",
       "class-validator": "^0.13.2",
@@ -26,6 +27,7 @@
       "express": "^4.18.1",
       "express-async-errors": "^3.1.1",
       "jsonwebtoken": "^8.5.1",
+      "nodemailer": "^6.7.7",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
       "typeorm": "0.3.7"

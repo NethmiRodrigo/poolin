@@ -1,17 +1,23 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import dotenv from "dotenv";
+import { ForgotPassword } from "./entity/ForgotPassword";
 import { User } from "./entity/User";
+import { TempUser } from "./entity/TempUser";
+import { EmailFormat } from "./entity/EmailFormat";
+
+dotenv.config({ path: "./src/.env" });
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "password",
-  database: "poolin",
+  host: process.env.DATABASE_HOST,
+  port: parseInt(<string>process.env.DATABASE_PORT),
+  username: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASS,
+  database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
-  entities: [User],
+  entities: [User, ForgotPassword, EmailFormat, TempUser],
   migrations: [],
   subscribers: [],
 });
