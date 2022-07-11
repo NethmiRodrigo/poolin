@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../theme.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'KindaCode.com',
+//       theme: AppTheme().themeData,
+//       home: const HomePage(),
+//     );
+//   }
+// }
+
+class PhoneNumberScreen extends StatefulWidget {
+  const PhoneNumberScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'KindaCode.com',
-      theme: AppTheme().themeData,
-      home: const HomePage(),
-    );
-  }
+  _PhoneNumberScreenState createState() => _PhoneNumberScreenState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
 

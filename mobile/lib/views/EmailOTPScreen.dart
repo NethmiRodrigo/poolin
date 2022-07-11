@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/phone_number.dart';
+import 'package:mobile/views/PhoneNumberScreen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../theme.dart';
@@ -13,6 +15,7 @@ class EmailOTPScreen extends StatefulWidget {
 class _EmailOTPScreenState extends State<EmailOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
+  bool hasError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +93,15 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                   },
                   appContext: context,
                 ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(hasError ? "invatlid" : "",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          fontFamily: 'Satoshi')),
+                ),
                 addVerticalSpace(56),
                 TextButton(
                   style: TextButton.styleFrom(
@@ -98,7 +110,19 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                       backgroundColor: Colors.black,
                       minimumSize: const Size.fromHeight(50),
                       textStyle: Theme.of(context).textTheme.bodyText1),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (currentText.length != 4) {
+                      // Triggering error shake animation
+                      setState(() {
+                        hasError = true;
+                      });
+                    }
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const PhoneNumberScreen()),
+                    // );
+                  },
                   child: const Text('Verify Email'),
                 ),
               ],
