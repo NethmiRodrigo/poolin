@@ -63,7 +63,7 @@ const login = async (req: Request, res: Response) => {
 const verifyCredentials = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
   let errors: any = {};
-  if (isEmpty(email)) errors.email = "Email cannot be empty";
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
   if (isEmpty(password)) errors.password = "Password cannot be empty";
   if (isEmpty(confirmPassword)) errors.confirmPassword = "Confirm password cannot be empty";
 
@@ -76,7 +76,7 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  if(isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
   if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
@@ -85,9 +85,11 @@ const verifyCredentials = async (req: Request, res: Response) => {
   const tempUser = await TempUser.create({ email: email, password: password }).save()
 
   // send OTP via Email (valid for 15 mins)
-  const result = emailOTP(email);
+  const result = await emailOTP(email);
+  if (!result.accepted.length && !result.accepted.includes(email))
+  throw new Error("Email could not be send. Please try again");
 
-  // return res.json({ true });
+  return res.status(200).json({ success: "OTP sent via email", email });
 }
 
 const isEmailRegistered = async (email)  => {
@@ -118,14 +120,38 @@ const emailOTP = async (email) => {
   // generate 4-digit OTP
   const otp = codeHandler(4, true);
   
-  // calculate expiration time (15 mins)
+  // calculate expiration time (should expire in 15 mins)
   const currentDate = new Date();
   const expiresAt = new Date(currentDate.getTime() + 15*60000);
 
-  const subject = 'Your verification code for Poolin'
-  const body = `Hi there! This is verify the email of your Poolin account. Please enter the OTP ${otp} in your app to verify`
+  // save otp in database
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(400, {}, "Email cannot be found");
+  tempUser.emailOTP = otp;
+  tempUser.emailOTPSentAt = currentDate;
+  await tempUser.save();
 
-  const result = await sendPlainMail('imtiaz.azma@gmail.com', 'fathimaazmaimtiaz@gmail.com', subject, body)
+  // send email
+  const body = 
+  `Hi there! 
+  This is verify the email of your Poolin account. 
+  Please enter the OTP ${otp} in your app to verify 
+  (Expires at: ${expiresAt}`;
+
+  const mailer: Transporter = await getMailer();
+
+  const mailOptions: MailOptions = {
+    to: email,
+    from: "poolin@info.com",
+    subject: "Your verification code for Poolin",
+    text: body,
+  };
+
+  // send otp
+  const result = await mailer.sendMail(mailOptions);
+
+  if (process.env.NODE_ENV === "development")
+  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
 
   return result;
 }
