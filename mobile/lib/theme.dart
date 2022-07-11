@@ -12,6 +12,8 @@ class AppTheme {
       fontFamily: 'Satoshi',
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(color: Colors.black),
+        errorStyle:
+            TextStyle(fontFamily: 'Satoshi', fontWeight: FontWeight.w700),
         hintStyle: TextStyle(
             color: Colors.grey,
             fontSize: 16,
