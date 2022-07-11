@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<bool> register(String email, pass, conpass) async {
+Future<http.Response> register(String email, pass, conpass) async {
   Map data = {
     'email': email,
     'password': pass,
@@ -10,7 +10,7 @@ Future<bool> register(String email, pass, conpass) async {
   print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('https://localhost:5000/api/auth/verifyCredentials');
+  var url = Uri.parse('http://localhost:5001/api/auth/verify-credentials');
   var response = await http.post(
     url,
     body: body,
@@ -22,14 +22,7 @@ Future<bool> register(String email, pass, conpass) async {
   );
   print(response.body);
   print(response.statusCode);
-  if (response.statusCode == 200) {
-    print('success');
-    //Or put here your next screen using Navigator.push() method
-    return true;
-  } else {
-    print('fail');
-    return false;
-  }
+  return response;
 }
 
 checkOTP(String otp) async {
