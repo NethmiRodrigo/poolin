@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
+  BeforeUpdate,
 } from "typeorm";
 import bcrypt from "bcrypt";
 import { Exclude, instanceToPlain } from "class-transformer";
@@ -44,11 +45,8 @@ export class User extends BaseEntity {
   updatedAt: Date;
 
   @BeforeInsert()
+  @BeforeUpdate()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 8);
-  }
-
-  toJSON() {
-    return instanceToPlain(this);
   }
 }

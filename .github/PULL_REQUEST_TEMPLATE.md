@@ -1,22 +1,22 @@
-## Purpose
+#### Purpose
 
 The purpose of this PR is to fix #
 
-## Goals
+#### Goals
 
 Please describe briefy what you have achieved in this PR.
 
-## Approach
+#### Approach
 
 If not described in the issue/bug, please mention how you achieved the functionality/fixed the bug.
 
-## Screenshots
+#### Screenshots
 
 ## How Has This Been Tested?
 
 Please add screenshots of test case results.
 
-## Checklist:
+#### Checklist:
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
