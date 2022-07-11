@@ -14,10 +14,10 @@ import { Exclude, instanceToPlain } from "class-transformer";
 
 @Entity("temp_users")
 export class TempUser extends BaseEntity {
-  // constructor(tempUser?: Partial<TempUser>) {
-  //   super();
-  //   Object.assign(this, tempUser);
-  // }
+  constructor(tempUser?: Partial<TempUser>) {
+    super();
+    Object.assign(this, tempUser);
+  }
 
   @Exclude()
   @PrimaryGeneratedColumn()

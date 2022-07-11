@@ -67,7 +67,7 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if (isEmpty(password)) errors.password = "Password cannot be empty";
   if (isEmpty(confirmPassword)) errors.confirmPassword = "Confirm password cannot be empty";
 
-  if (Object.keys(errors).length > 0) throw new AppError(401, errors, "");
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
 
   // check if passwords match
   if(password != confirmPassword) throw new AppError(401, {}, "Passwords do not match");
@@ -304,7 +304,7 @@ const resetPassword = async (req: Request, res: Response) => {
 
 const router = Router();
 router.post("/login", login);
-router.post("/verifyCredentials", verifyCredentials);
+router.post("/verify-credentials", verifyCredentials);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
