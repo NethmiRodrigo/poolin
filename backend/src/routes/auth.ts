@@ -25,6 +25,9 @@ import { ForgotPassword } from "../entity/ForgotPassword";
 
 import { AppDataSource } from "../data-source";
 
+/**
+ * Login API Route
+ */
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   let errors: any = {};
@@ -54,6 +57,9 @@ const login = async (req: Request, res: Response) => {
   return res.json({ user, token });
 };
 
+/**
+ * API route to verify new user's credentials 
+ */
 const verifyCredentials = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
   let errors: any = {};
@@ -70,10 +76,30 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  const user = await User.findOneBy({ email });
-  if (user) throw new AppError(401, {}, "Email already registered");
+  if(isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
+  if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
+
+  // save user credentials in temporary entity
+  const tempUser = await TempUser.create({ email: email, password: password }).save()
+
+  // send OTP via Email (valid for 15 mins)
+  const result = emailOTP(email);
+
+  // return res.json({ true });
+}
+
+const isEmailRegistered = async (email)  => {
+  const user = await User.findOneBy({ email });
+  if (user) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const isEmailDomainValid = async (email)  => {
   const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
 
   let isValid = false;
@@ -85,12 +111,23 @@ const verifyCredentials = async (req: Request, res: Response) => {
     }
   }
 
-  if(!isValid) throw new AppError(401, {}, "Invalid email");
+  return isValid;
+}
 
-  // save user credentials in temporary entity
-  const tempUser = await TempUser.create({ email: email, password: password }).save()
+const emailOTP = async (email) => {
+  // generate 4-digit OTP
+  const otp = codeHandler(4, true);
+  
+  // calculate expiration time (15 mins)
+  const currentDate = new Date();
+  const expiresAt = new Date(currentDate.getTime() + 15*60000);
 
-  // return res.json({ true });
+  const subject = 'Your verification code for Poolin'
+  const body = `Hi there! This is verify the email of your Poolin account. Please enter the OTP ${otp} in your app to verify`
+
+  const result = await sendPlainMail('imtiaz.azma@gmail.com', 'fathimaazmaimtiaz@gmail.com', subject, body)
+
+  return result;
 }
 
 /**
@@ -241,7 +278,7 @@ const resetPassword = async (req: Request, res: Response) => {
 
 const router = Router();
 router.post("/login", login);
-router.get("/verifyCredentials", verifyCredentials);
+router.post("/verifyCredentials", verifyCredentials);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
