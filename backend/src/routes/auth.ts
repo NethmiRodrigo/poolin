@@ -18,6 +18,7 @@ import codeHandler from "../util/code-handler";
 /** Entities */
 import { User } from "../entity/User";
 import { ForgotPassword } from "../entity/ForgotPassword";
+import { AppDataSource } from "../data-source";
 
 /**
  * Login API Route
@@ -160,11 +161,48 @@ const verifyResetPasswordOTP = async (req: Request, res: Response) => {
   return res.status(200).json({ success: "OTP verified successfully" });
 };
 
+/**
+ * API Route to reset password
+ */
+const resetPassword = async (req: Request, res: Response) => {
+  const { password, confirmPassword, email, otp } = req.body;
+  let errors: any = {};
+
+  if (isEmpty(password)) errors.password = "Password cannot be empty";
+  if (isEmpty(confirmPassword))
+    errors.confirmPassword = "Confirm password cannot be empty";
+  if (isEmpty(email)) errors.email = "Email cannot be empty";
+  if (isEmpty(otp)) errors.otp = "OTP cannot be empty";
+  if (!isEmpty && !isEmail(email)) errors.email = "Email is invalid";
+  if (password !== confirmPassword) errors.password = "Passwords do not match";
+
+  if (Object.keys(errors).length > 0) throw new AppError(400, errors, "");
+
+  const forgotPasswordEntity = await ForgotPassword.findOneBy({ email, otp });
+  if (!forgotPasswordEntity) throw new AppError(400, {}, "Invalid OTP");
+  if (!forgotPasswordEntity.used)
+    throw new AppError(400, {}, "OTP has not being verified");
+
+  const user = await User.findOneBy({ email });
+  if (!user) throw new AppError(400, {}, "User cannot be found");
+
+  user.password = password;
+  await user.save();
+
+  await AppDataSource.createQueryBuilder()
+    .delete()
+    .from(ForgotPassword)
+    .where("email = :email AND otp = :otp", { email, otp })
+    .execute();
+  return res.status(200).json({ success: "Successfully updated password" });
+};
+
 const router = Router();
 router.post("/login", login);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
 router.post("/verify-password-otp", verifyResetPasswordOTP);
+router.post("/reset-password", resetPassword);
 
 export default router;
