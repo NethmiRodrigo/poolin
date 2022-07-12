@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { nextTick } from "process";
 import { User } from "../entity/User";
 import { AppError } from "../util/error-handler";
 

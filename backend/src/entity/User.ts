@@ -11,7 +11,7 @@ import {
   BeforeUpdate,
 } from "typeorm";
 import bcrypt from "bcrypt";
-import { Exclude, instanceToPlain } from "class-transformer";
+import { Exclude } from "class-transformer";
 
 @Entity("users")
 export class User extends BaseEntity {

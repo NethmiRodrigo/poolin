@@ -10,7 +10,6 @@ import authRoutes from "./routes/auth";
 /** Middleware */
 import trim from "./middleware/trim";
 import { errorLogger, errorResponder } from "./util/error-handler";
-import { User } from "./entity/User";
 
 const app = express();
 

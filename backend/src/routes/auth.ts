@@ -3,7 +3,6 @@ import { isEmail, isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
-import { getConnection } from "typeorm";
 import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
@@ -12,7 +11,7 @@ import { MailOptions } from "nodemailer/lib/json-transport";
 import auth from "../middleware/auth";
 
 /** Utility functions */
-import { getMailer, sendPlainMail } from "../util/mailer";
+import { getMailer } from "../util/mailer";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
@@ -58,71 +57,83 @@ const login = async (req: Request, res: Response) => {
 };
 
 /**
- * API route to verify new user's credentials 
+ * API route to verify new user's credentials
  */
 const verifyCredentials = async (req: Request, res: Response) => {
   const { email, password, confirmPassword } = req.body;
   let errors: any = {};
   if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
   if (isEmpty(password)) errors.password = "Password cannot be empty";
-  if (isEmpty(confirmPassword)) errors.confirmPassword = "Confirm password cannot be empty";
+  if (isEmpty(confirmPassword))
+    errors.confirmPassword = "Confirm password cannot be empty";
 
   if (Object.keys(errors).length > 0) throw new AppError(401, errors);
 
   // check if passwords match
-  if(password != confirmPassword) throw new AppError(401, {}, "Passwords do not match");
+  if (password != confirmPassword)
+    throw new AppError(401, {}, "Passwords do not match");
 
   // check password strength
-  if(password.length < 8) throw new AppError(401, {}, "Password too short");
+  if (password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+  if (!isEmailRegistered(email))
+    throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
-  if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
+  if (!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
 
   // save user credentials in temporary entity
-  const tempUser = await TempUser.create({ email: email, password: password }).save()
+  const tempUser = await TempUser.create({
+    email: email,
+    password: password,
+  }).save();
 
   // send OTP via Email (valid for 15 mins)
   const result = await emailOTP(email);
   if (!result.accepted.length && !result.accepted.includes(email))
-  throw new Error("Email could not be send. Please try again");
+    throw new Error("Email could not be send. Please try again");
 
   return res.status(200).json({ success: "OTP sent via email", email });
-}
+};
 
-const isEmailRegistered = async (email)  => {
+const isEmailRegistered = async (email) => {
   const user = await User.findOneBy({ email });
   if (user) {
     return true;
   } else {
     return false;
   }
-}
+};
 
-const isEmailDomainValid = async (email)  => {
-  const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
+const isEmailDomainValid = async (email) => {
+  const validEmailFormats = await EmailFormat.find({
+    select: { emailFormat: true },
+  });
 
   let isValid = false;
 
-  for(let i=0; i<validEmailFormats.length; i++) {
-    if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
+  for (let i = 0; i < validEmailFormats.length; i++) {
+    if (
+      email
+        .toLowerCase()
+        .endsWith(validEmailFormats[i].emailFormat.toLowerCase())
+    ) {
       isValid = true;
       break;
     }
   }
 
   return isValid;
-}
+};
 
 const emailOTP = async (email) => {
   // generate 4-digit OTP
   const otp = codeHandler(4, true);
-  
+
   // calculate expiration time (should expire in 15 mins)
   const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 15*60000);
+  const expiresAt = new Date(currentDate.getTime() + 15 * 60000);
 
   // save otp in database
   const tempUser = await TempUser.findOneBy({ email });
@@ -132,8 +143,7 @@ const emailOTP = async (email) => {
   await tempUser.save();
 
   // send email
-  const body = 
-  `Hi there! 
+  const body = `Hi there! 
   This is verify the email of your Poolin account. 
   Please enter the OTP ${otp} in your app to verify 
   (Expires at: ${expiresAt}`;
@@ -151,10 +161,10 @@ const emailOTP = async (email) => {
   const result = await mailer.sendMail(mailOptions);
 
   if (process.env.NODE_ENV === "development")
-  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
 
   return result;
-}
+};
 
 /**
  * API Route to get the logged in user details
