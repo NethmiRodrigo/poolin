@@ -12,6 +12,11 @@ import {
 import bcrypt from "bcrypt";
 import { Exclude, instanceToPlain } from "class-transformer";
 
+export enum VerificationStatus { 
+  VERIFIED = 'verified',
+  UNVERIFIED = 'unverified'
+};
+
 @Entity("temp_users")
 export class TempUser extends BaseEntity {
   constructor(tempUser?: Partial<TempUser>) {
@@ -41,11 +46,25 @@ export class TempUser extends BaseEntity {
   @Column({ nullable: true })
   emailOTPSentAt: Date;
 
+  @Column({
+    type: 'enum',
+    enum: VerificationStatus,
+    default: VerificationStatus.UNVERIFIED
+  })
+  emailStatus: VerificationStatus;
+
   @Column({ nullable: true })
   smsOTP: string;
 
   @Column({ nullable: true })
   smsOTPSentAt: Date;
+
+  @Column({
+    type: 'enum',
+    enum: VerificationStatus,
+    default: VerificationStatus.UNVERIFIED
+  })
+  mobileStatus: VerificationStatus;
 
   @BeforeInsert()
   async hashPassword() {

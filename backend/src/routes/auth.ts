@@ -20,7 +20,7 @@ import { checkIfDateIsExpired } from "../util/date-checker";
 /** Entities */
 import { User } from "../entity/User";
 import { EmailFormat } from "../entity/EmailFormat";
-import { TempUser } from "../entity/TempUser";
+import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
 
 import { AppDataSource } from "../data-source";
@@ -191,6 +191,10 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
   const currentDate = new Date();
   const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
   if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
+
+  // update email verification status
+  tempUser.emailStatus = VerificationStatus.VERIFIED;
+  await tempUser.save();
   
   return res.status(200).json({ success: "Email verified" });
 }
