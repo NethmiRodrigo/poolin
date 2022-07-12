@@ -10,6 +10,12 @@ import {
 } from "typeorm";
 import { Exclude } from "class-transformer";
 
+export enum Gender { 
+  MALE = 'male',
+  FEMALE = 'female',
+  UNKNOWN = 'unknown'
+};
+
 @Entity("users")
 export class User extends BaseEntity {
   constructor(user?: Partial<User>) {
@@ -33,7 +39,19 @@ export class User extends BaseEntity {
   @Index()
   @Column({ nullable: true })
   @Exclude()
-  name: string;
+  firstname: string;
+
+  @Index()
+  @Column({ nullable: true })
+  @Exclude()
+  lastname: string;
+
+  @Column({
+    type: 'enum',
+    enum: Gender,
+    default: Gender.UNKNOWN
+  })
+  gender: Gender;
 
   @Column()
   password: string;

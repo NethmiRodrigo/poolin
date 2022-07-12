@@ -18,7 +18,7 @@ import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
 
 /** Entities */
-// import { User } from "../entity/User";
+import { User, Gender } from "../entity/User";
 import { EmailFormat } from "../entity/EmailFormat";
 import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
@@ -82,8 +82,7 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  const user = await User.findOneBy(email);
-  if(user) throw new AppError(401, {}, "Email already registered");
+  if(isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
   if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
@@ -97,6 +96,15 @@ const verifyCredentials = async (req: Request, res: Response) => {
   throw new Error("Email could not be send. Please try again");
 
   return res.status(200).json({ success: "OTP sent via email", email });
+}
+
+const isEmailRegistered = async (userEmail)  => {
+  const user = await User.findOne({ where: { email: userEmail } });
+  if (user) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const isEmailDomainValid = async (email)  => {
@@ -310,31 +318,27 @@ const createUserAccount = async (tempID) => {
  * API route to verify user info (first name, last name, gender)
  */
  const verifyUserInfo = async (req: Request, res: Response) => {
-  const email = req.body;
-  // const { email, firstName, lastName, gender } = req.body;
-  // let errors: any = {};
-  // if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
-  // if (isEmpty(firstName)) errors.firstName = "First name cannot be empty";
-  // if (isEmpty(lastName)) errors.lastName = "Last name cannot be empty";
-  // if (isEmpty(gender)) errors.gender = "Gender cannot be empty";
+  const { email, firstName, lastName, gender } = req.body;
+  let errors: any = {};
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(firstName)) errors.firstName = "First name cannot be empty";
+  if (isEmpty(lastName)) errors.lastName = "Last name cannot be empty";
+  if (isEmpty(gender)) errors.gender = "Gender cannot be empty";
 
-  // if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
 
   // check if email is already registered
-  // if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
-  const user = await User.findOneBy(email);
-  // console.log(user)
+  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email not registered");
 
- 
-  // save user credentials in temporary entity
-  // const tempUser = await TempUser.create({ email: email, password: password }).save()
+  // save user info in database
+  let userEmail = email;
+  const user = await User.findOne({ where: { email: userEmail } });
+  user.firstname = firstName;
+  user.lastname = lastName;
+  user.gender = gender;
+  await user.save();
 
-  // // send OTP via Email (valid for 15 mins)
-  // const result = await emailOTP(email);
-  // if (!result.accepted.length && !result.accepted.includes(email))
-  // throw new Error("Email could not be send. Please try again");
-
-  return res.status(200).json({ user });
+  return res.status(200).json({ success: "User info saved" });
 }
 
 /**
