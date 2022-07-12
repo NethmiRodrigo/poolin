@@ -30,10 +30,11 @@ import { AppDataSource } from "../data-source";
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   let errors: any = {};
+  if (isEmpty(email)) errors.email = "Email cannot be empty";
   if (isEmpty(password)) errors.password = "Password cannot be empty";
   if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
 
-  if (Object.keys(errors).length > 0) throw new AppError(401, errors, "");
+  if (Object.keys(errors).length > 0) throw new AppError(400, errors, "");
 
   const user = await User.findOneBy({ email });
   if (!user) throw new AppError(401, { error: "User not found" });
