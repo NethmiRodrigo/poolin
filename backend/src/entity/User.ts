@@ -28,14 +28,33 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Index()
   @Column({ nullable: true })
   @Exclude()
-  name: string;
+  fName: string;
+
+  @Column({ nullable: false })
+  @Exclude()
+  lName: string;
+
+  @Column({ nullable: false })
+  @Exclude()
+  gender: string;
 
   @Column()
   @Length(8, 255, { message: "Password must be atleast 8 characters" })
   password: string;
+
+  @Column({nullable: false})
+  @Exclude()
+  mobile: string;
+
+  @Column({nullable: false})
+  @Exclude()
+  occupation: string;
+
+  @Column({nullable: true})
+  @Exclude()
+  dateOfBirth: Date;
 
   @CreateDateColumn()
   createdAt: Date;
