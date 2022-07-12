@@ -116,13 +116,28 @@ const isEmailDomainValid = async (email)  => {
   return isValid;
 }
 
+/**
+ * API Route to resend email OTP 
+ */
+ const resendEmailOTP = async (req: Request, res: Response) => {
+  const email = req.body.email;
+
+  if (!isEmpty(email) && !isEmail(email)) throw new AppError(400, {}, "Invalid email");
+
+  const result = await emailOTP(email)
+  if (!result.accepted.length && !result.accepted.includes(email))
+  throw new Error("Email could not be send. Please try again");
+
+  return res.status(200).json({ success: "OTP re-sent via email", email });
+}
+
 const emailOTP = async (email) => {
   // generate 4-digit OTP
   const otp = codeHandler(4, true);
   
   // calculate expiration time (should expire in 15 mins)
   const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 15*60000);
+  const expiresAt = new Date(currentDate.getTime() + 1*60000);
 
   // save otp in database
   const tempUser = await TempUser.findOneBy({ email });
@@ -170,16 +185,14 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
 
   // check if email previously saved in TempUser
   const tempUser = await TempUser.findOneBy({ email });
-  if (!tempUser) {
-    throw new AppError(401, {}, "Email not recognized");
-  } else {
-    // verify OTP
-    const currentDate = new Date();
-    const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
-    if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
-    
-    return res.status(200).json({ success: "Email verified" });
-  }
+  if (!tempUser) throw new AppError(401, {}, "Email not recognized");
+
+  // verify OTP - If 15 minutes has elapsed
+  const currentDate = new Date();
+  const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
+  if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
+  
+  return res.status(200).json({ success: "Email verified" });
 }
 
 /**
@@ -332,6 +345,7 @@ const router = Router();
 router.post("/login", login);
 router.post("/verify-credentials", verifyCredentials);
 router.post("/verify-email-otp", verifyEmailOTP);
+router.post("/resend-email-otp", resendEmailOTP);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
