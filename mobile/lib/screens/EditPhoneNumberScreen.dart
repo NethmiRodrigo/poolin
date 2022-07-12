@@ -30,9 +30,8 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  // width: double.infinity,
+                  width: double.infinity,
                   padding: EdgeInsets.all(20.0),
-
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -45,7 +44,8 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                       ),
                       Text(
                         'Edit Phone Number',
-                        style: TextStyle(color: Colors.black87, fontSize: 25),
+                        style: Theme.of(context).textTheme.headline3!.merge(
+                            const TextStyle(color: Colors.black, fontSize: 24)),
                       ),
                       Spacer(),
                       Icon(

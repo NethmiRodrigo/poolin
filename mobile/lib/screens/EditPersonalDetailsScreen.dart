@@ -39,7 +39,9 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                     ),
                     Text(
                       'Personal Information',
-                      style: TextStyle(color: Colors.black87, fontSize: 25),
+                      // style: TextStyle(color: Colors.black87, fontSize: 25),
+                      style: Theme.of(context).textTheme.headline3!.merge(
+                          const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     Spacer(),
                     Icon(
@@ -49,14 +51,11 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
               Container(
                 child: Column(children: [
                   Padding(
                       padding: EdgeInsets.only(
-                    top: 10,
+                    // top: 10,
                     right: 35,
                     left: 35,
                   )),
@@ -88,12 +87,12 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Gender',
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
+                          // Text(
+                          //   'Gender',
+                          //   style:
+                          //       TextStyle(color: Colors.black87, fontSize: 16),
+                          //   textAlign: TextAlign.center,
+                          // ),
                           SizedBox(
                             height: 16,
                           ),
@@ -123,13 +122,12 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           )
                         ],
                       )),
-                      Text(
-                            'Gender',
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
-                          
+                      // Text(
+                      //   'Gender',
+                      //   style: TextStyle(color: Colors.black87, fontSize: 16),
+                      //   // textAlign: TextAlign.center,
+                      // ),
+
                       SizedBox(
                         height: 16,
                       ),

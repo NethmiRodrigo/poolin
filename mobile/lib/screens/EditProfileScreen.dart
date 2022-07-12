@@ -39,7 +39,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     Text(
                       'Edit Profile',
-                      style: TextStyle(color: Colors.black87, fontSize: 25),
+                      style: Theme.of(context).textTheme.headline3!.merge(
+                          const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     Spacer(),
                     Icon(
@@ -110,7 +111,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   )),
                   Text(
                     'Change Profile Photo',
-                    style: TextStyle(color: Colors.black87, fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .merge(const TextStyle(color: Colors.black)),
                     textAlign: TextAlign.center,
                   ),
                   Container(
