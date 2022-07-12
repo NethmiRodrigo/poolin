@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
@@ -24,6 +22,7 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
+    _email.dispose();
     _pass.dispose();
     _confirmPass.dispose();
     super.dispose();
@@ -34,7 +33,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    // Build a Form widget using the _formKey created above.
+
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -68,6 +67,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      key: const Key('email-field'),
                       controller: _email,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
@@ -87,6 +87,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      key: const Key('password-field'),
                       controller: _pass,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -108,6 +109,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      key: const Key('confirm-password-field'),
                       controller: _confirmPass,
                       obscureText: true,
                       decoration: const InputDecoration(

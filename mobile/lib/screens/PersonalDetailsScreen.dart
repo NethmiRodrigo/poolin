@@ -102,28 +102,6 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     ),
                     addVerticalSpace(24),
                     ToggleButtons(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Icon(Icons.male_outlined),
-                              addHorizontalSpace(8),
-                              Text("Male")
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Icon(Icons.female_outlined),
-                              addHorizontalSpace(8),
-                              Text("Female")
-                            ],
-                          ),
-                        ),
-                      ],
                       onPressed: (int index) {
                         setState(() {
                           for (int buttonIndex = 0;
@@ -143,6 +121,28 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         });
                       },
                       isSelected: isSelected,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.male_outlined),
+                              addHorizontalSpace(8),
+                              const Text("Male")
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.female_outlined),
+                              addHorizontalSpace(8),
+                              const Text("Female")
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     addVerticalSpace(40),
                     WideButton(
