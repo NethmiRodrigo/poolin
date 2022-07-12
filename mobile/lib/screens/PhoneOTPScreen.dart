@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/views/PersonalDetailsScreen.dart';
+import 'package:mobile/screens/PersonalDetailsScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../custom/OTPFields.dart';
 
