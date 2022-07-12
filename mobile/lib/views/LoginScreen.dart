@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../theme.dart';
+// import 'package:email_validator/email_validator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,13 +16,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login Screen',
       theme: AppTheme().themeData,
-      home: MyForm(),
       debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: const MyForm(),
+      ),
     );
   }
 }
 
-class MyForm extends StatelessWidget {
+class MyForm extends StatefulWidget {
+  const MyForm({super.key});
+
+  @override
+  MyFormState createState() {
+    return MyFormState();
+  }
+}
+
+// Create a corresponding State class.
+// This class holds data related to the form.
+class MyFormState extends State<MyForm> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  //
+  // Note: This is a GlobalKey<FormState>,
+  // not a GlobalKey<MyCustomFormState>.
   final _key = GlobalKey<FormState>();
 
   @override
@@ -68,6 +87,9 @@ class MyForm extends StatelessWidget {
                           if (value == null || value.isEmpty) {
                             return 'Email is required';
                           }
+                          // else if (!EmailValidator.validate(value, true)) {
+                          //   return 'Please enter valid email';
+                          // }
 
                           return null;
                         },
@@ -111,7 +133,12 @@ class MyForm extends StatelessWidget {
                             textStyle: Theme.of(context).textTheme.bodyText1),
                         onPressed: () {
                           if (_key.currentState!.validate()) {
-                            print("Your data is submitted");
+                            // print("Your data is submitted");
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
                           }
                         },
                         child: const Text('Sign in'),
@@ -131,5 +158,11 @@ class MyForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }
