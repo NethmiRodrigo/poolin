@@ -30,6 +30,10 @@ export class User extends BaseEntity {
   email: string;
 
   @Index()
+  @Column({ unique: true })
+  mobile: string;
+
+  @Index()
   @Column({ nullable: true })
   @Exclude()
   name: string;

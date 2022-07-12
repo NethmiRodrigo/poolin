@@ -13,6 +13,7 @@ import auth from "../middleware/auth";
 
 /** Utility functions */
 import { getMailer, sendPlainMail } from "../util/mailer";
+import { sendSMS } from "../util/sms-api";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
@@ -200,11 +201,61 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
 }
 
 /**
- * API Route to get the logged in user details
+ * API Route to verify Mobile Number
  */
-const getLoggedInUser = async (_: Request, res: Response) => {
-  return res.json(res.locals.user);
-};
+const verifyMobileNumber = async (req: Request, res: Response) => {
+  let { mobile, email, } = req.body;
+  let errors: any = {};
+
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(mobile)) errors.mobile = "Please enter mobile number";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // remove all non-numeric characters except '+'
+  mobile = mobile.replace(/[^\+0-9]/ig, "");
+
+  // check if mobile number is valid 
+  // (should have a leading '+' followed by 11 digits)
+  if (!(/^\+[0-9]+$/.test(mobile)) || !(mobile.length == 12)) throw new AppError(401, {}, "Invalid mobile number");
+
+  // check if mobile number already registered
+  const user = await User.findOneBy({ mobile });
+  if (user) throw new AppError(401, { error: "Mobile already registered" });
+
+  const result = await smsOTP(mobile, email)
+  if (!result) throw new AppError(400, {}, "Couldn't send OTP. Please try again")
+
+  console.log(result)
+
+  return res.status(200).json({ success: "OTP sent via SMS" });
+}
+
+const smsOTP = async (mobile, email) => {
+  // generate 4-digit OTP
+  const otp = codeHandler(4, true);
+  
+  // calculate expiration time (should expire in 15 mins)
+  const currentDate = new Date();
+  const expiresAt = new Date(currentDate.getTime() + 15*60000)
+
+  // save mobile and otp in database
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(400, {}, "User cannot be found");
+  tempUser.mobile = mobile;
+  tempUser.smsOTP = otp;
+  tempUser.smsOTPSentAt = currentDate;
+  await tempUser.save();
+
+  // send SMS
+  const message = 
+  `Hi there! 
+  This is to verify the mobile number of your Poolin account. 
+  Please enter the OTP ${otp} in your app to verify 
+  (Expires at: ${expiresAt}`;
+
+  return await sendSMS(mobile, message)
+}
 
 /**
  * API Route to log the user out
@@ -348,8 +399,8 @@ const resetPassword = async (req: Request, res: Response) => {
 const router = Router();
 router.post("/login", login);
 router.post("/verify-credentials", verifyCredentials);
+router.post("/verify-mobile-num", verifyMobileNumber);
 router.post("/verify-email-otp", verifyEmailOTP);
-router.post("/resend-email-otp", resendEmailOTP);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
