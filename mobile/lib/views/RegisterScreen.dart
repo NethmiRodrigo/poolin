@@ -140,6 +140,9 @@ class RegisterScreenState extends State<RegisterScreen> {
                             print(_confirmPass.text);
                             Response response = await register(
                                 _email.text, _pass.text, _confirmPass.text);
+                            if (!mounted) {
+                              return;
+                            }
                             if (response.statusCode == 200) {
                               Navigator.push(
                                 context,
