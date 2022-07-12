@@ -13,6 +13,7 @@ import auth from "../middleware/auth";
 
 /** Utility functions */
 import { getMailer, sendPlainMail } from "../util/mailer";
+import { sendSMS } from "../util/sms-api";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
@@ -200,9 +201,108 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
 }
 
 /**
+ * API Route to verify Mobile Number
+ */
+const verifyMobileNumber = async (req: Request, res: Response) => {
+  let { mobile, email, } = req.body;
+  let errors: any = {};
+
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(mobile)) errors.mobile = "Please enter mobile number";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // remove all non-numeric characters except '+'
+  mobile = mobile.replace(/[^\+0-9]/ig, "");
+
+  // check if mobile number is valid 
+  // (should have a leading '+' followed by 11 digits)
+  if (!(/^\+[0-9]+$/.test(mobile)) || !(mobile.length == 12)) throw new AppError(401, {}, "Invalid mobile number");
+
+  // check if mobile number already registered
+  const user = await User.findOneBy({ mobile });
+  if (user) throw new AppError(401, { error: "Mobile already registered" });
+
+  const result = await smsOTP(mobile, email)
+  if (!result) throw new AppError(400, {}, "Couldn't send OTP. Please try again")
+
+  console.log(result)
+
+  return res.status(200).json({ success: "OTP sent via SMS" });
+}
+
+const smsOTP = async (mobile, email) => {
+  // generate 4-digit OTP
+  const otp = codeHandler(4, true);
+  
+  // calculate expiration time (should expire in 15 mins)
+  const currentDate = new Date();
+  const expiresAt = new Date(currentDate.getTime() + 15*60000)
+
+  // save mobile and otp in database
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(400, {}, "User cannot be found");
+  tempUser.mobile = mobile;
+  tempUser.smsOTP = otp;
+  tempUser.smsOTPSentAt = currentDate;
+  await tempUser.save();
+
+  // send SMS
+  const message = 
+  `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
+
+  return await sendSMS(mobile, message)
+}
+
+/**
+ * API Route to verify sms OTP
+ */
+ const verifySMSOTP = async (req: Request, res: Response) => {
+  const { email, mobile, otp, } = req.body;
+  let errors: any = {};
+
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(mobile)) errors.mobile = "Please enter mobile number";
+  if (isEmpty(otp)) errors.otp = "Please enter OTP";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // check if email previously saved in TempUser
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(401, {}, "Email not recognized");
+  if (tempUser.mobile != mobile) throw new AppError(401, {}, "New mobile number detected");
+
+  // verify OTP - If 15 minutes has elapsed
+  const currentDate = new Date();
+  const expiresAt = new Date(tempUser.smsOTPSentAt.getTime() + 15*60000);
+  if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
+
+  // update SMS verification status
+  tempUser.mobileStatus = VerificationStatus.VERIFIED;
+  const result = await tempUser.save();
+
+  // const accountCreated = await createUserAccount(result.id)
+
+  return res.status(200).json({ success: "Mobile number verified" });
+}
+
+const createUserAccount = async (tempID) => {
+  const tempUser = await TempUser.findOneById(tempID);
+  if (!tempUser) throw new AppError(401, {}, "Couldn't create account");
+
+  // // save user in database
+  // const user = await User.create({ 
+  //   email: tempUser.email, 
+  //   password: tempUser.password,
+  //   mobile: tempUser.mobile 
+  // }).save()
+
+}
+
+/**
  * API Route to get the logged in user details
  */
-const getLoggedInUser = async (_: Request, res: Response) => {
+ const getLoggedInUser = async (_: Request, res: Response) => {
   return res.json(res.locals.user);
 };
 
@@ -348,8 +448,9 @@ const resetPassword = async (req: Request, res: Response) => {
 const router = Router();
 router.post("/login", login);
 router.post("/verify-credentials", verifyCredentials);
+router.post("/verify-mobile-num", verifyMobileNumber);
 router.post("/verify-email-otp", verifyEmailOTP);
-router.post("/resend-email-otp", resendEmailOTP);
+router.post("/verify-sms-otp", verifySMSOTP);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);

@@ -53,6 +53,10 @@ export class TempUser extends BaseEntity {
   })
   emailStatus: VerificationStatus;
 
+  @Index()
+  @Column({ nullable: true })
+  mobile: string;
+
   @Column({ nullable: true })
   smsOTP: string;
 
