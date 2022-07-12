@@ -8,10 +8,10 @@ class EmailOTPScreen extends StatefulWidget {
   const EmailOTPScreen({Key? key}) : super(key: key);
 
   @override
-  _EmailOTPScreenState createState() => _EmailOTPScreenState();
+  EmailOTPScreenState createState() => EmailOTPScreenState();
 }
 
-class _EmailOTPScreenState extends State<EmailOTPScreen> {
+class EmailOTPScreenState extends State<EmailOTPScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";

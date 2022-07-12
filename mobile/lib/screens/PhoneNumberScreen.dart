@@ -7,10 +7,10 @@ class PhoneNumberScreen extends StatefulWidget {
   const PhoneNumberScreen({Key? key}) : super(key: key);
 
   @override
-  _PhoneNumberScreenState createState() => _PhoneNumberScreenState();
+  PhoneNumberScreenState createState() => PhoneNumberScreenState();
 }
 
-class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
+class PhoneNumberScreenState extends State<PhoneNumberScreen> {
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
 
@@ -58,7 +58,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 ),
                 addVerticalSpace(48),
                 IntlPhoneField(
-                  flagsButtonPadding: EdgeInsets.only(left: 16),
+                  flagsButtonPadding: const EdgeInsets.only(left: 16),
                   showDropdownIcon: false,
                   decoration: const InputDecoration(
                     hintText: 'Phone Number',

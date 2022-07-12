@@ -8,10 +8,10 @@ class PhoneOTPScreen extends StatefulWidget {
   const PhoneOTPScreen({Key? key}) : super(key: key);
 
   @override
-  _PhoneOTPScreenState createState() => _PhoneOTPScreenState();
+  PhoneOTPScreenState createState() => PhoneOTPScreenState();
 }
 
-class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
+class PhoneOTPScreenState extends State<PhoneOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String currentText = "";
@@ -47,7 +47,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
-                      .merge(TextStyle(color: Colors.black)),
+                      .merge(const TextStyle(color: Colors.black)),
                 ),
                 addVerticalSpace(16),
                 Text(

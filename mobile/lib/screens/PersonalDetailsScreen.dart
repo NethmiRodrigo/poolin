@@ -30,7 +30,6 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    // Build a Form widget using the _formKey created above.
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -54,7 +53,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .headline3!
-                    .merge(TextStyle(color: Colors.black)),
+                    .merge(const TextStyle(color: Colors.black)),
                 textAlign: TextAlign.left,
               ),
               addVerticalSpace(48),
@@ -72,7 +71,6 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
-                      // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Field cannot be empty';
@@ -93,7 +91,6 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
-                      // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Field cannot be empty';
