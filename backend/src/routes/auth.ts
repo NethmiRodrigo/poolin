@@ -3,7 +3,6 @@ import { isEmail, isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
-import { getConnection } from "typeorm";
 import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
@@ -290,13 +289,12 @@ const createUserAccount = async (tempID) => {
   const tempUser = await TempUser.findOneById(tempID);
   if (!tempUser) throw new AppError(401, {}, "Couldn't create account");
 
-  // // save user in database
+  // save user in database
   // const user = await User.create({ 
   //   email: tempUser.email, 
   //   password: tempUser.password,
   //   mobile: tempUser.mobile 
   // }).save()
-
 }
 
 /**
