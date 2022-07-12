@@ -1,35 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../theme.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PhoneNumberScreen extends StatefulWidget {
+  const PhoneNumberScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'KindaCode.com',
-      theme: AppTheme().themeData,
-      home: const HomePage(),
-    );
-  }
+  PhoneNumberScreenState createState() => PhoneNumberScreenState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class PhoneNumberScreenState extends State<PhoneNumberScreen> {
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
 
@@ -64,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
-                      .merge(TextStyle(color: Colors.black)),
+                      .merge(const TextStyle(color: Colors.black)),
                 ),
                 addVerticalSpace(16),
                 Padding(
@@ -77,9 +58,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 addVerticalSpace(48),
                 IntlPhoneField(
-                  flagsButtonPadding: EdgeInsets.only(left: 16),
+                  flagsButtonPadding: const EdgeInsets.only(left: 16),
                   showDropdownIcon: false,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Phone Number',
                     isDense: true,
                     border: OutlineInputBorder(),
@@ -92,16 +73,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 addVerticalSpace(56),
-                TextButton(
-                  style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(16.0),
-                      primary: Colors.white,
-                      backgroundColor: Colors.black,
-                      minimumSize: const Size.fromHeight(50),
-                      textStyle: Theme.of(context).textTheme.bodyText1),
-                  onPressed: () {},
-                  child: const Text('Proceed'),
-                ),
+                WideButton(text: 'Proceed', onPressedAction: () {}),
                 addVerticalSpace(16),
               ],
             ),

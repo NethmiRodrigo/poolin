@@ -3,6 +3,8 @@ import { DataSource } from "typeorm";
 import dotenv from "dotenv";
 import { ForgotPassword } from "./entity/ForgotPassword";
 import { User } from "./entity/User";
+import { TempUser } from "./entity/TempUser";
+import { EmailFormat } from "./entity/EmailFormat";
 
 dotenv.config({ path: "./src/.env" });
 
@@ -15,7 +17,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
-  entities: [User, ForgotPassword],
+  entities: [User, ForgotPassword, EmailFormat, TempUser],
   migrations: [],
   subscribers: [],
 });

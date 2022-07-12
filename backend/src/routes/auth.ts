@@ -3,6 +3,7 @@ import { isEmail, isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
+import { getConnection } from "typeorm";
 import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
@@ -18,7 +19,10 @@ import { checkIfDateIsExpired } from "../util/date-checker";
 
 /** Entities */
 import { User } from "../entity/User";
+import { EmailFormat } from "../entity/EmailFormat";
+import { TempUser } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
+
 import { AppDataSource } from "../data-source";
 
 /**
@@ -27,7 +31,6 @@ import { AppDataSource } from "../data-source";
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   let errors: any = {};
-  if (isEmpty(email)) errors.email = "Email cannot be empty";
   if (isEmpty(password)) errors.password = "Password cannot be empty";
   if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
 
@@ -53,6 +56,105 @@ const login = async (req: Request, res: Response) => {
 
   return res.json({ user, token });
 };
+
+/**
+ * API route to verify new user's credentials 
+ */
+const verifyCredentials = async (req: Request, res: Response) => {
+  const { email, password, confirmPassword } = req.body;
+  let errors: any = {};
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(password)) errors.password = "Password cannot be empty";
+  if (isEmpty(confirmPassword)) errors.confirmPassword = "Confirm password cannot be empty";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // check if passwords match
+  if(password != confirmPassword) throw new AppError(401, {}, "Passwords do not match");
+
+  // check password strength
+  if(password.length < 8) throw new AppError(401, {}, "Password too short");
+
+  // check if email is already registered
+  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+
+  // check if email belongs to any supported domain
+  if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
+
+  // save user credentials in temporary entity
+  const tempUser = await TempUser.create({ email: email, password: password }).save()
+
+  // send OTP via Email (valid for 15 mins)
+  const result = await emailOTP(email);
+  if (!result.accepted.length && !result.accepted.includes(email))
+  throw new Error("Email could not be send. Please try again");
+
+  return res.status(200).json({ success: "OTP sent via email", email });
+}
+
+const isEmailRegistered = async (email)  => {
+  const user = await User.findOneBy({ email });
+  if (user) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const isEmailDomainValid = async (email)  => {
+  const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
+
+  let isValid = false;
+
+  for(let i=0; i<validEmailFormats.length; i++) {
+    if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
+      isValid = true;
+      break;
+    }
+  }
+
+  return isValid;
+}
+
+const emailOTP = async (email) => {
+  // generate 4-digit OTP
+  const otp = codeHandler(4, true);
+  
+  // calculate expiration time (should expire in 15 mins)
+  const currentDate = new Date();
+  const expiresAt = new Date(currentDate.getTime() + 15*60000);
+
+  // save otp in database
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(400, {}, "Email cannot be found");
+  tempUser.emailOTP = otp;
+  tempUser.emailOTPSentAt = currentDate;
+  await tempUser.save();
+
+  // send email
+  const body = 
+  `Hi there! 
+  This is verify the email of your Poolin account. 
+  Please enter the OTP ${otp} in your app to verify 
+  (Expires at: ${expiresAt}`;
+
+  const mailer: Transporter = await getMailer();
+
+  const mailOptions: MailOptions = {
+    to: email,
+    from: "poolin@info.com",
+    subject: "Your verification code for Poolin",
+    text: body,
+  };
+
+  // send otp
+  const result = await mailer.sendMail(mailOptions);
+
+  if (process.env.NODE_ENV === "development")
+  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+
+  return result;
+}
 
 /**
  * API Route to get the logged in user details
@@ -202,6 +304,7 @@ const resetPassword = async (req: Request, res: Response) => {
 
 const router = Router();
 router.post("/login", login);
+router.post("/verify-credentials", verifyCredentials);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
