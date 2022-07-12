@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
 import 'package:mobile/screens/RegisterScreen.dart';
+import 'package:mobile/screens/LoginScreen.dart';
 
 import './theme.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: EmailOTPScreen(),
+      home: LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
