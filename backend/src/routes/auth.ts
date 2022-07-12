@@ -157,6 +157,32 @@ const emailOTP = async (email) => {
 }
 
 /**
+ * API Route to verify email OTP
+ */
+const verifyEmailOTP = async (req: Request, res: Response) => {
+  const { email, otp, } = req.body;
+  let errors: any = {};
+
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(otp)) errors.otp = "Please enter OTP";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // check if email previously saved in TempUser
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) {
+    throw new AppError(401, {}, "Email not recognized");
+  } else {
+    // verify OTP
+    const currentDate = new Date();
+    const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
+    if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
+    
+    return res.status(200).json({ success: "Email verified" });
+  }
+}
+
+/**
  * API Route to get the logged in user details
  */
 const getLoggedInUser = async (_: Request, res: Response) => {
@@ -305,6 +331,7 @@ const resetPassword = async (req: Request, res: Response) => {
 const router = Router();
 router.post("/login", login);
 router.post("/verify-credentials", verifyCredentials);
+router.post("/verify-email-otp", verifyEmailOTP);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);
