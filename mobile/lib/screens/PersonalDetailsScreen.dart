@@ -65,7 +65,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   children: [
                     TextFormField(
                       controller: _fname,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'First Name',
                         isDense: true,
@@ -86,7 +86,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     addVerticalSpace(24),
                     TextFormField(
                       controller: _lname,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true,
                         border: OutlineInputBorder(),
                         hintText: 'Last Name',

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/OTPFields.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/views/PhoneNumberScreen.dart';
+import 'package:mobile/views/PersonalDetailsScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import '../custom/OTPFields.dart';
 
-class EmailOTPScreen extends StatefulWidget {
-  const EmailOTPScreen({Key? key}) : super(key: key);
+class PhoneOTPScreen extends StatefulWidget {
+  const PhoneOTPScreen({Key? key}) : super(key: key);
 
   @override
-  _EmailOTPScreenState createState() => _EmailOTPScreenState();
+  _PhoneOTPScreenState createState() => _PhoneOTPScreenState();
 }
 
-class _EmailOTPScreenState extends State<EmailOTPScreen> {
-  final _formKey = GlobalKey<FormState>();
+class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String currentText = "";
 
   @override
@@ -35,7 +35,7 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
-                    'STEP 2/5',
+                    'STEP 4/5',
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
@@ -43,7 +43,7 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                 const Icon(Icons.lock_outline_rounded, size: 110),
                 addVerticalSpace(40),
                 Text(
-                  "Verify it's you",
+                  "Enter the code",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
@@ -51,7 +51,7 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                 ),
                 addVerticalSpace(16),
                 Text(
-                  'We sent a one-time code \nto your email to confirm',
+                  'We sent a one-time code via \nSMS to confirm',
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.center,
                 ),
@@ -71,17 +71,27 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                 ),
                 addVerticalSpace(56),
                 WideButton(
-                  text: 'Verify Email',
+                  text: 'Verify Phone Number',
                   onPressedAction: () {
                     if (_formKey.currentState!.validate()) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PhoneNumberScreen()),
+                            builder: (context) =>
+                                const PersonalDetailsScreen()),
                       );
                     }
                   },
-                )
+                ),
+                addVerticalSpace(16),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Didn’t receive a code? Try Again',
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
               ],
             ),
           ),

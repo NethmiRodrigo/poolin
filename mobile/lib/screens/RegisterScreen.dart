@@ -1,9 +1,11 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/views/EmailOTPScreen.dart';
+import 'package:mobile/screens/EmailOTPScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -56,7 +58,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .headline3!
-                    .merge(TextStyle(color: Colors.black)),
+                    .merge(const TextStyle(color: Colors.black)),
                 textAlign: TextAlign.left,
               ),
               addVerticalSpace(48),
@@ -67,7 +69,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     TextFormField(
                       controller: _email,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
                         border: OutlineInputBorder(),
                         hintText: 'Enter University Email',
@@ -75,7 +77,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
-                      // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Email is required';
@@ -88,7 +89,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       controller: _pass,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
                         isDense: true,
                         border: OutlineInputBorder(),
@@ -96,7 +97,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
-                      // The validator receives the text that the user has entered.
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Password is required';
@@ -110,7 +110,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       controller: _confirmPass,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
                         isDense: true,
                         border: OutlineInputBorder(),
@@ -118,7 +118,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
-                      // The validator receives the text that the user has entered.
                       validator: (value) {
                         if ((value == null || value.isEmpty) &&
                             !(_pass.text == null || _pass.text.isEmpty)) {
@@ -135,9 +134,6 @@ class RegisterScreenState extends State<RegisterScreen> {
                         text: 'Proceed',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
-                            print(_email.text);
-                            print(_pass.text);
-                            print(_confirmPass.text);
                             Response response = await register(
                                 _email.text, _pass.text, _confirmPass.text);
                             if (!mounted) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/views/EmailOTPScreen.dart';
-import 'package:mobile/views/RegisterScreen.dart';
+import 'package:mobile/screens/EmailOTPScreen.dart';
+import 'package:mobile/screens/RegisterScreen.dart';
 
 import './theme.dart';
 

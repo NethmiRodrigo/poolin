@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/custom/OTPFields.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/views/PersonalDetailsScreen.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:mobile/screens/PhoneNumberScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../custom/OTPFields.dart';
 
-class PhoneOTPScreen extends StatefulWidget {
-  const PhoneOTPScreen({Key? key}) : super(key: key);
+class EmailOTPScreen extends StatefulWidget {
+  const EmailOTPScreen({Key? key}) : super(key: key);
 
   @override
-  _PhoneOTPScreenState createState() => _PhoneOTPScreenState();
+  _EmailOTPScreenState createState() => _EmailOTPScreenState();
 }
 
-class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
-  TextEditingController textEditingController = TextEditingController();
+class _EmailOTPScreenState extends State<EmailOTPScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController textEditingController = TextEditingController();
   String currentText = "";
 
   @override
@@ -36,7 +35,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
-                    'STEP 4/5',
+                    'STEP 2/5',
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
@@ -44,15 +43,15 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 const Icon(Icons.lock_outline_rounded, size: 110),
                 addVerticalSpace(40),
                 Text(
-                  "Enter the code",
+                  "Verify it's you",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
-                      .merge(TextStyle(color: Colors.black)),
+                      .merge(const TextStyle(color: Colors.black)),
                 ),
                 addVerticalSpace(16),
                 Text(
-                  'We sent a one-time code via \nSMS to confirm',
+                  'We sent a one-time code \nto your email to confirm',
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.center,
                 ),
@@ -72,27 +71,17 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 ),
                 addVerticalSpace(56),
                 WideButton(
-                  text: 'Verify Phone Number',
+                  text: 'Verify Email',
                   onPressedAction: () {
                     if (_formKey.currentState!.validate()) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const PersonalDetailsScreen()),
+                            builder: (context) => const PhoneNumberScreen()),
                       );
                     }
                   },
-                ),
-                addVerticalSpace(16),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Didn’t receive a code? Try Again',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
+                )
               ],
             ),
           ),

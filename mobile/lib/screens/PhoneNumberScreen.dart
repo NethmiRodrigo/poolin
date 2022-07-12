@@ -45,7 +45,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
-                      .merge(TextStyle(color: Colors.black)),
+                      .merge(const TextStyle(color: Colors.black)),
                 ),
                 addVerticalSpace(16),
                 Padding(
@@ -60,7 +60,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 IntlPhoneField(
                   flagsButtonPadding: EdgeInsets.only(left: 16),
                   showDropdownIcon: false,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Phone Number',
                     isDense: true,
                     border: OutlineInputBorder(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/views/RegisterScreen.dart';
+import 'package:mobile/screens/RegisterScreen.dart';
 
 void main() {
   testWidgets('Register Screen has Email, Password and Confirm Password fields',
