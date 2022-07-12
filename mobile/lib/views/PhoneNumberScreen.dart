@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
@@ -72,16 +73,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   },
                 ),
                 addVerticalSpace(56),
-                TextButton(
-                  style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(16.0),
-                      primary: Colors.white,
-                      backgroundColor: Colors.black,
-                      minimumSize: const Size.fromHeight(50),
-                      textStyle: Theme.of(context).textTheme.bodyText1),
-                  onPressed: () {},
-                  child: const Text('Proceed'),
-                ),
+                WideButton(text: 'Proceed', onPressedAction: () {}),
                 addVerticalSpace(16),
               ],
             ),

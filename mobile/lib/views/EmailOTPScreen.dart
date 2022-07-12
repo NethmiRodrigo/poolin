@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/custom/OTPFields.dart';
+import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/views/PhoneNumberScreen.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EmailOTPScreen extends StatefulWidget {
@@ -49,66 +50,29 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                       .merge(TextStyle(color: Colors.black)),
                 ),
                 addVerticalSpace(16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
-                  child: Text(
-                    'We sent a one-time code to your email to confirm',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  'We sent a one-time code \nto your email to confirm',
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(48),
                 Form(
                   key: _formKey,
-                  child: PinCodeTextField(
-                    length: 4,
-                    obscureText: false,
-                    animationType: AnimationType.fade,
-                    pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.box,
-                        borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 72,
-                        inactiveFillColor: Colors.white,
-                        fieldWidth: 72,
-                        activeFillColor: Colors.white,
-                        activeColor: Colors.black,
-                        borderWidth: 1,
-                        selectedColor: Colors.blue,
-                        selectedFillColor: Colors.white,
-                        inactiveColor: Colors.black),
-                    animationDuration: const Duration(milliseconds: 300),
-                    enableActiveFill: true,
-                    validator: (v) {
-                      if (v == null || v.isEmpty || v.length < 4) {
-                        return 'Invalid code';
-                      }
-                      ;
-                    },
+                  child: OTPFields(
                     controller: textEditingController,
-                    onCompleted: (v) {
-                      debugPrint("Completed");
-                    },
-                    onChanged: (value) {
+                    context: context,
+                    onChangeAction: (value) {
                       debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
                     },
-                    beforeTextPaste: (text) {
-                      return true;
-                    },
-                    appContext: context,
                   ),
                 ),
                 addVerticalSpace(56),
-                TextButton(
-                  style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(16.0),
-                      primary: Colors.white,
-                      backgroundColor: Colors.black,
-                      minimumSize: const Size.fromHeight(50),
-                      textStyle: Theme.of(context).textTheme.bodyText1),
-                  onPressed: () {
+                WideButton(
+                  text: 'Verify Email',
+                  onPressedAction: () {
                     if (_formKey.currentState!.validate()) {
                       Navigator.push(
                         context,
@@ -117,8 +81,7 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                       );
                     }
                   },
-                  child: const Text('Verify Email'),
-                ),
+                )
               ],
             ),
           ),
@@ -127,6 +90,3 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
     );
   }
 }
-
-
-// send response to validator

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class PersonalDetailsScreen extends StatefulWidget {
@@ -147,25 +148,16 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                       isSelected: isSelected,
                     ),
                     addVerticalSpace(40),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          padding: const EdgeInsets.all(16.0),
-                          primary: Colors.white,
-                          backgroundColor: Colors.black,
-                          minimumSize: const Size.fromHeight(50),
-                          textStyle: Theme.of(context).textTheme.bodyText1),
-                      child: const Text('Start Pooling!'),
-                      onPressed: () {
-                        // Validate returns true if the form is valid, or false otherwise.
+                    WideButton(
+                      text: 'Start Pooling!',
+                      onPressedAction: () {
                         if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Processing Data')),
                           );
                         }
                       },
-                    ),
+                    )
                   ],
                 ),
               ),

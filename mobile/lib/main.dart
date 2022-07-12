@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/views/EmailOTPScreen.dart';
-import 'package:mobile/views/PhoneOTPScreen.dart';
-import 'package:mobile/views/registerScreen.dart';
+import 'package:mobile/views/RegisterScreen.dart';
 
 import './theme.dart';
 
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: PhoneOTPScreen(),
+      home: EmailOTPScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

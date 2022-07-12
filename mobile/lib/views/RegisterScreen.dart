@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/views/EmailOTPScreen.dart';
@@ -130,36 +131,30 @@ class RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     addVerticalSpace(40),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                          padding: const EdgeInsets.all(16.0),
-                          primary: Colors.white,
-                          backgroundColor: Colors.black,
-                          minimumSize: const Size.fromHeight(50),
-                          textStyle: Theme.of(context).textTheme.bodyText1),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          print(_email.text);
-                          print(_pass.text);
-                          print(_confirmPass.text);
-                          Response response = await register(
-                              _email.text, _pass.text, _confirmPass.text);
-                          if (response.statusCode == 200) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const EmailOTPScreen()),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Error: ${response.body}')),
-                            );
+                    WideButton(
+                        text: 'Proceed',
+                        onPressedAction: () async {
+                          if (_formKey.currentState!.validate()) {
+                            print(_email.text);
+                            print(_pass.text);
+                            print(_confirmPass.text);
+                            Response response = await register(
+                                _email.text, _pass.text, _confirmPass.text);
+                            if (response.statusCode == 200) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EmailOTPScreen()),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Error: ${response.body}')),
+                              );
+                            }
                           }
-                        }
-                      },
-                      child: const Text('Proceed'),
-                    ),
+                        }),
                     addVerticalSpace(16),
                     Text(
                       'Already have an account? Log in',
