@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:mobile/views/PhoneNumberScreen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../theme.dart';
 
 class EmailOTPScreen extends StatefulWidget {
   const EmailOTPScreen({Key? key}) : super(key: key);
@@ -13,9 +11,9 @@ class EmailOTPScreen extends StatefulWidget {
 }
 
 class _EmailOTPScreenState extends State<EmailOTPScreen> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
-  bool hasError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,47 +58,47 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                   ),
                 ),
                 addVerticalSpace(48),
-                PinCodeTextField(
-                  length: 4,
-                  obscureText: false,
-                  animationType: AnimationType.fade,
-                  pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 72,
-                      inactiveFillColor: Colors.white,
-                      fieldWidth: 72,
-                      activeFillColor: Colors.white,
-                      activeColor: Colors.black,
-                      borderWidth: 1,
-                      selectedColor: Colors.blue,
-                      selectedFillColor: Colors.white,
-                      inactiveColor: Colors.black),
-                  animationDuration: const Duration(milliseconds: 300),
-                  enableActiveFill: true,
-                  controller: textEditingController,
-                  onCompleted: (v) {
-                    debugPrint("Completed");
-                  },
-                  onChanged: (value) {
-                    debugPrint(value);
-                    setState(() {
-                      currentText = value;
-                    });
-                  },
-                  beforeTextPaste: (text) {
-                    return true;
-                  },
-                  appContext: context,
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(hasError ? "invatlid" : "",
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                          fontFamily: 'Satoshi')),
+                Form(
+                  key: _formKey,
+                  child: PinCodeTextField(
+                    length: 4,
+                    obscureText: false,
+                    animationType: AnimationType.fade,
+                    pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        fieldHeight: 72,
+                        inactiveFillColor: Colors.white,
+                        fieldWidth: 72,
+                        activeFillColor: Colors.white,
+                        activeColor: Colors.black,
+                        borderWidth: 1,
+                        selectedColor: Colors.blue,
+                        selectedFillColor: Colors.white,
+                        inactiveColor: Colors.black),
+                    animationDuration: const Duration(milliseconds: 300),
+                    enableActiveFill: true,
+                    validator: (v) {
+                      if (v == null || v.isEmpty || v.length < 4) {
+                        return 'Invalid code';
+                      }
+                      ;
+                    },
+                    controller: textEditingController,
+                    onCompleted: (v) {
+                      debugPrint("Completed");
+                    },
+                    onChanged: (value) {
+                      debugPrint(value);
+                      setState(() {
+                        currentText = value;
+                      });
+                    },
+                    beforeTextPaste: (text) {
+                      return true;
+                    },
+                    appContext: context,
+                  ),
                 ),
                 addVerticalSpace(56),
                 TextButton(
@@ -111,17 +109,13 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
                       minimumSize: const Size.fromHeight(50),
                       textStyle: Theme.of(context).textTheme.bodyText1),
                   onPressed: () {
-                    if (currentText.length != 4) {
-                      // Triggering error shake animation
-                      setState(() {
-                        hasError = true;
-                      });
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PhoneNumberScreen()),
+                      );
                     }
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const PhoneNumberScreen()),
-                    // );
                   },
                   child: const Text('Verify Email'),
                 ),
@@ -133,3 +127,6 @@ class _EmailOTPScreenState extends State<EmailOTPScreen> {
     );
   }
 }
+
+
+// send response to validator

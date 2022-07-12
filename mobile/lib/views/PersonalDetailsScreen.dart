@@ -1,54 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../theme.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PersonalDetailsScreen extends StatefulWidget {
+  const PersonalDetailsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const appTitle = 'Form Validation Demo';
-
-    return MaterialApp(
-      title: appTitle,
-      theme: AppTheme().themeData,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: const MyCustomForm(),
-      ),
-    );
+  PersonalDetailsScreenState createState() {
+    return PersonalDetailsScreenState();
   }
 }
 
-// Create a Form widget.
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
-
-  @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
-}
-
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
+class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
-  List<bool> isSelected = [false, true];
+  final TextEditingController _fname = TextEditingController();
+  final TextEditingController _lname = TextEditingController();
+  List<bool> isSelected = [true, false];
+  String _gender = "male";
 
   @override
   void dispose() {
-    _pass.dispose();
-    _confirmPass.dispose();
+    _fname.dispose();
+    _lname.dispose();
     super.dispose();
   }
 
@@ -91,6 +63,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      controller: _fname,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'First Name',
@@ -111,7 +84,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
-                      controller: _pass,
+                      controller: _lname,
                       decoration: InputDecoration(
                         isDense: true,
                         border: OutlineInputBorder(),
@@ -163,6 +136,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                             } else {
                               isSelected[buttonIndex] = false;
                             }
+                          }
+                          if (isSelected[0]) {
+                            _gender = "male";
+                          } else {
+                            _gender = "female";
                           }
                         });
                       },

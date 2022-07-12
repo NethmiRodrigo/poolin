@@ -1,35 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/views/PersonalDetailsScreen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../theme.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PhoneOTPScreen extends StatefulWidget {
+  const PhoneOTPScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'KindaCode.com',
-      theme: AppTheme().themeData,
-      home: const HomePage(),
-    );
-  }
+  _PhoneOTPScreenState createState() => _PhoneOTPScreenState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String currentText = "";
 
   @override
@@ -75,38 +58,47 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 addVerticalSpace(48),
-                PinCodeTextField(
-                  length: 4,
-                  obscureText: false,
-                  animationType: AnimationType.fade,
-                  pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 72,
-                      inactiveFillColor: Colors.white,
-                      fieldWidth: 72,
-                      activeFillColor: Colors.white,
-                      activeColor: Colors.black,
-                      borderWidth: 1,
-                      selectedColor: Colors.blue,
-                      selectedFillColor: Colors.white,
-                      inactiveColor: Colors.black),
-                  animationDuration: const Duration(milliseconds: 300),
-                  enableActiveFill: true,
-                  controller: textEditingController,
-                  onCompleted: (v) {
-                    debugPrint("Completed");
-                  },
-                  onChanged: (value) {
-                    debugPrint(value);
-                    setState(() {
-                      currentText = value;
-                    });
-                  },
-                  beforeTextPaste: (text) {
-                    return true;
-                  },
-                  appContext: context,
+                Form(
+                  key: _formKey,
+                  child: PinCodeTextField(
+                    length: 4,
+                    obscureText: false,
+                    animationType: AnimationType.fade,
+                    pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        fieldHeight: 72,
+                        inactiveFillColor: Colors.white,
+                        fieldWidth: 72,
+                        activeFillColor: Colors.white,
+                        activeColor: Colors.black,
+                        borderWidth: 1,
+                        selectedColor: Colors.blue,
+                        selectedFillColor: Colors.white,
+                        inactiveColor: Colors.black),
+                    animationDuration: const Duration(milliseconds: 300),
+                    enableActiveFill: true,
+                    controller: textEditingController,
+                    validator: (v) {
+                      if (v == null || v.isEmpty || v.length < 4) {
+                        return 'Invalid code';
+                      }
+                      ;
+                    },
+                    onCompleted: (v) {
+                      debugPrint("Completed");
+                    },
+                    onChanged: (value) {
+                      debugPrint(value);
+                      setState(() {
+                        currentText = value;
+                      });
+                    },
+                    beforeTextPaste: (text) {
+                      return true;
+                    },
+                    appContext: context,
+                  ),
                 ),
                 addVerticalSpace(56),
                 TextButton(
@@ -116,14 +108,26 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.black,
                       minimumSize: const Size.fromHeight(50),
                       textStyle: Theme.of(context).textTheme.bodyText1),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const PersonalDetailsScreen()),
+                      );
+                    }
+                  },
                   child: const Text('Verify Phone Number'),
                 ),
                 addVerticalSpace(16),
-                Text(
-                  'Didn’t receive a code? Try Again',
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.left,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Didn’t receive a code? Try Again',
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ],
             ),
