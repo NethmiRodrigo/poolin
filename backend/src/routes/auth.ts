@@ -18,7 +18,7 @@ import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
 
 /** Entities */
-import { User } from "../entity/User";
+// import { User } from "../entity/User";
 import { EmailFormat } from "../entity/EmailFormat";
 import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
@@ -43,9 +43,15 @@ const login = async (req: Request, res: Response) => {
   if (!passwordMatched)
     throw new AppError(401, { error: "Incorrect credentials" });
 
+  const { token, response } = createUserToken(res, user)
+
+  return response.json({ user, token });
+};
+
+function createUserToken(response: Response, user) {
   const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
-  res.set(
+  response.set(
     "Set-Cookie",
     cookie.serialize("Token", token, {
       httpOnly: true,
@@ -54,8 +60,8 @@ const login = async (req: Request, res: Response) => {
     })
   );
 
-  return res.json({ user, token });
-};
+  return { token, response }
+}
 
 /**
  * API route to verify new user's credentials 
@@ -76,7 +82,8 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+  const user = await User.findOneBy(email);
+  if(user) throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
   if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
@@ -90,15 +97,6 @@ const verifyCredentials = async (req: Request, res: Response) => {
   throw new Error("Email could not be send. Please try again");
 
   return res.status(200).json({ success: "OTP sent via email", email });
-}
-
-const isEmailRegistered = async (email)  => {
-  const user = await User.findOneBy({ email });
-  if (user) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 const isEmailDomainValid = async (email)  => {
@@ -280,21 +278,63 @@ const smsOTP = async (mobile, email) => {
   tempUser.mobileStatus = VerificationStatus.VERIFIED;
   const result = await tempUser.save();
 
-  // const accountCreated = await createUserAccount(result.id)
+  const user = await createUserAccount(result.id)
 
-  return res.status(200).json({ success: "Mobile number verified" });
+  const { token, response } = createUserToken(res, user)
+
+  return response.json({ user, token });
 }
 
 const createUserAccount = async (tempID) => {
   const tempUser = await TempUser.findOneById(tempID);
   if (!tempUser) throw new AppError(401, {}, "Couldn't create account");
 
+  if (tempUser.emailStatus != VerificationStatus.VERIFIED) throw new AppError(401, {}, "User email not verified");
+  if (tempUser.mobileStatus != VerificationStatus.VERIFIED) throw new AppError(401, {}, "User mobile not verified");
+
   // save user in database
-  // const user = await User.create({ 
-  //   email: tempUser.email, 
-  //   password: tempUser.password,
-  //   mobile: tempUser.mobile 
-  // }).save()
+  const user = await User.create({ 
+    email: tempUser.email, 
+    password: tempUser.password,
+    mobile: tempUser.mobile 
+  }).save()
+
+  // remove user from TempUser entity
+  const removedUser = await TempUser.delete({ id: tempID })
+  if (!removedUser) throw new AppError(401, {}, "Couldn't create account");
+
+  return user;
+}
+
+/**
+ * API route to verify user info (first name, last name, gender)
+ */
+ const verifyUserInfo = async (req: Request, res: Response) => {
+  const email = req.body;
+  // const { email, firstName, lastName, gender } = req.body;
+  // let errors: any = {};
+  // if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  // if (isEmpty(firstName)) errors.firstName = "First name cannot be empty";
+  // if (isEmpty(lastName)) errors.lastName = "Last name cannot be empty";
+  // if (isEmpty(gender)) errors.gender = "Gender cannot be empty";
+
+  // if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // check if email is already registered
+  // if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+  const user = await User.findOneBy(email);
+  // console.log(user)
+
+ 
+  // save user credentials in temporary entity
+  // const tempUser = await TempUser.create({ email: email, password: password }).save()
+
+  // // send OTP via Email (valid for 15 mins)
+  // const result = await emailOTP(email);
+  // if (!result.accepted.length && !result.accepted.includes(email))
+  // throw new Error("Email could not be send. Please try again");
+
+  return res.status(200).json({ user });
 }
 
 /**
@@ -449,6 +489,7 @@ router.post("/verify-credentials", verifyCredentials);
 router.post("/verify-mobile-num", verifyMobileNumber);
 router.post("/verify-email-otp", verifyEmailOTP);
 router.post("/verify-sms-otp", verifySMSOTP);
+router.post("/verify-user-info", verifyUserInfo);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);

@@ -33,7 +33,7 @@ export class TempUser extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: true })
+  @Column()
   @Length(8, 255, { message: "Password must be atleast 8 characters" })
   password: string;
 

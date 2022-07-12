@@ -1,4 +1,4 @@
-import { IsEmail, Length } from "class-validator";
+import { IsEmail } from "class-validator";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,12 +6,9 @@ import {
   BaseEntity,
   Index,
   CreateDateColumn,
-  UpdateDateColumn,
-  BeforeInsert,
-  BeforeUpdate,
+  UpdateDateColumn
 } from "typeorm";
-import bcrypt from "bcrypt";
-import { Exclude, instanceToPlain } from "class-transformer";
+import { Exclude } from "class-transformer";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -39,7 +36,6 @@ export class User extends BaseEntity {
   name: string;
 
   @Column()
-  @Length(8, 255, { message: "Password must be atleast 8 characters" })
   password: string;
 
   @CreateDateColumn()
@@ -47,10 +43,4 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
 }
