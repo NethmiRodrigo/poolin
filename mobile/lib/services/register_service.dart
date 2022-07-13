@@ -44,10 +44,8 @@ Future<http.Response> checkOTP(String otp, service) async {
   return response;
 }
 
-Future<http.Response> submitPhoneNumber(String number) async {
-  Map data = {
-    'phone': number,
-  };
+Future<http.Response> submitPhoneNumber(String number, String email) async {
+  Map data = {'mobile': number, 'email': email};
   print(data);
 
   String body = json.encode(data);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/services/register_service.dart';
@@ -19,6 +20,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  final _storage = const FlutterSecureStorage();
 
   @override
   void dispose() {
@@ -138,10 +140,15 @@ class RegisterScreenState extends State<RegisterScreen> {
                           if (_formKey.currentState!.validate()) {
                             Response response = await register(
                                 _email.text, _pass.text, _confirmPass.text);
-                            if (!mounted) {
-                              return;
-                            }
+
                             if (response.statusCode == 200) {
+                              await _storage.write(
+                                  key: 'KEY_EMAIL', value: _email.text);
+
+                              if (!mounted) {
+                                return;
+                              }
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
