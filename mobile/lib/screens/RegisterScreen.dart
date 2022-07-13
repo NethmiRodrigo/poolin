@@ -156,10 +156,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                         const EmailOTPScreen()),
                               );
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text('Error: ${response.body}')),
-                              );
+                              print(response.body);
                             }
                           }
                         }),

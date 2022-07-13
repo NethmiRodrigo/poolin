@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mobile/models/Person.dart';
+import 'package:mobile/models/User.dart';
 
 Future<http.Response> register(String email, pass, conpass) async {
   Map data = {
@@ -24,14 +24,12 @@ Future<http.Response> register(String email, pass, conpass) async {
   return response;
 }
 
-Future<http.Response> checkOTP(String otp, service) async {
-  Map data = {
-    'otp': otp,
-  };
+Future<http.Response> checkEmailOTP(String otp, email) async {
+  Map data = {'email': email, 'otp': otp};
   print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('https://example.com/whatsit/create');
+  var url = Uri.parse('http://localhost:5001/api/auth/verify-email-otp');
   var response = await http.post(
     url,
     body: body,
@@ -44,12 +42,30 @@ Future<http.Response> checkOTP(String otp, service) async {
   return response;
 }
 
-Future<http.Response> submitPhoneNumber(String number, String email) async {
+Future<http.Response> checkSMSOTP(String otp, mobile, email) async {
+  Map data = {'otp': otp, 'email': otp, 'mobile': otp};
+  print(data);
+
+  String body = json.encode(data);
+  var url = Uri.parse('http://localhost:5001/api/auth/verify-sms-otp');
+  var response = await http.post(
+    url,
+    body: body,
+    headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+  );
+  return response;
+}
+
+Future<http.Response> submitPhoneNumber(String number, email) async {
   Map data = {'mobile': number, 'email': email};
   print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('https://example.com/whatsit/create');
+  var url = Uri.parse('http://localhost:5001/api/auth/verify-mobile-num');
   var response = await http.post(
     url,
     body: body,
@@ -62,11 +78,13 @@ Future<http.Response> submitPhoneNumber(String number, String email) async {
   return response;
 }
 
-Future<http.Response> submitPersonalDetails(String fname, lname, gender) async {
-  Person person = Person(firstName: fname, lastName: lname, gender: gender);
+Future<http.Response> submitPersonalDetails(
+    String fname, lname, gender, email) async {
+  User user =
+      User(firstName: fname, lastName: lname, gender: gender, email: email);
 
-  Map<String, dynamic> body = person.toJson();
-  var url = Uri.parse('https://example.com/whatsit/create');
+  Map<String, dynamic> body = user.toJson();
+  var url = Uri.parse('http://localhost:5001/api/auth/verify-user-info');
   var response = await http.post(
     url,
     body: body,

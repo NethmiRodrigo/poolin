@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/PhoneOTPScreen.dart';
+import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
@@ -12,7 +16,9 @@ class PhoneNumberScreen extends StatefulWidget {
 
 class PhoneNumberScreenState extends State<PhoneNumberScreen> {
   TextEditingController textEditingController = TextEditingController();
-  String currentText = "";
+  String currentNumber = "";
+  final _storage = const FlutterSecureStorage();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,23 +63,54 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   ),
                 ),
                 addVerticalSpace(48),
-                IntlPhoneField(
-                  flagsButtonPadding: const EdgeInsets.only(left: 16),
-                  showDropdownIcon: false,
-                  decoration: const InputDecoration(
-                    hintText: 'Phone Number',
-                    isDense: true,
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                Form(
+                  key: _formKey,
+                  child: IntlPhoneField(
+                    validator: (v) {
+                      if (v == null) {
+                        return 'Please enter a phone number';
+                      }
+                      return null;
+                    },
+                    flagsButtonPadding: const EdgeInsets.only(left: 16),
+                    showDropdownIcon: false,
+                    decoration: const InputDecoration(
+                      hintText: 'Phone Number',
+                      isDense: true,
+                      border: OutlineInputBorder(),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    ),
+                    initialCountryCode: 'LK',
+                    onChanged: (phone) {
+                      currentNumber = phone.completeNumber;
+                      print(phone.completeNumber);
+                    },
                   ),
-                  initialCountryCode: 'LK',
-                  onChanged: (phone) {
-                    print(phone.completeNumber);
-                  },
                 ),
                 addVerticalSpace(56),
-                WideButton(text: 'Proceed', onPressedAction: () {}),
+                WideButton(
+                    text: 'Proceed',
+                    onPressedAction: () async {
+                      if (_formKey.currentState!.validate()) {
+                        String? email = await _storage.read(key: 'KEY_EMAIL');
+                        Response response =
+                            await submitPhoneNumber(currentNumber, email);
+                        if (response.statusCode == 200) {
+                          if (!mounted) {
+                            return;
+                          }
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PhoneOTPScreen()),
+                          );
+                        } else {
+                          print(response.body);
+                        }
+                      }
+                    }),
                 addVerticalSpace(16),
               ],
             ),
