@@ -27,8 +27,6 @@ import { User } from "../entity/User";
 import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
 
-import { AppDataSource } from "../data-source";
-
 /**
  * Login API Route
  */
@@ -224,8 +222,8 @@ const verifyUserInfo = async (req: Request, res: Response) => {
     throw new AppError(401, {}, "Email not registered");
 
   // save user info in database
-  let userEmail = email;
-  const user = await User.findOne({ where: { email: userEmail } });
+  const user = await User.findOneBy({ email });
+  if (!user) throw new AppError(401, {}, "User cannot be found");
   user.firstname = firstName;
   user.lastname = lastName;
   user.gender = gender;
@@ -370,11 +368,7 @@ const resetPassword = async (req: Request, res: Response) => {
   user.password = await bcrypt.hash(password, 8);
   await user.save();
 
-  await AppDataSource.createQueryBuilder()
-    .delete()
-    .from(ForgotPassword)
-    .where("email = :email AND otp = :otp", { email, otp })
-    .execute();
+  await forgotPasswordEntity.remove();
   return res.status(200).json({ success: "Successfully updated password" });
 };
 

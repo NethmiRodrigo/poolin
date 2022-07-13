@@ -2,6 +2,9 @@ import nodemailer, { TestAccount, Transporter } from "nodemailer";
 import SMTPConnection from "nodemailer/lib/smtp-connection";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { MailOptions } from "nodemailer/lib/json-transport";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const config: SMTPTransport.Options = {
   host: process.env.EMAIL_HOST,

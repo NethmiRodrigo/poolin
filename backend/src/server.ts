@@ -1,5 +1,6 @@
 import app from "./app";
 import { AppDataSource } from "./data-source";
+import { EmailFormat } from "./entity/EmailFormat";
 
 app.listen(process.env.PORT, async () => {
   console.log(`
@@ -16,6 +17,9 @@ app.listen(process.env.PORT, async () => {
   `);
   try {
     await AppDataSource.initialize();
+    await EmailFormat.create({
+      emailFormat: "stu.ucsc.lk",
+    }).save();
     console.log("Database is connected!");
   } catch (error) {
     console.log(error);

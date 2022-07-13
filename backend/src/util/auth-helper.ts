@@ -50,12 +50,9 @@ export const createUserAccount = async (tempID: number) => {
  * @returns boolean
  */
 export const isEmailRegistered = async (userEmail: string) => {
-  const availUsers = await User.find({ where: { email: userEmail } });
-  if (availUsers.length > 0) {
-    return true;
-  } else {
-    return false;
-  }
+  const availUsers = await User.findOneBy({ email: userEmail });
+  if (!availUsers) return false;
+  return true;
 };
 
 /**
