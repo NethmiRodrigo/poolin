@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 /**
  * Sends the message passed to the given mobile number

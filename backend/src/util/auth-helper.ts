@@ -22,7 +22,7 @@ import { User } from "../entity/User";
  * @returns object (user)
  */
 export const createUserAccount = async (tempID: number) => {
-  const tempUser = await TempUser.findOneById(tempID);
+  const tempUser = await TempUser.findOneBy({ id: tempID });
   if (!tempUser) throw new AppError(401, {}, "Couldn't create account");
 
   if (tempUser.emailStatus != VerificationStatus.VERIFIED)
