@@ -1,6 +1,6 @@
+import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
-import nodemailer from "nodemailer";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
 
@@ -11,10 +11,10 @@ import { AppError } from "./error-handler";
 import { sendSMS } from "../util/sms-api";
 
 /** Entities */
-import { User } from "../entity/User";
 import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { EmailFormat } from "../entity/EmailFormat";
 import { Response } from "express";
+import { User } from "../entity/User";
 
 /**
  * @description - This function removes the user from TempUser entity and addds the user to the User entity
@@ -48,12 +48,12 @@ export const createUserAccount = async (tempID: number) => {
  * @returns boolean
  */
 export const isEmailRegistered = async (userEmail: string)  => {
- const user = await User.findOne({ where: { email: userEmail } });
- if (user) {
-   return true;
- } else {
-   return false;
- }
+  const availUsers = await User.find({where: {email: userEmail }});
+  if (availUsers.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -63,26 +63,27 @@ export const isEmailRegistered = async (userEmail: string)  => {
  * @returns response from SMS API
  */
 export const smsOTPAtSignup = async (mobile: string, email: string) => {
- // generate 4-digit OTP
- const otp = codeHandler(4, true);
- 
- // calculate expiration time (should expire in 15 mins)
- const currentDate = new Date();
- const expiresAt = new Date(currentDate.getTime() + 15*60000)
+  // generate 4-digit OTP
+  const otp = codeHandler(4, true);
+  
+  // calculate expiration time (should expire in 15 mins)
+  const currentDate = new Date();
+  const expiresAt = new Date(currentDate.getTime() + 15*60000)
 
- // save mobile and otp in database
- const tempUser = await TempUser.findOneBy({ email });
- if (!tempUser) throw new AppError(400, {}, "User cannot be found");
- tempUser.mobile = mobile;
- tempUser.smsOTP = otp;
- tempUser.smsOTPSentAt = currentDate;
- await tempUser.save();
+  // save mobile and otp in database
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(400, {}, "User cannot be found");
+  tempUser.mobile = mobile;
+  tempUser.smsOTP = otp;
+  tempUser.smsOTPSentAt = currentDate;
+  await tempUser.save();
 
- // send SMS
- const message = 
- `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
+  // send SMS
+  const message = 
+  `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
 
- return await sendSMS(mobile, message)
+  const result = await sendSMS(mobile, message);
+  return result;
 }
 
 /**
@@ -91,18 +92,18 @@ export const smsOTPAtSignup = async (mobile: string, email: string) => {
  * @returns boolean
  */
 export const isEmailDomainValid = async (email: string)  => {
- const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
+  const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
 
- let isValid = false;
+  let isValid = false;
 
- for(let i=0; i<validEmailFormats.length; i++) {
-   if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
-     isValid = true;
-     break;
-   }
- }
+  for(let i=0; i<validEmailFormats.length; i++) {
+    if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
+      isValid = true;
+      break;
+    }
+  }
 
- return isValid;
+  return isValid;
 }
 
 /**
@@ -111,43 +112,43 @@ export const isEmailDomainValid = async (email: string)  => {
  * @returns boolean
  */
 export const emailOTPAtSignup = async (email: string) => {
- // generate 4-digit OTP
- const otp = codeHandler(4, true);
- 
- // calculate expiration time (should expire in 15 mins)
- const currentDate = new Date();
- const expiresAt = new Date(currentDate.getTime() + 1*60000);
+  // generate 4-digit OTP
+  const otp = codeHandler(4, true);
+  
+  // calculate expiration time (should expire in 15 mins)
+  const currentDate = new Date();
+  const expiresAt = new Date(currentDate.getTime() + 1*60000);
 
- // save otp in database
- const tempUser = await TempUser.findOneBy({ email });
- if (!tempUser) throw new AppError(400, {}, "Email cannot be found");
- tempUser.emailOTP = otp;
- tempUser.emailOTPSentAt = currentDate;
- await tempUser.save();
+  // save otp in database
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(400, {}, "Email cannot be found");
+  tempUser.emailOTP = otp;
+  tempUser.emailOTPSentAt = currentDate;
+  await tempUser.save();
 
- // send email
- const body = 
- `Hi there! 
- This is verify the email of your Poolin account. 
- Please enter the OTP ${otp} in your app to verify 
- (Expires at: ${expiresAt}`;
+  // send email
+  const body = 
+  `Hi there! 
+  This is verify the email of your Poolin account. 
+  Please enter the OTP ${otp} in your app to verify 
+  (Expires at: ${expiresAt}`;
 
- const mailer: Transporter = await getMailer();
+  const mailer: Transporter = await getMailer();
 
- const mailOptions: MailOptions = {
-   to: email,
-   from: "poolin@info.com",
-   subject: "Your verification code for Poolin",
-   text: body,
- };
+  const mailOptions: MailOptions = {
+    to: email,
+    from: "poolin@info.com",
+    subject: "Your verification code for Poolin",
+    text: body,
+  };
 
- // send otp
- const result = await mailer.sendMail(mailOptions);
+  // send otp
+  const result = await mailer.sendMail(mailOptions);
 
- if (process.env.NODE_ENV === "development")
- console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+  if (process.env.NODE_ENV === "development")
+  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
 
- return result;
+  return result;
 }
 
 /**
@@ -157,16 +158,16 @@ export const emailOTPAtSignup = async (email: string) => {
  * @returns token, response
  */
 export const createUserToken = async (response: Response, user: object) => {
- const token = jwt.sign({ user }, process.env.JWT_SECRET);
+  const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
- response.set(
-   "Set-Cookie",
-   cookie.serialize("Token", token, {
-     httpOnly: true,
-     secure: process.env.NODE_ENV === "production",
-     sameSite: "strict",
-   })
- );
+  response.set(
+    "Set-Cookie",
+    cookie.serialize("Token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    })
+  );
 
- return { token, response }
+  return { token, response }
 }

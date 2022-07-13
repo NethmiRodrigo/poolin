@@ -72,7 +72,8 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  if(isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+  let confirmation = await isEmailRegistered(email)
+  if(confirmation) throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
   if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
@@ -122,7 +123,7 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
   // verify OTP - If 15 minutes has elapsed
   const currentDate = new Date();
   const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
-  if(checkIfDateIsExpired(expiresAt)) throw new AppError(401, {}, "OTP expired. PLease try again");
+  if(currentDate > expiresAt) throw new AppError(401, {}, "OTP expired. PLease try again");
 
   // update email verification status
   tempUser.emailStatus = VerificationStatus.VERIFIED;
@@ -179,8 +180,9 @@ const verifyMobileNumber = async (req: Request, res: Response) => {
   if (tempUser.mobile != mobile) throw new AppError(401, {}, "New mobile number detected");
 
   // verify OTP - If 15 minutes has elapsed
+  const currentDate = new Date();
   const expiresAt = new Date(tempUser.smsOTPSentAt.getTime() + 15*60000);
-  if(checkIfDateIsExpired(expiresAt)) throw new AppError(401, {}, "OTP expired. PLease try again");
+  if(currentDate > expiresAt) throw new AppError(401, {}, "OTP expired. PLease try again");
   
 
   // update SMS verification status
