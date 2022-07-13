@@ -84,6 +84,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Email is required';
                         }
+                        if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value) ||
+                            !(value.endsWith("cmb.ac.lk"))) {
+                          return 'Invalid email format';
+                        }
 
                         return null;
                       },
