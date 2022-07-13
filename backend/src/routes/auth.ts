@@ -1,9 +1,7 @@
 import { Request, Response, Router } from "express";
 import { isEmail, isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import cookie from "cookie";
-import { getConnection } from "typeorm";
 import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
@@ -16,11 +14,18 @@ import { getMailer, sendPlainMail } from "../util/mailer";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
+import { 
+  createUserAccount, 
+  createUserToken, 
+  emailOTPAtSignup, 
+  isEmailDomainValid, 
+  isEmailRegistered, 
+  smsOTPAtSignup 
+} from "../util/auth-helper";
 
 /** Entities */
 import { User } from "../entity/User";
-import { EmailFormat } from "../entity/EmailFormat";
-import { TempUser } from "../entity/TempUser";
+import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
 
 import { AppDataSource } from "../data-source";
@@ -43,18 +48,9 @@ const login = async (req: Request, res: Response) => {
   if (!passwordMatched)
     throw new AppError(401, { error: "Incorrect credentials" });
 
-  const token = jwt.sign({ user }, process.env.JWT_SECRET);
+  const { token, response } = await createUserToken(res, user)
 
-  res.set(
-    "Set-Cookie",
-    cookie.serialize("Token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    })
-  );
-
-  return res.json({ user, token });
+  return response.json({ user, token });
 };
 
 /**
@@ -76,7 +72,7 @@ const verifyCredentials = async (req: Request, res: Response) => {
   if(password.length < 8) throw new AppError(401, {}, "Password too short");
 
   // check if email is already registered
-  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
+  if(isEmailRegistered(email)) throw new AppError(401, {}, "Email already registered");
 
   // check if email belongs to any supported domain
   if(!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
@@ -85,81 +81,150 @@ const verifyCredentials = async (req: Request, res: Response) => {
   const tempUser = await TempUser.create({ email: email, password: password }).save()
 
   // send OTP via Email (valid for 15 mins)
-  const result = await emailOTP(email);
+  const result = await emailOTPAtSignup(email);
   if (!result.accepted.length && !result.accepted.includes(email))
   throw new Error("Email could not be send. Please try again");
 
   return res.status(200).json({ success: "OTP sent via email", email });
 }
 
-const isEmailRegistered = async (email)  => {
-  const user = await User.findOneBy({ email });
-  if (user) {
-    return true;
-  } else {
-    return false;
-  }
+/**
+ * API Route to resend email OTP 
+ */
+ const resendEmailOTP = async (req: Request, res: Response) => {
+  const email = req.body.email;
+
+  if (!isEmpty(email) && !isEmail(email)) throw new AppError(400, {}, "Invalid email");
+
+  const result = await emailOTPAtSignup(email)
+  if (!result.accepted.length && !result.accepted.includes(email))
+  throw new Error("Email could not be send. Please try again");
+
+  return res.status(200).json({ success: "OTP re-sent via email", email });
 }
 
-const isEmailDomainValid = async (email)  => {
-  const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
+/**
+ * API Route to verify email OTP
+ */
+const verifyEmailOTP = async (req: Request, res: Response) => {
+  const { email, otp, } = req.body;
+  let errors: any = {};
 
-  let isValid = false;
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(otp)) errors.otp = "Please enter OTP";
 
-  for(let i=0; i<validEmailFormats.length; i++) {
-    if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
-      isValid = true;
-      break;
-    }
-  }
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
 
-  return isValid;
-}
-
-const emailOTP = async (email) => {
-  // generate 4-digit OTP
-  const otp = codeHandler(4, true);
-  
-  // calculate expiration time (should expire in 15 mins)
-  const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 15*60000);
-
-  // save otp in database
+  // check if email previously saved in TempUser
   const tempUser = await TempUser.findOneBy({ email });
-  if (!tempUser) throw new AppError(400, {}, "Email cannot be found");
-  tempUser.emailOTP = otp;
-  tempUser.emailOTPSentAt = currentDate;
+  if (!tempUser) throw new AppError(401, {}, "Email not recognized");
+
+  // verify OTP - If 15 minutes has elapsed
+  const currentDate = new Date();
+  const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
+  if(checkIfDateIsExpired(expiresAt)) throw new AppError(401, {}, "OTP expired. PLease try again");
+
+  // update email verification status
+  tempUser.emailStatus = VerificationStatus.VERIFIED;
   await tempUser.save();
+  
+  return res.status(200).json({ success: "Email verified" });
+}
 
-  // send email
-  const body = 
-  `Hi there! 
-  This is verify the email of your Poolin account. 
-  Please enter the OTP ${otp} in your app to verify 
-  (Expires at: ${expiresAt}`;
+/**
+ * API Route to verify mobile number or request a new OTP
+ */
+const verifyMobileNumber = async (req: Request, res: Response) => {
+  let { mobile, email, } = req.body;
+  let errors: any = {};
 
-  const mailer: Transporter = await getMailer();
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(mobile)) errors.mobile = "Please enter mobile number";
 
-  const mailOptions: MailOptions = {
-    to: email,
-    from: "poolin@info.com",
-    subject: "Your verification code for Poolin",
-    text: body,
-  };
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
 
-  // send otp
-  const result = await mailer.sendMail(mailOptions);
+  // remove all non-numeric characters except '+'
+  mobile = mobile.replace(/[^\+0-9]/ig, "");
 
-  if (process.env.NODE_ENV === "development")
-  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+  // check if mobile number is valid 
+  // (should have a leading '+' followed by 11 digits)
+  if (!(/^\+[0-9]+$/.test(mobile)) || !(mobile.length == 12)) throw new AppError(401, {}, "Invalid mobile number");
 
-  return result;
+  // check if mobile number already registered
+  const user = await User.findOneBy({ mobile });
+  if (user) throw new AppError(401, { error: "Mobile already registered" });
+
+  const result = await smsOTPAtSignup(mobile, email)
+  if (!result) throw new AppError(400, {}, "Couldn't send OTP. Please try again")
+
+  return res.status(200).json({ success: "OTP sent via SMS" });
+}
+
+/**
+ * API Route to verify sms OTP
+ */
+ const verifySMSOTP = async (req: Request, res: Response) => {
+  const { email, mobile, otp, } = req.body;
+  let errors: any = {};
+
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(mobile)) errors.mobile = "Please enter mobile number";
+  if (isEmpty(otp)) errors.otp = "Please enter OTP";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // check if email previously saved in TempUser
+  const tempUser = await TempUser.findOneBy({ email });
+  if (!tempUser) throw new AppError(401, {}, "Email not recognized");
+  if (tempUser.mobile != mobile) throw new AppError(401, {}, "New mobile number detected");
+
+  // verify OTP - If 15 minutes has elapsed
+  const expiresAt = new Date(tempUser.smsOTPSentAt.getTime() + 15*60000);
+  if(checkIfDateIsExpired(expiresAt)) throw new AppError(401, {}, "OTP expired. PLease try again");
+  
+
+  // update SMS verification status
+  tempUser.mobileStatus = VerificationStatus.VERIFIED;
+  const result = await tempUser.save();
+
+  const user = await createUserAccount(result.id);
+
+  const { token, response } = await createUserToken(res, user);
+
+  return response.json({ user, token });
+}
+
+/**
+ * API route to verify user info (first name, last name, gender)
+ */
+ const verifyUserInfo = async (req: Request, res: Response) => {
+  const { email, firstName, lastName, gender } = req.body;
+  let errors: any = {};
+  if (!isEmpty(email) && !isEmail(email)) errors.email = "Email is invalid";
+  if (isEmpty(firstName)) errors.firstName = "First name cannot be empty";
+  if (isEmpty(lastName)) errors.lastName = "Last name cannot be empty";
+  if (isEmpty(gender)) errors.gender = "Gender cannot be empty";
+
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+
+  // check if email is already registered
+  if(!isEmailRegistered(email)) throw new AppError(401, {}, "Email not registered");
+
+  // save user info in database
+  let userEmail = email;
+  const user = await User.findOne({ where: { email: userEmail } });
+  user.firstname = firstName;
+  user.lastname = lastName;
+  user.gender = gender;
+  await user.save();
+
+  return res.status(200).json({ success: "User info saved" });
 }
 
 /**
  * API Route to get the logged in user details
  */
-const getLoggedInUser = async (_: Request, res: Response) => {
+ const getLoggedInUser = async (_: Request, res: Response) => {
   return res.json(res.locals.user);
 };
 
@@ -305,6 +370,11 @@ const resetPassword = async (req: Request, res: Response) => {
 const router = Router();
 router.post("/login", login);
 router.post("/verify-credentials", verifyCredentials);
+router.post("/verify-mobile-num", verifyMobileNumber);
+router.post("/verify-email-otp", verifyEmailOTP);
+router.post("/verify-sms-otp", verifySMSOTP);
+router.post("/resend-email-otp", resendEmailOTP);
+router.post("/verify-user-info", verifyUserInfo);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
 router.post("/send-reset-password-email", sendResetPasswordEmail);

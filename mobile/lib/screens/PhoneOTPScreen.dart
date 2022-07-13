@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/screens/PersonalDetailsScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../custom/OTPFields.dart';
+import '../services/register_service.dart';
 
 class PhoneOTPScreen extends StatefulWidget {
   const PhoneOTPScreen({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String currentText = "";
+  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +76,25 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 addVerticalSpace(56),
                 WideButton(
                   text: 'Verify Phone Number',
-                  onPressedAction: () {
+                  onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const PersonalDetailsScreen()),
-                      );
+                      String? email = await _storage.read(key: 'KEY_EMAIL');
+                      Response response =
+                          await checkEmailOTP(currentText, email);
+                      if (response.statusCode == 200) {
+                        if (!mounted) {
+                          return;
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const PersonalDetailsScreen()),
+                        );
+                      } else {
+                        print(response.body);
+                      }
                     }
                   },
                 ),
