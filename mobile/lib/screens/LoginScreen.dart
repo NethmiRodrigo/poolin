@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/services/register_service.dart';
+import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,14 +21,7 @@ class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
-
-  @override
-  void dispose() {
-    _pass.dispose();
-    _confirmPass.dispose();
-    super.dispose();
-  }
+  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +107,25 @@ class LoginScreenState extends State<LoginScreen> {
                         text: 'Sign in',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const EmailOTPScreen()),
-                            );
+                            Response response =
+                                await login(_email.text, _pass.text);
+
+                            if (response.statusCode == 200) {
+                              print(response.body);
+
+                              if (!mounted) {
+                                return;
+                              }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EmailOTPScreen()),
+                              );
+                            } else {
+                              print("error " + response.body);
+                            }
                           }
                         }),
                     addVerticalSpace(16),

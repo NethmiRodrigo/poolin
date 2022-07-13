@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class PersonalDetailsScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fname = TextEditingController();
   final TextEditingController _lname = TextEditingController();
+  final _storage = const FlutterSecureStorage();
   List<bool> isSelected = [true, false];
   String _gender = "male";
 
@@ -102,28 +106,6 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     ),
                     addVerticalSpace(24),
                     ToggleButtons(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Icon(Icons.male_outlined),
-                              addHorizontalSpace(8),
-                              Text("Male")
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Icon(Icons.female_outlined),
-                              addHorizontalSpace(8),
-                              Text("Female")
-                            ],
-                          ),
-                        ),
-                      ],
                       onPressed: (int index) {
                         setState(() {
                           for (int buttonIndex = 0;
@@ -143,15 +125,46 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         });
                       },
                       isSelected: isSelected,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.male_outlined),
+                              addHorizontalSpace(8),
+                              const Text("Male")
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.female_outlined),
+                              addHorizontalSpace(8),
+                              const Text("Female")
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     addVerticalSpace(40),
                     WideButton(
                       text: 'Start Pooling!',
-                      onPressedAction: () {
+                      onPressedAction: () async {
                         if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
+                          String? email = await _storage.read(key: 'KEY_EMAIL');
+                          Response response = await submitPersonalDetails(
+                              _fname.text, _lname.text, _gender, email);
+                          if (response.statusCode == 200) {
+                            if (!mounted) {
+                              return;
+                            }
+                            //replace this with navigation to home page
+                            print('You made it to the end!');
+                          } else {
+                            print(response.body);
+                          }
                         }
                       },
                     )
