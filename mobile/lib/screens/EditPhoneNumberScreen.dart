@@ -29,9 +29,12 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                addVerticalSpace(20),
+
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(20.0),
+
+                  // padding: EdgeInsets.all(20.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -55,8 +58,8 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                     ],
                   ),
                 ),
-                addVerticalSpace(40),
-                addVerticalSpace(16),
+                addVerticalSpace(20),
+                addVerticalSpace(20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 48),
                   child: Text(
@@ -83,7 +86,7 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                 ),
                 addVerticalSpace(20),
                 WideButton(text: 'Proceed', onPressedAction: () {}),
-                addVerticalSpace(16),
+                // addVerticalSpace(16),
               ],
             ),
           ),

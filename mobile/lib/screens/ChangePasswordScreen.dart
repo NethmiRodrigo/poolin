@@ -46,9 +46,10 @@ class ChangePasswordScreenScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(20),
+              addVerticalSpace(20),
               Container(
                 // width: double.infinity,
-                padding: EdgeInsets.all(20.0),
+                // padding: EdgeInsets.all(16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -61,13 +62,14 @@ class ChangePasswordScreenScreenState
                     ),
                     Text(
                       'Change Password',
-                      style: TextStyle(color: Colors.black87, fontSize: 25),
+                      style: Theme.of(context).textTheme.headline3!.merge(
+                          const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     Spacer(),
-                    Icon(
-                      Icons.check,
-                      color: Colors.black,
-                    ),
+                    // Icon(
+                    //   Icons.check,
+                    //   color: Colors.black,
+                    // ),
                   ],
                 ),
               ),
@@ -144,7 +146,7 @@ class ChangePasswordScreenScreenState
                     ),
                     addVerticalSpace(40),
                     WideButton(
-                        text: 'Proceed',
+                        text: 'Reset Password',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
                             Response response = await register(
@@ -168,11 +170,6 @@ class ChangePasswordScreenScreenState
                           }
                         }),
                     addVerticalSpace(16),
-                    Text(
-                      'Already have an account? Log in',
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.left,
-                    ),
                   ],
                 ),
               ),

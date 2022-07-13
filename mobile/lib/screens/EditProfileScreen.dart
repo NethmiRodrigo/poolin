@@ -26,7 +26,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             children: <Widget>[
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -51,7 +51,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: 16,
               ),
               Center(
                 child: Stack(
@@ -123,16 +123,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                      right: 20,
-                      left: 20,
-                      bottom: 10,
+                      right: 16,
+                      left: 16,
+                      bottom: 16,
                     ),
                     child: Column(children: [
-                      Padding(
-                          padding: EdgeInsets.only(
-                        right: 35,
-                        left: 35,
-                      )),
+                      // Padding(
+                      //     padding: EdgeInsets.only(
+                      //   right: 35,
+                      //   left: 35,
+                      // )),
                       SizedBox(
                         height: 4,
                       ),
@@ -140,14 +140,25 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            'Full Name',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .merge(const TextStyle(color: Colors.black)),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
                                 .merge(const TextStyle(color: Colors.black)),
                             decoration: const InputDecoration(
-                              labelText: "Full Name",
-                              prefixIcon: Icon(Icons.face_outlined),
+                              // labelText: "Full Name",
+                              // prefixIcon: Icon(Icons.face_outlined),
                               border: OutlineInputBorder(),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
@@ -163,80 +174,103 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
                               return null;
                             },
-                          )
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Bio',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .merge(const TextStyle(color: Colors.black)),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          TextFormField(
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .merge(const TextStyle(color: Colors.black)),
+                            decoration: const InputDecoration(
+                              // labelText: "Bio",
+                              // prefixIcon: Icon(Icons.details_outlined),
+                              border: OutlineInputBorder(),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              hintText: "I'am a person that does things and..",
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'bio  is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                          // TextField(
+                          //   decoration: InputDecoration(
+                          //       labelText: "Bio",
+                          //       floatingLabelBehavior: FloatingLabelBehavior.always,
+                          //       // border: OutlineInputBorder(
+                          //       //     borderRadius: BorderRadius.circular(4)),
+                          //       hintText: "I'am a person that does things and..",
+                          //       hintStyle: TextStyle(
+                          //         fontSize: 16,
+                          //         color: Colors.black,
+                          //       )),
+                          // ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'Occupation Status',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .merge(const TextStyle(color: Colors.black)),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          TextFormField(
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .merge(const TextStyle(color: Colors.black)),
+                            decoration: const InputDecoration(
+                              // labelText: "Occupation Status",
+                              // prefixIcon: Icon(Icons.biotech_outlined),
+                              border: OutlineInputBorder(),
+
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              // border: OutlineInputBorder(
+                              //     borderRadius: BorderRadius.circular(4)),
+                              hintText: "Student",
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Occupation Status is requied';
+                              }
+
+                              return null;
+                            },
+                          ),
                         ],
                       )),
 
                       SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .merge(const TextStyle(color: Colors.black)),
-                        decoration: const InputDecoration(
-                          labelText: "Bio",
-                          prefixIcon: Icon(Icons.details_outlined),
-                          border: OutlineInputBorder(),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintText: "I'am a person that does things and..",
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 16),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'bio  is required';
-                          }
-
-                          return null;
-                        },
-                      ),
-                      // TextField(
-                      //   decoration: InputDecoration(
-                      //       labelText: "Bio",
-                      //       floatingLabelBehavior: FloatingLabelBehavior.always,
-                      //       // border: OutlineInputBorder(
-                      //       //     borderRadius: BorderRadius.circular(4)),
-                      //       hintText: "I'am a person that does things and..",
-                      //       hintStyle: TextStyle(
-                      //         fontSize: 16,
-                      //         color: Colors.black,
-                      //       )),
-                      // ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .merge(const TextStyle(color: Colors.black)),
-                        decoration: const InputDecoration(
-                          labelText: "Occupation Status",
-                          prefixIcon: Icon(Icons.biotech_outlined),
-                          border: OutlineInputBorder(),
-
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          // border: OutlineInputBorder(
-                          //     borderRadius: BorderRadius.circular(4)),
-                          hintText: "Student",
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 16),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Occupation Status is requied';
-                          }
-
-                          return null;
-                        },
-                      ),
-
-                      SizedBox(
-                        height: 40,
+                        height: 24,
                       ),
                       Row(
                         children: [
@@ -251,7 +285,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 16,
+                        height: 32,
                       ),
                       Row(
                         children: [
@@ -266,7 +300,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 16,
+                        height: 32,
                       ),
                       Row(
                         children: [

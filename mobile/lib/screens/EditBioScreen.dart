@@ -55,13 +55,13 @@ class EditBioScreenState extends State<EditBioScreen> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                  right: 20,
-                  left: 20,
-                  bottom: 10,
+                  right: 16,
+                  left: 16,
+                  // bottom: 64,
                 ),
                 child: Column(children: [
                   SizedBox(
-                    height: 4,
+                    height: 64,
                   ),
                   TextField(
                     decoration: InputDecoration(

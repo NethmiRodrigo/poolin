@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/ChangePasswordScreen.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
 import 'package:mobile/screens/RegisterScreen.dart';
 import 'package:mobile/screens/EditPersonalDetailsScreen.dart';
@@ -10,6 +11,7 @@ import 'package:mobile/screens/EditGenderScreen.dart';
 import 'package:mobile/screens/EditBioScreen.dart';
 import 'package:mobile/screens/EditDateOfBirthScreen.dart';
 import 'package:mobile/screens/testfile.dart';
+import 'package:mobile/screens/PhoneNumberScreen.dart';
 
 import './theme.dart';
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: testfile(),
+      home: EditPhoneNumberOTPScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
