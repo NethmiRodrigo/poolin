@@ -1,4 +1,5 @@
 import request from "supertest";
+import bcrypt from "bcrypt";
 import app from "../app";
 import { User } from "../entity/User";
 import TestConnection from "./util/connection";
@@ -9,10 +10,10 @@ let connection: TestConnection;
 describe(API_URL, () => {
   beforeAll(async () => {
     connection = await new TestConnection().initialize();
+    const password = await bcrypt.hash("password", 8);
     const testUser = User.create({
       email: "test@email.com",
-      password: "password",
-      name: "Test User",
+      password,
     });
     await testUser.save();
   });

@@ -28,7 +28,7 @@ app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 
 // Upstream error handling
-app.use(errorLogger);
+if (process.env.NODE_ENV === "development") app.use(errorLogger);
 app.use(errorResponder);
 
 export default http.createServer(app);
