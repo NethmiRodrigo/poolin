@@ -49,10 +49,10 @@ export const createUserAccount = async (tempID: number) => {
  * @param email - string (email)
  * @returns boolean
  */
-export const isEmailRegistered = async (userEmail: string) => {
-  const availUsers = await User.findOneBy({ email: userEmail });
-  if (!availUsers) return false;
-  return true;
+export const isEmailRegistered = async (email: string) => {
+  const user = await User.findOneBy({ email });
+  if (!user) return false;
+  else return true;
 };
 
 /**

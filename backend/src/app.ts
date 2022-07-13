@@ -7,7 +7,8 @@ import http from "http";
 import dotenv from "dotenv";
 import cors from "cors";
 
-import authRoutes from "./routes/auth";
+/** Routes */
+import authRoutes from "./routes/auth/index";
 
 /** Middleware */
 import trim from "./middleware/trim";
