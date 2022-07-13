@@ -7,6 +7,9 @@ import 'package:mobile/screens/EditPhoneNumberScreen.dart';
 import 'package:mobile/screens/EditProfileScreen.dart';
 import 'package:mobile/screens/PersonalDetailsScreen.dart';
 import 'package:mobile/screens/EditGenderScreen.dart';
+import 'package:mobile/screens/EditBioScreen.dart';
+import 'package:mobile/screens/EditDateOfBirthScreen.dart';
+import 'package:mobile/screens/testfile.dart';
 
 import './theme.dart';
 
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: EditGenderScreen(),
+      home: testfile(),
       debugShowCheckedModeBanner: false,
     );
   }
