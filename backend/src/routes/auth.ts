@@ -11,7 +11,7 @@ import { MailOptions } from "nodemailer/lib/json-transport";
 import auth from "../middleware/auth";
 
 /** Utility functions */
-import { getMailer } from "../util/mailer";
+import { getMailer, sendPlainMail } from "../util/mailer";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
@@ -161,7 +161,7 @@ const emailOTP = async (email) => {
   // send otp
   const result = await mailer.sendMail(mailOptions);
 
-  if (process.env.NODE_ENV === "development")
+  if (process.env.NODE_ENV !== "production")
     console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
 
   return result;
@@ -215,8 +215,6 @@ const sendResetPasswordEmail = async (req: Request, res: Response) => {
 
   const body = `Hi there! You requested to change your password. Please enter the OTP ${otp} in your app to confirm`;
 
-  const mailer: Transporter = await getMailer();
-
   const mailOptions: MailOptions = {
     to: email,
     from: "poolin@info.com",
@@ -224,13 +222,13 @@ const sendResetPasswordEmail = async (req: Request, res: Response) => {
     text: body,
   };
 
-  const result = await mailer.sendMail(mailOptions);
+  const result = await sendPlainMail(mailOptions);
 
-  if (process.env.NODE_ENV === "development")
-    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
-
-  if (!result.accepted.length && !result.accepted.includes(email))
+  if (!result || (!result.accepted.length && !result.accepted.includes(email)))
     throw new Error("Email could not be send. Please try again");
+
+  if (process.env.NODE_ENV !== "production")
+    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
 
   return res.status(200).json({ success: "Email sent successfully" });
 };

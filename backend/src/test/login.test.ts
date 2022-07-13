@@ -5,12 +5,9 @@ import TestConnection from "./util/connection";
 
 let connection: TestConnection;
 
-beforeAll(async () => {
-  connection = await new TestConnection().initialize();
-});
-
 describe("/api/auth/login", () => {
   beforeAll(async () => {
+    connection = await new TestConnection().initialize();
     const testUser = User.create({
       email: "test@email.com",
       password: "password",
@@ -93,10 +90,7 @@ describe("/api/auth/login", () => {
 
   afterAll(async () => {
     await connection.dropTable("users");
+    await connection.destroy();
+    app.close();
   });
-});
-
-afterAll(async () => {
-  await connection.destroy();
-  app.close();
 });
