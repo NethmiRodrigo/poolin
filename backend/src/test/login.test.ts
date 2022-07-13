@@ -6,7 +6,9 @@ import TestConnection from "./util/connection";
 
 let connection: TestConnection;
 
-describe("/api/auth/login", () => {
+const API_URL: string = "/api/auth/login";
+
+describe(API_URL, () => {
   beforeAll(async () => {
     connection = await new TestConnection().initialize();
     const password = await bcrypt.hash("password", 8);
@@ -18,7 +20,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should be able to login with email and password", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "test@email.com",
       password: "password",
     });
@@ -27,7 +29,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login without email", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "",
       password: "password",
     });
@@ -36,7 +38,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login without email", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "",
       password: "password",
     });
@@ -45,7 +47,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login without password", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "test@email.com",
       password: "",
     });
@@ -54,7 +56,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login without email and password", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "",
       password: "",
     });
@@ -63,7 +65,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login without a valid email", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "testuser",
       password: "password",
     });
@@ -72,7 +74,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login without a valid email", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "testuser",
       password: "password",
     });
@@ -81,7 +83,7 @@ describe("/api/auth/login", () => {
   });
 
   it("Should not be able to login if user with email does not exist", async () => {
-    const response = await request(app).post("/api/auth/login").send({
+    const response = await request(app).post(API_URL).send({
       email: "testuser@email.com",
       password: "password",
     });
