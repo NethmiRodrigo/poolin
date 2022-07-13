@@ -83,7 +83,8 @@ Future<http.Response> submitPersonalDetails(
   User user =
       User(firstName: fname, lastName: lname, gender: gender, email: email);
 
-  Map<String, dynamic> body = user.toJson();
+  String body = userToJson(user);
+  print(body);
   var url = Uri.parse('http://localhost:5001/api/auth/verify-user-info');
   var response = await http.post(
     url,

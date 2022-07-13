@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -161,10 +162,19 @@ class RegisterScreenState extends State<RegisterScreen> {
                           }
                         }),
                     addVerticalSpace(16),
-                    Text(
-                      'Already have an account? Log in',
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.left,
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Already have an account? ',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Login',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                print('Login Text Clicked');
+                              }),
+                      ]),
                     ),
                   ],
                 ),

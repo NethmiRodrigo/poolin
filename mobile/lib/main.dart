@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
-
 import 'package:mobile/screens/RegisterScreen.dart';
-
 import './theme.dart';
 
 void main() {
@@ -17,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: const EmailOTPScreen(),
+      home: const RegisterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

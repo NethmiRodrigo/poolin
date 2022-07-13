@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -100,13 +101,21 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 ),
                 addVerticalSpace(16),
                 Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Didn’t receive a code? Try Again',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "Didn't receive a code? ",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Try again',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pop(context);
+                              }),
+                      ]),
+                    )),
               ],
             ),
           ),
