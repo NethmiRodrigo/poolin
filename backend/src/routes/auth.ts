@@ -1,7 +1,6 @@
 import { Request, Response, Router } from "express";
 import { isEmail, isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
@@ -12,14 +11,20 @@ import auth from "../middleware/auth";
 
 /** Utility functions */
 import { getMailer, sendPlainMail } from "../util/mailer";
-import { sendSMS } from "../util/sms-api";
 import { AppError } from "../util/error-handler";
 import codeHandler from "../util/code-handler";
 import { checkIfDateIsExpired } from "../util/date-checker";
+import { 
+  createUserAccount, 
+  createUserToken, 
+  emailOTPAtSignup, 
+  isEmailDomainValid, 
+  isEmailRegistered, 
+  smsOTPAtSignup 
+} from "../util/auth-helper";
 
 /** Entities */
-import { User, Gender } from "../entity/User";
-import { EmailFormat } from "../entity/EmailFormat";
+import { User } from "../entity/User";
 import { TempUser, VerificationStatus } from "../entity/TempUser";
 import { ForgotPassword } from "../entity/ForgotPassword";
 
@@ -43,25 +48,10 @@ const login = async (req: Request, res: Response) => {
   if (!passwordMatched)
     throw new AppError(401, { error: "Incorrect credentials" });
 
-  const { token, response } = createUserToken(res, user)
+  const { token, response } = await createUserToken(res, user)
 
   return response.json({ user, token });
 };
-
-function createUserToken(response: Response, user) {
-  const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-  response.set(
-    "Set-Cookie",
-    cookie.serialize("Token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    })
-  );
-
-  return { token, response }
-}
 
 /**
  * API route to verify new user's credentials 
@@ -91,35 +81,11 @@ const verifyCredentials = async (req: Request, res: Response) => {
   const tempUser = await TempUser.create({ email: email, password: password }).save()
 
   // send OTP via Email (valid for 15 mins)
-  const result = await emailOTP(email);
+  const result = await emailOTPAtSignup(email);
   if (!result.accepted.length && !result.accepted.includes(email))
   throw new Error("Email could not be send. Please try again");
 
   return res.status(200).json({ success: "OTP sent via email", email });
-}
-
-const isEmailRegistered = async (userEmail)  => {
-  const user = await User.findOne({ where: { email: userEmail } });
-  if (user) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-const isEmailDomainValid = async (email)  => {
-  const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
-
-  let isValid = false;
-
-  for(let i=0; i<validEmailFormats.length; i++) {
-    if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
-      isValid = true;
-      break;
-    }
-  }
-
-  return isValid;
 }
 
 /**
@@ -130,51 +96,11 @@ const isEmailDomainValid = async (email)  => {
 
   if (!isEmpty(email) && !isEmail(email)) throw new AppError(400, {}, "Invalid email");
 
-  const result = await emailOTP(email)
+  const result = await emailOTPAtSignup(email)
   if (!result.accepted.length && !result.accepted.includes(email))
   throw new Error("Email could not be send. Please try again");
 
   return res.status(200).json({ success: "OTP re-sent via email", email });
-}
-
-const emailOTP = async (email) => {
-  // generate 4-digit OTP
-  const otp = codeHandler(4, true);
-  
-  // calculate expiration time (should expire in 15 mins)
-  const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 1*60000);
-
-  // save otp in database
-  const tempUser = await TempUser.findOneBy({ email });
-  if (!tempUser) throw new AppError(400, {}, "Email cannot be found");
-  tempUser.emailOTP = otp;
-  tempUser.emailOTPSentAt = currentDate;
-  await tempUser.save();
-
-  // send email
-  const body = 
-  `Hi there! 
-  This is verify the email of your Poolin account. 
-  Please enter the OTP ${otp} in your app to verify 
-  (Expires at: ${expiresAt}`;
-
-  const mailer: Transporter = await getMailer();
-
-  const mailOptions: MailOptions = {
-    to: email,
-    from: "poolin@info.com",
-    subject: "Your verification code for Poolin",
-    text: body,
-  };
-
-  // send otp
-  const result = await mailer.sendMail(mailOptions);
-
-  if (process.env.NODE_ENV === "development")
-  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
-
-  return result;
 }
 
 /**
@@ -196,7 +122,7 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
   // verify OTP - If 15 minutes has elapsed
   const currentDate = new Date();
   const expiresAt = new Date(tempUser.emailOTPSentAt.getTime() + 15*60000);
-  if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
+  if(checkIfDateIsExpired(expiresAt)) throw new AppError(401, {}, "OTP expired. PLease try again");
 
   // update email verification status
   tempUser.emailStatus = VerificationStatus.VERIFIED;
@@ -206,7 +132,7 @@ const verifyEmailOTP = async (req: Request, res: Response) => {
 }
 
 /**
- * API Route to verify Mobile Number
+ * API Route to verify mobile number or request a new OTP
  */
 const verifyMobileNumber = async (req: Request, res: Response) => {
   let { mobile, email, } = req.body;
@@ -228,35 +154,10 @@ const verifyMobileNumber = async (req: Request, res: Response) => {
   const user = await User.findOneBy({ mobile });
   if (user) throw new AppError(401, { error: "Mobile already registered" });
 
-  const result = await smsOTP(mobile, email)
+  const result = await smsOTPAtSignup(mobile, email)
   if (!result) throw new AppError(400, {}, "Couldn't send OTP. Please try again")
 
-  console.log(result)
-
   return res.status(200).json({ success: "OTP sent via SMS" });
-}
-
-const smsOTP = async (mobile, email) => {
-  // generate 4-digit OTP
-  const otp = codeHandler(4, true);
-  
-  // calculate expiration time (should expire in 15 mins)
-  const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 15*60000)
-
-  // save mobile and otp in database
-  const tempUser = await TempUser.findOneBy({ email });
-  if (!tempUser) throw new AppError(400, {}, "User cannot be found");
-  tempUser.mobile = mobile;
-  tempUser.smsOTP = otp;
-  tempUser.smsOTPSentAt = currentDate;
-  await tempUser.save();
-
-  // send SMS
-  const message = 
-  `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
-
-  return await sendSMS(mobile, message)
 }
 
 /**
@@ -278,40 +179,19 @@ const smsOTP = async (mobile, email) => {
   if (tempUser.mobile != mobile) throw new AppError(401, {}, "New mobile number detected");
 
   // verify OTP - If 15 minutes has elapsed
-  const currentDate = new Date();
   const expiresAt = new Date(tempUser.smsOTPSentAt.getTime() + 15*60000);
-  if(expiresAt < currentDate ) throw new AppError(401, {}, "OTP expired. PLease try again");
+  if(checkIfDateIsExpired(expiresAt)) throw new AppError(401, {}, "OTP expired. PLease try again");
+  
 
   // update SMS verification status
   tempUser.mobileStatus = VerificationStatus.VERIFIED;
   const result = await tempUser.save();
 
-  const user = await createUserAccount(result.id)
+  const user = await createUserAccount(result.id);
 
-  const { token, response } = createUserToken(res, user)
+  const { token, response } = await createUserToken(res, user);
 
   return response.json({ user, token });
-}
-
-const createUserAccount = async (tempID) => {
-  const tempUser = await TempUser.findOneById(tempID);
-  if (!tempUser) throw new AppError(401, {}, "Couldn't create account");
-
-  if (tempUser.emailStatus != VerificationStatus.VERIFIED) throw new AppError(401, {}, "User email not verified");
-  if (tempUser.mobileStatus != VerificationStatus.VERIFIED) throw new AppError(401, {}, "User mobile not verified");
-
-  // save user in database
-  const user = await User.create({ 
-    email: tempUser.email, 
-    password: tempUser.password,
-    mobile: tempUser.mobile 
-  }).save()
-
-  // remove user from TempUser entity
-  const removedUser = await TempUser.delete({ id: tempID })
-  if (!removedUser) throw new AppError(401, {}, "Couldn't create account");
-
-  return user;
 }
 
 /**
@@ -493,6 +373,7 @@ router.post("/verify-credentials", verifyCredentials);
 router.post("/verify-mobile-num", verifyMobileNumber);
 router.post("/verify-email-otp", verifyEmailOTP);
 router.post("/verify-sms-otp", verifySMSOTP);
+router.post("/resend-email-otp", resendEmailOTP);
 router.post("/verify-user-info", verifyUserInfo);
 router.get("/me", auth, getLoggedInUser);
 router.get("/logout", auth, logout);
