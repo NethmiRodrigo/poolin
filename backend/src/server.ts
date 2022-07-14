@@ -17,9 +17,6 @@ app.listen(process.env.PORT, async () => {
   `);
   try {
     await AppDataSource.initialize();
-    await EmailFormat.create({
-      emailFormat: "stu.ucsc.lk",
-    }).save();
     console.log("Database is connected!");
   } catch (error) {
     console.log(error);
