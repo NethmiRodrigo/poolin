@@ -22,39 +22,38 @@ import { User } from "../entity/User";
  * @returns object (user)
  */
 export const createUserAccount = async (tempID: number) => {
-  const tempUser = await TempUser.findOneById(tempID);
+  const tempUser = await TempUser.findOneBy({ id: tempID });
   if (!tempUser) throw new AppError(401, {}, "Couldn't create account");
 
-  if (tempUser.emailStatus != VerificationStatus.VERIFIED) throw new AppError(401, {}, "User email not verified");
-  if (tempUser.mobileStatus != VerificationStatus.VERIFIED) throw new AppError(401, {}, "User mobile not verified");
+  if (tempUser.emailStatus != VerificationStatus.VERIFIED)
+    throw new AppError(401, {}, "User email not verified");
+  if (tempUser.mobileStatus != VerificationStatus.VERIFIED)
+    throw new AppError(401, {}, "User mobile not verified");
 
   // save user in database
-  const user = await User.create({ 
-    email: tempUser.email, 
+  const user = await User.create({
+    email: tempUser.email,
     password: tempUser.password,
-    mobile: tempUser.mobile 
-  }).save()
+    mobile: tempUser.mobile,
+  }).save();
 
   // remove user from TempUser entity
-  const removedUser = await TempUser.delete({ id: tempID })
+  const removedUser = await TempUser.delete({ id: tempID });
   if (!removedUser) throw new AppError(401, {}, "Couldn't create account");
 
   return user;
-}
+};
 
 /**
  * @description - This function checks if an email is already registered
  * @param email - string (email)
  * @returns boolean
  */
-export const isEmailRegistered = async (userEmail: string)  => {
-  const availUsers = await User.find({where: {email: userEmail }});
-  if (availUsers.length > 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
+export const isEmailRegistered = async (email: string) => {
+  const user = await User.findOneBy({ email });
+  if (!user) return false;
+  else return true;
+};
 
 /**
  * @description - This function is used to sender a 4-digit OTP via SMS to a new user
@@ -65,10 +64,10 @@ export const isEmailRegistered = async (userEmail: string)  => {
 export const smsOTPAtSignup = async (mobile: string, email: string) => {
   // generate 4-digit OTP
   const otp = codeHandler(4, true);
-  
+
   // calculate expiration time (should expire in 15 mins)
   const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 15*60000)
+  const expiresAt = new Date(currentDate.getTime() + 15 * 60000);
 
   // save mobile and otp in database
   const tempUser = await TempUser.findOneBy({ email });
@@ -79,32 +78,37 @@ export const smsOTPAtSignup = async (mobile: string, email: string) => {
   await tempUser.save();
 
   // send SMS
-  const message = 
-  `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
+  const message = `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
 
   const result = await sendSMS(mobile, message);
   return result;
-}
+};
 
 /**
  * @description - This function is used to verify the domain of an email
  * @param email - string (email to be verified)
  * @returns boolean
  */
-export const isEmailDomainValid = async (email: string)  => {
-  const validEmailFormats = await EmailFormat.find({select: { emailFormat: true }});
+export const isEmailDomainValid = async (email: string) => {
+  const validEmailFormats = await EmailFormat.find({
+    select: { emailFormat: true },
+  });
 
   let isValid = false;
 
-  for(let i=0; i<validEmailFormats.length; i++) {
-    if(email.toLowerCase().endsWith(validEmailFormats[i].emailFormat.toLowerCase())) {
+  for (let i = 0; i < validEmailFormats.length; i++) {
+    if (
+      email
+        .toLowerCase()
+        .endsWith(validEmailFormats[i].emailFormat.toLowerCase())
+    ) {
       isValid = true;
       break;
     }
   }
 
   return isValid;
-}
+};
 
 /**
  * @description - This function is used to sender a 4-digit OTP via email to a new user
@@ -114,10 +118,10 @@ export const isEmailDomainValid = async (email: string)  => {
 export const emailOTPAtSignup = async (email: string) => {
   // generate 4-digit OTP
   const otp = codeHandler(4, true);
-  
+
   // calculate expiration time (should expire in 15 mins)
   const currentDate = new Date();
-  const expiresAt = new Date(currentDate.getTime() + 1*60000);
+  const expiresAt = new Date(currentDate.getTime() + 1 * 60000);
 
   // save otp in database
   const tempUser = await TempUser.findOneBy({ email });
@@ -127,8 +131,7 @@ export const emailOTPAtSignup = async (email: string) => {
   await tempUser.save();
 
   // send email
-  const body = 
-  `Hi there! 
+  const body = `Hi there! 
   This is verify the email of your Poolin account. 
   Please enter the OTP ${otp} in your app to verify 
   (Expires at: ${expiresAt}`;
@@ -146,10 +149,10 @@ export const emailOTPAtSignup = async (email: string) => {
   const result = await mailer.sendMail(mailOptions);
 
   if (process.env.NODE_ENV === "development")
-  console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
 
   return result;
-}
+};
 
 /**
  * @description - This function generates a new token for a user
@@ -169,5 +172,5 @@ export const createUserToken = async (response: Response, user: object) => {
     })
   );
 
-  return { token, response }
-}
+  return { token, response };
+};
