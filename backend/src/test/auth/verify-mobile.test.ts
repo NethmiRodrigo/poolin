@@ -19,15 +19,16 @@ describe("Test verify-mobile-num endpoint", () => {
   }).save();
  });
 
- it("Should confirm valid mobile number (+94...)", async () => {
-  const mobile = '+94' + codeHandler(9, true);
-  const response = await request(app).post(API_URL).send({
-   email: "2022is099@stu.ucsc.cmb.ac.lk",
-   mobile: mobile
-  });
-  expect(response.statusCode).toEqual(200);
-  expect(response.body).toHaveProperty("success");
- });
+ //*********** Commented so that the SMS API doesn't run out of free credit :) ************
+ // it("Should confirm valid mobile number (+94...)", async () => {
+ //  const mobile = '+94' + codeHandler(9, true);
+ //  const response = await request(app).post(API_URL).send({
+ //   email: "2022is099@stu.ucsc.cmb.ac.lk",
+ //   mobile: mobile
+ //  });
+ //  expect(response.statusCode).toEqual(200);
+ //  expect(response.body).toHaveProperty("success");
+ // });
 
  it("Should deny for wrong mobile number format (077...)", async () => {
   const mobile = '07' + codeHandler(8, true);
