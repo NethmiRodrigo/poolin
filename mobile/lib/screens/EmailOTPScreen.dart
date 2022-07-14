@@ -66,7 +66,6 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
-                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
