@@ -43,6 +43,9 @@ export const verifyCredentials = async (req: Request, res: Response) => {
   // check if email belongs to any supported domain
   if (!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
 
+  const tempUser = TempUser.findOneBy({ email });
+  if (tempUser) throw new AppError(401, {}, "Signup details already verified");
+
   // save user credentials in temporary entity
   await TempUser.create({
     email: email,
