@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile/models/User.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+final baseURL = 'http://${dotenv.env['API_URL']}/api/auth/';
 
 Future<http.Response> register(String email, pass, conpass) async {
   Map data = {
@@ -10,7 +13,7 @@ Future<http.Response> register(String email, pass, conpass) async {
   };
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5001/api/auth/verify-credentials');
+  var url = Uri.parse('$baseURL/verify-credentials');
   var response = await http.post(
     url,
     body: body,
@@ -26,10 +29,9 @@ Future<http.Response> register(String email, pass, conpass) async {
 
 Future<http.Response> checkEmailOTP(String otp, email) async {
   Map data = {'email': email, 'otp': otp};
-  print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5001/api/auth/verify-email-otp');
+  var url = Uri.parse('$baseURL/verify-email-otp');
   var response = await http.post(
     url,
     body: body,
@@ -44,10 +46,9 @@ Future<http.Response> checkEmailOTP(String otp, email) async {
 
 Future<http.Response> checkSMSOTP(String otp, mobile, email) async {
   Map data = {'otp': otp, 'email': otp, 'mobile': otp};
-  print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5001/api/auth/verify-sms-otp');
+  var url = Uri.parse('$baseURL/verify-sms-otp');
   var response = await http.post(
     url,
     body: body,
@@ -62,10 +63,9 @@ Future<http.Response> checkSMSOTP(String otp, mobile, email) async {
 
 Future<http.Response> submitPhoneNumber(String number, email) async {
   Map data = {'mobile': number, 'email': email};
-  print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5001/api/auth/verify-mobile-num');
+  var url = Uri.parse('$baseURL/verify-mobile-num');
   var response = await http.post(
     url,
     body: body,
@@ -84,8 +84,7 @@ Future<http.Response> submitPersonalDetails(
       User(firstName: fname, lastName: lname, gender: gender, email: email);
 
   String body = userToJson(user);
-  print(body);
-  var url = Uri.parse('http://localhost:5001/api/auth/verify-user-info');
+  var url = Uri.parse('$baseURL/verify-user-info');
   var response = await http.post(
     url,
     body: body,

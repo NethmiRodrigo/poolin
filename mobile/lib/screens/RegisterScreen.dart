@@ -161,9 +161,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     builder: (context) =>
                                         const EmailOTPScreen()),
                               );
-                            } else {
-                              print(response.body);
-                            }
+                            } else {}
                           }
                         }),
                     addVerticalSpace(16),
@@ -175,10 +173,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         TextSpan(
                             text: 'Login',
                             style: Theme.of(context).textTheme.subtitle1,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                print('Login Text Clicked');
-                              }),
+                            recognizer: TapGestureRecognizer()..onTap = () {}),
                       ]),
                     ),
                   ],

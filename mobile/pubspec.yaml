@@ -38,6 +38,7 @@ dependencies:
   intl_phone_field: ^3.1.0
   http: ^0.13.4
   flutter_secure_storage: ^5.0.2
+  flutter_dotenv: ^5.0.2
   # flutter_svg: any
 
 dev_dependencies:
@@ -81,6 +82,7 @@ flutter:
 
   assets:
     - assets/images/logo.png
+    - .env
  
 
   fonts:

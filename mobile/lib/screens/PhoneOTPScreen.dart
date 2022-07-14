@@ -93,9 +93,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                               builder: (context) =>
                                   const PersonalDetailsScreen()),
                         );
-                      } else {
-                        print(response.body);
-                      }
+                      } else {}
                     }
                   },
                 ),

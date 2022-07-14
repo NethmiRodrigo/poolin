@@ -92,9 +92,7 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                                 builder: (context) =>
                                     const PhoneNumberScreen()),
                           );
-                        } else {
-                          print(response.body);
-                        }
+                        } else {}
                       }
                     })
               ],
