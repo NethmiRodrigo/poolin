@@ -6,7 +6,6 @@ import {
   BaseEntity,
   Index,
   CreateDateColumn,
-  UpdateDateColumn,
   BeforeInsert,
 } from "typeorm";
 import bcrypt from "bcrypt";

@@ -13,6 +13,5 @@
       "sourceMap": true,
       "esModuleInterop": true,
       "strict": false,
-      "typeRoots": ["./src/types/*/*"]
    }
 }

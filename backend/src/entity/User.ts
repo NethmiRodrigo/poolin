@@ -6,15 +6,15 @@ import {
   BaseEntity,
   Index,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 
-export enum Gender { 
-  MALE = 'male',
-  FEMALE = 'female',
-  UNKNOWN = 'unknown'
-};
+export enum Gender {
+  MALE = "male",
+  FEMALE = "female",
+  UNKNOWN = "unknown",
+}
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -33,7 +33,7 @@ export class User extends BaseEntity {
   email: string;
 
   @Index()
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   mobile: string;
 
   @Index()
@@ -47,9 +47,9 @@ export class User extends BaseEntity {
   lastname: string;
 
   @Column({
-    type: 'enum',
+    type: "enum",
     enum: Gender,
-    default: Gender.UNKNOWN
+    default: Gender.UNKNOWN,
   })
   gender: Gender;
 
