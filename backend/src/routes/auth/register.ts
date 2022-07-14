@@ -50,9 +50,7 @@ export const verifyCredentials = async (req: Request, res: Response) => {
   }).save();
 
   // send OTP via Email (valid for 15 mins)
-  const result = await emailOTPAtSignup(email);
-  if (!result.accepted.length && !result.accepted.includes(email))
-    throw new Error("Email could not be send. Please try again");
+  await emailOTPAtSignup(email);
 
   return res.status(200).json({ success: "OTP sent via email", email });
 };
@@ -66,9 +64,7 @@ export const resendEmailOTP = async (req: Request, res: Response) => {
   if (!isEmpty(email) && !isEmail(email))
     throw new AppError(400, {}, "Invalid email");
 
-  const result = await emailOTPAtSignup(email);
-  if (!result.accepted.length && !result.accepted.includes(email))
-    throw new Error("Email could not be send. Please try again");
+  await emailOTPAtSignup(email);
 
   return res.status(200).json({ success: "OTP re-sent via email", email });
 };

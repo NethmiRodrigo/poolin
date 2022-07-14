@@ -5,7 +5,7 @@ import cookie from "cookie";
 import jwt from "jsonwebtoken";
 
 /** Utility functions */
-import { getMailer } from "../util/mailer";
+import { getMailer, sendPlainMail } from "../util/mailer";
 import codeHandler from "./code-handler";
 import { AppError } from "./error-handler";
 import { sendSMS } from "../util/sms-api";
@@ -146,10 +146,10 @@ export const emailOTPAtSignup = async (email: string) => {
   };
 
   // send otp
-  const result = await mailer.sendMail(mailOptions);
+  const result = await sendPlainMail(mailOptions);
 
-  if (process.env.NODE_ENV === "development")
-    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+  if (!result || (!result.accepted.length && !result.accepted.includes(email)))
+    throw new Error("Email could not be send. Please try again");
 
   return result;
 };

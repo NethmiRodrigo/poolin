@@ -51,9 +51,6 @@ export const sendResetPasswordEmail = async (req: Request, res: Response) => {
   if (!result || (!result.accepted.length && !result.accepted.includes(email)))
     throw new Error("Email could not be send. Please try again");
 
-  if (process.env.NODE_ENV !== "production")
-    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
-
   return res.status(200).json({ success: "Email sent successfully" });
 };
 
