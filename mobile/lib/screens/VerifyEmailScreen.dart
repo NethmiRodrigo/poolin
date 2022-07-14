@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/OTPFields.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:http/http.dart';
 import 'package:mobile/screens/ResetPasswordScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile/services/reset_password_service.dart';
+import 'package:mobile/custom/LinkService.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
@@ -15,6 +19,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
+  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -64,23 +69,45 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 addVerticalSpace(56),
                 WideButton(
                   text: 'Verify Email',
-                  onPressedAction: () {
+                  onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ResetPasswordScreen()),
-                      );
+                      String? email = await _storage.read(key: 'KEY_EMAIL');
+                      Response response =
+                          await checkEmailOTP(currentText, email);
+                      if (response.statusCode == 200) {
+                        await _storage.write(key: 'otp', value: currentText);
+                        if (!mounted) {
+                          return;
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ResetPasswordScreen()),
+                        );
+                      } else {
+                        print(response.body);
+                      }
                     }
                   },
                 ),
                 addVerticalSpace(16),
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Text(
-                    "Didn't receive a code? Try Again",
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.left,
+                  child: LinkService(
+                    text: "Didn't receive a code? Try Again",
+                    onPressedAction: () async {
+                      String? email = await _storage.read(key: 'KEY_EMAIL');
+                      Response response = await ResendOTP(email);
+                      if (response.statusCode == 200) {
+                        if (!mounted) {
+                          return;
+                        }
+                      } else {
+                        print(response.body);
+                      }
+                    },
                   ),
                 ),
               ],

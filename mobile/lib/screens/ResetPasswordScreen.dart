@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/services/register_service.dart';
+import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/ForgotPasswordScreen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -20,6 +20,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  final _storage = const FlutterSecureStorage();
 
   @override
   void dispose() {
@@ -112,17 +113,30 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     addVerticalSpace(40),
                     WideButton(
-                        text: 'Reset password',
-                        onPressedAction: () async {
-                          if (_formKey.currentState!.validate()) {
+                      text: 'Verify Email',
+                      onPressedAction: () async {
+                        if (_formKey.currentState!.validate()) {
+                          String? email = await _storage.read(key: 'KEY_EMAIL');
+                          String? otp = await _storage.read(key: 'otp');
+                          Response response = await ResetPassword(
+                              email, _pass.text, _confirmPass.text, otp);
+                          if (response.statusCode == 200) {
+                            if (!mounted) {
+                              return;
+                            }
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const ForgotPasswordScreen()),
+                                      const ResetPasswordScreen()),
                             );
+                          } else {
+                            print(response.body);
                           }
-                        }),
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

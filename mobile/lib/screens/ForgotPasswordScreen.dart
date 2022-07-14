@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/services/register_service.dart';
+import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailSentScreen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -19,6 +20,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
+  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +83,28 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                         text: 'Send Code',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EmailSentScreen()),
-                            );
+                            Response response =
+                                await ForgotPasswordSubmitEmail(_email.text);
+
+                            if (response.statusCode == 200) {
+                              await _storage.write(
+                                  key: 'KEY_EMAIL', value: _email.text);
+
+                              if (!mounted) {
+                                return;
+                              }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EmailSentScreen()),
+                              );
+                            } else {
+                              const snackBar = SnackBar(
+                                content: Text('invalid email'),
+                              );
+                            }
                           }
                         }),
                     addVerticalSpace(16),
