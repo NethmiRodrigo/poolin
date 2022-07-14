@@ -66,7 +66,6 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
-                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
@@ -92,9 +91,7 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                                 builder: (context) =>
                                     const PhoneNumberScreen()),
                           );
-                        } else {
-                          print(response.body);
-                        }
+                        } else {}
                       }
                     })
               ],

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -83,6 +84,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Email is required';
                         }
+                        if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value) ||
+                            !(value.endsWith("cmb.ac.lk"))) {
+                          return 'Invalid email format';
+                        }
 
                         return null;
                       },
@@ -155,16 +161,20 @@ class RegisterScreenState extends State<RegisterScreen> {
                                     builder: (context) =>
                                         const EmailOTPScreen()),
                               );
-                            } else {
-                              print(response.body);
-                            }
+                            } else {}
                           }
                         }),
                     addVerticalSpace(16),
-                    Text(
-                      'Already have an account? Log in',
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.left,
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Already have an account? ',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Login',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                      ]),
                     ),
                   ],
                 ),

@@ -99,7 +99,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     text: "Didn't receive a code? Try Again",
                     onPressedAction: () async {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
-                      Response response = await ResendOTP(email);
+                      Response response = await ResendOTP(email!);
                       if (response.statusCode == 200) {
                         if (!mounted) {
                           return;

@@ -6,7 +6,7 @@ import { User } from "./entity/User";
 import { TempUser } from "./entity/TempUser";
 import { EmailFormat } from "./entity/EmailFormat";
 
-dotenv.config({ path: "./src/.env" });
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -66,7 +67,6 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
-                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
@@ -79,8 +79,9 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                   onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
+                      String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
-                          await checkEmailOTP(currentText, email);
+                          await checkSMSOTP(currentText, mobile, email);
                       if (response.statusCode == 200) {
                         if (!mounted) {
                           return;
@@ -92,21 +93,27 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                               builder: (context) =>
                                   const PersonalDetailsScreen()),
                         );
-                      } else {
-                        print(response.body);
-                      }
+                      } else {}
                     }
                   },
                 ),
                 addVerticalSpace(16),
                 Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Didn’t receive a code? Try Again',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "Didn't receive a code? ",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Try again',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pop(context);
+                              }),
+                      ]),
+                    )),
               ],
             ),
           ),

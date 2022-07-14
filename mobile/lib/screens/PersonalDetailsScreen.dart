@@ -161,10 +161,8 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                               return;
                             }
                             //replace this with navigation to home page
-                            print('You made it to the end!');
-                          } else {
-                            print(response.body);
-                          }
+
+                          } else {}
                         }
                       },
                     )

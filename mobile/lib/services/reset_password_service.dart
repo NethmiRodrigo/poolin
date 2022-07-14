@@ -40,7 +40,7 @@ Future<http.Response> checkEmailOTP(String otp, email) async {
   return response;
 }
 
-Future<http.Response> ResendOTP(email) async {
+Future<http.Response> ResendOTP(String email) async {
   Map data = {
     'email': email,
   };
