@@ -1,8 +1,8 @@
 import request from "supertest";
 import bcrypt from "bcrypt";
-import app from "../app";
-import { User } from "../entity/User";
-import TestConnection from "./util/connection";
+import app from "../../app";
+import { User } from "../../entity/User";
+import TestConnection from "../util/connection";
 
 const API_URL: string = "/api/auth/send-reset-password-email";
 let connection: TestConnection;

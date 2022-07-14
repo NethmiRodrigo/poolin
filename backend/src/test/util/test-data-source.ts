@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { EmailFormat } from "../../entity/EmailFormat";
 import { ForgotPassword } from "../../entity/ForgotPassword";
+import { TempUser } from "../../entity/TempUser";
 import { User } from "../../entity/User";
 
 export const TestAppDataSource = new DataSource({
@@ -12,7 +14,7 @@ export const TestAppDataSource = new DataSource({
   database: "poolin-test",
   synchronize: true,
   logging: false,
-  entities: [User, ForgotPassword],
+  entities: [User, ForgotPassword, EmailFormat, TempUser],
   migrations: [],
   subscribers: [],
 });
