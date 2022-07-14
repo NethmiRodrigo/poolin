@@ -67,7 +67,6 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
-                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
@@ -80,8 +79,9 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                   onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
+                      String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
-                          await checkEmailOTP(currentText, email);
+                          await checkSMSOTP(currentText, mobile, email);
                       if (response.statusCode == 200) {
                         if (!mounted) {
                           return;

@@ -96,6 +96,8 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                         Response response =
                             await submitPhoneNumber(currentNumber, email);
                         if (response.statusCode == 200) {
+                          await _storage.write(
+                              key: 'KEY_MOBILE', value: currentNumber);
                           if (!mounted) {
                             return;
                           }
