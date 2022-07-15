@@ -9,6 +9,7 @@ import cors from "cors";
 
 /** Routes */
 import authRoutes from "./routes/auth/index";
+import userRoutes from "./routes/user";
 
 /** Middleware */
 import trim from "./middleware/trim";
@@ -27,6 +28,7 @@ app.use(cookieParser());
 /** API Routes */
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 // Upstream error handling
 if (process.env.NODE_ENV === "development") app.use(errorLogger);
