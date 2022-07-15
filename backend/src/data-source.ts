@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
-import { ForgotPassword } from "./entity/ForgotPassword";
-import { User } from "./entity/User";
-import { TempUser } from "./entity/TempUser";
-import { EmailFormat } from "./entity/EmailFormat";
+import { ForgotPassword } from "./database/entity/ForgotPassword";
+import { User } from "./database/entity/User";
+import { TempUser } from "./database/entity/TempUser";
+import { EmailFormat } from "./database/entity/EmailFormat";
 
-dotenv.config({ path: "./src/.env" });
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -18,6 +18,6 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [User, ForgotPassword, EmailFormat, TempUser],
-  migrations: [],
+  migrations: ["./src/database/migration"],
   subscribers: [],
 });

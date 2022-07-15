@@ -1,6 +1,10 @@
 import nodemailer, { TestAccount, Transporter } from "nodemailer";
 import SMTPConnection from "nodemailer/lib/smtp-connection";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import { MailOptions } from "nodemailer/lib/json-transport";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const config: SMTPTransport.Options = {
   host: process.env.EMAIL_HOST,
@@ -25,8 +29,9 @@ const createTestMail = async () => {
  * @returns Transporter
  */
 const createMailer = async () => {
-  if (process.env.NODE_ENV === "development") {
+  if (!process.env.EMAIL_USER) {
     let emailAccount: TestAccount = await createTestMail();
+    console.log(emailAccount);
     const auth: SMTPConnection.Credentials = {
       user: emailAccount.user,
       pass: emailAccount.pass,
@@ -52,26 +57,16 @@ export const getMailer = async () => {
  * @param subject - The email subject
  * @param body - The text to be sent in the email body
  */
-export const sendPlainMail = async (
-  from: string,
-  to: string,
-  subject: string,
-  body: string
-) => {
+export const sendPlainMail = async (mailOptions: MailOptions): Promise<any> => {
   const mailer = await getMailer();
   let result: any;
-  mailer.sendMail(
-    {
-      from,
-      to,
-      subject,
-      text: body,
-    },
-    (err: Error, info: any) => {
-      if (err) throw new Error(err.message);
-      result = info;
-      console.log(result);
-      return result;
-    }
-  );
+  return new Promise((resolve, reject) => {
+    mailer.sendMail(mailOptions, (err: Error, info: any) => {
+      if (err) reject(err);
+      else {
+        result = info;
+        resolve(result);
+      }
+    });
+  });
 };

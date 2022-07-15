@@ -84,7 +84,6 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                     initialCountryCode: 'LK',
                     onChanged: (phone) {
                       currentNumber = phone.completeNumber;
-                      print(phone.completeNumber);
                     },
                   ),
                 ),
@@ -97,6 +96,8 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                         Response response =
                             await submitPhoneNumber(currentNumber, email);
                         if (response.statusCode == 200) {
+                          await _storage.write(
+                              key: 'KEY_MOBILE', value: currentNumber);
                           if (!mounted) {
                             return;
                           }
@@ -106,9 +107,7 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                             MaterialPageRoute(
                                 builder: (context) => const PhoneOTPScreen()),
                           );
-                        } else {
-                          print(response.body);
-                        }
+                        } else {}
                       }
                     }),
                 addVerticalSpace(16),
