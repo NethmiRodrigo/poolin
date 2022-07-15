@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mobile/utils/widget_functions.dart';
 
 class EditPersonalDetailsScreen extends StatefulWidget {
   const EditPersonalDetailsScreen({super.key});
@@ -14,9 +15,14 @@ class EditPersonalDetailsScreen extends StatefulWidget {
 class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    const double padding = 16;
+    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // TODO: implement build
     return Scaffold(
-        body: SafeArea(
+        body: SizedBox(
+      width: size.width,
+      height: size.height,
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -24,19 +30,21 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
         child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              addVerticalSpace(48),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(20.0),
+                padding: sidePadding,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.close,
                       color: Colors.black,
                     ),
-                    SizedBox(
-                      width: 16,
-                    ),
+                    // SizedBox(
+                    //   width: 16,
+                    // ),
+                    addHorizontalSpace(16),
                     Text(
                       'Personal Information',
                       // style: TextStyle(color: Colors.black87, fontSize: 25),
@@ -51,6 +59,7 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                   ],
                 ),
               ),
+              addVerticalSpace(48),
               Container(
                 child: Column(children: [
                   Padding(
@@ -64,22 +73,22 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                   //   style: TextStyle(color: Colors.black87, fontSize: 16),
                   //   textAlign: TextAlign.center,
                   // ),
-                  Container(
-                    height: 20,
-                    width: 50,
-                  ),
+                  // Container(
+                  //   height: 20,
+                  //   width: 50,
+                  // ),
                   Container(
                     margin: EdgeInsets.only(
-                      right: 20,
-                      left: 20,
-                      bottom: 10,
+                      right: 16,
+                      left: 16,
+                      // bottom: 10,
                     ),
                     child: Column(children: [
-                      Padding(
-                          padding: EdgeInsets.only(
-                        right: 35,
-                        left: 35,
-                      )),
+                      // Padding(
+                      //     padding: EdgeInsets.only(
+                      //   right: 35,
+                      //   left: 35,
+                      // )),
                       Form(
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,9 +101,10 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                                 .merge(const TextStyle(color: Colors.black)),
                             textAlign: TextAlign.left,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                          // SizedBox(
+                          //   height: 4,
+                          // ),
+                          addVerticalSpace(4),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
@@ -119,9 +129,11 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                               return null;
                             },
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
+
+                          // SizedBox(
+                          //   height: 8,
+                          // ),
+                          addVerticalSpace(8),
                           Text(
                             'Phone Number',
                             style: Theme.of(context)
@@ -130,9 +142,10 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                                 .merge(const TextStyle(color: Colors.black)),
                             textAlign: TextAlign.left,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                          // SizedBox(
+                          //   height: 4,
+                          // ),
+                          addVerticalSpace(4),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
@@ -169,9 +182,11 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           //         color: Colors.black,
                           //       )),
                           // ),
-                          SizedBox(
-                            height: 8,
-                          ),
+                          /////////////////////////
+                          // SizedBox(
+                          //   height: 8,
+                          // ),
+                          addVerticalSpace(8),
                           Text(
                             'Occupation Status',
                             style: Theme.of(context)
@@ -180,9 +195,10 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                                 .merge(const TextStyle(color: Colors.black)),
                             textAlign: TextAlign.left,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                          // SizedBox(
+                          //   height: 4,
+                          // ),
+                          addVerticalSpace(4),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
@@ -212,12 +228,14 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           ),
                         ],
                       )),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
+                      // SizedBox(
+                      //   height: 16,
+                      // ),
+                      // addVerticalSpace(16),
+                      // SizedBox(
+                      //   height: 40,
+                      // ),
+                      // addVerticalSpace(40),
                     ]),
                   ),
                 ]),

@@ -28,7 +28,7 @@ class EditGenderScreenState extends State<EditGenderScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    const double padding = 4;
+    const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
       body: SizedBox(
@@ -37,22 +37,20 @@ class EditGenderScreenState extends State<EditGenderScreen> {
         child: Padding(
           padding: sidePadding,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              addVerticalSpace(24),
+              addVerticalSpace(48),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16.0),
+                padding: sidePadding,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.close,
                       color: Colors.black,
                     ),
-                    SizedBox(
-                      width: 16,
-                    ),
+                    addHorizontalSpace(16),
                     Text(
                       'Change Gender',
                       style: Theme.of(context).textTheme.headline3!.merge(
@@ -66,7 +64,7 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                   ],
                 ),
               ),
-              addVerticalSpace(32),
+              addVerticalSpace(72),
               Form(
                 key: _formKey,
                 child: Column(

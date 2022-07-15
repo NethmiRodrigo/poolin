@@ -45,21 +45,19 @@ class ChangePasswordScreenScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(20),
-              addVerticalSpace(20),
+              addVerticalSpace(48),
               Container(
-                // width: double.infinity,
-                // padding: EdgeInsets.all(16.0),
+                width: double.infinity,
+                padding: sidePadding,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.close,
                       color: Colors.black,
                     ),
-                    SizedBox(
-                      width: 16,
-                    ),
+                    //////
+                    addHorizontalSpace(16),
                     Text(
                       'Change Password',
                       style: Theme.of(context).textTheme.headline3!.merge(

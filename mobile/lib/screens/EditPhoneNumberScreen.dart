@@ -42,9 +42,7 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                         Icons.close,
                         color: Colors.black,
                       ),
-                      SizedBox(
-                        width: 16,
-                      ),
+                      addHorizontalSpace(16),
                       Text(
                         'Edit Phone Number',
                         style: Theme.of(context).textTheme.headline3!.merge(

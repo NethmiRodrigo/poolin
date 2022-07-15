@@ -39,9 +39,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       Icons.close,
                       color: Colors.black,
                     ),
-                    SizedBox(
-                      width: 16,
-                    ),
+                    addHorizontalSpace(16),
                     Text(
                       'Edit Profile',
                       style: Theme.of(context).textTheme.headline3!.merge(
@@ -55,9 +53,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 16,
-              ),
+              addVerticalSpace(16),
               Center(
                 child: Stack(
                   children: [
@@ -138,9 +134,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       //   right: 35,
                       //   left: 35,
                       // )),
-                      SizedBox(
-                        height: 4,
-                      ),
+                      addVerticalSpace(4),
                       Form(
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
