@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/LoginScreen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
@@ -173,7 +174,15 @@ class RegisterScreenState extends State<RegisterScreen> {
                         TextSpan(
                             text: 'Login',
                             style: Theme.of(context).textTheme.subtitle1,
-                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LoginScreen()),
+                                );
+                              }),
                       ]),
                     ),
                   ],
