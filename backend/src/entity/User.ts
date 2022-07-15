@@ -1,4 +1,4 @@
-import { IsEmail, Length } from "class-validator";
+import { IsEmail } from "class-validator";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,10 +7,14 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
-  BeforeInsert,
 } from "typeorm";
-import bcrypt from "bcrypt";
-import { Exclude, instanceToPlain } from "class-transformer";
+import { Exclude } from "class-transformer";
+
+export enum Gender {
+  MALE = "male",
+  FEMALE = "female",
+  UNKNOWN = "unknown",
+}
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -28,27 +32,31 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: true })
-  @Exclude()
-  fName: string;
-
-  @Column({ nullable: false })
-  @Exclude()
-  lName: string;
-
-  @Column({ nullable: false })
-  @Exclude()
-  gender: string;
-
-  @Column()
-  @Length(8, 255, { message: "Password must be atleast 8 characters" })
-  password: string;
-
-  @Column({nullable: false})
-  @Exclude()
+  @Index()
+  @Column({ unique: true, nullable: true })
   mobile: string;
 
-  @Column({nullable: false})
+  @Index()
+  @Column({ nullable: true })
+  @Exclude()
+  firstname: string;
+
+  @Index()
+  @Column({ nullable: true })
+  @Exclude()
+  lastname: string;
+
+  @Column({
+    type: "enum",
+    enum: Gender,
+    default: Gender.UNKNOWN,
+  })
+  gender: Gender;
+
+  @Column()
+  password: string;
+
+  @Column({nullable: true})
   @Exclude()
   occupation: string;
 
@@ -61,13 +69,4 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 8);
-  }
-
-  toJSON() {
-    return instanceToPlain(this);
-  }
 }
