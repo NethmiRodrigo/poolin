@@ -1,6 +1,5 @@
 import app from "./app";
 import { AppDataSource } from "./data-source";
-import { EmailFormat } from "./entity/EmailFormat";
 
 app.listen(process.env.PORT, async () => {
   console.log(`
