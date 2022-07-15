@@ -80,7 +80,7 @@ export const verifyResetPasswordOTP = async (req: Request, res: Response) => {
   if (forgotPasswordEntity.used)
     throw new AppError(400, {}, "OTP is invalid. Please try again");
 
-  if (checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
+  if (!checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
     throw new AppError(
       400,
       {},
@@ -115,7 +115,7 @@ export const resetPassword = async (req: Request, res: Response) => {
   if (!forgotPasswordEntity.used)
     throw new AppError(400, {}, "OTP has not being verified");
 
-  if (checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
+  if (!checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
     throw new AppError(400, {}, "Password reset request has expired");
 
   const user = await User.findOneBy({ email });

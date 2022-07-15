@@ -169,6 +169,7 @@ export const createUserToken = async (response: Response, user: object) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
+      path: "/",
     })
   );
 
