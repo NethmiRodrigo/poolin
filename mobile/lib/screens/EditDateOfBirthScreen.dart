@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class EditDateOfBirthScreen extends StatefulWidget {
   const EditDateOfBirthScreen({super.key});

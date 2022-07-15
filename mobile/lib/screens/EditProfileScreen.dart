@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/utils/widget_functions.dart';
 // import 'package:flutter/src/foundation/key.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 
@@ -14,6 +15,9 @@ class EditProfileScreen extends StatefulWidget {
 class EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    const double padding = 16;
+    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // TODO: implement build
     return Scaffold(
         body: SafeArea(
@@ -24,11 +28,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              addVerticalSpace(48),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16.0),
+                padding: sidePadding,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.close,
@@ -79,25 +84,25 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                       ),
                     ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                width: 2,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                            color: Color.fromARGB(255, 230, 124, 25),
-                          ),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        ))
+                    // Positioned(
+                    //     bottom: 0,
+                    //     right: 0,
+                    //     child: Container(
+                    //       height: 40,
+                    //       width: 40,
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         border: Border.all(
+                    //             width: 2,
+                    //             color:
+                    //                 Theme.of(context).scaffoldBackgroundColor),
+                    //         color: Color.fromARGB(255, 230, 124, 25),
+                    //       ),
+                    //       child: Icon(
+                    //         Icons.edit,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ))
                   ],
                 ),
               ),
@@ -144,13 +149,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             'Full Name',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyText2!
                                 .merge(const TextStyle(color: Colors.black)),
                             textAlign: TextAlign.left,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                          addVerticalSpace(8),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
@@ -175,20 +178,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               return null;
                             },
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
+                          addVerticalSpace(16),
                           Text(
                             'Bio',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyText2!
                                 .merge(const TextStyle(color: Colors.black)),
                             textAlign: TextAlign.left,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                          addVerticalSpace(8),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
@@ -225,20 +224,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           //         color: Colors.black,
                           //       )),
                           // ),
-                          SizedBox(
-                            height: 8,
-                          ),
+                          addVerticalSpace(16),
                           Text(
                             'Occupation Status',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyText2!
                                 .merge(const TextStyle(color: Colors.black)),
                             textAlign: TextAlign.left,
                           ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                          addVerticalSpace(8),
                           TextFormField(
                             style: Theme.of(context)
                                 .textTheme
@@ -269,9 +264,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       )),
 
-                      SizedBox(
-                        height: 24,
-                      ),
+                      addVerticalSpace(24),
                       Row(
                         children: [
                           Text(
@@ -284,9 +277,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 32,
-                      ),
+                      addVerticalSpace(32),
                       Row(
                         children: [
                           Text(
@@ -299,9 +290,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 32,
-                      ),
+                      addVerticalSpace(32),
                       Row(
                         children: [
                           Text(

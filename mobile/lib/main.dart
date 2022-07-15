@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: EditPhoneNumberOTPScreen(),
+      home: EditProfileScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
