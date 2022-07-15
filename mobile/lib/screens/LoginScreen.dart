@@ -99,10 +99,11 @@ class LoginScreenState extends State<LoginScreen> {
                     addVerticalSpace(10),
                     Align(
                       alignment: Alignment.topRight,
-                      child: Text(
-                        'Forgot password?',
-                        style: Theme.of(context).textTheme.bodyText1,
-                        textAlign: TextAlign.left,
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Forgot password?',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()..onTap = () {}),
                       ),
                     ),
                     addVerticalSpace(40),
