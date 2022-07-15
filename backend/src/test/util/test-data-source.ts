@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { EmailFormat } from "../../entity/EmailFormat";
-import { ForgotPassword } from "../../entity/ForgotPassword";
-import { TempUser } from "../../entity/TempUser";
-import { User } from "../../entity/User";
+import { EmailFormat } from "../../database/entity/EmailFormat";
+import { ForgotPassword } from "../../database/entity/ForgotPassword";
+import { TempUser } from "../../database/entity/TempUser";
+import { User } from "../../database/entity/User";
 
 export const TestAppDataSource = new DataSource({
   type: "postgres",
