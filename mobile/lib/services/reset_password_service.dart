@@ -69,7 +69,7 @@ Future<http.Response> ResetPassword(email, pass, conpass, otp) async {
   };
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5001/api/auth/verify-credentials');
+  var url = Uri.parse('http://localhost:5000/api/auth/reset-password');
   var response = await http.post(
     url,
     body: body,

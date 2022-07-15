@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/OTPFields.dart';
 import 'package:mobile/custom/WideButton.dart';
@@ -95,19 +96,29 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 addVerticalSpace(16),
                 Align(
                   alignment: Alignment.topLeft,
-                  child: LinkService(
-                    text: "Didn't receive a code? Try Again",
-                    onPressedAction: () async {
-                      String? email = await _storage.read(key: 'KEY_EMAIL');
-                      Response response = await ResendOTP(email!);
-                      if (response.statusCode == 200) {
-                        if (!mounted) {
-                          return;
-                        }
-                      } else {
-                        print(response.body);
-                      }
-                    },
+                  child: RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: "Didn't receive a code? ",
+                          style: Theme.of(context).textTheme.bodyText1),
+                      TextSpan(
+                          text: 'Try Again',
+                          style: Theme.of(context).textTheme.subtitle1,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              String? email =
+                                  await _storage.read(key: 'KEY_EMAIL');
+                              Response response =
+                                  await ForgotPasswordSubmitEmail(email!);
+                              if (response.statusCode == 200) {
+                                if (!mounted) {
+                                  return;
+                                }
+                              } else {
+                                print(response.body);
+                              }
+                            }),
+                    ]),
                   ),
                 ),
               ],

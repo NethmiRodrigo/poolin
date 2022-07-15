@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/LoginScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/VerifyEmailScreen.dart';
 
@@ -62,10 +64,23 @@ class EmailSentScreenState extends State<EmailSentScreen> {
                 addVerticalSpace(16),
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Text(
-                    'Return to Sign in',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.left,
+                  child: RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: 'Return to ',
+                          style: Theme.of(context).textTheme.bodyText1),
+                      TextSpan(
+                          text: 'Sign in',
+                          style: Theme.of(context).textTheme.subtitle1,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()),
+                              );
+                            }),
+                    ]),
                   ),
                 ),
               ],

@@ -1,8 +1,10 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/LoginScreen.dart';
 import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailSentScreen.dart';
@@ -101,6 +103,7 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                                         const EmailSentScreen()),
                               );
                             } else {
+                              print(response.body);
                               const snackBar = SnackBar(
                                 content: Text('invalid email'),
                               );
@@ -108,10 +111,24 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                           }
                         }),
                     addVerticalSpace(16),
-                    Text(
-                      'Return to Sign in',
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.left,
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Return to ',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Sign in',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LoginScreen()),
+                                );
+                              }),
+                      ]),
                     ),
                   ],
                 ),
