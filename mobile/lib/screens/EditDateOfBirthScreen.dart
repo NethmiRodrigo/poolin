@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class EditDateOfBirthScreen extends StatefulWidget {
   const EditDateOfBirthScreen({super.key});
@@ -54,6 +55,7 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                 ),
               ),
               addVerticalSpace(32),
+              SfDateRangePicker()
             ],
           ),
         ),
