@@ -21,7 +21,7 @@ import {
 
 const router = Router();
 router.post("/login", login);
-router.post("/me", auth, getLoggedInUser);
+router.get("/me", auth, getLoggedInUser);
 router.post("/logout", auth, logout);
 
 /** Reset password routes */

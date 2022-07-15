@@ -1,8 +1,8 @@
 import request from "supertest";
 import bcrypt from "bcrypt";
-import app from "../app";
-import { User } from "../entity/User";
-import TestConnection from "./util/connection";
+import app from "../../app";
+import { User } from "../../database/entity/User";
+import TestConnection from "../util/connection";
 
 let connection: TestConnection;
 

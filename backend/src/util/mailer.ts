@@ -29,8 +29,9 @@ const createTestMail = async () => {
  * @returns Transporter
  */
 const createMailer = async () => {
-  if (process.env.NODE_ENV !== "production") {
+  if (!process.env.EMAIL_USER) {
     let emailAccount: TestAccount = await createTestMail();
+    console.log(emailAccount);
     const auth: SMTPConnection.Credentials = {
       user: emailAccount.user,
       pass: emailAccount.pass,

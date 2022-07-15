@@ -11,8 +11,8 @@ import codeHandler from "../../util/code-handler";
 import { checkIfDateIsExpired } from "../../util/date-checker";
 
 /** Entities */
-import { User } from "../../entity/User";
-import { ForgotPassword } from "../../entity/ForgotPassword";
+import { User } from "../../database/entity/User";
+import { ForgotPassword } from "../../database/entity/ForgotPassword";
 
 /**
  * API Route to send the reset password OTP
@@ -51,9 +51,6 @@ export const sendResetPasswordEmail = async (req: Request, res: Response) => {
   if (!result || (!result.accepted.length && !result.accepted.includes(email)))
     throw new Error("Email could not be send. Please try again");
 
-  if (process.env.NODE_ENV !== "production")
-    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
-
   return res.status(200).json({ success: "Email sent successfully" });
 };
 
@@ -83,7 +80,7 @@ export const verifyResetPasswordOTP = async (req: Request, res: Response) => {
   if (forgotPasswordEntity.used)
     throw new AppError(400, {}, "OTP is invalid. Please try again");
 
-  if (checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
+  if (!checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
     throw new AppError(
       400,
       {},
@@ -93,7 +90,7 @@ export const verifyResetPasswordOTP = async (req: Request, res: Response) => {
   forgotPasswordEntity.used = true;
   await forgotPasswordEntity.save();
 
-  return res.status(200).json({ success: "OTP verified successfully" });
+  return res.status(200).json({ success: "OTP verified successfully", otp });
 };
 
 /**
@@ -118,7 +115,7 @@ export const resetPassword = async (req: Request, res: Response) => {
   if (!forgotPasswordEntity.used)
     throw new AppError(400, {}, "OTP has not being verified");
 
-  if (checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
+  if (!checkIfDateIsExpired(forgotPasswordEntity.expiresAt))
     throw new AppError(400, {}, "Password reset request has expired");
 
   const user = await User.findOneBy({ email });

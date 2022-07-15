@@ -13,8 +13,8 @@ import {
 } from "../../util/auth-helper";
 
 /** Entities */
-import { User } from "../../entity/User";
-import { TempUser, VerificationStatus } from "../../entity/TempUser";
+import { User } from "../../database/entity/User";
+import { TempUser, VerificationStatus } from "../../database/entity/TempUser";
 
 /**
  * API route to verify new user's credentials
@@ -43,6 +43,9 @@ export const verifyCredentials = async (req: Request, res: Response) => {
   // check if email belongs to any supported domain
   if (!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
 
+  const tempUser = await TempUser.findOneBy({ email });
+  if (tempUser) throw new AppError(401, {}, "Signup details already verified");
+
   // save user credentials in temporary entity
   await TempUser.create({
     email: email,
@@ -50,11 +53,9 @@ export const verifyCredentials = async (req: Request, res: Response) => {
   }).save();
 
   // send OTP via Email (valid for 15 mins)
-  const result = await emailOTPAtSignup(email);
-  if (!result.accepted.length && !result.accepted.includes(email))
-    throw new Error("Email could not be send. Please try again");
+  const { otp } = await emailOTPAtSignup(email);
 
-  return res.status(200).json({ success: "OTP sent via email", email });
+  return res.status(200).json({ success: "OTP sent via email", email, otp });
 };
 
 /**
@@ -66,11 +67,9 @@ export const resendEmailOTP = async (req: Request, res: Response) => {
   if (!isEmpty(email) && !isEmail(email))
     throw new AppError(400, {}, "Invalid email");
 
-  const result = await emailOTPAtSignup(email);
-  if (!result.accepted.length && !result.accepted.includes(email))
-    throw new Error("Email could not be send. Please try again");
+  const { otp } = await emailOTPAtSignup(email);
 
-  return res.status(200).json({ success: "OTP re-sent via email", email });
+  return res.status(200).json({ success: "OTP re-sent via email", email, otp });
 };
 
 /**
@@ -126,11 +125,11 @@ export const verifyMobileNumber = async (req: Request, res: Response) => {
   const user = await User.findOneBy({ mobile });
   if (user) throw new AppError(401, { error: "Mobile already registered" });
 
-  const result = await smsOTPAtSignup(mobile, email);
+  const { result, otp } = await smsOTPAtSignup(mobile, email);
   if (!result)
     throw new AppError(400, {}, "Couldn't send OTP. Please try again");
 
-  return res.status(200).json({ success: "OTP sent via SMS" });
+  return res.status(200).json({ success: "OTP sent via SMS", otp });
 };
 
 /**

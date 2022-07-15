@@ -5,16 +5,16 @@ import cookie from "cookie";
 import jwt from "jsonwebtoken";
 
 /** Utility functions */
-import { getMailer } from "../util/mailer";
+import { getMailer, sendPlainMail } from "../util/mailer";
 import codeHandler from "./code-handler";
 import { AppError } from "./error-handler";
 import { sendSMS } from "../util/sms-api";
 
 /** Entities */
-import { TempUser, VerificationStatus } from "../entity/TempUser";
-import { EmailFormat } from "../entity/EmailFormat";
+import { TempUser, VerificationStatus } from "../database/entity/TempUser";
+import { EmailFormat } from "../database/entity/EmailFormat";
 import { Response } from "express";
-import { User } from "../entity/User";
+import { User } from "../database/entity/User";
 
 /**
  * @description - This function removes the user from TempUser entity and addds the user to the User entity
@@ -81,7 +81,7 @@ export const smsOTPAtSignup = async (mobile: string, email: string) => {
   const message = `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
 
   const result = await sendSMS(mobile, message);
-  return result;
+  return { otp, result };
 };
 
 /**
@@ -146,12 +146,12 @@ export const emailOTPAtSignup = async (email: string) => {
   };
 
   // send otp
-  const result = await mailer.sendMail(mailOptions);
+  const result = await sendPlainMail(mailOptions);
 
-  if (process.env.NODE_ENV === "development")
-    console.log("✔ Preview URL: %s", nodemailer.getTestMessageUrl(result));
+  if (!result || (!result.accepted.length && !result.accepted.includes(email)))
+    throw new Error("Email could not be send. Please try again");
 
-  return result;
+  return { result, otp };
 };
 
 /**
@@ -169,6 +169,7 @@ export const createUserToken = async (response: Response, user: object) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
+      path: "/",
     })
   );
 
