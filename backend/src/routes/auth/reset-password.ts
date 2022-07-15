@@ -11,8 +11,8 @@ import codeHandler from "../../util/code-handler";
 import { checkIfDateIsExpired } from "../../util/date-checker";
 
 /** Entities */
-import { User } from "../../entity/User";
-import { ForgotPassword } from "../../entity/ForgotPassword";
+import { User } from "../../database/entity/User";
+import { ForgotPassword } from "../../database/entity/ForgotPassword";
 
 /**
  * API Route to send the reset password OTP
@@ -90,7 +90,7 @@ export const verifyResetPasswordOTP = async (req: Request, res: Response) => {
   forgotPasswordEntity.used = true;
   await forgotPasswordEntity.save();
 
-  return res.status(200).json({ success: "OTP verified successfully" });
+  return res.status(200).json({ success: "OTP verified successfully", otp });
 };
 
 /**

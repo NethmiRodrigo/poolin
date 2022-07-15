@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import cookie from "cookie";
 
 /** Entities */
-import { User } from "../../entity/User";
+import { User } from "../../database/entity/User";
 
 /** Utility functions */
 import { AppError } from "../../util/error-handler";

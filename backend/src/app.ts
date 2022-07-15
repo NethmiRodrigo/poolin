@@ -10,6 +10,7 @@ import cors from "cors";
 /** Routes */
 import authRoutes from "./routes/auth/index";
 import userRoutes from "./routes/user";
+import adminRoutes from "./routes/admin/index";
 
 /** Middleware */
 import trim from "./middleware/trim";
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Upstream error handling
 if (process.env.NODE_ENV === "development") app.use(errorLogger);

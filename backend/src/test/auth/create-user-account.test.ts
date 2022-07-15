@@ -1,4 +1,4 @@
-import { TempUser, VerificationStatus } from "../../entity/TempUser";
+import { TempUser, VerificationStatus } from "../../database/entity/TempUser";
 import { createUserAccount } from "../../util/auth-helper";
 import codeHandler from "../../util/code-handler";
 import TestConnection from "../util/connection";
@@ -17,12 +17,12 @@ describe("Check if user account is created", () => {
   });
 
   it("Should create account when mobile and email is verified", async () => {
-    const email = codeHandler(4, true) + 'test000@stu.ucsc.lk';
+    const email = codeHandler(4, true) + "test000@stu.ucsc.lk";
     tempUser = await TempUser.create({
       email: email,
-      password: '2020Test@1234',
+      password: "2020Test@1234",
       emailStatus: VerificationStatus.VERIFIED,
-      mobileStatus: VerificationStatus.VERIFIED
+      mobileStatus: VerificationStatus.VERIFIED,
     }).save();
 
     const response = await createUserAccount(tempUser.id);
