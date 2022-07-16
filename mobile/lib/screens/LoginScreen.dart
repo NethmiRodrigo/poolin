@@ -123,9 +123,7 @@ class LoginScreenState extends State<LoginScreen> {
                                     builder: (context) =>
                                         const EmailOTPScreen()),
                               );
-                            } else {
-                              print("error " + response.body);
-                            }
+                            } else {}
                           }
                         }),
                     addVerticalSpace(16),

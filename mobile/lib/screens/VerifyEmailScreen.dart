@@ -108,8 +108,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             ..onTap = () async {
                               String? email =
                                   await _storage.read(key: 'KEY_EMAIL');
-                              Response response =
-                                  await ForgotPasswordSubmitEmail(email!);
+                              Response response = await submitEmail(email!);
                               if (response.statusCode == 200) {
                                 if (!mounted) {
                                   return;

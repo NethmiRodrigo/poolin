@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
@@ -118,7 +116,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         if (_formKey.currentState!.validate()) {
                           String? email = await _storage.read(key: 'KEY_EMAIL');
                           String? otp = await _storage.read(key: 'otp');
-                          Response response = await ResetPassword(
+                          Response response = await resetPassword(
                               email, _pass.text, _confirmPass.text, otp);
                           if (response.statusCode == 200) {
                             if (!mounted) {

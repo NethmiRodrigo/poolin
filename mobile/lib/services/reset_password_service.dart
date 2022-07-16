@@ -1,14 +1,16 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-Future<http.Response> ForgotPasswordSubmitEmail(String email) async {
+final baseURL = 'http://${dotenv.env['API_URL']}/api/auth/';
+
+Future<http.Response> submitEmail(String email) async {
   Map data = {
     'email': email,
   };
 
   String body = json.encode(data);
-  var url =
-      Uri.parse('http://localhost:5000/api/auth/send-reset-password-email');
+  var url = Uri.parse('$baseURL/send-reset-password-email');
   var response = await http.post(
     url,
     body: body,
@@ -27,7 +29,7 @@ Future<http.Response> checkEmailOTP(String otp, email) async {
   print(data);
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5000/api/auth/verify-password-otp');
+  var url = Uri.parse('$baseURL/verify-password-otp');
   var response = await http.post(
     url,
     body: body,
@@ -40,27 +42,7 @@ Future<http.Response> checkEmailOTP(String otp, email) async {
   return response;
 }
 
-Future<http.Response> ResendOTP(String email) async {
-  Map data = {
-    'email': email,
-  };
-
-  String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5000/api/auth/resend-email-otp');
-  var response = await http.post(
-    url,
-    body: body,
-    headers: {
-      "Content-Type": "application/json",
-      "accept": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    },
-  );
-
-  return response;
-}
-
-Future<http.Response> ResetPassword(email, pass, conpass, otp) async {
+Future<http.Response> resetPassword(email, pass, conpass, otp) async {
   Map data = {
     'email': email,
     'password': pass,
@@ -69,7 +51,7 @@ Future<http.Response> ResetPassword(email, pass, conpass, otp) async {
   };
 
   String body = json.encode(data);
-  var url = Uri.parse('http://localhost:5000/api/auth/reset-password');
+  var url = Uri.parse('$baseURL/reset-password');
   var response = await http.post(
     url,
     body: body,

@@ -85,8 +85,7 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                         text: 'Send Code',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
-                            Response response =
-                                await ForgotPasswordSubmitEmail(_email.text);
+                            Response response = await submitEmail(_email.text);
 
                             if (response.statusCode == 200) {
                               await _storage.write(
