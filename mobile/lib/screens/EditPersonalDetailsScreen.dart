@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:mobile/screens/EditDateOfBirthScreen.dart';
+import 'package:mobile/screens/EditGenderScreen.dart';
+import 'package:mobile/screens/EditPhoneNumberScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EditPersonalDetailsScreen extends StatefulWidget {
@@ -21,8 +24,8 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
     // TODO: implement build
     return Scaffold(
         body: SizedBox(
-      width: size.width,
-      height: size.height,
+      // width: size.width,
+      // height: size.height,
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -32,8 +35,8 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
             children: <Widget>[
               addVerticalSpace(48),
               Container(
-                width: double.infinity,
-                padding: sidePadding,
+                // width: double.infinity,
+                // padding: sidePadding,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -57,22 +60,19 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     Spacer(),
-                    // Icon(
-                    //   Icons.check,
-                    //   color: Colors.black,
-                    // ),
+                    
                   ],
                 ),
               ),
               addVerticalSpace(48),
               Container(
                 child: Column(children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          // top: 10,
-                          // right: 35,
-                          // left: 35,
-                          )),
+                  // Padding(
+                  //     padding: EdgeInsets.only(
+                  //         // top: 10,
+                  //         // right: 35,
+                  //         // left: 35,
+                  //         )),
                   // Text(
                   //   'Change Profile Photo',
                   //   style: TextStyle(color: Colors.black87, fontSize: 16),
@@ -111,6 +111,13 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           // ),
                           addVerticalSpace(4),
                           TextFormField(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditGenderScreen()));
+                            },
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -152,6 +159,13 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           // ),
                           addVerticalSpace(4),
                           TextFormField(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditPhoneNumberScreen()));
+                            },
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -193,7 +207,7 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           // ),
                           addVerticalSpace(8),
                           Text(
-                            'Occupation Status',
+                            'Date of Birth',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -205,6 +219,14 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           // ),
                           addVerticalSpace(4),
                           TextFormField(
+                            
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditDateOfBirthScreen()));
+                            },
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -218,7 +240,7 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                                   FloatingLabelBehavior.always,
                               // border: OutlineInputBorder(
                               //     borderRadius: BorderRadius.circular(4)),
-                              hintText: "Student",
+                              hintText: "09/06/1999",
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 16),

@@ -7,17 +7,17 @@ import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
 
-class ChangePasswordScreenScreen extends StatefulWidget {
-  const ChangePasswordScreenScreen({super.key});
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({super.key});
 
   @override
-  ChangePasswordScreenScreenState createState() {
-    return ChangePasswordScreenScreenState();
+  ChangePasswordScreenState createState() {
+    return ChangePasswordScreenState();
   }
 }
 
-class ChangePasswordScreenScreenState
-    extends State<ChangePasswordScreenScreen> {
+class ChangePasswordScreenState
+    extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
@@ -47,8 +47,8 @@ class ChangePasswordScreenScreenState
             children: [
               addVerticalSpace(48),
               Container(
-                width: double.infinity,
-                padding: sidePadding,
+                // width: double.infinity,
+                // padding: sidePadding,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[

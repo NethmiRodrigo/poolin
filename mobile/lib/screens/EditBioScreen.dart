@@ -19,17 +19,17 @@ class EditBioScreenState extends State<EditBioScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
       body: SizedBox(
-        width: size.width,
-        height: size.height,
+        // width: size.width,
+        // height: size.height,
         child: Padding(
           padding: sidePadding,
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(48),
               Container(
-                width: double.infinity,
-                padding: sidePadding,
+                // width: double.infinity,
+                // padding: sidePadding,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -57,11 +57,11 @@ class EditBioScreenState extends State<EditBioScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(
-                  right: 16,
-                  left: 16,
-                  // bottom: 64,
-                ),
+                // margin: EdgeInsets.only(
+                //   right: 4,
+                //   left: 4,
+                //   // bottom: 64,
+                // ),
                 child: Column(children: [
                   ////////////
                   // SizedBox(

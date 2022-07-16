@@ -13,6 +13,7 @@ import 'package:mobile/screens/EditDateOfBirthScreen.dart';
 import 'package:mobile/screens/testfile.dart';
 import 'package:mobile/screens/PhoneNumberScreen.dart';
 
+
 import './theme.dart';
 
 void main() {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: EditProfileScreen(),
+      home: EditPersonalDetailsScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -29,19 +29,25 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                addVerticalSpace(20),
+                addVerticalSpace(48),
 
                 Container(
-                  width: double.infinity,
+                  // width: double.infinity,
+                  // padding: sidePadding,
 
                   // padding: EdgeInsets.all(20.0),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Icon(
+                      IconButton(
+                      icon: const Icon(
                         Icons.close,
                         color: Colors.black,
                       ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                       addHorizontalSpace(16),
                       Text(
                         'Edit Phone Number',
