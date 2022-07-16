@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/EditBioScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 // import 'package:flutter/src/foundation/key.dart';
 // import 'package:flutter/src/widgets/framework.dart';
@@ -183,6 +184,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           addVerticalSpace(8),
                           TextFormField(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditBioScreen()));
+                            },
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!

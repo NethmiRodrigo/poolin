@@ -37,9 +37,14 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Icon(
-                      Icons.close,
-                      color: Colors.black,
+                    IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     // SizedBox(
                     //   width: 16,
