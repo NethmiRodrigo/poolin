@@ -1,31 +1,25 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/ForgotPasswordScreen.dart';
-import 'package:mobile/services/login_service.dart';
+import 'package:mobile/screens/LoginScreen.dart';
+import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import 'package:mobile/screens/EmailSentScreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:convert';
 
-import 'EmailOTPScreen.dart';
-import 'RegisterScreen.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
-  LoginScreenState createState() {
-    return LoginScreenState();
+  ForogtPasswordScreenState createState() {
+    return ForogtPasswordScreenState();
   }
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
-  final TextEditingController _pass = TextEditingController();
   final _storage = const FlutterSecureStorage();
 
   @override
@@ -41,17 +35,24 @@ class LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: sidePadding,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              addVerticalSpace(64),
-              Image.asset('assets/images/logo.png', scale: 3),
+              addVerticalSpace(160),
               Text(
-                "Let's sign \nyou back in",
+                "Forgot Password?",
                 style: Theme.of(context)
                     .textTheme
-                    .headline3!
+                    .headline4!
                     .merge(const TextStyle(color: Colors.black)),
-                textAlign: TextAlign.left,
+              ),
+              addVerticalSpace(16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 48),
+                child: Text(
+                  'Enter the emal address you used when you joined and we’ll send you the instructions to reset your password.',
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                ),
               ),
               addVerticalSpace(48),
               Form(
@@ -77,71 +78,43 @@ class LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
-                    addVerticalSpace(24),
-                    TextFormField(
-                      controller: _pass,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter a password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password is required';
-                        } else if (value.length < 8) {
-                          return 'Password length must be atleast 8 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    addVerticalSpace(10),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: RichText(
-                        text: TextSpan(
-                            text: 'Forgot password?',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                    const ForgotPasswordScreen()),
-                              );
-                            }),
-                      ),
-                    ),
                     addVerticalSpace(40),
                     WideButton(
-                        text: 'Sign in',
+                        text: 'Send Code',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
-                            Response response =
-                                await login(_email.text, _pass.text);
+                            Response response = await submitEmail(_email.text);
 
                             if (response.statusCode == 200) {
-                              var res = json.decode(response.body);
                               await _storage.write(
-                                  key: 'TOKEN', value: res["token"]);
+                                  key: 'KEY_EMAIL', value: _email.text);
 
                               if (!mounted) {
                                 return;
                               }
-                            } else {}
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EmailSentScreen()),
+                              );
+                            } else {
+                              print(response.body);
+                              const snackBar = SnackBar(
+                                content: Text('invalid email'),
+                              );
+                            }
                           }
                         }),
                     addVerticalSpace(16),
                     RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: 'Not a member? ',
+                            text: 'Return to ',
                             style: Theme.of(context).textTheme.bodyText1),
                         TextSpan(
-                            text: 'Register now',
+                            text: 'Sign in',
                             style: Theme.of(context).textTheme.subtitle1,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -149,7 +122,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const RegisterScreen()),
+                                          const LoginScreen()),
                                 );
                               }),
                       ]),
