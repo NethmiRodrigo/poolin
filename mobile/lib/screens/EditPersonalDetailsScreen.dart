@@ -40,6 +40,7 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    addHorizontalSpace(8),
                     IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -52,7 +53,7 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                     // SizedBox(
                     //   width: 16,
                     // ),
-                    addHorizontalSpace(16),
+                    addHorizontalSpace(8),
                     Text(
                       'Personal Information',
                       // style: TextStyle(color: Colors.black87, fontSize: 25),

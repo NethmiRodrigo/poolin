@@ -22,8 +22,8 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
       body: SizedBox(
         // width: size.width,
         // height: size.height,
-        child: Padding(
-          padding: sidePadding,
+        child: GestureDetector(
+          // padding: sidePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -34,6 +34,7 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    addHorizontalSpace(8),
                     IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -43,13 +44,13 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    addHorizontalSpace(16),
+                    addHorizontalSpace(8),
                     Text(
                       'Edit Date of Birth',
                       style: Theme.of(context).textTheme.headline3!.merge(
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
-                    Spacer(),
+                    addHorizontalSpace(72),
                     Icon(
                       Icons.check,
                       color: Colors.black,
@@ -57,8 +58,13 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                   ],
                 ),
               ),
-              addVerticalSpace(72),
-              SfDateRangePicker()
+              Container(
+                child: Padding(
+                  padding: sidePadding,
+                  child: Column(
+                      children: [addVerticalSpace(72), SfDateRangePicker()]),
+                ),
+              ),
             ],
           ),
         ),

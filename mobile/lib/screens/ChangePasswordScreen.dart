@@ -38,10 +38,10 @@ class ChangePasswordScreenState
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       body: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: Padding(
-          padding: sidePadding,
+        // width: size.width,
+        // height: size.height,
+        child: GestureDetector(
+          // padding: sidePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,28 +52,34 @@ class ChangePasswordScreenState
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Icon(
-                      Icons.close,
-                      color: Colors.black,
+                    addHorizontalSpace(8),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                     //////
-                    addHorizontalSpace(16),
+                    addHorizontalSpace(8),
                     Text(
                       'Change Password',
                       style: Theme.of(context).textTheme.headline3!.merge(
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
-                    Spacer(),
-                    // Icon(
-                    //   Icons.check,
-                    //   color: Colors.black,
-                    // ),
+                    // Spacer(),
+                    
                   ],
                 ),
               ),
               addVerticalSpace(48),
               // addVerticalSpace(48),
-              Form(
+              Container(
+                child: Padding(
+                  padding: sidePadding,
+                  child: Column(children: [Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +176,9 @@ class ChangePasswordScreenState
                     addVerticalSpace(16),
                   ],
                 ),
-              ),
+              ),]),
+                  ),),
+              
             ],
           ),
         ),

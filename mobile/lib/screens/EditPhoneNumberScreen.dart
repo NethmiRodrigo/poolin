@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/EditPhoneNumberOTPScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EditPhoneNumberScreen extends StatefulWidget {
@@ -24,8 +25,8 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
         body: SizedBox(
           width: size.width,
           height: size.height,
-          child: Padding(
-            padding: sidePadding,
+          child: GestureDetector(
+            // padding: sidePadding,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -39,22 +40,23 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
+                      addHorizontalSpace(8),
                       IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.black,
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                      addHorizontalSpace(16),
+                      addHorizontalSpace(8),
                       Text(
                         'Edit Phone Number',
                         style: Theme.of(context).textTheme.headline3!.merge(
                             const TextStyle(color: Colors.black, fontSize: 24)),
                       ),
-                      Spacer(),
+                      addHorizontalSpace(44),
                       Icon(
                         Icons.check,
                         color: Colors.black,
@@ -73,7 +75,11 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                   ),
                 ),
                 addVerticalSpace(40),
-                IntlPhoneField(
+                Container(
+                  child: Padding(
+                    padding: sidePadding,
+                    child: Column(children: [
+                  IntlPhoneField(
                   flagsButtonPadding: const EdgeInsets.only(left: 16),
                   showDropdownIcon: false,
                   decoration: const InputDecoration(
@@ -89,7 +95,20 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                   },
                 ),
                 addVerticalSpace(20),
-                WideButton(text: 'Proceed', onPressedAction: () {}),
+                WideButton(
+                    text: 'Proceed',
+                    onPressedAction: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const EditPhoneNumberOTPScreen()),
+                      );
+                    }),
+                ]),
+                    ),),
+                
+                
                 // addVerticalSpace(16),
               ],
             ),

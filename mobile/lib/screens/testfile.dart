@@ -1,74 +1,59 @@
-// import 'package:flutter/material.dart';
-// import 'package:mobile/custom/WideButton.dart';
-// import 'package:mobile/utils/widget_functions.dart';
-// import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter/material.dart';
 
-// class testfile extends StatefulWidget {
-//   const testfile({super.key});
+void main() => runApp(const MyApp());
 
-//   @override
-//   testfileState createState() {
-//     return testfileState();
-//   }
-// }
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-// class testfileState extends State<testfile> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final Size size = MediaQuery.of(context).size;
-//     const double padding = 4;
-//     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-//     return Scaffold(
-//       body: SizedBox(
-//         width: size.width,
-//         height: size.height,
-//         child: TableCalendar(
-//           firstDay: DateTime.utc(2000, 10, 20),
-//           lastDay: DateTime.utc(2040, 10, 20),
-//           focusedDay: DateTime.now(),
-//           headerVisible: true,
-//           daysOfWeekVisible: true,
-//           shouldFillViewport: false,
-//           headerStyle: HeaderStyle(titleTextStyle: TextStyle(fontSize: 24)),
-//         ),
+  static const String _title = 'Flutter Code Sample';
 
-//         // child: Padding(
-//         //   padding: sidePadding,
-//         //   child: Column(
-//         //     crossAxisAlignment: CrossAxisAlignment.center,
-//         //     children: [
-//         //       addVerticalSpace(24),
-//         //       Container(
-//         //         width: double.infinity,
-//         //         padding: EdgeInsets.all(16.0),
-//         //         child: Row(
-//         //           crossAxisAlignment: CrossAxisAlignment.start,
-//         //           children: <Widget>[
-//         //             Icon(
-//         //               Icons.close,
-//         //               color: Colors.black,
-//         //             ),
-//         //             SizedBox(
-//         //               width: 16,
-//         //             ),
-//         //             Text(
-//         //               'Edit Date of Birth',
-//         //               style: Theme.of(context).textTheme.headline3!.merge(
-//         //                   const TextStyle(color: Colors.black, fontSize: 24)),
-//         //             ),
-//         //             Spacer(),
-//         //             Icon(
-//         //               Icons.check,
-//         //               color: Colors.black,
-//         //             ),
-//         //           ],
-//         //         ),
-//         //       ),
-//         //       addVerticalSpace(32),
-//         //     ],
-//         //   ),
-//         // ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: _title,
+      home: Scaffold(
+        appBar: AppBar(title: const Text(_title)),
+        body: const Center(
+          child: MyStatefulWidget(),
+        ),
+      ),
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  String dropdownValue = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownValue = newValue!;
+        });
+      },
+      items: <String>['One', 'Two', 'Free', 'Four']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+}

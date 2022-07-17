@@ -34,8 +34,8 @@ class EditGenderScreenState extends State<EditGenderScreen> {
       body: SizedBox(
         // width: size.width,
         // height: size.height,
-        child: Padding(
-          padding: sidePadding,
+        child: GestureDetector(
+          // padding: sidePadding,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -46,6 +46,7 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    addHorizontalSpace(8),
                     IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -55,13 +56,14 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    addHorizontalSpace(16),
+                    addHorizontalSpace(8),
                     Text(
                       'Change Gender',
                       style: Theme.of(context).textTheme.headline3!.merge(
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
-                    Spacer(),
+                    addHorizontalSpace(88),
+                    // Spacer(),
                     Icon(
                       Icons.check,
                       color: Colors.black,
@@ -70,68 +72,74 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                 ),
               ),
               addVerticalSpace(72),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    addVerticalSpace(24),
-                    ToggleButtons(
-                      onPressed: (int index) {
-                        setState(() {
-                          for (int buttonIndex = 0;
-                              buttonIndex < isSelected.length;
-                              buttonIndex++) {
-                            if (buttonIndex == index) {
-                              isSelected[buttonIndex] = true;
-                            } else {
-                              isSelected[buttonIndex] = false;
-                            }
-                          }
-                          if (isSelected[0]) {
-                            _gender = "male";
-                          } else {
-                            _gender = "female";
-                          }
-                        });
-                      },
-                      isSelected: isSelected,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.male_outlined),
-                              addHorizontalSpace(8),
-                              const Text("Male")
-                            ],
-                          ),
+              Container(
+                child: Column(children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        addVerticalSpace(24),
+                        ToggleButtons(
+                          onPressed: (int index) {
+                            setState(() {
+                              for (int buttonIndex = 0;
+                                  buttonIndex < isSelected.length;
+                                  buttonIndex++) {
+                                if (buttonIndex == index) {
+                                  isSelected[buttonIndex] = true;
+                                } else {
+                                  isSelected[buttonIndex] = false;
+                                }
+                              }
+                              if (isSelected[0]) {
+                                _gender = "male";
+                              } else {
+                                _gender = "female";
+                              }
+                            });
+                          },
+                          isSelected: isSelected,
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.male_outlined),
+                                  addHorizontalSpace(8),
+                                  const Text("Male")
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.female_outlined),
+                                  addHorizontalSpace(8),
+                                  const Text("Female")
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.female_outlined),
-                              addHorizontalSpace(8),
-                              const Text("Female")
-                            ],
-                          ),
-                        ),
+                        addVerticalSpace(40),
+                        // WideButton(
+                        //   text: 'Start Pooling!',
+                        //   onPressedAction: () {
+                        //     if (_formKey.currentState!.validate()) {
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         const SnackBar(content: Text('Processing Data')),
+                        //       );
+                        //     }
+                        //   },
+                        // )
                       ],
                     ),
-                    addVerticalSpace(40),
-                    // WideButton(
-                    //   text: 'Start Pooling!',
-                    //   onPressedAction: () {
-                    //     if (_formKey.currentState!.validate()) {
-                    //       ScaffoldMessenger.of(context).showSnackBar(
-                    //         const SnackBar(content: Text('Processing Data')),
-                    //       );
-                    //     }
-                    //   },
-                    // )
-                  ],
-                ),
+                  ),
+                ]),
               ),
             ],
           ),

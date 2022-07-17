@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/ChangePasswordScreen.dart';
 import 'package:mobile/screens/EditBioScreen.dart';
+import 'package:mobile/screens/EditPersonalDetailsScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 // import 'package:flutter/src/foundation/key.dart';
 // import 'package:flutter/src/widgets/framework.dart';
@@ -14,6 +16,17 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class EditProfileScreenState extends State<EditProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _name = TextEditingController();
+  
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  String dropdownValue = 'Students';
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -47,9 +60,19 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     Spacer(),
-                    Icon(
-                      Icons.check,
-                      color: Colors.black,
+                    // Icon(
+                    //   Icons.check,
+                    //   color: Colors.black,
+                    // ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      
                     ),
                   ],
                 ),
@@ -150,6 +173,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           addVerticalSpace(8),
                           TextFormField(
+                            key: const Key('name-field'),
+                            controller: _name,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1!
@@ -214,18 +239,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               return null;
                             },
                           ),
-                          // TextField(
-                          //   decoration: InputDecoration(
-                          //       labelText: "Bio",
-                          //       floatingLabelBehavior: FloatingLabelBehavior.always,
-                          //       // border: OutlineInputBorder(
-                          //       //     borderRadius: BorderRadius.circular(4)),
-                          //       hintText: "I'am a person that does things and..",
-                          //       hintStyle: TextStyle(
-                          //         fontSize: 16,
-                          //         color: Colors.black,
-                          //       )),
-                          // ),
+
                           addVerticalSpace(16),
                           Text(
                             'Occupation Status',
@@ -236,72 +250,116 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             textAlign: TextAlign.left,
                           ),
                           addVerticalSpace(8),
-                          TextFormField(
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .merge(const TextStyle(color: Colors.black)),
+                          //////////////////////////////////////////////
+                          // DropdownButtonFormField(items: items, onChanged: onChanged)
+                          DropdownButtonFormField<String>(
                             decoration: const InputDecoration(
-                              // labelText: "Occupation Status",
-                              // prefixIcon: Icon(Icons.biotech_outlined),
+                              // labelText: "Bio",
+                              // prefixIcon: Icon(Icons.details_outlined),
                               border: OutlineInputBorder(),
-
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              // border: OutlineInputBorder(
-                              //     borderRadius: BorderRadius.circular(4)),
-                              hintText: "Student",
+                              hintText: "Occuption",
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 16),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Occupation Status is requied';
-                              }
+                            value: dropdownValue,
+                            isExpanded: true,
+                            // icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
 
-                              return null;
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .merge(const TextStyle(color: Colors.black)),
+                            // underline: Container(
+                            //   height: 2,
+                            //   color: Colors.deepPurpleAccent,
+                            // ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
                             },
+                            items: <String>['Students', 'Teachers', 'Others']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                           ),
+                          ///////////////////////////////////////
                         ],
                       )),
 
                       addVerticalSpace(24),
                       Row(
                         children: [
-                          Text(
-                            'Personal Information',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .merge(const TextStyle(color: Colors.black)),
-                            textAlign: TextAlign.left,
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditPersonalDetailsScreen()),
+                              );
+                            },
+                            child: Text(
+                              'Personal Information',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .merge(const TextStyle(color: Colors.black)),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                         ],
                       ),
                       addVerticalSpace(32),
                       Row(
                         children: [
-                          Text(
-                            'Driver Details',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .merge(const TextStyle(color: Colors.black)),
-                            textAlign: TextAlign.left,
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EditPersonalDetailsScreen()),
+                              );
+                            },
+                            child: Text(
+                              'Driver Details',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .merge(const TextStyle(color: Colors.black)),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                         ],
                       ),
                       addVerticalSpace(32),
                       Row(
                         children: [
-                          Text(
-                            'Change Password',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .merge(const TextStyle(color: Colors.black)),
-                            textAlign: TextAlign.left,
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChangePasswordScreen()),
+                              );
+                            },
+                            child: Text(
+                              'Change Password',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .merge(const TextStyle(color: Colors.black)),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                         ],
                       ),

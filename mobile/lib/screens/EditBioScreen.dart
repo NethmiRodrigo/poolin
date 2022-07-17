@@ -21,8 +21,8 @@ class EditBioScreenState extends State<EditBioScreen> {
       body: SizedBox(
         // width: size.width,
         // height: size.height,
-        child: Padding(
-          padding: sidePadding,
+        child: GestureDetector(
+          // padding: sidePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -33,6 +33,7 @@ class EditBioScreenState extends State<EditBioScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    addHorizontalSpace(8),
                     IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -42,13 +43,13 @@ class EditBioScreenState extends State<EditBioScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    addHorizontalSpace(16),
+                    addHorizontalSpace(8),
                     Text(
                       'Edit Bio',
                       style: Theme.of(context).textTheme.headline3!.merge(
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
-                    Spacer(),
+                    addHorizontalSpace(180),
                     Icon(
                       Icons.check,
                       color: Colors.black,
@@ -57,11 +58,8 @@ class EditBioScreenState extends State<EditBioScreen> {
                 ),
               ),
               Container(
-                // margin: EdgeInsets.only(
-                //   right: 4,
-                //   left: 4,
-                //   // bottom: 64,
-                // ),
+                  child: Padding(
+                padding: sidePadding,
                 child: Column(children: [
                   ////////////
                   // SizedBox(
@@ -81,7 +79,14 @@ class EditBioScreenState extends State<EditBioScreen> {
                         )),
                   ),
                 ]),
-              ),
+              )
+                  // margin: EdgeInsets.only(
+                  //   right: 4,
+                  //   left: 4,
+                  //   // bottom: 64,
+                  // ),
+
+                  ),
               addVerticalSpace(32),
             ],
           ),
