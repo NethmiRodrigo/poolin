@@ -1,12 +1,17 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/ForgotPasswordScreen.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
+
+import 'EmailOTPScreen.dart';
+import 'RegisterScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -96,10 +101,18 @@ class LoginScreenState extends State<LoginScreen> {
                     addVerticalSpace(10),
                     Align(
                       alignment: Alignment.topRight,
-                      child: Text(
-                        'Forgot password?',
-                        style: Theme.of(context).textTheme.bodyText1,
-                        textAlign: TextAlign.left,
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Forgot password?',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const ForgotPasswordScreen()),
+                              );
+                            }),
                       ),
                     ),
                     addVerticalSpace(40),
@@ -111,26 +124,35 @@ class LoginScreenState extends State<LoginScreen> {
                                 await login(_email.text, _pass.text);
 
                             if (response.statusCode == 200) {
-                              print(response.body);
+                              var res = json.decode(response.body);
+                              await _storage.write(
+                                  key: 'TOKEN', value: res["token"]);
 
                               if (!mounted) {
                                 return;
                               }
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const EmailOTPScreen()),
-                              );
                             } else {}
                           }
                         }),
                     addVerticalSpace(16),
-                    Text(
-                      'Not a member? Register now',
-                      style: Theme.of(context).textTheme.bodyText1,
-                      textAlign: TextAlign.left,
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: 'Not a member? ',
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Register now',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterScreen()),
+                                );
+                              }),
+                      ]),
                     ),
                   ],
                 ),
