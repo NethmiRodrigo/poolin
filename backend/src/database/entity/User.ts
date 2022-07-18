@@ -64,6 +64,12 @@ export class User extends BaseEntity {
   @Exclude()
   dateOfBirth: Date;
 
+  @Column({ nullable: true })
+  smsOTP: string;
+
+  @Column({ nullable: true })
+  smsOTPSentAt: Date;
+
   @CreateDateColumn()
   createdAt: Date;
 
