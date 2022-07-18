@@ -9,7 +9,7 @@ import cors from "cors";
 
 /** Routes */
 import authRoutes from "./routes/auth/index";
-import userRoutes from "./routes/user";
+import userRoutes from "./routes/user/index";
 import adminRoutes from "./routes/admin/index";
 
 /** Middleware */

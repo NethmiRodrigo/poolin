@@ -5,11 +5,9 @@ import { AppError } from "../util/error-handler";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.Token;
-  console.log(req.cookies);
   if (!token) throw new AppError(401, {}, "Unauthenticated");
-  const { email }: any = jwt.verify(token, process.env.JWT_SECRET);
-
-  const user = await User.findOneBy({ email });
+  const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET);
+  const user = await User.findOneBy({ email: decodedToken.user.email });
   if (!user) throw new Error("User cannot be found");
 
   res.locals.user = user;

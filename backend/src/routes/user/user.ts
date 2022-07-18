@@ -1,14 +1,14 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import { isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
 
-import { User } from "../database/entity/User";
-import { AppError } from "../util/error-handler";
-import auth from "../middleware/auth";
+import { User } from "../../database/entity/User";
+import { AppError } from "../../util/error-handler";
 
-const updateInfo = async (req: Request, res: Response) => {
+export const updateInfo = async (req: Request, res: Response) => {
   const user: User = res.locals.user;
 
+  if (!user) throw new AppError(401, { error: "User cannot be found" }, "");
   const { fName, lName, gender, mobile, occupation, dateOfBirth } = req.body;
   let errors: any = {};
 
@@ -41,7 +41,7 @@ const updateInfo = async (req: Request, res: Response) => {
   return res.status(200).json({ success: "User updated", user });
 };
 
-const updatePassword = async (req: Request, res: Response) => {
+export const updatePassword = async (req: Request, res: Response) => {
   const user: User = res.locals.user;
 
   const { password, newPassword, confirmPassword } = req.body;
@@ -62,15 +62,8 @@ const updatePassword = async (req: Request, res: Response) => {
   if (newPassword !== confirmPassword)
     throw new AppError(401, {}, "Passwords do not match");
 
-  user.password = newPassword;
+  user.password = await bcrypt.hash(newPassword, 8);
   await user.save();
 
   return res.status(200).json({ success: "Password successfully updated" });
 };
-
-const router = Router();
-
-router.post("/updateInfo", auth, updateInfo);
-router.post("/updatePassword", auth, updatePassword);
-
-export default router;
