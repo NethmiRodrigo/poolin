@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.4
   flutter_secure_storage: ^5.0.2
   flutter_dotenv: ^5.0.2
+  shared_preferences: ^2.0.15
   # flutter_svg: any
 
 dev_dependencies:
