@@ -40,6 +40,8 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   flutter_dotenv: ^5.0.2
   shared_preferences: ^2.0.15
+  toggle_switch: ^2.0.1
+  font_awesome_flutter: ^10.1.0
   # flutter_svg: any
 
 dev_dependencies:
@@ -92,6 +94,9 @@ flutter:
           - asset: assets/fonts/Satoshi-Regular.otf
           - asset: assets/fonts/Satoshi-Bold.otf
             weight: 700
+      - family:  CustomIcons
+        fonts:
+          - asset: assets/icons/CustomIcons.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

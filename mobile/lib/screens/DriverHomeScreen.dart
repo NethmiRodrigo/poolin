@@ -1,12 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/LoginScreen.dart';
-import 'package:mobile/services/register_service.dart';
+
+import 'package:mobile/custom/HomeToggle.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
 
 class DriverHomeScreen extends StatefulWidget {
   const DriverHomeScreen({super.key});
@@ -38,10 +34,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
               addVerticalSpace(48),
               Align(
                 alignment: Alignment.topRight,
-                child: Text(
-                  'Toggle',
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
+                child: HomeToggle(),
               ),
               Text(
                 'Going somewhere?',
