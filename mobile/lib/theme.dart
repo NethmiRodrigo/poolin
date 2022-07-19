@@ -59,6 +59,10 @@ class AppTheme {
               fontFamily: 'Satoshi',
               fontSize: 16,
             ),
+            bodyText2: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 12,
+            ),
             button: const TextStyle(
               fontFamily: 'Satoshi',
               fontSize: 16,

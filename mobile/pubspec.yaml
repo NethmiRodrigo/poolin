@@ -82,6 +82,8 @@ flutter:
 
   assets:
     - assets/images/logo.png
+    - assets/images/ride.jpg
+    - assets/images/map.png
     - .env
  
 

@@ -7,7 +7,6 @@ import 'package:mobile/screens/ResetPasswordScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/services/reset_password_service.dart';
-import 'package:mobile/custom/LinkService.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
