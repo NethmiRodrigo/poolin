@@ -4,9 +4,9 @@ class AppTheme {
   ThemeData themeData = ThemeData(
       primaryColor: const Color(0xffff7115),
       primaryColorDark: const Color(0xff111111),
-      shadowColor: const Color(0xffb0b0b0),
-      backgroundColor: const Color(0xfff9f9f9),
-      hintColor: const Color(0xff3d8262),
+      shadowColor: const Color(0xff9E9E9E),
+      backgroundColor: Color.fromARGB(255, 240, 240, 240),
+      hintColor: const Color(0xff29BF4A),
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),
       fontFamily: 'Satoshi',
@@ -15,54 +15,66 @@ class AppTheme {
         errorStyle:
             TextStyle(fontFamily: 'Satoshi', fontWeight: FontWeight.w700),
         hintStyle: TextStyle(
-            color: Colors.grey,
+            color: Color(0xff9E9E9E),
             fontSize: 16,
             fontFamily: 'Satoshi',
             fontWeight: FontWeight.w300),
       ),
-      textTheme: ThemeData.light().textTheme.copyWith(
-            headline1: const TextStyle(
+      textTheme: ThemeData.light()
+          .textTheme
+          .copyWith(
+            displayLarge: const TextStyle(
               fontFamily: 'Satoshi',
-              fontWeight: FontWeight.bold,
-              fontSize: 96,
+              fontWeight: FontWeight.w900,
+              fontSize: 34,
             ),
-            headline2: const TextStyle(
-              fontFamily: 'Satoshi',
-              fontWeight: FontWeight.bold,
-              fontSize: 60,
-            ),
-            headline3: const TextStyle(
-              fontFamily: 'Satoshi',
-              fontWeight: FontWeight.bold,
-              fontSize: 48,
-            ),
-            headline4: const TextStyle(
+            displayMedium: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.bold,
               fontSize: 34,
             ),
-            headline5: const TextStyle(
+            displaySmall: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),
-            headline6: const TextStyle(
+            headlineLarge: const TextStyle(
               fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
-            subtitle1: const TextStyle(
+            headlineMedium: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-            bodyText1: const TextStyle(
+            headlineSmall: const TextStyle(
               fontFamily: 'Satoshi',
-              fontSize: 16,
-            ),
-            button: const TextStyle(
-              fontFamily: 'Satoshi',
-              fontSize: 16,
               fontWeight: FontWeight.bold,
+              fontSize: 12,
             ),
-          ));
+            titleLarge: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+            titleMedium: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
+              fontSize: 8,
+            ),
+            labelLarge: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 16,
+            ),
+            labelMedium: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 12,
+            ),
+            labelSmall: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 8,
+            ),
+          )
+          .apply(bodyColor: Colors.black, displayColor: Colors.black));
 }
