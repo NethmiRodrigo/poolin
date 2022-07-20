@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/login/login_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile/screens/register/register_screen.dart';
 import './theme.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: const LoginScreen(),
+      home: const RegisterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
