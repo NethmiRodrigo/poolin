@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,6 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class RideOfferDetailsScreen extends StatefulWidget {
   const RideOfferDetailsScreen({super.key});
@@ -106,8 +108,14 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                 style:
                                     Theme.of(context).textTheme.headlineSmall),
                             addVerticalSpace(20),
-                            Text("Rs. 5000",
-                                style: Theme.of(context).textTheme.labelLarge),
+                            Row(
+                              children: [
+                                Text("Rs. 5000",
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge),
+                                Icon(FluentIcons.edit_16_regular)
+                              ],
+                            ),
                           ],
                         ),
                         Column(
@@ -155,8 +163,24 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                 style:
                                     Theme.of(context).textTheme.headlineSmall),
                             addVerticalSpace(20),
-                            Text("Rs. 5000",
-                                style: Theme.of(context).textTheme.labelLarge),
+                            TextButton(
+                                onPressed: () {
+                                  DatePicker.showDatePicker(context,
+                                      showTitleActions: true,
+                                      minTime: DateTime(2018, 3, 5),
+                                      maxTime: DateTime(2019, 6, 7),
+                                      onChanged: (date) {
+                                    print('change $date');
+                                  }, onConfirm: (date) {
+                                    print('confirm $date');
+                                  },
+                                      currentTime: DateTime.now(),
+                                      locale: LocaleType.en);
+                                },
+                                child: Text(
+                                  '26 Oct, 2022',
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ))
                           ],
                         ),
                         Column(
@@ -165,8 +189,15 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                 style:
                                     Theme.of(context).textTheme.headlineSmall),
                             addVerticalSpace(20),
-                            Text("Rs. 5000",
-                                style: Theme.of(context).textTheme.labelLarge),
+                            Row(
+                              children: [
+                                Icon(FluentIcons.eye_16_filled, size: 18),
+                                addHorizontalSpace(8),
+                                Text("Public",
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge),
+                              ],
+                            ),
                           ],
                         ),
                       ],

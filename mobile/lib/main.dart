@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: RegisterScreen(),
+      home: RideOfferDetailsScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
