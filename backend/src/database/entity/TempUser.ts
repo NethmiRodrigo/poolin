@@ -7,14 +7,15 @@ import {
   Index,
   CreateDateColumn,
   BeforeInsert,
+  BeforeUpdate,
 } from "typeorm";
 import bcrypt from "bcrypt";
 import { Exclude, instanceToPlain } from "class-transformer";
 
-export enum VerificationStatus { 
-  VERIFIED = 'verified',
-  UNVERIFIED = 'unverified'
-};
+export enum VerificationStatus {
+  VERIFIED = "verified",
+  UNVERIFIED = "unverified",
+}
 
 @Entity("temp_users")
 export class TempUser extends BaseEntity {
@@ -46,9 +47,9 @@ export class TempUser extends BaseEntity {
   emailOTPSentAt: Date;
 
   @Column({
-    type: 'enum',
+    type: "enum",
     enum: VerificationStatus,
-    default: VerificationStatus.UNVERIFIED
+    default: VerificationStatus.UNVERIFIED,
   })
   emailStatus: VerificationStatus;
 
@@ -63,9 +64,9 @@ export class TempUser extends BaseEntity {
   smsOTPSentAt: Date;
 
   @Column({
-    type: 'enum',
+    type: "enum",
     enum: VerificationStatus,
-    default: VerificationStatus.UNVERIFIED
+    default: VerificationStatus.UNVERIFIED,
   })
   mobileStatus: VerificationStatus;
 
