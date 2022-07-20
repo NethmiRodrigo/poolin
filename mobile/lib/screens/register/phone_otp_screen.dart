@@ -1,24 +1,23 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/OTPFields.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:http/http.dart';
-import 'package:mobile/screens/ResetPasswordScreen.dart';
-import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/services/reset_password_service.dart';
-import 'package:mobile/custom/LinkService.dart';
+import 'package:http/http.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/register/personal_details_screen.dart';
+import 'package:mobile/utils/widget_functions.dart';
+import '../../custom/otp_fields.dart';
+import '../../services/register_service.dart';
 
-class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({Key? key}) : super(key: key);
+class PhoneOTPScreen extends StatefulWidget {
+  const PhoneOTPScreen({Key? key}) : super(key: key);
 
   @override
-  VerifyEmailScreenState createState() => VerifyEmailScreenState();
+  PhoneOTPScreenState createState() => PhoneOTPScreenState();
 }
 
-class VerifyEmailScreenState extends State<VerifyEmailScreen> {
-  final _formKey = GlobalKey<FormState>();
+class PhoneOTPScreenState extends State<PhoneOTPScreen> {
   TextEditingController textEditingController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String currentText = "";
   final _storage = const FlutterSecureStorage();
 
@@ -37,11 +36,19 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                addVerticalSpace(104),
+                addVerticalSpace(48),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    'STEP 4/5',
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ),
+                addVerticalSpace(40),
                 const Icon(Icons.lock_outline_rounded, size: 110),
-                addVerticalSpace(12),
+                addVerticalSpace(40),
                 Text(
-                  "Verify it's you",
+                  "Enter the code",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
@@ -49,7 +56,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 ),
                 addVerticalSpace(16),
                 Text(
-                  'We sent a one-time code \nto your email to confirm',
+                  'We sent a one-time code via \nSMS to confirm',
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.center,
                 ),
@@ -60,7 +67,6 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
-                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
@@ -69,14 +75,14 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 ),
                 addVerticalSpace(56),
                 WideButton(
-                  text: 'Verify Email',
+                  text: 'Verify Phone Number',
                   onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
+                      String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
-                          await checkEmailOTP(currentText, email);
+                          await checkSMSOTP(currentText, mobile!, email!);
                       if (response.statusCode == 200) {
-                        await _storage.write(key: 'otp', value: currentText);
                         if (!mounted) {
                           return;
                         }
@@ -85,41 +91,29 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const ResetPasswordScreen()),
+                                  const PersonalDetailsScreen()),
                         );
-                      } else {
-                        print(response.body);
-                      }
+                      } else {}
                     }
                   },
                 ),
                 addVerticalSpace(16),
                 Align(
-                  alignment: Alignment.topLeft,
-                  child: RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: "Didn't receive a code? ",
-                          style: Theme.of(context).textTheme.bodyText1),
-                      TextSpan(
-                          text: 'Try Again',
-                          style: Theme.of(context).textTheme.subtitle1,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              String? email =
-                                  await _storage.read(key: 'KEY_EMAIL');
-                              Response response = await submitEmail(email!);
-                              if (response.statusCode == 200) {
-                                if (!mounted) {
-                                  return;
-                                }
-                              } else {
-                                print(response.body);
-                              }
-                            }),
-                    ]),
-                  ),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "Didn't receive a code? ",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(
+                            text: 'Try again',
+                            style: Theme.of(context).textTheme.subtitle1,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.pop(context);
+                              }),
+                      ]),
+                    )),
               ],
             ),
           ),

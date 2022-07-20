@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -155,7 +155,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         if (_formKey.currentState!.validate()) {
                           String? email = await _storage.read(key: 'KEY_EMAIL');
                           Response response = await submitPersonalDetails(
-                              _fname.text, _lname.text, _gender, email);
+                              _fname.text, _lname.text, _gender, email!);
                           if (response.statusCode == 200) {
                             if (!mounted) {
                               return;
