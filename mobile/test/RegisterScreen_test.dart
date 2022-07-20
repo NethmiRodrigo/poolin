@@ -37,7 +37,7 @@ void main() {
     expect(errorMessage, findsWidgets);
   });
 
-  testWidgets('Password less than 8 characters shows length error on screen',
+  testWidgets('Password less than 8 characters shows length error',
       (tester) async {
     await tester.pumpWidget(
       const MaterialApp(

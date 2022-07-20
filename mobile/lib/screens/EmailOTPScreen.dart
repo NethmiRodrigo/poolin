@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:mobile/custom/OTPFields.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/screens/PhoneNumberScreen.dart';
+import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EmailOTPScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
+  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,6 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
-                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
@@ -71,17 +74,26 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                 ),
                 addVerticalSpace(56),
                 WideButton(
-                  text: 'Verify Email',
-                  onPressedAction: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PhoneNumberScreen()),
-                      );
-                    }
-                  },
-                )
+                    text: 'Verify Email',
+                    onPressedAction: () async {
+                      if (_formKey.currentState!.validate()) {
+                        String? email = await _storage.read(key: 'KEY_EMAIL');
+                        Response response =
+                            await checkEmailOTP(currentText, email);
+                        if (response.statusCode == 200) {
+                          if (!mounted) {
+                            return;
+                          }
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PhoneNumberScreen()),
+                          );
+                        } else {}
+                      }
+                    })
               ],
             ),
           ),
