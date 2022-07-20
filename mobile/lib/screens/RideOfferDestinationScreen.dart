@@ -58,7 +58,10 @@ class RideOfferDestinationScreenState
               ),
               Align(
                   alignment: Alignment.center,
-                  child: Image.asset('assets/images/ride.jpg', scale: 8)),
+                  child: Image.asset(
+                    'assets/images/driver.png',
+                    height: 272,
+                  )),
               addVerticalSpace(48),
               Text(
                 'Where are you headed?',

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,6 +9,9 @@ import 'package:mobile/screens/LoginScreen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RideOfferSourceScreen extends StatefulWidget {
   const RideOfferSourceScreen({super.key});
@@ -23,6 +28,40 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final _storage = const FlutterSecureStorage();
+  Completer<GoogleMapController> _controller = Completer();
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+
+  static const LatLng _center = const LatLng(6.9271, 79.8612);
+
+  final Set<Marker> _markers = {};
+
+  LatLng _lastMapPosition = _center;
+
+  MapType _currentMapType = MapType.normal;
+
+  // void _onMapTypeButtonPressed() {
+  //   setState(() {
+  //     _currentMapType = _currentMapType == MapType.normal
+  //         ? MapType.satellite
+  //         : MapType.normal;
+  //   });
+  // }
+
+  void _onCameraMove(CameraPosition position) {
+    _lastMapPosition = position.target;
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
+
+  @override
+  void initState() {
+    String? apiKey = dotenv.env['MAPS_API_KEY'];
+    googlePlace = GooglePlace(apiKey!);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -43,114 +82,156 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
         padding: sidePadding,
         height: size.height * 0.5,
         width: size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            addVerticalSpace(24),
-            Text(
-              'Good morning, Dulaj',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            addVerticalSpace(40),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              addVerticalSpace(24),
+              Text(
+                'Good morning, Dulaj',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              addVerticalSpace(72),
+              Row(
                 children: [
-                  TextFormField(
-                    key: const Key('password-field'),
-                    controller: _pass,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.search_outlined),
-                      isDense: true,
-                      border: OutlineInputBorder(),
-                      hintText: "Where do you start from?",
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                    ),
-                  ),
+                  Icon(Icons.location_pin),
+                  addHorizontalSpace(16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'University of Colombo',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Text(
+                        '206/A, Reid Avenue, Colombo 07',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                    ],
+                  )
                 ],
               ),
-            ),
-            addVerticalSpace(16),
-            Row(
-              children: [
-                Icon(Icons.location_pin),
-                addHorizontalSpace(16),
-                Column(
+              addVerticalSpace(16),
+              Row(
+                children: [
+                  Icon(Icons.location_pin),
+                  addHorizontalSpace(16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'University of Colombo',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Text(
+                        '206/A, Reid Avenue, Colombo 07',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              addVerticalSpace(16),
+              Row(
+                children: [
+                  Icon(Icons.location_pin),
+                  addHorizontalSpace(16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'University of Colombo',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Text(
+                        '206/A, Reid Avenue, Colombo 07',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+          Column(
+            children: [
+              addVerticalSpace(72),
+              Form(
+                key: _formKey,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'University of Colombo',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      '206/A, Reid Avenue, Colombo 07',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  ],
-                )
-              ],
-            ),
-            addVerticalSpace(16),
-            Row(
-              children: [
-                Icon(Icons.location_pin),
-                addHorizontalSpace(16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'University of Colombo',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      '206/A, Reid Avenue, Colombo 07',
-                      style: Theme.of(context).textTheme.bodyText2,
+                    TextFormField(
+                      key: const Key('password-field'),
+                      controller: _pass,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search_outlined),
+                        isDense: true,
+                        border: OutlineInputBorder(),
+                        hintText: "Where do you start from?",
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          autoCompleteSearch(value);
+                        } else {
+                          if (predictions.isNotEmpty && mounted) {
+                            setState(() {
+                              predictions = [];
+                            });
+                          }
+                        }
+                      },
                     ),
                   ],
-                )
-              ],
-            ),
-            addVerticalSpace(16),
-            Row(
-              children: [
-                Icon(Icons.location_pin),
-                addHorizontalSpace(16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'University of Colombo',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text(
-                      '206/A, Reid Avenue, Colombo 07',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: ListView.builder(
+                    itemCount: predictions.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          child: Icon(
+                            Icons.pin_drop,
+                            color: Colors.white,
+                          ),
+                        ),
+                        title: Text(predictions[index].description ?? ""),
+                        onTap: () {},
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/map.png'),
-            fit: BoxFit.cover,
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 12.0,
           ),
-        ),
-        child: SizedBox(
-          width: size.width,
-          height: size.height,
-          child: Padding(
-            padding: sidePadding,
-          ),
+          mapType: _currentMapType,
+          markers: _markers,
+          onCameraMove: _onCameraMove,
         ),
       ),
     );
+  }
+
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      setState(() {
+        predictions = result.predictions!;
+      });
+    }
   }
 }
