@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/RegisterScreen.dart';
 import 'package:mobile/screens/RideOfferDestinationScreen.dart';
+import 'package:mobile/screens/RideOfferDetailsScreen.dart';
 import 'package:mobile/screens/RideOfferSourceScreen.dart';
 import 'package:mobile/screens/RideRequestDestinationScreen.dart';
 import 'package:mobile/screens/RideRequestDetailsScreen.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: RideRequestDestinationScreen(),
+      home: RegisterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

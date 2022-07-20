@@ -80,6 +80,9 @@ class RideRequestDestinationScreenState
                           context,
                           MaterialPageRoute(
                               builder: (_) => RideOfferDestinationScreen()));
+                    }),
+                    Timer(const Duration(milliseconds: 500), () {
+                      setState(() => positive = !b);
                     })
                   ],
                   colorBuilder: (b) => b ? Colors.black : Colors.black,
