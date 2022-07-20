@@ -13,17 +13,17 @@ import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
-class RideOfferDestinationScreen extends StatefulWidget {
-  const RideOfferDestinationScreen({super.key});
+class RideRequestDestinationScreen extends StatefulWidget {
+  const RideRequestDestinationScreen({super.key});
 
   @override
-  RideOfferDestinationScreenState createState() {
-    return RideOfferDestinationScreenState();
+  RideRequestDestinationScreenState createState() {
+    return RideRequestDestinationScreenState();
   }
 }
 
-class RideOfferDestinationScreenState
-    extends State<RideOfferDestinationScreen> {
+class RideRequestDestinationScreenState
+    extends State<RideRequestDestinationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
@@ -92,17 +92,17 @@ class RideOfferDestinationScreenState
               Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    'assets/images/driver.png',
+                    'assets/images/rider.png',
                     height: 272,
                   )),
               addVerticalSpace(24),
               Text(
-                'Where are you headed?',
+                'Where are you going?',
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               addVerticalSpace(8),
               Text(
-                "Let's let everyone know!",
+                "Let's find you a ride!",
                 style: Theme.of(context).textTheme.labelLarge,
               ),
               addVerticalSpace(32),
@@ -127,7 +127,7 @@ class RideOfferDestinationScreenState
                           isDense: true,
                           border: InputBorder.none,
                           alignLabelWithHint: true,
-                          hintText: "What's your destination?",
+                          hintText: "Where do you want to go?",
                           contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                         ),
                       ),
