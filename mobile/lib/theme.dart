@@ -5,7 +5,7 @@ class AppTheme {
       primaryColor: const Color(0xffff7115),
       primaryColorDark: const Color(0xff111111),
       shadowColor: const Color(0xff9E9E9E),
-      backgroundColor: const Color(0xfffafafa),
+      backgroundColor: Color.fromARGB(255, 240, 240, 240),
       hintColor: const Color(0xff29BF4A),
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),
@@ -15,12 +15,14 @@ class AppTheme {
         errorStyle:
             TextStyle(fontFamily: 'Satoshi', fontWeight: FontWeight.w700),
         hintStyle: TextStyle(
-            color: Colors.grey,
+            color: Color(0xff9E9E9E),
             fontSize: 16,
             fontFamily: 'Satoshi',
             fontWeight: FontWeight.w300),
       ),
-      textTheme: ThemeData.light().textTheme.copyWith(
+      textTheme: ThemeData.light()
+          .textTheme
+          .copyWith(
             displayLarge: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.w900,
@@ -73,5 +75,6 @@ class AppTheme {
               fontFamily: 'Satoshi',
               fontSize: 8,
             ),
-          ));
+          )
+          .apply(bodyColor: Colors.black, displayColor: Colors.black));
 }
