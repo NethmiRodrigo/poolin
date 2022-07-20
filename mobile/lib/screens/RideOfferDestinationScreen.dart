@@ -2,19 +2,13 @@ import 'dart:async';
 
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/LoginScreen.dart';
-import 'package:mobile/screens/RideRequestDestinationScreen.dart';
-import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
-import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+
+import 'package:mobile/screens/RideRequestDestinationScreen.dart';
 
 class RideOfferDestinationScreen extends StatefulWidget {
   const RideOfferDestinationScreen({super.key});
@@ -57,7 +51,7 @@ class RideOfferDestinationScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              Align(
+              const Align(
                   alignment: Alignment.topLeft,
                   child: Icon(
                     EvaIcons.arrowBackOutline,
@@ -84,8 +78,8 @@ class RideOfferDestinationScreenState
                   ],
                   colorBuilder: (b) => b ? Colors.black : Colors.black,
                   iconBuilder: (value) => value
-                      ? Icon(Icons.drive_eta_rounded, color: Colors.white)
-                      : Icon(Icons.airline_seat_recline_extra_rounded,
+                      ? const Icon(Icons.drive_eta_rounded, color: Colors.white)
+                      : const Icon(Icons.airline_seat_recline_extra_rounded,
                           color: Colors.white),
                   textBuilder: (value) => value
                       ? Center(
@@ -153,7 +147,7 @@ class RideOfferDestinationScreenState
                   children: [
                     Row(
                       children: [
-                        Icon(FluentIcons.location_16_filled),
+                        const Icon(FluentIcons.location_16_filled),
                         addHorizontalSpace(16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,7 +167,7 @@ class RideOfferDestinationScreenState
                     addVerticalSpace(16),
                     Row(
                       children: [
-                        Icon(FluentIcons.location_16_filled),
+                        const Icon(FluentIcons.location_16_filled),
                         addHorizontalSpace(16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

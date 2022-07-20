@@ -1,12 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/LoginScreen.dart';
-import 'package:mobile/services/register_service.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
 
 class RideRequestDetailsScreen extends StatefulWidget {
   const RideRequestDetailsScreen({super.key});
@@ -65,7 +60,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/map.png'),
             fit: BoxFit.cover,
@@ -74,7 +69,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
         child: SizedBox(
           width: size.width,
           height: size.height,
-          child: Padding(
+          child: const Padding(
             padding: sidePadding,
           ),
         ),

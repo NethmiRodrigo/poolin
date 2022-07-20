@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/RegisterScreen.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/register/register_screen.dart';
 
 void main() {
   testWidgets('Register Screen has Email, Password and Confirm Password fields',

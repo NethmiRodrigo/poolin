@@ -1,14 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/LoginScreen.dart';
-import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,17 +22,17 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final _storage = const FlutterSecureStorage();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
 
-  static const LatLng _center = const LatLng(6.9271, 79.8612);
+  static const LatLng _center = LatLng(6.9271, 79.8612);
 
   final Set<Marker> _markers = {};
 
   LatLng _lastMapPosition = _center;
 
-  MapType _currentMapType = MapType.normal;
+  final MapType _currentMapType = MapType.normal;
 
   // void _onMapTypeButtonPressed() {
   //   setState(() {
@@ -94,7 +88,7 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
               addVerticalSpace(72),
               Row(
                 children: [
-                  Icon(Icons.location_pin),
+                  const Icon(Icons.location_pin),
                   addHorizontalSpace(16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +108,7 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
               addVerticalSpace(16),
               Row(
                 children: [
-                  Icon(Icons.location_pin),
+                  const Icon(Icons.location_pin),
                   addHorizontalSpace(16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +128,7 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
               addVerticalSpace(16),
               Row(
                 children: [
-                  Icon(Icons.location_pin),
+                  const Icon(Icons.location_pin),
                   addHorizontalSpace(16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,7 +188,7 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
                     itemCount: predictions.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: CircleAvatar(
+                        leading: const CircleAvatar(
                           child: Icon(
                             Icons.pin_drop,
                             color: Colors.white,
@@ -211,17 +205,15 @@ class RideOfferSourceScreenState extends State<RideOfferSourceScreen> {
           ),
         ]),
       ),
-      body: Container(
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 12.0,
-          ),
-          mapType: _currentMapType,
-          markers: _markers,
-          onCameraMove: _onCameraMove,
+      body: GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: const CameraPosition(
+          target: _center,
+          zoom: 12.0,
         ),
+        mapType: _currentMapType,
+        markers: _markers,
+        onCameraMove: _onCameraMove,
       ),
     );
   }

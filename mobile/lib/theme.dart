@@ -5,7 +5,7 @@ class AppTheme {
       primaryColor: const Color(0xffff7115),
       primaryColorDark: const Color(0xff111111),
       shadowColor: const Color(0xff9E9E9E),
-      backgroundColor: Color.fromARGB(255, 240, 240, 240),
+      backgroundColor: const Color.fromARGB(255, 240, 240, 240),
       hintColor: const Color(0xff29BF4A),
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),

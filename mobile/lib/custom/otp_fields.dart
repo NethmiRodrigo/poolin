@@ -4,8 +4,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class OTPFields extends StatelessWidget {
   final TextEditingController controller;
   final context;
-  Function onChangeAction;
-  OTPFields(
+  final Function onChangeAction;
+  const OTPFields(
       {Key? key,
       required this.controller,
       this.context,
@@ -36,7 +36,7 @@ class OTPFields extends StatelessWidget {
         if (v == null || v.isEmpty || v.length < 4) {
           return 'Invalid code';
         }
-        ;
+        return null;
       },
       controller: controller,
       onCompleted: (v) {
