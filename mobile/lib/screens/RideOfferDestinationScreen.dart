@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
 import 'package:mobile/screens/LoginScreen.dart';
+import 'package:mobile/screens/RideRequestDestinationScreen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
@@ -63,14 +66,22 @@ class RideOfferDestinationScreenState
               Align(
                 alignment: Alignment.topRight,
                 child: AnimatedToggleSwitch<bool>.dual(
-                  current: positive,
+                  current: !positive,
                   first: false,
                   second: true,
                   dif: 5.0,
                   borderColor: Colors.black,
                   borderWidth: 1,
                   height: 35,
-                  onChanged: (b) => setState(() => positive = b),
+                  onChanged: (b) => [
+                    setState(() => positive = !b),
+                    Timer(Duration(milliseconds: 200), () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => RideRequestDestinationScreen()));
+                    })
+                  ],
                   colorBuilder: (b) => b ? Colors.black : Colors.black,
                   iconBuilder: (value) => value
                       ? Icon(Icons.drive_eta_rounded, color: Colors.white)
