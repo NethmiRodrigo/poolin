@@ -1,23 +1,23 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile/custom/otp_fields.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/PersonalDetailsScreen.dart';
+import 'package:mobile/screens/forgot-password/reset_password_screem.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../custom/OTPFields.dart';
-import '../services/register_service.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile/services/reset_password_service.dart';
 
-class PhoneOTPScreen extends StatefulWidget {
-  const PhoneOTPScreen({Key? key}) : super(key: key);
+class VerifyEmailScreen extends StatefulWidget {
+  const VerifyEmailScreen({Key? key}) : super(key: key);
 
   @override
-  PhoneOTPScreenState createState() => PhoneOTPScreenState();
+  VerifyEmailScreenState createState() => VerifyEmailScreenState();
 }
 
-class PhoneOTPScreenState extends State<PhoneOTPScreen> {
-  TextEditingController textEditingController = TextEditingController();
+class VerifyEmailScreenState extends State<VerifyEmailScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController textEditingController = TextEditingController();
   String currentText = "";
   final _storage = const FlutterSecureStorage();
 
@@ -36,19 +36,11 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                addVerticalSpace(48),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    'STEP 4/5',
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ),
-                addVerticalSpace(40),
+                addVerticalSpace(104),
                 const Icon(Icons.lock_outline_rounded, size: 110),
-                addVerticalSpace(40),
+                addVerticalSpace(12),
                 Text(
-                  "Enter the code",
+                  "Verify it's you",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
@@ -56,7 +48,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 ),
                 addVerticalSpace(16),
                 Text(
-                  'We sent a one-time code via \nSMS to confirm',
+                  'We sent a one-time code \nto your email to confirm',
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.center,
                 ),
@@ -67,6 +59,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     controller: textEditingController,
                     context: context,
                     onChangeAction: (value) {
+                      debugPrint(value);
                       setState(() {
                         currentText = value;
                       });
@@ -75,14 +68,14 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 ),
                 addVerticalSpace(56),
                 WideButton(
-                  text: 'Verify Phone Number',
+                  text: 'Verify Email',
                   onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
-                      String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
-                          await checkSMSOTP(currentText, mobile, email);
+                          await checkEmailOTP(currentText, email!);
                       if (response.statusCode == 200) {
+                        await _storage.write(key: 'otp', value: currentText);
                         if (!mounted) {
                           return;
                         }
@@ -91,7 +84,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const PersonalDetailsScreen()),
+                                  const ResetPasswordScreen()),
                         );
                       } else {}
                     }
@@ -99,21 +92,29 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 ),
                 addVerticalSpace(16),
                 Align(
-                    alignment: Alignment.topLeft,
-                    child: RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: "Didn't receive a code? ",
-                            style: Theme.of(context).textTheme.bodyText1),
-                        TextSpan(
-                            text: 'Try again',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pop(context);
-                              }),
-                      ]),
-                    )),
+                  alignment: Alignment.topLeft,
+                  child: RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: "Didn't receive a code? ",
+                          style: Theme.of(context).textTheme.bodyText1),
+                      TextSpan(
+                          text: 'Try Again',
+                          style: Theme.of(context).textTheme.subtitle1,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              String? email =
+                                  await _storage.read(key: 'KEY_EMAIL');
+                              Response response = await submitEmail(email!);
+                              if (response.statusCode == 200) {
+                                if (!mounted) {
+                                  return;
+                                }
+                              } else {}
+                            }),
+                    ]),
+                  ),
+                ),
               ],
             ),
           ),
