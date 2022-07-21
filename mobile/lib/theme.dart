@@ -2,67 +2,80 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   ThemeData themeData = ThemeData(
-      primaryColor: const Color(0xffff7115),
-      primaryColorDark: const Color(0xff111111),
-      shadowColor: const Color(0xffb0b0b0),
-      backgroundColor: const Color(0xfff9f9f9),
-      hintColor: const Color(0xff3d8262),
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),
       fontFamily: 'Satoshi',
+      bottomSheetTheme:
+          const BottomSheetThemeData(backgroundColor: Colors.transparent),
       inputDecorationTheme: const InputDecorationTheme(
+        isDense: true,
+        contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+        filled: true,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
         labelStyle: TextStyle(color: Colors.black),
         errorStyle:
             TextStyle(fontFamily: 'Satoshi', fontWeight: FontWeight.w700),
         hintStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
+            color: Color(0xff9E9E9E),
+            fontSize: 12,
             fontFamily: 'Satoshi',
             fontWeight: FontWeight.w300),
       ),
       textTheme: ThemeData.light().textTheme.copyWith(
-            headline1: const TextStyle(
+            displayLarge: const TextStyle(
               fontFamily: 'Satoshi',
-              fontWeight: FontWeight.bold,
-              fontSize: 96,
+              fontWeight: FontWeight.w900,
+              fontSize: 34,
             ),
-            headline2: const TextStyle(
-              fontFamily: 'Satoshi',
-              fontWeight: FontWeight.bold,
-              fontSize: 60,
-            ),
-            headline3: const TextStyle(
-              fontFamily: 'Satoshi',
-              fontWeight: FontWeight.bold,
-              fontSize: 48,
-            ),
-            headline4: const TextStyle(
+            displayMedium: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.bold,
               fontSize: 34,
             ),
-            headline5: const TextStyle(
+            displaySmall: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),
-            headline6: const TextStyle(
+            headlineLarge: const TextStyle(
               fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
-            subtitle1: const TextStyle(
+            headlineMedium: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-            bodyText1: const TextStyle(
+            headlineSmall: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            titleLarge: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+            titleMedium: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontWeight: FontWeight.bold,
+              fontSize: 8,
+            ),
+            labelLarge: const TextStyle(
               fontFamily: 'Satoshi',
               fontSize: 16,
             ),
-            button: const TextStyle(
+            labelMedium: const TextStyle(
               fontFamily: 'Satoshi',
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+            labelSmall: const TextStyle(
+              fontFamily: 'Satoshi',
+              fontSize: 8,
             ),
           ));
 }
