@@ -164,7 +164,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Full Name',
+                            'Name',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2!

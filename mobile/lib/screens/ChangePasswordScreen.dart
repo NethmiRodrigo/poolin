@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/services/change_password_service.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/EmailOTPScreen.dart';
@@ -20,12 +21,13 @@ class ChangePasswordScreenState
     extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
-  final TextEditingController _pass = TextEditingController();
+  final TextEditingController _currentpass = TextEditingController();
+  final TextEditingController _newpass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
 
   @override
   void dispose() {
-    _pass.dispose();
+    _currentpass.dispose();
     _confirmPass.dispose();
     super.dispose();
   }
@@ -85,7 +87,8 @@ class ChangePasswordScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
-                      controller: _pass,
+                      key: const Key('currentpassword-field'),
+                      controller: _currentpass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
@@ -106,7 +109,8 @@ class ChangePasswordScreenState
                     ),
                     addVerticalSpace(24),
                     TextFormField(
-                      controller: _pass,
+                      key: const Key('newpassword-field'),
+                      controller: _newpass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
@@ -127,6 +131,7 @@ class ChangePasswordScreenState
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      key: const Key('confirm-password-field'),
                       controller: _confirmPass,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -139,9 +144,9 @@ class ChangePasswordScreenState
                       ),
                       validator: (value) {
                         if ((value == null || value.isEmpty) &&
-                            !(_pass.text == null || _pass.text.isEmpty)) {
+                            !(_newpass.text == null || _newpass.text.isEmpty)) {
                           return 'Please re-enter your password';
-                        } else if (value != _pass.text) {
+                        } else if (value != _newpass.text) {
                           return 'Passwords do not match';
                         }
 
@@ -153,8 +158,8 @@ class ChangePasswordScreenState
                         text: 'Reset Password',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
-                            Response response = await register(
-                                _email.text, _pass.text, _confirmPass.text);
+                            Response response = await changepassword(
+                                _currentpass.text, _newpass.text, _confirmPass.text);
                             if (!mounted) {
                               return;
                             }
