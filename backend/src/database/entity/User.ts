@@ -53,8 +53,26 @@ export class User extends BaseEntity {
   })
   gender: Gender;
 
+  @Column({ nullable: true })
+  @Exclude()
+  profileImageUri: string;
+
   @Column()
   password: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  occupation: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  dateOfBirth: Date;
+
+  @Column({ nullable: true })
+  smsOTP: string;
+
+  @Column({ nullable: true })
+  smsOTPSentAt: Date;
 
   @CreateDateColumn()
   createdAt: Date;
