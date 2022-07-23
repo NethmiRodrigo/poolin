@@ -2,27 +2,29 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   ThemeData themeData = ThemeData(
-      primaryColor: const Color(0xffff7115),
-      primaryColorDark: const Color(0xff111111),
-      shadowColor: const Color(0xff9E9E9E),
-      backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-      hintColor: const Color(0xff29BF4A),
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),
       fontFamily: 'Satoshi',
+      bottomSheetTheme:
+          const BottomSheetThemeData(backgroundColor: Colors.transparent),
       inputDecorationTheme: const InputDecorationTheme(
+        isDense: true,
+        contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+        filled: true,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
         labelStyle: TextStyle(color: Colors.black),
         errorStyle:
             TextStyle(fontFamily: 'Satoshi', fontWeight: FontWeight.w700),
         hintStyle: TextStyle(
             color: Color(0xff9E9E9E),
-            fontSize: 16,
+            fontSize: 12,
             fontFamily: 'Satoshi',
             fontWeight: FontWeight.w300),
       ),
-      textTheme: ThemeData.light()
-          .textTheme
-          .copyWith(
+      textTheme: ThemeData.light().textTheme.copyWith(
             displayLarge: const TextStyle(
               fontFamily: 'Satoshi',
               fontWeight: FontWeight.w900,
@@ -75,6 +77,5 @@ class AppTheme {
               fontFamily: 'Satoshi',
               fontSize: 8,
             ),
-          )
-          .apply(bodyColor: Colors.black, displayColor: Colors.black));
+          ));
 }

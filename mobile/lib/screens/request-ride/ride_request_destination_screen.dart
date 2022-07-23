@@ -4,10 +4,13 @@ import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile/blocs/application_bloc.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/screens/RideOfferDestinationScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:provider/provider.dart';
 
 class RideRequestDestinationScreen extends StatefulWidget {
   const RideRequestDestinationScreen({super.key});
@@ -24,6 +27,7 @@ class RideRequestDestinationScreenState
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  late StreamSubscription locationSubscription;
   final _storage = const FlutterSecureStorage();
   bool positive = false;
   @override
@@ -35,7 +39,26 @@ class RideRequestDestinationScreenState
   }
 
   @override
+  void initState() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+
+    //Listen for selected location
+    locationSubscription =
+        applicationBloc.selectedLocation.stream.listen((place) {
+      if (place != null) {
+        _pass.text = place.name!;
+      } else {
+        _pass.text = "";
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final applicationBloc = Provider.of<ApplicationBloc>(context);
+
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
@@ -97,7 +120,7 @@ class RideRequestDestinationScreenState
                   alignment: Alignment.center,
                   child: Image.asset(
                     'assets/images/rider.png',
-                    height: 272,
+                    height: 150,
                   )),
               addVerticalSpace(24),
               Text(
@@ -109,83 +132,85 @@ class RideRequestDestinationScreenState
                 "Let's find you a ride!",
                 style: Theme.of(context).textTheme.labelLarge,
               ),
-              addVerticalSpace(32),
+              addVerticalSpace(20),
               Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    addVerticalSpace(24),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Theme.of(context).backgroundColor,
                       ),
                       child: TextFormField(
                         style: Theme.of(context).textTheme.labelLarge,
                         textAlignVertical: TextAlignVertical.center,
-                        key: const Key('password-field'),
+                        key: const Key('destination-field'),
                         controller: _pass,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(AkarIcons.search),
-                          isDense: true,
                           border: InputBorder.none,
-                          alignLabelWithHint: true,
                           hintText: "Where do you want to go?",
-                          contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                         ),
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            applicationBloc.searchPlaces(value);
+                          }
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
               addVerticalSpace(16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(FluentIcons.location_16_filled),
-                        addHorizontalSpace(16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'University of Colombo',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            Text(
-                              '206/A, Reid Avenue, Colombo 07',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                          ],
-                        )
-                      ],
+              if (applicationBloc.results != null &&
+                  applicationBloc.results.isNotEmpty)
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: applicationBloc.results.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      hoverColor:
+                                          Theme.of(context).backgroundColor,
+                                      title: Text(
+                                        applicationBloc
+                                                .results[index].description ??
+                                            "description",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
+                                      ),
+                                      onTap: () {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        applicationBloc.setSelectedLocation(
+                                            applicationBloc
+                                                    .results[index].placeId ??
+                                                "");
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    addVerticalSpace(16),
-                    Row(
-                      children: [
-                        const Icon(FluentIcons.location_16_filled),
-                        addHorizontalSpace(16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'University of Colombo',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            Text(
-                              '206/A, Reid Avenue, Colombo 07',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              )
+                  ),
+                )
             ],
           ),
         ),

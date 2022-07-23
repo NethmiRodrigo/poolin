@@ -8,7 +8,7 @@ import 'package:mobile/utils/widget_functions.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
-import 'package:mobile/screens/RideRequestDestinationScreen.dart';
+import 'package:mobile/screens/request-ride/ride_request_destination_screen.dart';
 
 class RideOfferDestinationScreen extends StatefulWidget {
   const RideOfferDestinationScreen({super.key});
