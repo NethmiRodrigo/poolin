@@ -1,10 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/LoginScreen.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/VerifyEmailScreen.dart';
+import 'package:mobile/screens/forgot-password/verify_email_otp_screen.dart';
 
 class EmailSentScreen extends StatefulWidget {
   const EmailSentScreen({Key? key}) : super(key: key);

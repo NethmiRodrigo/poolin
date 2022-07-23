@@ -1,4 +1,3 @@
-import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
 import cookie from "cookie";
