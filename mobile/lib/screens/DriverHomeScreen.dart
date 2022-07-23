@@ -3,11 +3,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:mobile/custom/HomeToggle.dart';
 import 'package:mobile/custom/RideCountDown.dart';
-import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import 'package:mobile/widgets/pass_request_list.dart';
+import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/fonts.dart';
+import '../colors.dart';
 
 class DriverHomeScreen extends StatefulWidget {
-  const DriverHomeScreen({super.key});
+  const DriverHomeScreen({Key? key}) : super(key: key);
 
   @override
   DriverHomeScreenState createState() {
@@ -17,69 +21,131 @@ class DriverHomeScreen extends StatefulWidget {
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
   final _storage = const FlutterSecureStorage();
-
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+  final Map<String, int> stat = {
+    'rides': 18,
+    'total_earnings': 1500,
+    'passengers': 22,
+  };
+  final List<PassengerRequests> _rideRequests = [
+    PassengerRequests(
+      id: '1',
+      rider: 'John Doe',
+      date: DateTime.now(),
+    ),
+    PassengerRequests(
+      id: '2',
+      rider: 'Jane Doe',
+      date: DateTime.parse('2022-06-01T00:00:00'),
+    ),
+    PassengerRequests(
+      id: '3',
+      rider: 'James Doe',
+      date: DateTime.now().subtract(const Duration(hours: 5)),
+    ),
+  ];
+  bool isRiding = true;   //driver is riding if he is currently has a ride
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
+    final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: sidePadding,
-        child: ListView(
-          padding: sidePadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             addVerticalSpace(48),
             Align(
               alignment: Alignment.topRight,
               child: HomeToggle(),
             ),
-            Text(
+            addVerticalSpace(16),
+            const Text(
               'Going somewhere?',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5!
-                  .merge(const TextStyle(color: Colors.black)),
-              textAlign: TextAlign.left,
+              style: BlipFonts.title,
             ),
-            Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: RideCountDown(endTime),
+            addVerticalSpace(16),
+            isRiding
+                ? RideCountDown(endTime)
+                : Container(
+                    width: size.width,
+                    padding: const EdgeInsets.all(16),
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: BlipColors.orange,
                     ),
-                    Row(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'more for your next ride',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .merge(const TextStyle(color: Colors.white)),
-                          textAlign: TextAlign.left,
+                          'Offer a ride to someone and get paid',
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.white)),
                         ),
-                        const Icon(icon: CustomIcons.forwardarrow)
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          child: const Icon(CustomIcons.arrow_right,
+                              size: 20, color: BlipColors.white),
+                        )
                       ],
-                    )
+                    ),
+                  ),
+            addVerticalSpace(24),
+            const Text(
+              'This month’s stats',
+              style: BlipFonts.title,
+            ),
+            addVerticalSpace(16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text(stat['rides'].toString(), style: BlipFonts.title),
+                    const Text('Rides', style: BlipFonts.outline)
                   ],
                 ),
-              ),
+                Column(
+                  children: [
+                    RichText(
+                        text: TextSpan(
+                            text: 'LKR',
+                            style: BlipFonts.outline.merge(
+                                const TextStyle(color: BlipColors.black)),
+                            children: [
+                          TextSpan(
+                              text: stat['total_earnings'].toString(),
+                              style: BlipFonts.title
+                                ..merge(
+                                    const TextStyle(color: BlipColors.black)))
+                        ])),
+                    const Text('Total earnings', style: BlipFonts.outline)
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(stat['passengers'].toString(), style: BlipFonts.title),
+                    const Text('Passengers', style: BlipFonts.outline)
+                  ],
+                ),
+              ],
             ),
-            addVerticalSpace(48),
+            addVerticalSpace(24),
+            const Text(
+              'Ride requests',
+              style: BlipFonts.title,
+            ),
+            Container(
+              height: size.height * 0.3,
+              child: PassengerRequestList(_rideRequests),
+            ),
           ],
         ),
       ),
