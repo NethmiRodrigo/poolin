@@ -33,8 +33,10 @@ class PassengerRequestList extends StatelessWidget {
               'has requested to join you',
               style: BlipFonts.label,
             ),
-            trailing:
-                Text(TimeElapsed.fromDateTime(requests[index].date)),
+            trailing: Text(
+              TimeElapsed.fromDateTime(requests[index].date),
+              style: BlipFonts.outline,
+            ),
           ),
         );
       },
