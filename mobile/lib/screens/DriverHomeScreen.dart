@@ -4,10 +4,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/custom/HomeToggle.dart';
 import 'package:mobile/custom/RideCountDown.dart';
 import 'package:mobile/models/passenger_request.dart';
+import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/widgets/pass_request_list.dart';
 import 'package:mobile/custom/custom_icons_icons.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/widgets/ride_request_list.dart';
 import '../colors.dart';
 
 class DriverHomeScreen extends StatefulWidget {
@@ -28,16 +30,16 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     'total_earnings': 1500,
     'passengers': 22,
   };
-  final List<PassengerRequests> _rideRequests = [
+  final List<PassengerRequests> _passRequests = [
     PassengerRequests(
       id: '1',
       rider: 'John Doe',
       date: DateTime.now(),
     ),
     PassengerRequests(
-      id: '2',
-      rider: 'Jane Doe',
-      date: DateTime.parse('2022-06-01T00:00:00'),
+      id: '3',
+      rider: 'James Doe',
+      date: DateTime.now().subtract(const Duration(hours: 5)),
     ),
     PassengerRequests(
       id: '3',
@@ -45,7 +47,27 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       date: DateTime.now().subtract(const Duration(hours: 5)),
     ),
   ];
-  bool isRiding = true;   //driver is riding if he is currently has a ride
+  final List<RideRequest> _rideRequests = [
+    RideRequest(
+      id: '1',
+      startLocation: 'University of Colombo',
+      destination: 'Keells Super Dehiwala',
+      requestedOn: DateTime.now(),
+    ),
+    RideRequest(
+      id: '2',
+      startLocation: 'Faculty of Science',
+      destination: 'Keells Super Dehiwala',
+      requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
+    ),
+    RideRequest(
+      id: '2',
+      startLocation: 'Faculty of Science',
+      destination: 'Keells Super Dehiwala',
+      requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
+    ),
+  ];
+  bool isRiding = true; //driver is riding if he is currently has a ride
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +166,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
             ),
             Container(
               height: size.height * 0.3,
-              child: PassengerRequestList(_rideRequests),
+              child: isRiding
+                  ? PassengerRequestList(_passRequests)
+                  : RideRequestList(_rideRequests),
             ),
           ],
         ),
