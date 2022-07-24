@@ -29,6 +29,7 @@ class ApplicationBloc with ChangeNotifier {
   Map<PolylineId, Polyline> polylines = {};
   StreamController<Map<PolylineId, Polyline>> polylineStream =
       StreamController();
+  Set<Polyline> polylineList = {};
 
   ApplicationBloc() {
     setCurrentLocation();
@@ -77,6 +78,16 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+  addStartMarker(double startLat, double startLng) {
+    Marker startMarker = Marker(
+        markerId: const MarkerId("destination"),
+        draggable: false,
+        visible: true,
+        position: LatLng(startLat, startLng),
+        icon: BitmapDescriptor.defaultMarkerWithHue(90));
+    markers.add(startMarker);
+  }
+
   setSelectedLocation(String placeId,
       [double startLat = 6.9157, double startLng = 79.8636]) async {
     markers = [];
@@ -84,15 +95,10 @@ class ApplicationBloc with ChangeNotifier {
     final result = await placesService.getPlace(placeId);
     if (result != null) {
       selectedLocation.add(result);
-      Marker startMarker = Marker(
-          markerId: const MarkerId("destination"),
-          draggable: false,
-          visible: true,
-          position: LatLng(startLat, startLng),
-          icon: BitmapDescriptor.defaultMarkerWithHue(90));
+      if (startLat != null) addStartMarker(startLat, startLng);
       var newMarker = markerService.createMarkerFromPlace(result, false);
       markers.add(newMarker);
-      markers.add(startMarker);
+
       addPolylinePoints(6.9157, 79.8636, result.geometry!.location!.lat!,
           result.geometry!.location!.lng!);
 
