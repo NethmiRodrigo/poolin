@@ -7,27 +7,25 @@ import { User } from "../../database/entity/User";
 
 /** Utility functions */
 import { AppError } from "../../util/error-handler";
+import { AppDataSource } from "../../data-source";
+import { EntityMetadata } from "typeorm";
+import { IsPhoneValid, smsOTP } from "../../util/auth-helper";
+import { VerificationStatus } from "../../database/entity/TempUser";
 
 export const updateInfo = async (req: Request, res: Response) => {
   const user: User = res.locals.user;
+  if (!user) throw new AppError(401, { error: "User cannot be found" });
 
-  if (!user) throw new AppError(401, { error: "User cannot be found" }, "");
-  const { fName, lName, gender, mobile, occupation, dateOfBirth } = req.body;
-  let errors: any = {};
-
-  //check for empty fields
-  if (isEmpty(fName)) errors.fName = "First name cannot be empty";
-  if (isEmpty(lName)) errors.lName = "Last name cannot be empty";
-  if (isEmpty(gender)) errors.gender = "Gender cannot be empty";
-
-  //Throws an error if any of the fields are empty
-  if (Object.keys(errors).length > 0) throw new AppError(401, errors, "");
-
-  user.firstname = fName;
-  user.lastname = lName;
-  user.gender = gender;
-
-  await user.save();
+  if (AppDataSource.hasMetadata("users")) {
+    const metadata: EntityMetadata = AppDataSource.getMetadata("users");
+    const columns = metadata.ownColumns.map((column) => column.propertyName);
+    for (const property in req.body) {
+      if (!columns.includes(property))
+        throw new AppError(400, {}, `${property} not found in User entity`);
+      user[property] = req.body[property];
+    }
+    await user.save();
+  } else throw new AppError(500, { error: "Failed to fetch entity metadata" });
 
   return res.status(200).json({ success: "User updated", user });
 };
@@ -45,7 +43,7 @@ export const updatePassword = async (req: Request, res: Response) => {
   if (isEmpty(confirmPassword))
     errors.confirmPassword = "Confirm password cannot be empty";
 
-  if (Object.keys(errors).length > 0) throw new AppError(401, errors, "");
+  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
 
   const passwordMatched = await bcrypt.compare(password, user.password);
   if (!passwordMatched) throw new AppError(401, {}, "Incorrect credentials");
@@ -61,30 +59,44 @@ export const updatePassword = async (req: Request, res: Response) => {
 };
 
 export const updateMobile = async (req: Request, res: Response) => {
-  let { mobile } = req.body;
-  let errors: any = {};
+  const user: User = res.locals.user;
+  if (!user) throw new AppError(401, {}, "User cannot be found");
 
-  if (isEmpty(mobile)) errors.mobile = "Please enter mobile number";
+  const { mobile } = req.body;
+  if (isEmpty(mobile))
+    throw new AppError(401, { mobile: "Mobile cannot be null" });
 
-  if (Object.keys(errors).length > 0) throw new AppError(401, errors);
+  if (!IsPhoneValid(mobile))
+    throw new AppError(401, {
+      error: "Mobile already registered or mobile number is invalid",
+    });
 
-  // remove all non-numeric characters except '+'
-  mobile = mobile.replace(/[^\+0-9]/gi, "");
+  const { result, otp } = await smsOTP(mobile, user.email, "update");
+  if (!result)
+    throw new AppError(400, {}, "Couldn't send OTP. Please try again");
 
-  // check if mobile number is valid
-  // (should have a leading '+' followed by 11 digits)
-  if (!/^\+[0-9]+$/.test(mobile) || !(mobile.length == 12))
-    throw new AppError(401, {}, "Invalid mobile number");
+  return res.status(200).json({ success: "OTP sent via SMS", otp });
+};
 
-  // check if mobile number already registered
-  const user = await User.findOneBy({ mobile });
-  if (user) throw new AppError(401, { error: "Mobile already registered" });
+export const verifyUpdateMobile = async (req: Request, res: Response) => {
+  const user: User = res.locals.user;
+  const { otp } = req.body;
+  if (!user) throw new AppError(401, {}, "User cannot be found");
 
-  // const { result, otp } = await smsOTPAtSignup(mobile);
-  // if (!result)
-  //   throw new AppError(400, {}, "Couldn't send OTP. Please try again");
+  if (user.smsOTP !== otp) throw new AppError(400, { otp: "OTP is incorrect" });
 
-  // return res.status(200).json({ success: "OTP sent via SMS", otp });
+  // verify OTP - If 15 minutes has elapsed
+  const currentDate = new Date();
+  const expiresAt = new Date(user.smsOTPSentAt.getTime() + 15 * 60000);
+  if (currentDate > expiresAt)
+    throw new AppError(401, {}, "OTP expired. PLease try again");
+
+  user.mobileVerified = VerificationStatus.VERIFIED;
+  const result = await user.save();
+
+  return res
+    .status(200)
+    .json({ message: "Mobile updated successfully", user: result });
 };
 
 export const updateProfileImage = async (req: Request, res: Response) => {

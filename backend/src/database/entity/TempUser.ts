@@ -7,7 +7,6 @@ import {
   Index,
   CreateDateColumn,
   BeforeInsert,
-  BeforeUpdate,
 } from "typeorm";
 import bcrypt from "bcrypt";
 import { Exclude, instanceToPlain } from "class-transformer";
@@ -17,7 +16,7 @@ export enum VerificationStatus {
   UNVERIFIED = "unverified",
 }
 
-@Entity("temp_users")
+@Entity()
 export class TempUser extends BaseEntity {
   constructor(tempUser?: Partial<TempUser>) {
     super();
