@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/models/friend.dart';
-import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/models/ride_request.dart';
-import 'package:time_elapsed/time_elapsed.dart';
 
 import 'package:mobile/fonts.dart';
 

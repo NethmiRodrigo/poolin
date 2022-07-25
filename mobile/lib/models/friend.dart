@@ -1,7 +1,3 @@
-import 'dart:math';
-
-int i = 1 + Random().nextInt(70);
-
 class Friend {
   String id;
   String firstName;
