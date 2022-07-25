@@ -7,7 +7,7 @@ import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/widgets/close_friends_list.dart';
-import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/widgets/ride_offer_list.dart';
 import '../../colors.dart';

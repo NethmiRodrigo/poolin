@@ -7,7 +7,7 @@ import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/widgets/pass_request_list.dart';
-import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/widgets/ride_request_list.dart';
 import '../../colors.dart';
@@ -30,18 +30,18 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     'total_earnings': 1500,
     'passengers': 22,
   };
-  final List<PassengerRequests> _passRequests = [
-    PassengerRequests(
+  final List<PassengerRequest> _passRequests = [
+    PassengerRequest(
       id: '1',
       rider: 'John Doe',
       date: DateTime.now(),
     ),
-    PassengerRequests(
+    PassengerRequest(
       id: '3',
       rider: 'James Doe',
       date: DateTime.now().subtract(const Duration(hours: 5)),
     ),
-    PassengerRequests(
+    PassengerRequest(
       id: '3',
       rider: 'James Doe',
       date: DateTime.now().subtract(const Duration(hours: 5)),

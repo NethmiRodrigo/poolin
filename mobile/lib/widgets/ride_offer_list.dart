@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
-import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/icons.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';

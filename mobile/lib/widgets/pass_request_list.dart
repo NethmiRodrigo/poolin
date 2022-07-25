@@ -5,7 +5,7 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/models/passenger_request.dart';
 
 class PassengerRequestList extends StatelessWidget {
-  final List<PassengerRequests> requests;
+  final List<PassengerRequest> requests;
 
   const PassengerRequestList(this.requests, {Key? key}) : super(key: key);
 
