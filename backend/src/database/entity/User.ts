@@ -16,6 +16,11 @@ export enum Gender {
   UNKNOWN = "unknown",
 }
 
+export enum Role {
+  USER = "user",
+  ADMIN = "admin",
+}
+
 @Entity("users")
 export class User extends BaseEntity {
   constructor(user?: Partial<User>) {
@@ -73,6 +78,12 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   smsOTPSentAt: Date;
+
+  @Column({ default: false })
+  isVerified: boolean;
+
+  @Column({ default: Role.USER })
+  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;
