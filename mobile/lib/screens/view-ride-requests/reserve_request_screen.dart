@@ -5,18 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/colors.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/custom/indicator.dart';
 import 'package:mobile/fonts.dart';
 
-import 'package:mobile/screens/LoginScreen.dart';
-
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
 
-import '../custom/dashed_line.dart';
-import '../custom/outline_button.dart';
-import '../custom/timeline.dart';
+import '../../custom/dashed_line.dart';
+import '../../custom/outline_button.dart';
 
 class ReservationRequestScreen extends StatefulWidget {
   const ReservationRequestScreen({super.key});

@@ -1,18 +1,18 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
+
 import 'package:mobile/colors.dart';
 
 import 'package:mobile/fonts.dart';
 
-import 'package:mobile/screens/LoginScreen.dart';
-
 import 'package:mobile/utils/widget_functions.dart';
 
-import '../custom/timeline.dart';
+import '../../custom/indicator.dart';
+import '../../custom/outline_button.dart';
+import '../../custom/timeline.dart';
 
 class ViewRideRequestsScreen extends StatefulWidget {
   const ViewRideRequestsScreen({super.key});
