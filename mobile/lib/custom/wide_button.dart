@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/fonts.dart';
 
 class WideButton extends StatelessWidget {
   final String text;
@@ -15,7 +16,7 @@ class WideButton extends StatelessWidget {
           primary: Colors.white,
           backgroundColor: Colors.black,
           minimumSize: const Size.fromHeight(50),
-          textStyle: Theme.of(context).textTheme.bodyText1),
+          textStyle: BlipFonts.label),
       onPressed: () {
         onPressedAction();
       },
