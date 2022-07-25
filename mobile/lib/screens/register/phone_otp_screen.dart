@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/PersonalDetailsScreen.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/register/personal_details_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import '../custom/OTPFields.dart';
-import '../services/register_service.dart';
+import '../../custom/otp_fields.dart';
+import '../../services/register_service.dart';
 
 class PhoneOTPScreen extends StatefulWidget {
   const PhoneOTPScreen({Key? key}) : super(key: key);
@@ -81,7 +81,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
                       String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
-                          await checkSMSOTP(currentText, mobile, email);
+                          await checkSMSOTP(currentText, mobile!, email!);
                       if (response.statusCode == 200) {
                         if (!mounted) {
                           return;

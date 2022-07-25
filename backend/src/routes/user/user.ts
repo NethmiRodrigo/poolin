@@ -23,13 +23,6 @@ export const updateInfo = async (req: Request, res: Response) => {
   //Throws an error if any of the fields are empty
   if (Object.keys(errors).length > 0) throw new AppError(401, errors, "");
 
-  // remove all non-numeric characters except '+'
-  //const phone = mobile.replace(/[^\+0-9]/ig, "");
-
-  // check if mobile number is valid
-  // (should have a leading '+' followed by 11 digits)
-  //if (!(/^\+[0-9]+$/.test(phone)) || !(phone.length == 12)) throw new AppError(401, {}, "Invalid mobile number");
-
   user.firstname = fName;
   user.lastname = lName;
   user.gender = gender;
@@ -92,4 +85,16 @@ export const updateMobile = async (req: Request, res: Response) => {
   //   throw new AppError(400, {}, "Couldn't send OTP. Please try again");
 
   // return res.status(200).json({ success: "OTP sent via SMS", otp });
+};
+
+export const updateProfileImage = async (req: Request, res: Response) => {
+  const user: User = res.locals.user;
+
+  if (!req.file)
+    if (user) throw new AppError(401, { error: "File is missing" });
+
+  user.profileImageUri = (req.file as any).key;
+  await user.save();
+
+  return res.status(200).json({ user });
 };

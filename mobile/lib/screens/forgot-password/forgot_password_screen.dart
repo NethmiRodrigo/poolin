@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/LoginScreen.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailSentScreen.dart';
+import 'package:mobile/screens/forgot-password/email_sent_screen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -98,11 +98,6 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const EmailSentScreen()),
-                              );
-                            } else {
-                              print(response.body);
-                              const snackBar = SnackBar(
-                                content: Text('invalid email'),
                               );
                             }
                           }

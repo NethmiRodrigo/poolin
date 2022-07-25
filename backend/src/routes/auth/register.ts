@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { isEmail, isEmpty } from "class-validator";
+import bcrypt from "bcrypt";
 
 /** Utility functions */
 import { AppError } from "../../util/error-handler";
@@ -44,13 +45,19 @@ export const verifyCredentials = async (req: Request, res: Response) => {
   if (!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
 
   const tempUser = await TempUser.findOneBy({ email });
-  if (tempUser) throw new AppError(401, {}, "Signup details already verified");
-
+  if (tempUser) {
+    const hashedPassword = await bcrypt.hash(password, 8);
+    await TempUser.update({ email }, { email, password: hashedPassword });
+  }
   // save user credentials in temporary entity
-  await TempUser.create({
-    email: email,
-    password: password,
-  }).save();
+  else {
+    const newUser = new TempUser({
+      email: email,
+      password: password,
+    });
+    const result = await newUser.save();
+    console.log(result);
+  }
 
   // send OTP via Email (valid for 15 mins)
   const { otp } = await emailOTPAtSignup(email);
