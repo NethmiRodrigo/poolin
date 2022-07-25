@@ -7,7 +7,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.Token;
   if (!token) throw new AppError(401, {}, "Unauthenticated");
   const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET);
-
   const user = await User.findOneBy({ email: decodedToken.user.email });
   if (!user) throw new Error("User cannot be found");
 

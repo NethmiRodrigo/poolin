@@ -9,6 +9,7 @@ import cors from "cors";
 
 /** Routes */
 import authRoutes from "./routes/auth/index";
+import userRoutes from "./routes/user/index";
 import adminRoutes from "./routes/admin/index";
 
 /** Middleware */
@@ -33,6 +34,7 @@ app.use(cookieParser());
 /** API Routes */
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/admin", [auth, forRole([Role.ADMIN])], adminRoutes);
 
 // Upstream error handling

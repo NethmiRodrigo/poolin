@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Exclude } from "class-transformer";
+import { VerificationStatus } from "./TempUser";
 
 export enum Gender {
   MALE = "male",
@@ -78,6 +79,14 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   smsOTPSentAt: Date;
+
+  @Column({
+    nullable: true,
+    default: VerificationStatus.VERIFIED,
+    type: "enum",
+    enum: VerificationStatus,
+  })
+  mobileVerified: VerificationStatus;
 
   @Column({ default: false })
   isVerified: boolean;
