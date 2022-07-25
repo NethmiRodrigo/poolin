@@ -4,6 +4,7 @@ class AppTheme {
   ThemeData themeData = ThemeData(
       indicatorColor: const Color(0xfff64e4e),
       errorColor: const Color(0xfff64747),
+      backgroundColor: Colors.white,
       fontFamily: 'Satoshi',
       bottomSheetTheme:
           const BottomSheetThemeData(backgroundColor: Colors.transparent),
