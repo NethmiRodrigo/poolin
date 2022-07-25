@@ -4,11 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/blocs/application_bloc.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:mobile/screens/register/register_screen.dart';
-import 'package:mobile/screens/request-ride/ride_request_destination_screen.dart';
-import 'package:mobile/screens/request-ride/ride_request_source_screen.dart';
-import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
-import 'package:mobile/screens/view-ride-requests/view_all_requests_screen.dart';
+import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
+
 import 'package:provider/provider.dart';
 
 import './theme.dart';
@@ -31,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: ReservationRequestScreen(),
+        home: RideRequestDetailsScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
