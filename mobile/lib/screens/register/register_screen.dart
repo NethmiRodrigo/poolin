@@ -3,7 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -59,7 +61,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               Image.asset('assets/images/logo.png', height: 24),
               Text(
                 'Sign up and \nstart pooling',
-                style: Theme.of(context).textTheme.displayMedium,
+                style: BlipFonts.display,
                 textAlign: TextAlign.left,
               ),
               addVerticalSpace(48),
@@ -164,14 +166,12 @@ class RegisterScreenState extends State<RegisterScreen> {
                         text: TextSpan(children: [
                           TextSpan(
                               text: 'Already have an account? ',
-                              style: Theme.of(context).textTheme.labelLarge),
+                              style: BlipFonts.label),
                           TextSpan(
                               text: 'Login',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .merge(TextStyle(
-                                      color: Theme.of(context).primaryColor)),
+                              style: BlipFonts.labelBold.merge(
+                                TextStyle(color: BlipColors.orange),
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(
