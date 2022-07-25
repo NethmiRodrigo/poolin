@@ -12,6 +12,8 @@ class WideButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30))),
           padding: const EdgeInsets.all(16.0),
           primary: Colors.white,
           backgroundColor: Colors.black,
