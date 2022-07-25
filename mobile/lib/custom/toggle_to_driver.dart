@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
-import 'package:mobile/screens/DriverHomeScreen.dart';
-import 'package:mobile/screens/RiderHomeScreen.dart';
+import 'package:mobile/screens/home/DriverHomeScreen.dart';
+import 'package:mobile/screens/home/RiderHomeScreen.dart';
 
 class ToggleToDriver extends StatefulWidget {
   final bool activeScreen;

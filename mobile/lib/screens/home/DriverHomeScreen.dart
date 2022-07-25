@@ -10,7 +10,7 @@ import 'package:mobile/widgets/pass_request_list.dart';
 import 'package:mobile/custom/custom_icons_icons.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/widgets/ride_request_list.dart';
-import '../colors.dart';
+import '../../colors.dart';
 
 class DriverHomeScreen extends StatefulWidget {
   const DriverHomeScreen({Key? key}) : super(key: key);

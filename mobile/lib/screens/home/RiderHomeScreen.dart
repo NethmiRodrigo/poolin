@@ -10,7 +10,7 @@ import 'package:mobile/widgets/close_friends_list.dart';
 import 'package:mobile/custom/custom_icons_icons.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/widgets/ride_offer_list.dart';
-import '../colors.dart';
+import '../../colors.dart';
 
 class RiderHomeScreen extends StatefulWidget {
   const RiderHomeScreen({Key? key}) : super(key: key);

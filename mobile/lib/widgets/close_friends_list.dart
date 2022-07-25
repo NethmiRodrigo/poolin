@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/models/friend.dart';
 
 import 'package:mobile/fonts.dart';
@@ -24,6 +25,7 @@ class CloseFriendsList extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25,
+                  backgroundColor: BlipColors.lightGrey,
                   foregroundImage: NetworkImage(
                     friends[index].profilePicture,
                   ),
