@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/blocs/application_bloc.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
+import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: RideRequestDetailsScreen(),
+        home: ReserveRequestScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

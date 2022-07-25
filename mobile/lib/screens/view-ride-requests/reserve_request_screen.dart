@@ -1,34 +1,71 @@
+import 'dart:async';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/custom/indicator.dart';
-import 'package:mobile/fonts.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
-import '../../custom/dashed_line.dart';
-import '../../custom/outline_button.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class ReservationRequestScreen extends StatefulWidget {
-  const ReservationRequestScreen({super.key});
+import '../../colors.dart';
+import '../../custom/dashed_line.dart';
+import '../../custom/indicator.dart';
+import '../../custom/outline_button.dart';
+import '../../fonts.dart';
+
+class ReserveRequestScreen extends StatefulWidget {
+  const ReserveRequestScreen({super.key});
 
   @override
-  ReservationRequestScreenState createState() {
-    return ReservationRequestScreenState();
+  ReserveRequestScreenState createState() {
+    return ReserveRequestScreenState();
   }
 }
 
-class ReservationRequestScreenState extends State<ReservationRequestScreen> {
+class ReserveRequestScreenState extends State<ReserveRequestScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
   final _storage = const FlutterSecureStorage();
+  Completer<GoogleMapController> _controller = Completer();
+  late GooglePlace googlePlace;
+  List<AutocompletePrediction> predictions = [];
+  double _value = 40.0;
+
+  static const LatLng _center = const LatLng(6.9271, 79.8612);
+
+  final Set<Marker> _markers = {};
+
+  LatLng _lastMapPosition = _center;
+
+  MapType _currentMapType = MapType.normal;
+
+  void _onCameraMove(CameraPosition position) {
+    _lastMapPosition = position.target;
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
+
+  @override
+  void initState() {
+    String? apiKey = dotenv.env['MAPS_API_KEY'];
+    googlePlace = GooglePlace(apiKey!);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -66,11 +103,20 @@ class ReservationRequestScreenState extends State<ReservationRequestScreen> {
                 style: BlipFonts.title,
               ),
               addVerticalSpace(32),
-              Container(
-                height: 160,
-                decoration: BoxDecoration(
-                  color: BlipColors.orange,
-                  borderRadius: BorderRadius.circular(20),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  height: 160,
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 12.0,
+                    ),
+                    mapType: _currentMapType,
+                    markers: _markers,
+                    onCameraMove: _onCameraMove,
+                  ),
                 ),
               ),
               addVerticalSpace(24),
