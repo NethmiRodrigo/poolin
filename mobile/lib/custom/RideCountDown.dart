@@ -86,8 +86,14 @@ class _RideCountDownState extends State<RideCountDown> {
                     style: BlipFonts.outline
                         .merge(const TextStyle(color: BlipColors.white)),
                   ),
-                  const Icon(CustomIcons.arrow_right,
-                      size: 20, color: BlipColors.white),
+                  IconButton(
+                    icon: const Icon(
+                      CustomIcons.arrow_right,
+                      size: 20,
+                      color: BlipColors.white,
+                    ),
+                    onPressed: () {},
+                  ),
                 ],
               )
             ],

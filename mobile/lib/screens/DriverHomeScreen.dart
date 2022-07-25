@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:mobile/custom/HomeToggle.dart';
+import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/RideCountDown.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_request.dart';
@@ -67,7 +67,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
     ),
   ];
-  bool isRiding = true; //driver is riding if he currently has a ride
+  bool isDriving = true; //driver is driving if he currently has a ride
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +82,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             addVerticalSpace(48),
-            Align(
+            const Align(
               alignment: Alignment.topRight,
-              child: HomeToggle(),
+              child: ToggleToDriver(false),
             ),
             addVerticalSpace(16),
             const Text(
@@ -92,7 +92,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
               style: BlipFonts.title,
             ),
             addVerticalSpace(16),
-            isRiding
+            isDriving
                 ? RideCountDown(endTime)
                 : Container(
                     width: size.width,
@@ -113,8 +113,14 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                         ),
                         Container(
                           alignment: Alignment.bottomRight,
-                          child: const Icon(CustomIcons.arrow_right,
-                              size: 20, color: BlipColors.white),
+                          child: IconButton(
+                            icon: const Icon(
+                              CustomIcons.arrow_right,
+                              size: 20,
+                              color: BlipColors.white,
+                            ),
+                            onPressed: () {},
+                          ),
                         )
                       ],
                     ),
@@ -166,7 +172,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
             ),
             Container(
               height: size.height * 0.3,
-              child: isRiding
+              child: isDriving
                   ? PassengerRequestList(_passRequests)
                   : RideRequestList(_rideRequests),
             ),

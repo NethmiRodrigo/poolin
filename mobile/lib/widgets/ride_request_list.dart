@@ -13,6 +13,8 @@ class RideRequestList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return ListView.builder(
       itemBuilder: (ctx, index) {
         return Card(
@@ -39,9 +41,13 @@ class RideRequestList extends StatelessWidget {
                       color: BlipColors.black,
                     ),
                     const SizedBox(width: 10),
-                    Text(
-                      requests[index].startLocation,
-                      style: BlipFonts.outline,
+                    SizedBox(
+                       width: size.width * 0.45,
+                      child: Text(
+                        requests[index].startLocation,
+                        overflow: TextOverflow.ellipsis,
+                        style: BlipFonts.outline,
+                      ),
                     ),
                   ],
                 ),
@@ -54,9 +60,13 @@ class RideRequestList extends StatelessWidget {
                       color: BlipColors.black,
                     ),
                     const SizedBox(width: 10),
-                    Text(
-                      requests[index].destination,
-                      style: BlipFonts.outline,
+                    SizedBox(
+                      width: size.width * 0.45,
+                      child: Text(
+                        requests[index].destination,
+                        overflow: TextOverflow.ellipsis,
+                        style: BlipFonts.outline,
+                      ),
                     ),
                   ],
                 )

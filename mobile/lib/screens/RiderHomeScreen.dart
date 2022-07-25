@@ -1,12 +1,16 @@
+import 'dart:async';
+
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:mobile/custom/HomeToggle.dart';
+import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/RideCountDown.dart';
 import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_request.dart';
+import 'package:mobile/screens/DriverHomeScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/widgets/close_friends_list.dart';
 import 'package:mobile/widgets/pass_request_list.dart';
@@ -56,43 +60,37 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   ];
   final List<Friend> _friends = [
     Friend(
-      id: '1',
-      firstName: 'John',
-      lastName: 'Doe',
-      profilePicture: 'https://i.pravatar.cc/300?img=4'
-    ),
+        id: '1',
+        firstName: 'John',
+        lastName: 'Doe',
+        profilePicture: 'https://i.pravatar.cc/300?img=4'),
     Friend(
-      id: '2',
-      firstName: 'James',
-      lastName: 'Anderson',
-      profilePicture: 'https://i.pravatar.cc/300?img=3'
-    ),
+        id: '2',
+        firstName: 'James',
+        lastName: 'Anderson',
+        profilePicture: 'https://i.pravatar.cc/300?img=3'),
     Friend(
-      id: '3',
-      firstName: 'Yadeesha',
-      lastName: 'Doe',
-      profilePicture: 'https://i.pravatar.cc/300?img=2'
-    ),
+        id: '3',
+        firstName: 'Yadeesha',
+        lastName: 'Doe',
+        profilePicture: 'https://i.pravatar.cc/300?img=2'),
     Friend(
-      id: '4',
-      firstName: 'Nethmi',
-      lastName: 'Anderson',
-      profilePicture: 'https://i.pravatar.cc/300?img=1'
-    ),
+        id: '4',
+        firstName: 'Nethmi',
+        lastName: 'Anderson',
+        profilePicture: 'https://i.pravatar.cc/300?img=1'),
     Friend(
-      id: '5',
-      firstName: 'Azma',
-      lastName: 'Doe',
-      profilePicture: 'https://i.pravatar.cc/300?img=5'
-    ),
+        id: '5',
+        firstName: 'Azma',
+        lastName: 'Doe',
+        profilePicture: 'https://i.pravatar.cc/300?img=5'),
     Friend(
-      id: '6',
-      firstName: 'Dulaj',
-      lastName: 'Anderson',
-      profilePicture: 'https://i.pravatar.cc/300?img=6'
-    ),
+        id: '6',
+        firstName: 'Dulaj',
+        lastName: 'Anderson',
+        profilePicture: 'https://i.pravatar.cc/300?img=6'),
   ];
-  bool isRiding = false; //driver is riding if he currently has a ride
+  bool isRiding = true; //rider is riding if he currently has a ride
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +105,9 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             addVerticalSpace(48),
-            Align(
+            const Align(
               alignment: Alignment.topRight,
-              child: HomeToggle(),
+              child: ToggleToDriver(true),
             ),
             addVerticalSpace(16),
             const Text(
@@ -138,8 +136,14 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                         ),
                         Container(
                           alignment: Alignment.bottomRight,
-                          child: const Icon(CustomIcons.arrow_right,
-                              size: 20, color: BlipColors.white),
+                          child: IconButton(
+                            icon: const Icon(
+                              CustomIcons.arrow_right,
+                              size: 20,
+                              color: BlipColors.white,
+                            ),
+                            onPressed: () {},
+                          ),
                         )
                       ],
                     ),
