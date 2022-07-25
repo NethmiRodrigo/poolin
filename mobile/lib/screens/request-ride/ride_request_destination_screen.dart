@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/blocs/application_bloc.dart';
 import 'package:mobile/colors.dart';
-import 'package:mobile/screens/RideOfferDestinationScreen.dart';
+
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:provider/provider.dart';
+
+import '../offer-ride/ride_offer_destination_screen.dart';
 
 class RideRequestDestinationScreen extends StatefulWidget {
   const RideRequestDestinationScreen({super.key});

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -91,7 +92,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
               addVerticalSpace(24),
               Text(
                 'Confirm your Offer',
-                style: Theme.of(context).textTheme.displaySmall,
+                style: BlipFonts.title,
               ),
               addVerticalSpace(40),
               Container(
@@ -104,98 +105,118 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                       children: [
                         Column(
                           children: [
-                            Text(("fare per rider".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(20),
-                            Row(
+                            Column(
                               children: [
-                                Text("Rs. 5000",
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge),
-                                Icon(FluentIcons.edit_16_regular)
+                                Text(("fare per rider".toUpperCase()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
+                                addVerticalSpace(20),
+                                Row(
+                                  children: [
+                                    Text("Rs. 5000",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge),
+                                    Icon(FluentIcons.edit_16_regular)
+                                  ],
+                                ),
+                                addVerticalSpace(16),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(("date and time".toUpperCase()),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                        addVerticalSpace(20),
+                                        TextButton(
+                                            onPressed: () {
+                                              DatePicker.showDatePicker(context,
+                                                  showTitleActions: true,
+                                                  minTime: DateTime(2018, 3, 5),
+                                                  maxTime: DateTime(2019, 6, 7),
+                                                  onChanged: (date) {
+                                                print('change $date');
+                                              }, onConfirm: (date) {
+                                                print('confirm $date');
+                                              },
+                                                  currentTime: DateTime.now(),
+                                                  locale: LocaleType.en);
+                                            },
+                                            child: Text(
+                                              '26 Oct, 2022',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge,
+                                            ))
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
+                            // Column(),
                           ],
                         ),
                         Column(
                           children: [
-                            Text(("empty seats".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(8),
-                            Container(
-                              width: 140,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                border: Border.all(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 1,
-                                ),
-                              ),
-                              child: SpinBox(
-                                iconColor:
-                                    MaterialStateProperty.all(Colors.black),
-                                textStyle:
-                                    Theme.of(context).textTheme.labelLarge,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(0, 0, 0, 12),
-                                ),
-                                min: 1,
-                                max: 100,
-                                value: 50,
-                                onChanged: (value) => print(value),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(("date and time".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(20),
-                            TextButton(
-                                onPressed: () {
-                                  DatePicker.showDatePicker(context,
-                                      showTitleActions: true,
-                                      minTime: DateTime(2018, 3, 5),
-                                      maxTime: DateTime(2019, 6, 7),
-                                      onChanged: (date) {
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    print('confirm $date');
-                                  },
-                                      currentTime: DateTime.now(),
-                                      locale: LocaleType.en);
-                                },
-                                child: Text(
-                                  '26 Oct, 2022',
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ))
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(("visibility".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(20),
-                            Row(
+                            Column(
                               children: [
-                                Icon(FluentIcons.eye_16_filled, size: 18),
-                                addHorizontalSpace(8),
-                                Text("Public",
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge),
+                                Text(("visibility".toUpperCase()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
+                                addVerticalSpace(20),
+                                Row(
+                                  children: [
+                                    Icon(FluentIcons.eye_16_filled, size: 18),
+                                    addHorizontalSpace(8),
+                                    Text("Public",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            addVerticalSpace(16),
+                            Column(
+                              children: [
+                                Text(("empty seats".toUpperCase()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
+                                addVerticalSpace(16),
+                                Container(
+                                  width: 140,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    border: Border.all(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: SpinBox(
+                                    iconColor:
+                                        MaterialStateProperty.all(Colors.black),
+                                    textStyle:
+                                        Theme.of(context).textTheme.labelLarge,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(0, 0, 0, 12),
+                                    ),
+                                    min: 1,
+                                    max: 100,
+                                    value: 50,
+                                    onChanged: (value) => print(value),
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -226,14 +247,5 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
         ),
       ),
     );
-  }
-
-  void autoCompleteSearch(String value) async {
-    var result = await googlePlace.autocomplete.get(value);
-    if (result != null && result.predictions != null && mounted) {
-      setState(() {
-        predictions = result.predictions!;
-      });
-    }
   }
 }

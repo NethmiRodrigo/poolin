@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import 'package:mobile/services/register_service.dart';
@@ -93,7 +94,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
               addVerticalSpace(24),
               Text(
                 'Confirm your Request',
-                style: Theme.of(context).textTheme.displaySmall,
+                style: BlipFonts.title,
               ),
               addVerticalSpace(40),
               Container(
@@ -106,88 +107,111 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
                       children: [
                         Column(
                           children: [
-                            Text(("offer".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(20),
-                            Row(
+                            Column(
                               children: [
-                                Text("Rs. 5000",
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge),
-                                Icon(FluentIcons.edit_16_regular)
+                                Text(("fare per rider".toUpperCase()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
+                                addVerticalSpace(20),
+                                Row(
+                                  children: [
+                                    Text("Rs. 5000",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge),
+                                    Icon(FluentIcons.edit_16_regular)
+                                  ],
+                                ),
+                                addVerticalSpace(16),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(("date and time".toUpperCase()),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                        addVerticalSpace(20),
+                                        TextButton(
+                                            onPressed: () {
+                                              DatePicker.showDatePicker(context,
+                                                  showTitleActions: true,
+                                                  minTime: DateTime(2018, 3, 5),
+                                                  maxTime: DateTime(2019, 6, 7),
+                                                  onChanged: (date) {
+                                                print('change $date');
+                                              }, onConfirm: (date) {
+                                                print('confirm $date');
+                                              },
+                                                  currentTime: DateTime.now(),
+                                                  locale: LocaleType.en);
+                                            },
+                                            child: Text(
+                                              '26 Oct, 2022',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge,
+                                            ))
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
+                            // Column(),
                           ],
                         ),
                         Column(
                           children: [
-                            Text(("expiry time".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(8),
-                            SfSlider(
-                              min: 0.0,
-                              max: 100.0,
-                              value: _value,
-                              interval: 20,
-                              showTicks: false,
-                              showLabels: false,
-                              enableTooltip: true,
-                              minorTicksPerInterval: 1,
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  _value = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(("date and time".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(20),
-                            TextButton(
-                                onPressed: () {
-                                  DatePicker.showDatePicker(context,
-                                      showTitleActions: true,
-                                      minTime: DateTime(2018, 3, 5),
-                                      maxTime: DateTime(2019, 6, 7),
-                                      onChanged: (date) {
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    print('confirm $date');
-                                  },
-                                      currentTime: DateTime.now(),
-                                      locale: LocaleType.en);
-                                },
-                                child: Text(
-                                  '26 Oct, 2022',
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ))
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(("visibility".toUpperCase()),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall),
-                            addVerticalSpace(20),
-                            Row(
+                            Column(
                               children: [
-                                Icon(FluentIcons.eye_16_filled, size: 18),
-                                addHorizontalSpace(8),
-                                Text("Public",
-                                    style:
-                                        Theme.of(context).textTheme.labelLarge),
+                                Text(("visibility".toUpperCase()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
+                                addVerticalSpace(20),
+                                Row(
+                                  children: [
+                                    Icon(FluentIcons.eye_16_filled, size: 18),
+                                    addHorizontalSpace(8),
+                                    Text("Public",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            addVerticalSpace(16),
+                            Column(
+                              children: [
+                                Text(("expires in".toUpperCase()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
+                                addVerticalSpace(16),
+                                Container(
+                                  width: 140,
+                                  child: SfSlider(
+                                    min: 8.0,
+                                    max: 100.0,
+                                    value: _value,
+                                    interval: 20,
+                                    showTicks: false,
+                                    showLabels: false,
+                                    enableTooltip: true,
+                                    minorTicksPerInterval: 1,
+                                    onChanged: (dynamic value) {
+                                      setState(() {
+                                        _value = value;
+                                      });
+                                    },
+                                  ),
+                                ),
                               ],
                             ),
                           ],
