@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { isEmail, isEmpty } from "class-validator";
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
 
 /** Utility functions */
@@ -49,7 +48,7 @@ export const sendResetPasswordEmail = async (req: Request, res: Response) => {
   const result = await sendPlainMail(mailOptions);
 
   if (!result || (!result.accepted.length && !result.accepted.includes(email)))
-    throw new Error("Email could not be send. Please try again");
+    throw new AppError(500, {}, "Email could not be sent. Please try again");
 
   return res.status(200).json({ success: "Email sent successfully", otp });
 };
