@@ -109,3 +109,12 @@ export const updateProfileImage = async (req: Request, res: Response) => {
 
   return res.status(200).json({ user });
 };
+
+export const getUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const user = await User.findOneBy({ id: +id });
+  if (!user) throw new AppError(404, { error: "User not found" });
+
+  return res.status(200).json({ user });
+};

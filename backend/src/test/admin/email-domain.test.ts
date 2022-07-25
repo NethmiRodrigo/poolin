@@ -26,7 +26,7 @@ describe("Check email domains", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("email_formats");
+    await connection.dropTable("email_format");
     await connection.destroy();
   });
 });
