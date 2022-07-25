@@ -56,7 +56,6 @@ export const verifyCredentials = async (req: Request, res: Response) => {
       password: password,
     });
     const result = await newUser.save();
-    console.log(result);
   }
 
   // send OTP via Email (valid for 15 mins)
