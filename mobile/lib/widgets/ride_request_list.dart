@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/models/ride_request.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
+import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/models/ride_request.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
 
 class RideRequestList extends StatelessWidget {
@@ -31,8 +33,12 @@ class RideRequestList extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                   const Icon(Icons.gps_fixed, size: 15),
-                   const SizedBox(width: 10),
+                    const Icon(
+                      CustomIcons.source,
+                      size: 15,
+                      color: BlipColors.black,
+                    ),
+                    const SizedBox(width: 10),
                     Text(
                       requests[index].startLocation,
                       style: BlipFonts.outline,
@@ -42,8 +48,12 @@ class RideRequestList extends StatelessWidget {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                   const Icon(Icons.location_on, size: 15),
-                   const SizedBox(width: 10),
+                    const Icon(
+                      CustomIcons.destination,
+                      size: 15,
+                      color: BlipColors.black,
+                    ),
+                    const SizedBox(width: 10),
                     Text(
                       requests[index].destination,
                       style: BlipFonts.outline,

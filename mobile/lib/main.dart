@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Poolin',
       theme: AppTheme().themeData,
       // home: const RegisterScreen(),
-      home: const DriverHomeScreen(),
+      home: const RiderHomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

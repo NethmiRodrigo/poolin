@@ -31,7 +31,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   final List<RideOffer> _rideOffers = [
     RideOffer(
       id: '1',
-      startLocation: 'Town Hall',
+      startLocation: 'University of Colombo School of Computing',
       destination: 'Fort Railway Station',
       offeredOn: DateTime.now(),
     ),
@@ -42,13 +42,13 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
     ),
     RideOffer(
-      id: '2',
+      id: '3',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
     ),
     RideOffer(
-      id: '2',
+      id: '4',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
@@ -59,11 +59,37 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       id: '1',
       firstName: 'John',
       lastName: 'Doe',
+      profilePicture: 'https://i.pravatar.cc/300?img=4'
     ),
     Friend(
       id: '2',
       firstName: 'James',
       lastName: 'Anderson',
+      profilePicture: 'https://i.pravatar.cc/300?img=3'
+    ),
+    Friend(
+      id: '3',
+      firstName: 'Yadeesha',
+      lastName: 'Doe',
+      profilePicture: 'https://i.pravatar.cc/300?img=2'
+    ),
+    Friend(
+      id: '4',
+      firstName: 'Nethmi',
+      lastName: 'Anderson',
+      profilePicture: 'https://i.pravatar.cc/300?img=1'
+    ),
+    Friend(
+      id: '5',
+      firstName: 'Azma',
+      lastName: 'Doe',
+      profilePicture: 'https://i.pravatar.cc/300?img=5'
+    ),
+    Friend(
+      id: '6',
+      firstName: 'Dulaj',
+      lastName: 'Anderson',
+      profilePicture: 'https://i.pravatar.cc/300?img=6'
     ),
   ];
   bool isRiding = false; //driver is riding if he currently has a ride
@@ -123,11 +149,8 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
               'Find out where your friends are headed',
               style: BlipFonts.title,
             ),
-            // Container(
-            //   width: size.width,
-            //   height: size.height * 0.1,
-            //   child: CloseFriendsList(_friends),
-            // ),
+            addVerticalSpace(8),
+            CloseFriendsList(_friends),
             addVerticalSpace(24),
             const Text(
               'Ride offers',

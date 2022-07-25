@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/models/ride_request.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
+import 'package:mobile/custom/custom_icons_icons.dart';
+import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
 
 class RideOfferList extends StatelessWidget {
@@ -12,6 +13,8 @@ class RideOfferList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return ListView.builder(
       itemBuilder: (ctx, index) {
         return Card(
@@ -32,22 +35,38 @@ class RideOfferList extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                   const Icon(Icons.gps_fixed, size: 15),
-                   const SizedBox(width: 10),
-                    Text(
-                      offers[index].startLocation,
-                      style: BlipFonts.outline,
+                    const Icon(
+                      CustomIcons.source,
+                      size: 15,
+                      color: BlipColors.black,
+                    ),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: size.width * 0.45,
+                      child: Text(
+                        offers[index].startLocation,
+                        overflow: TextOverflow.ellipsis,
+                        style: BlipFonts.outline,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                   const Icon(Icons.location_on, size: 15),
-                   const SizedBox(width: 10),
-                    Text(
-                      offers[index].destination,
-                      style: BlipFonts.outline,
+                    const Icon(
+                      CustomIcons.destination,
+                      size: 15,
+                      color: BlipColors.black,
+                    ),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: size.width * 0.45,
+                      child: Text(
+                        offers[index].destination,
+                        overflow: TextOverflow.ellipsis,
+                        style: BlipFonts.outline,
+                      ),
                     ),
                   ],
                 )

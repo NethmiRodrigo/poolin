@@ -13,24 +13,32 @@ class CloseFriendsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (ctx, index) {
-        return Card(
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                foregroundImage: NetworkImage(
-                  friends[index].profilePicture,
+    final Size size = MediaQuery.of(context).size;
+    const double padding = 16;
+
+    return SizedBox(
+      height: size.height * 0.12,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (ctx, index) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  foregroundImage: NetworkImage(
+                    friends[index].profilePicture,
+                  ),
                 ),
-              ),
-              Text(friends[index].firstName),
-            ],
-          ),
-        );
-      },
-      itemCount: friends.length,
+                const SizedBox(height: 8),
+                Text(friends[index].firstName, style: BlipFonts.outlineBold,),
+              ],
+            ),
+          );
+        },
+        itemCount: friends.length,
+      ),
     );
   }
 }

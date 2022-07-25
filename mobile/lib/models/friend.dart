@@ -1,12 +1,17 @@
+import 'dart:math';
+
+int i = 1 + Random().nextInt(70);
+
 class Friend {
   String id;
   String firstName;
   String lastName;
-  String profilePicture = 'https://i.pravatar.cc/300';
+  String profilePicture;
 
   Friend({
     required this.id,
     required this.firstName,
-    required this.lastName
+    required this.lastName,
+    required this.profilePicture,
   });
 }
