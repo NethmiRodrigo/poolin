@@ -49,7 +49,7 @@
    },
    "scripts": {
       "start": "nodemon --exec ts-node src/server.ts",
-      "test": "jest --runInBand --verbose",
+      "test": "jest --runInBand --verbose --detectOpenHandles",
       "typeorm": "typeorm-ts-node-commonjs"
    }
 }

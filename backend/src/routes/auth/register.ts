@@ -10,7 +10,7 @@ import {
   emailOTPAtSignup,
   isEmailDomainValid,
   isEmailRegistered,
-  smsOTPAtSignup,
+  smsOTP,
 } from "../../util/auth-helper";
 
 /** Entities */
@@ -56,7 +56,6 @@ export const verifyCredentials = async (req: Request, res: Response) => {
       password: password,
     });
     const result = await newUser.save();
-    console.log(result);
   }
 
   // send OTP via Email (valid for 15 mins)
@@ -132,7 +131,7 @@ export const verifyMobileNumber = async (req: Request, res: Response) => {
   const user = await User.findOneBy({ mobile });
   if (user) throw new AppError(401, { error: "Mobile already registered" });
 
-  const { result, otp } = await smsOTPAtSignup(mobile, email);
+  const { result, otp } = await smsOTP(mobile, email);
   if (!result)
     throw new AppError(400, {}, "Couldn't send OTP. Please try again");
 
@@ -163,6 +162,9 @@ export const verifySMSOTP = async (req: Request, res: Response) => {
   const expiresAt = new Date(tempUser.smsOTPSentAt.getTime() + 15 * 60000);
   if (currentDate > expiresAt)
     throw new AppError(401, {}, "OTP expired. PLease try again");
+
+  if (otp !== tempUser.smsOTP)
+    throw new AppError(400, { otp: "OTP is incorrect" });
 
   // update SMS verification status
   tempUser.mobileStatus = VerificationStatus.VERIFIED;

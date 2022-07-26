@@ -9,11 +9,17 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Exclude } from "class-transformer";
+import { VerificationStatus } from "./TempUser";
 
 export enum Gender {
   MALE = "male",
   FEMALE = "female",
   UNKNOWN = "unknown",
+}
+
+export enum Role {
+  USER = "user",
+  ADMIN = "admin",
 }
 
 @Entity("users")
@@ -73,6 +79,20 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   smsOTPSentAt: Date;
+
+  @Column({
+    nullable: true,
+    default: VerificationStatus.VERIFIED,
+    type: "enum",
+    enum: VerificationStatus,
+  })
+  mobileVerified: VerificationStatus;
+
+  @Column({ default: false })
+  isVerified: boolean;
+
+  @Column({ default: Role.USER })
+  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;

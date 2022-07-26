@@ -1,7 +1,7 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import multer from "multer";
 import multerS3 from "multer-s3";
-import { uuid } from "uuidv4";
+import { v4 } from "uuid";
 
 const client = new S3Client({
   region: process.env.S3_REGION,
@@ -25,7 +25,7 @@ const fileFilter = (
   }
 };
 
-const upload = (key = uuid(), metadata?: Object) =>
+const upload = (key = v4(), metadata?: Object) =>
   multer({
     fileFilter,
     storage: multerS3({

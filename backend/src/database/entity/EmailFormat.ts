@@ -1,12 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  BaseEntity,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 import { Exclude, instanceToPlain } from "class-transformer";
 
-@Entity("email_formats")
+@Entity()
 export class EmailFormat extends BaseEntity {
   constructor(emailFormat?: Partial<EmailFormat>) {
     super();
