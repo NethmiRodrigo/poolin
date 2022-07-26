@@ -83,53 +83,6 @@ class _RideRequestSourceState extends State<RideRequestSourceScreen> {
             )
           : ListView(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 220.0,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            addVerticalSpace(30.0),
-                            const Text(
-                              "Good Morning, Jane Doe",
-                              style: BlipFonts.labelBold,
-                            ),
-                            addVerticalSpace(10.0),
-                            const Text(
-                              'Where are you starting from?',
-                              style: BlipFonts.title,
-                            ),
-                            addVerticalSpace(20.0),
-                            TextField(
-                              controller: _locationContoller,
-                              decoration: const InputDecoration(
-                                hintText: "Search starting location",
-                                prefixIcon: Icon(Icons.search),
-                              ),
-                              style: BlipFonts.label,
-                              onChanged: (value) {
-                                if (value.isNotEmpty)
-                                  applicationBloc.searchPlaces(value);
-                              },
-                              onTap: () {
-                                if (_locationContoller.text.isNotEmpty) {
-                                  _locationContoller.text = "";
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 Stack(
                   children: [
                     Container(
@@ -190,6 +143,53 @@ class _RideRequestSourceState extends State<RideRequestSourceScreen> {
                         ),
                       ),
                   ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  height: 220.0,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            addVerticalSpace(30.0),
+                            const Text(
+                              "Good Morning, Jane Doe",
+                              style: BlipFonts.labelBold,
+                            ),
+                            addVerticalSpace(10.0),
+                            const Text(
+                              'Where are you starting from?',
+                              style: BlipFonts.title,
+                            ),
+                            addVerticalSpace(20.0),
+                            TextField(
+                              controller: _locationContoller,
+                              decoration: const InputDecoration(
+                                hintText: "Search starting location",
+                                prefixIcon: Icon(Icons.search),
+                              ),
+                              style: BlipFonts.label,
+                              onChanged: (value) {
+                                if (value.isNotEmpty)
+                                  applicationBloc.searchPlaces(value);
+                              },
+                              onTap: () {
+                                if (_locationContoller.text.isNotEmpty) {
+                                  _locationContoller.text = "";
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

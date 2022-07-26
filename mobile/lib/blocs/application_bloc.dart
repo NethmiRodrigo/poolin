@@ -74,6 +74,7 @@ class ApplicationBloc with ChangeNotifier {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
     }
+    print(polylineCoordinates);
     _addPolyLine(polylineCoordinates);
     notifyListeners();
   }
