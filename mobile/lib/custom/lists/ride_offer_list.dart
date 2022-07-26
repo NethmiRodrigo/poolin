@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
-import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/blip_icons_icons.dart';
+import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/icons.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
 
-class RideRequestList extends StatelessWidget {
-  final List<RideRequest> requests;
+class RideOfferList extends StatelessWidget {
+  final List<RideOffer> offers;
 
-  const RideRequestList(this.requests, {Key? key}) : super(key: key);
+  const RideOfferList(this.offers, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class RideRequestList extends StatelessWidget {
             leading: CircleAvatar(
               radius: 20,
               foregroundImage: NetworkImage(
-                requests[index].profilePicture,
+                offers[index].profilePicture,
               ),
             ),
             title: Column(
@@ -42,9 +42,9 @@ class RideRequestList extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     SizedBox(
-                       width: size.width * 0.45,
+                      width: size.width * 0.45,
                       child: Text(
-                        requests[index].startLocation,
+                        offers[index].startLocation,
                         overflow: TextOverflow.ellipsis,
                         style: BlipFonts.outline,
                       ),
@@ -63,7 +63,7 @@ class RideRequestList extends StatelessWidget {
                     SizedBox(
                       width: size.width * 0.45,
                       child: Text(
-                        requests[index].destination,
+                        offers[index].destination,
                         overflow: TextOverflow.ellipsis,
                         style: BlipFonts.outline,
                       ),
@@ -73,13 +73,13 @@ class RideRequestList extends StatelessWidget {
               ],
             ),
             trailing: Text(
-              TimeElapsed.fromDateTime(requests[index].requestedOn),
+              TimeElapsed.fromDateTime(offers[index].offeredOn),
               style: BlipFonts.outline,
             ),
           ),
         );
       },
-      itemCount: requests.length,
+      itemCount: offers.length,
     );
   }
 }
