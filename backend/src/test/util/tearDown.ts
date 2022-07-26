@@ -10,8 +10,7 @@ const tearDownTests = async () => {
   for (const entity of entities) {
     const repository = TestAppDataSource.getRepository(entity.name); // Get repository
     if (repository) {
-      await repository.remove([]);
-      await repository.delete({});
+      await repository.clear();
     }
   }
   if (connection) await connection.destroy();
