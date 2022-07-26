@@ -1,3 +1,4 @@
+import app from "../../../app";
 import {
   TempUser,
   VerificationStatus,
@@ -5,7 +6,6 @@ import {
 import { createUserAccount } from "../../../util/auth-helper";
 import codeHandler from "../../../util/code-handler";
 import TestConnection from "../../util/connection";
-import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 let tempUser;
@@ -13,11 +13,6 @@ let tempUser;
 describe("Check if user account is created", () => {
   beforeAll(async () => {
     connection = await new TestConnection().initialize();
-    await TempUser.clear();
-  });
-
-  afterEach(async () => {
-    await TempUser.clear();
   });
 
   it("Should create account when mobile and email is verified", async () => {
@@ -36,6 +31,8 @@ describe("Check if user account is created", () => {
   });
 
   afterAll(async () => {
-    await tearDownTests();
+    await connection.clearDatabase();
+    await connection.destroy();
+    app.close();
   });
 });

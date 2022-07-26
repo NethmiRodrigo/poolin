@@ -1,14 +1,13 @@
+import app from "../../../app";
 import { User } from "../../../database/entity/User";
 import { isEmailRegistered } from "../../../util/auth-helper";
 import TestConnection from "../../util/connection";
-import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 
 describe("Check if an email is already registered", () => {
   beforeAll(async () => {
     connection = await new TestConnection().initialize();
-    await User.clear();
     const user = await User.create({
       email: "2020test000@stu.ucsc.lk",
       password: "2020Test@1234",
@@ -29,6 +28,8 @@ describe("Check if an email is already registered", () => {
   });
 
   afterAll(async () => {
-    await tearDownTests();
+    await connection.clearDatabase();
+    await connection.destroy();
+    app.close();
   });
 });
