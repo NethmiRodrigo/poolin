@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import app from "../../../app";
 import { User } from "../../../database/entity/User";
 import TestConnection from "../../util/connection";
+import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 
@@ -43,8 +44,6 @@ describe("Test verify-user-info endpoint", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("users");
-    await connection.destroy();
-    app.close();
+    await tearDownTests();
   });
 });

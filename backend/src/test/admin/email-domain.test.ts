@@ -1,6 +1,7 @@
 import { EmailFormat } from "../../database/entity/EmailFormat";
 import { isEmailDomainValid } from "../../util/auth-helper";
 import TestConnection from "../util/connection";
+import tearDownTests from "../util/tearDown";
 
 let connection: TestConnection;
 
@@ -26,7 +27,6 @@ describe("Check email domains", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("email_format");
-    await connection.destroy();
+    await tearDownTests();
   });
 });

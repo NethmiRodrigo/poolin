@@ -4,6 +4,7 @@ import { TempUser } from "../../../database/entity/TempUser";
 import { User } from "../../../database/entity/User";
 import codeHandler from "../../../util/code-handler";
 import TestConnection from "../../util/connection";
+import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 
@@ -40,8 +41,6 @@ describe("Test verify-mobile-num endpoint", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("temp_user");
-    await connection.destroy();
-    app.close();
+    await tearDownTests();
   });
 });

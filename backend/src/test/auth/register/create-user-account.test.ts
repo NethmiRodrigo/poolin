@@ -5,6 +5,7 @@ import {
 import { createUserAccount } from "../../../util/auth-helper";
 import codeHandler from "../../../util/code-handler";
 import TestConnection from "../../util/connection";
+import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 let tempUser;
@@ -35,7 +36,6 @@ describe("Check if user account is created", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("temp_user");
-    await connection.destroy();
+    await tearDownTests();
   });
 });

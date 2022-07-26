@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import app from "../../../app";
 import { User } from "../../../database/entity/User";
 import TestConnection from "../../util/connection";
+import tearDownTests from "../../util/tearDown";
 
 const API_URL: string = "/api/auth/send-reset-password-email";
 let connection: TestConnection;
@@ -43,9 +44,6 @@ describe(API_URL, () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("users");
-    await connection.dropTable("forgot_password");
-    await connection.destroy();
-    app.close();
+    await tearDownTests();
   });
 });

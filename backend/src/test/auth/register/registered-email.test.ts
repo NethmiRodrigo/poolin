@@ -1,6 +1,7 @@
 import { User } from "../../../database/entity/User";
 import { isEmailRegistered } from "../../../util/auth-helper";
 import TestConnection from "../../util/connection";
+import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 
@@ -28,7 +29,6 @@ describe("Check if an email is already registered", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("email_format");
-    await connection.destroy();
+    await tearDownTests();
   });
 });

@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "../../../app";
 import codeHandler from "../../../util/code-handler";
 import TestConnection from "../../util/connection";
+import tearDownTests from "../../util/tearDown";
 
 let connection: TestConnection;
 
@@ -44,8 +45,6 @@ describe("Test verify-credentials endpoint", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("temp_user");
-    await connection.destroy();
-    app.close();
+    await tearDownTests();
   });
 });
