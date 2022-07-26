@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
-import 'package:mobile/colors.dart';
 
-import 'package:mobile/icons.dart';
+import 'package:mobile/colors.dart';
+import 'package:mobile/blip_icons_icons.dart';
 import 'package:mobile/fonts.dart';
 
 class RideCountDown extends StatefulWidget {
@@ -88,7 +88,7 @@ class _RideCountDownState extends State<RideCountDown> {
                   ),
                   IconButton(
                     icon: const Icon(
-                      CustomIcons.arrow_right,
+                      BlipIcons.arrow_right,
                       size: 20,
                       color: BlipColors.white,
                     ),

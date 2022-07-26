@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
-class CustomIcons {
-  CustomIcons._();
+class BlipIcons {
+  BlipIcons._();
 
-  static const _kFontFam = 'CustomIcons';
+  static const _kFontFam = 'BlipIcons';
   static const String? _kFontPkg = null;
 
   static const IconData rider = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
