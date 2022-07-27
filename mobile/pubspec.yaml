@@ -56,6 +56,9 @@ dependencies:
   
   flutter_spinbox: ^0.9.0
   syncfusion_flutter_sliders: ^20.2.39
+  multi_select_flutter: ^4.1.2
+  chips_choice_null_safety: ^2.0.6
+  another_xlider: ^1.1.2
   # flutter_svg: any
 
 dev_dependencies:
