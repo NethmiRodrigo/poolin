@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:mobile/screens/register/register_screen.dart';
+
 import './theme.dart';
 
 Future<void> main() async {
