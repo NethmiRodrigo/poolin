@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -79,7 +80,10 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Widget _addLocationSearchField(String type) {
-    return TextField(
+    return TextFormField(
+      initialValue: type == "source"
+          ? widget.sourcePosition!.name
+          : widget.destinationPosition!.name,
       autofocus: false,
       showCursor: false,
       readOnly: true,
@@ -92,15 +96,8 @@ class _MapScreenState extends State<MapScreen> {
             style: BorderStyle.none,
           ),
         ),
-        prefixIcon: const Icon(Icons.location_on_outlined),
+        prefixIcon: const Icon(FluentIcons.location_16_filled),
         prefixIconColor: BlipColors.orange,
-        hintText: type == "source"
-            ? widget.sourcePosition!.name
-            : widget.destinationPosition!.name,
-        hintStyle: BlipFonts.label,
-        filled: true,
-        fillColor: BlipColors.lightGrey,
-        contentPadding: const EdgeInsets.all(8.0),
       ),
       onTap: () {
         Navigator.pop(context);
@@ -110,6 +107,9 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    const double padding = 16;
+    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     Set<Marker> _markers = {
       Marker(
         markerId: const MarkerId('source'),
@@ -148,7 +148,7 @@ class _MapScreenState extends State<MapScreen> {
         LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SizedBox(
-              height: constraints.maxHeight / 3 * 2,
+              // height: constraints.maxHeight / 3 * 2,
               child: GoogleMap(
                 initialCameraPosition: _initalPosition,
                 markers: Set.from(_markers),
@@ -169,48 +169,52 @@ class _MapScreenState extends State<MapScreen> {
             );
           },
         ),
-        DraggableScrollableSheet(
-            initialChildSize: 1 / 3,
-            minChildSize: 1 / 3,
-            maxChildSize: 1 / 3,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    const Text(
-                      "Your Trip Details",
-                      style: BlipFonts.heading,
-                    ),
-                    addVerticalSpace(5.0),
-                    const Divider(
-                      thickness: 1,
-                      color: BlipColors.orange,
-                    ),
-                    addVerticalSpace(10.0),
-                    _addLocationSearchField("source"),
-                    addVerticalSpace(10.0),
-                    _addLocationSearchField("destination"),
-                    addVerticalSpace(10.0),
-                    WideButton(
-                      text: rideType == "offer"
-                          ? 'Post an offer'
-                          : "Look for ride offers",
-                      onPressedAction: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => rideType == "offer"
-                                  ? const RideOfferDetailsScreen()
-                                  : const RideRequestDetailsScreen(),
-                            ));
-                      },
-                    ),
-                  ],
-                ),
-              );
-            }),
       ]),
+      bottomSheet: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          padding: sidePadding,
+          height: size.height * 0.5,
+          width: size.width,
+          child: Column(
+            children: [
+              addVerticalSpace(24),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  "Your Trip Details",
+                  style: BlipFonts.title,
+                ),
+              ),
+              addVerticalSpace(40),
+              _addLocationSearchField("source"),
+              addVerticalSpace(24),
+              _addLocationSearchField("destination"),
+              addVerticalSpace(48),
+              WideButton(
+                text: rideType == "offer"
+                    ? 'Post an offer'
+                    : "Look for ride offers",
+                onPressedAction: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => rideType == "offer"
+                            ? const RideOfferDetailsScreen()
+                            : const RideRequestDetailsScreen(),
+                      ));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
