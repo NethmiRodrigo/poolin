@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 
@@ -74,6 +75,20 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const CircleAvatar(
+            backgroundColor: BlipColors.white,
+            child: Icon(Icons.arrow_back, color: BlipColors.black),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       bottomSheet: ClipRRect(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),

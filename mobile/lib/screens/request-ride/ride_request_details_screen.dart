@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -15,7 +16,6 @@ import 'package:mobile/utils/widget_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class RideRequestDetailsScreen extends StatefulWidget {
@@ -28,27 +28,21 @@ class RideRequestDetailsScreen extends StatefulWidget {
 }
 
 class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
   double _value = 40.0;
 
-  static const LatLng _center = const LatLng(6.9271, 79.8612);
+  static const LatLng _center = LatLng(6.9271, 79.8612);
 
   final Set<Marker> _markers = {};
 
-  LatLng _lastMapPosition = _center;
+  final MapType _currentMapType = MapType.normal;
 
-  MapType _currentMapType = MapType.normal;
-
-  void _onCameraMove(CameraPosition position) {
-    _lastMapPosition = position.target;
-  }
+  void _onCameraMove(CameraPosition position) {}
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -76,13 +70,27 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const CircleAvatar(
+            backgroundColor: BlipColors.white,
+            child: Icon(Icons.arrow_back, color: BlipColors.black),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       bottomSheet: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           padding: sidePadding,
@@ -92,13 +100,13 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(24),
-              Text(
+              const Text(
                 'Confirm your Request',
                 style: BlipFonts.title,
               ),
               addVerticalSpace(40),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
                     Row(
@@ -120,7 +128,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelLarge),
-                                    Icon(FluentIcons.edit_16_regular)
+                                    const Icon(FluentIcons.edit_16_regular)
                                   ],
                                 ),
                                 addVerticalSpace(16),
@@ -142,11 +150,8 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
                                                   showTitleActions: true,
                                                   minTime: DateTime(2018, 3, 5),
                                                   maxTime: DateTime(2019, 6, 7),
-                                                  onChanged: (date) {
-                                                print('change $date');
-                                              }, onConfirm: (date) {
-                                                print('confirm $date');
-                                              },
+                                                  onChanged: (date) {},
+                                                  onConfirm: (date) {},
                                                   currentTime: DateTime.now(),
                                                   locale: LocaleType.en);
                                             },
@@ -176,7 +181,8 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
                                 addVerticalSpace(20),
                                 Row(
                                   children: [
-                                    Icon(FluentIcons.eye_16_filled, size: 18),
+                                    const Icon(FluentIcons.eye_16_filled,
+                                        size: 18),
                                     addHorizontalSpace(8),
                                     Text("Public",
                                         style: Theme.of(context)
@@ -194,7 +200,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
                                         .textTheme
                                         .headlineSmall),
                                 addVerticalSpace(16),
-                                Container(
+                                SizedBox(
                                   width: 140,
                                   child: SfSlider(
                                     min: 8.0,
@@ -229,17 +235,15 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
           ),
         ),
       ),
-      body: Container(
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 12.0,
-          ),
-          mapType: _currentMapType,
-          markers: _markers,
-          onCameraMove: _onCameraMove,
+      body: GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: const CameraPosition(
+          target: _center,
+          zoom: 12.0,
         ),
+        mapType: _currentMapType,
+        markers: _markers,
+        onCameraMove: _onCameraMove,
       ),
     );
   }

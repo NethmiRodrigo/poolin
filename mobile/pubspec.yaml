@@ -100,10 +100,7 @@ flutter:
   # example:
 
   assets:
-    - assets/images/logo.png
-    - assets/images/rider.png
-    - assets/images/driver.png
-    - assets/images/map.png
+    - assets/images/
     - .env
 
   fonts:

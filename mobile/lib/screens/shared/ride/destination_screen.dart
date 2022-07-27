@@ -9,31 +9,33 @@ import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/search_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
-import '../offer-ride/ride_offer_destination_screen.dart';
 
-class RideRequestDestinationScreen extends StatefulWidget {
-  const RideRequestDestinationScreen({super.key});
+class DestinationScreen extends StatefulWidget {
+  RideType rideType = RideType.offer;
+  DestinationScreen({super.key, this.rideType = RideType.offer});
 
   @override
-  RideRequestDestinationScreenState createState() {
-    return RideRequestDestinationScreenState();
+  DestinationScreenState createState() {
+    return DestinationScreenState();
   }
 }
 
-class RideRequestDestinationScreenState
-    extends State<RideRequestDestinationScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
+class DestinationScreenState extends State<DestinationScreen> {
   final _storage = const FlutterSecureStorage();
-  bool rideIsARequest = false;
+  late RideType _rideType;
+  late bool isRideAnOffer;
+
   @override
-  void dispose() {
-    _email.dispose();
-    _pass.dispose();
-    _confirmPass.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _rideType = widget.rideType;
+    isRideAnOffer = _rideType != RideType.request;
+  }
+
+  Future<void> setRideTypeInStoreage(
+      BuildContext context, VoidCallback onSuccess) async {
+    await _storage.write(key: "RIDE_TYPE", value: _rideType.name);
+    onSuccess.call();
   }
 
   @override
@@ -61,28 +63,21 @@ class RideRequestDestinationScreenState
               Align(
                 alignment: Alignment.topRight,
                 child: AnimatedToggleSwitch<bool>.dual(
-                  current: rideIsARequest,
+                  current: isRideAnOffer,
                   first: false,
                   second: true,
                   dif: 5.0,
                   borderColor: Colors.black,
                   borderWidth: 1,
                   height: 35,
-                  onChanged: (isRideARequest) => [
-                    () async {
-                      if (isRideARequest) {
-                        await _storage.write(
-                            key: "RIDE_TYPE", value: RideType.offer.toString());
-                      }
-                    },
+                  onChanged: (toggleValue) => [
                     setState(() {
-                      rideIsARequest = isRideARequest;
-                    }), //   Navigator.push(
-                    Timer(Duration(milliseconds: 200), () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => RideOfferDestinationScreen()));
+                      isRideAnOffer = toggleValue;
+                      if (isRideAnOffer) {
+                        _rideType = RideType.offer;
+                      } else {
+                        _rideType = RideType.request;
+                      }
                     })
                   ],
                   colorBuilder: (b) => b ? Colors.black : Colors.black,
@@ -106,56 +101,62 @@ class RideRequestDestinationScreenState
               Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    'assets/images/rider.png',
+                    isRideAnOffer
+                        ? 'assets/images/driver.png'
+                        : 'assets/images/rider.png',
                     height: 272,
                   )),
               addVerticalSpace(24),
               Text(
-                'Where are you going?',
+                isRideAnOffer
+                    ? 'Where are you headed?'
+                    : 'Where are you going?',
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               addVerticalSpace(8),
               Text(
-                "Let's find you a ride!",
+                isRideAnOffer
+                    ? "Let's let everyone know!"
+                    : "Let's find you a ride!",
                 style: Theme.of(context).textTheme.labelLarge,
               ),
               addVerticalSpace(20),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextFormField(
-                        autofocus: false,
-                        showCursor: false,
-                        readOnly: true,
-                        style: Theme.of(context).textTheme.labelLarge,
-                        textAlignVertical: TextAlignVertical.center,
-                        key: const Key('destination-field'),
-                        controller: _pass,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(AkarIcons.search),
-                          isDense: true,
-                          border: InputBorder.none,
-                          alignLabelWithHint: true,
-                          hintText: "What's your destination?",
-                          contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-                        ),
-                        onTap: (() {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SearchScreen(),
-                                  fullscreenDialog: true));
-                        }),
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ],
-                ),
+                    child: TextFormField(
+                      autofocus: false,
+                      showCursor: false,
+                      readOnly: true,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlignVertical: TextAlignVertical.center,
+                      key: const Key('destination-field'),
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(AkarIcons.search),
+                        isDense: true,
+                        border: InputBorder.none,
+                        alignLabelWithHint: true,
+                        hintText: "What's your destination?",
+                        contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+                      ),
+                      onTap: (() => setRideTypeInStoreage(
+                            context,
+                            () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SearchScreen(),
+                                    fullscreenDialog: true),
+                              );
+                            },
+                          )),
+                    ),
+                  ),
+                ],
               ),
               addVerticalSpace(16),
               Padding(
