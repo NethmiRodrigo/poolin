@@ -79,7 +79,7 @@ class EditBioScreenState extends State<EditBioScreen> {
                                 'bio': _bio
                               };
                               String? token = await _storage.read(key: 'TOKEN');
-                              Response response = await editfullname(data, token!);
+                              Response response = await updateprofile(data, token!);
                               if (response.statusCode == 200) {
                                 if (!mounted) {
                                   return;

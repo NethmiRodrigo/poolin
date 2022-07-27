@@ -17,10 +17,12 @@ class EditPhoneNumberScreen extends StatefulWidget {
 
 class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
   TextEditingController textEditingController = TextEditingController();
+  final TextEditingController _mobile = TextEditingController();
   String currentNumber = "";
   final _storage = const FlutterSecureStorage();
   final _formKey = GlobalKey<FormState>();
   String currentText = "";
+  
 
   @override
   Widget build(BuildContext context) {
@@ -107,12 +109,15 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                     text: 'Proceed',
                     onPressedAction: () async {
                       if (_formKey.currentState!.validate()) {
+                        Map data = {
+                                'mobile': _mobile
+                              };
                         String? token = await _storage.read(key: 'TOKEN');
                         Response response =
-                            await changePhoneNumber(currentNumber, token);
+                            await updateprofile(data, token!);
                         if (response.statusCode == 200) {
-                          await _storage.write(
-                              key: 'KEY_MOBILE', value: currentNumber);
+                          // await _storage.write(
+                          //     key: 'KEY_MOBILE', value: currentNumber);
                           if (!mounted) {
                             return;
                           }

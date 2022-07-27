@@ -82,9 +82,12 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                       ),
                       onPressed: () async{
                         if (_formKey.currentState!.validate()) {
+                          Map data = {
+                                'gender': _gender
+                              };
                           String? token = await _storage.read(key: 'TOKEN');
-                          Response response = await editgender(
-                               _gender, token!);
+                          Response response = await updateprofile(
+                               data, token!);
                           if (response.statusCode == 200) {
                             if (!mounted) {
                               return;

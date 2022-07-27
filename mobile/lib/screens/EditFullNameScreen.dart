@@ -97,7 +97,7 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
                                 'lastname': _lname.text,
                               };
                               String? token = await _storage.read(key: 'TOKEN');
-                              Response response = await editfullname(
+                              Response response = await updateprofile(
                                   data, token!);
                               if (response.statusCode == 200) {
                                 if (!mounted) {
@@ -122,13 +122,14 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
                 ),
               ),
               addVerticalSpace(16),
-              Center(
-                child: Stack(
-                  children: [],
-                ),
-              ),
+              // Center(
+              //   child: Stack(
+              //     children: [],
+              //   ),
+              // ),
               Container(
                 child: Column(children: [
+                  //FOrm ---------------------------->>>>>>>>>>>
                   Padding(
                       padding: EdgeInsets.only(
                     top: 10,
