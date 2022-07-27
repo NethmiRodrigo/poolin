@@ -2,13 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile/blocs/application_bloc.dart';
 import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/screens/request-ride/ride_request_destination_screen.dart';
-import 'package:mobile/screens/request-ride/ride_request_source_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
-
-import 'package:provider/provider.dart';
 
 import './theme.dart';
 

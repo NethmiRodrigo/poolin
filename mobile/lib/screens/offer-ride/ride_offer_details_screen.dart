@@ -175,7 +175,6 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                 ),
                               ],
                             ),
-                            // Column(),
                           ],
                         ),
                         Column(
@@ -221,7 +220,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                         MaterialStateProperty.all(Colors.black),
                                     textStyle:
                                         Theme.of(context).textTheme.labelLarge,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       contentPadding:
                                           EdgeInsets.fromLTRB(0, 0, 0, 12),
@@ -252,7 +251,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
       body: Container(
         child: GoogleMap(
           onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
+          initialCameraPosition: const CameraPosition(
             target: _center,
             zoom: 12.0,
           ),

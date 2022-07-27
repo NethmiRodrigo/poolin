@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:mobile/colors.dart';
+import 'package:mobile/custom/check.dart';
 
 import 'package:mobile/fonts.dart';
 
@@ -169,10 +170,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(
-                                      FluentIcons.checkbox_checked_16_regular,
-                                      color: Colors.white,
-                                    ),
+                                    Check(),
                                     addHorizontalSpace(8),
                                     Text(('select').toUpperCase(),
                                         style: Theme.of(context)
