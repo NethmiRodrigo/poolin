@@ -41,6 +41,10 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.2.38
   flutter_secure_storage: ^5.0.2
   flutter_dotenv: ^5.0.2
+  toggle_switch: ^2.0.1
+  flutter_countdown_timer: ^4.1.0
+  time_elapsed: ^0.2.6
+  animated_toggle_switch: ^0.5.2
   # flutter_svg: any
 
 dev_dependencies:
@@ -93,6 +97,9 @@ flutter:
           - asset: assets/fonts/Satoshi-Regular.otf
           - asset: assets/fonts/Satoshi-Bold.otf
             weight: 700
+      - family:  BlipIcons
+        fonts:
+          - asset: assets/icons/BlipIcons.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
