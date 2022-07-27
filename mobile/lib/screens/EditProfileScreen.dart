@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screens/ChangePasswordScreen.dart';
 import 'package:mobile/screens/EditBioScreen.dart';
+import 'package:mobile/screens/EditFullNameScreen.dart';
 import 'package:mobile/screens/EditPersonalDetailsScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 // import 'package:flutter/src/foundation/key.dart';
@@ -173,6 +174,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                           addVerticalSpace(8),
                           TextFormField(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditFullNameScreen()));
+                            },
                             key: const Key('name-field'),
                             controller: _name,
                             style: Theme.of(context)

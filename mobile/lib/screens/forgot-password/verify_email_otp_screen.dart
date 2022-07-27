@@ -1,13 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/OTPFields.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/custom/otp_fields.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:http/http.dart';
-import 'package:mobile/screens/ResetPasswordScreen.dart';
+import 'package:mobile/screens/forgot-password/reset_password_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/services/reset_password_service.dart';
-import 'package:mobile/custom/LinkService.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
@@ -74,7 +73,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     if (_formKey.currentState!.validate()) {
                       String? email = await _storage.read(key: 'KEY_EMAIL');
                       Response response =
-                          await checkEmailOTP(currentText, email);
+                          await checkEmailOTP(currentText, email!);
                       if (response.statusCode == 200) {
                         await _storage.write(key: 'otp', value: currentText);
                         if (!mounted) {
@@ -87,9 +86,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                               builder: (context) =>
                                   const ResetPasswordScreen()),
                         );
-                      } else {
-                        print(response.body);
-                      }
+                      } else {}
                     }
                   },
                 ),
@@ -113,9 +110,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                 if (!mounted) {
                                   return;
                                 }
-                              } else {
-                                print(response.body);
-                              }
+                              } else {}
                             }),
                     ]),
                   ),

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mobile/custom/WideButton.dart';
-import 'package:mobile/screens/PhoneOTPScreen.dart';
+import 'package:mobile/custom/otp_fields.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/register/phone_number_screen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
-class PhoneNumberScreen extends StatefulWidget {
-  const PhoneNumberScreen({Key? key}) : super(key: key);
+class EmailOTPScreen extends StatefulWidget {
+  const EmailOTPScreen({Key? key}) : super(key: key);
 
   @override
-  PhoneNumberScreenState createState() => PhoneNumberScreenState();
+  EmailOTPScreenState createState() => EmailOTPScreenState();
 }
 
-class PhoneNumberScreenState extends State<PhoneNumberScreen> {
-  TextEditingController textEditingController = TextEditingController();
-  String currentNumber = "";
-  final _storage = const FlutterSecureStorage();
+class EmailOTPScreenState extends State<EmailOTPScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController textEditingController = TextEditingController();
+  String currentText = "";
+  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -39,65 +39,48 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
-                    'STEP 3/5',
+                    'STEP 2/5',
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 addVerticalSpace(40),
-                const Icon(Icons.phone_android_rounded, size: 110),
+                const Icon(Icons.lock_outline_rounded, size: 110),
                 addVerticalSpace(40),
                 Text(
-                  "Add phone number",
+                  "Verify it's you",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
                       .merge(const TextStyle(color: Colors.black)),
                 ),
                 addVerticalSpace(16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
-                  child: Text(
-                    'A 4-digit OTP will be sent via SMS to verify your number',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  'We sent a one-time code \nto your email to confirm',
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(48),
                 Form(
                   key: _formKey,
-                  child: IntlPhoneField(
-                    validator: (v) {
-                      if (v == null) {
-                        return 'Please enter a phone number';
-                      }
-                      return null;
-                    },
-                    flagsButtonPadding: const EdgeInsets.only(left: 16),
-                    showDropdownIcon: false,
-                    decoration: const InputDecoration(
-                      hintText: 'Phone Number',
-                      isDense: true,
-                      border: OutlineInputBorder(),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                    ),
-                    initialCountryCode: 'LK',
-                    onChanged: (phone) {
-                      currentNumber = phone.completeNumber;
+                  child: OTPFields(
+                    controller: textEditingController,
+                    context: context,
+                    onChangeAction: (value) {
+                      setState(() {
+                        currentText = value;
+                      });
                     },
                   ),
                 ),
                 addVerticalSpace(56),
                 WideButton(
-                    text: 'Proceed',
+                    text: 'Verify Email',
                     onPressedAction: () async {
                       if (_formKey.currentState!.validate()) {
                         String? email = await _storage.read(key: 'KEY_EMAIL');
                         Response response =
-                            await submitPhoneNumber(currentNumber, email);
+                            await checkEmailOTP(currentText, email!);
                         if (response.statusCode == 200) {
-                          await _storage.write(
-                              key: 'KEY_MOBILE', value: currentNumber);
                           if (!mounted) {
                             return;
                           }
@@ -105,12 +88,12 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PhoneOTPScreen()),
+                                builder: (context) =>
+                                    const PhoneNumberScreen()),
                           );
                         } else {}
                       }
-                    }),
-                addVerticalSpace(16),
+                    })
               ],
             ),
           ),

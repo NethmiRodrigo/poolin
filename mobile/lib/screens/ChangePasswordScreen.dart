@@ -1,12 +1,18 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/screens/register/email_otp_screen.dart';
+// import 'package:mobile/screens/EmailOTPScreen.dart';
+import 'package:mobile/screens/EditProfileScreen.dart';
+
 import 'package:mobile/services/change_password_service.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/EmailOTPScreen.dart';
+
+import '../custom/wide_button.dart';
+
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -20,10 +26,10 @@ class ChangePasswordScreen extends StatefulWidget {
 class ChangePasswordScreenState
     extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _email = TextEditingController();
   final TextEditingController _currentpass = TextEditingController();
   final TextEditingController _newpass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  final _storage = const FlutterSecureStorage();
 
   @override
   void dispose() {
@@ -158,8 +164,9 @@ class ChangePasswordScreenState
                         text: 'Reset Password',
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
+                            String? token = await _storage.read(key: 'TOKEN');
                             Response response = await changepassword(
-                                _currentpass.text, _newpass.text, _confirmPass.text);
+                                _currentpass.text, _newpass.text, _confirmPass.text,token!);
                             if (!mounted) {
                               return;
                             }
@@ -168,7 +175,7 @@ class ChangePasswordScreenState
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const EmailOTPScreen()),
+                                        const EditProfileScreen()),
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -117,7 +117,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           String? email = await _storage.read(key: 'KEY_EMAIL');
                           String? otp = await _storage.read(key: 'otp');
                           Response response = await resetPassword(
-                              email, _pass.text, _confirmPass.text, otp);
+                              email!, _pass.text, _confirmPass.text, otp!);
                           if (response.statusCode == 200) {
                             if (!mounted) {
                               return;
@@ -129,9 +129,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   builder: (context) =>
                                       const ResetPasswordScreen()),
                             );
-                          } else {
-                            print(response.body);
-                          }
+                          } else {}
                         }
                       },
                     ),

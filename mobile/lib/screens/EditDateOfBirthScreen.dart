@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
+import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -13,6 +15,8 @@ class EditDateOfBirthScreen extends StatefulWidget {
 }
 
 class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -35,7 +39,8 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     addHorizontalSpace(8),
-                    IconButton(
+                    Form(child: Row(children: [
+                      IconButton(
                       icon: const Icon(
                         Icons.close,
                         color: Colors.black,
@@ -51,10 +56,29 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     addHorizontalSpace(72),
-                    Icon(
-                      Icons.check,
-                      color: Colors.black,
+                    IconButton(
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.black,
+                      ),
+                      onPressed: () async{
+                        // if (_formKey.currentState!.validate()) {
+                        //   String? token = await _storage.read(key: 'TOKEN');
+                        //   Response response = await editdateofbirth(
+                        //        date, token!);
+                        //   if (response.statusCode == 200) {
+                        //     if (!mounted) {
+                        //       return;
+                        //     }
+                        //     //replace this with navigation to home page
+
+                        //   } else {}
+                        // }
+                        Navigator.pop(context);
+                      },
                     ),
+                    ],))
+                    
                   ],
                 ),
               ),

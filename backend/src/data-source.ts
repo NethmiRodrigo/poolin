@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   host: process.env.DATABASE_HOST,
   port: parseInt(<string>process.env.DATABASE_PORT),
   username: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASS,
+  password: 'Imesh#98',
   database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
@@ -21,3 +21,5 @@ export const AppDataSource = new DataSource({
   migrations: ["./src/database/migration"],
   subscribers: [],
 });
+
+console.log(process.env.DATABASE_PASS)

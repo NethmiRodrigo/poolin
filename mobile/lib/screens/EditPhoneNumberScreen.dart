@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/EditPhoneNumberOTPScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
+
+import '../services/updateprofile_service.dart';
 
 class EditPhoneNumberScreen extends StatefulWidget {
   const EditPhoneNumberScreen({Key? key}) : super(key: key);
@@ -13,6 +17,9 @@ class EditPhoneNumberScreen extends StatefulWidget {
 
 class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
   TextEditingController textEditingController = TextEditingController();
+  String currentNumber = "";
+  final _storage = const FlutterSecureStorage();
+  final _formKey = GlobalKey<FormState>();
   String currentText = "";
 
   @override
@@ -75,7 +82,8 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                   ),
                 ),
                 addVerticalSpace(40),
-                Container(
+                // Form(),
+                Form(
                   child: Padding(
                     padding: sidePadding,
                     child: Column(children: [
@@ -97,13 +105,27 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                 addVerticalSpace(20),
                 WideButton(
                     text: 'Proceed',
-                    onPressedAction: () {
-                      Navigator.push(
+                    onPressedAction: () async {
+                      if (_formKey.currentState!.validate()) {
+                        String? token = await _storage.read(key: 'TOKEN');
+                        Response response =
+                            await changePhoneNumber(currentNumber, token);
+                        if (response.statusCode == 200) {
+                          await _storage.write(
+                              key: 'KEY_MOBILE', value: currentNumber);
+                          if (!mounted) {
+                            return;
+                          }
+
+                          Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
                                 const EditPhoneNumberOTPScreen()),
                       );
+                        } else {}
+                      }
+                      
                     }),
                 ]),
                     ),),

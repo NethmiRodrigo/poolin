@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/WideButton.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
+import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EditGenderScreen extends StatefulWidget {
@@ -15,6 +17,7 @@ class EditGenderScreenState extends State<EditGenderScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fname = TextEditingController();
   final TextEditingController _lname = TextEditingController();
+  final _storage = const FlutterSecureStorage();
   List<bool> isSelected = [true, false];
   String _gender = "male";
 
@@ -46,8 +49,12 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    
                     addHorizontalSpace(8),
-                    IconButton(
+                    Form(
+                      // key: _formKey,
+                      child: Row(children: [
+                      IconButton(
                       icon: const Icon(
                         Icons.close,
                         color: Colors.black,
@@ -62,12 +69,35 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                       style: Theme.of(context).textTheme.headline3!.merge(
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
-                    addHorizontalSpace(88),
+                    addHorizontalSpace(80),
                     // Spacer(),
-                    Icon(
-                      Icons.check,
-                      color: Colors.black,
+                    // Icon(
+                    //   Icons.check,
+                    //   color: Colors.black,
+                    // ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.check,
+                        color: Colors.black,
+                      ),
+                      onPressed: () async{
+                        if (_formKey.currentState!.validate()) {
+                          String? token = await _storage.read(key: 'TOKEN');
+                          Response response = await editgender(
+                               _gender, token!);
+                          if (response.statusCode == 200) {
+                            if (!mounted) {
+                              return;
+                            }
+                            //replace this with navigation to home page
+
+                          } else {}
+                        }
+                        Navigator.pop(context);
+                      },
                     ),
+                    ],)),
+                    
                   ],
                 ),
               ),
