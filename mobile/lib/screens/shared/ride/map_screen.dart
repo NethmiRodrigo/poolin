@@ -6,6 +6,7 @@ import 'package:google_place/google_place.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/outline_button.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
@@ -191,12 +192,11 @@ class _MapScreenState extends State<MapScreen> {
                     addVerticalSpace(10.0),
                     _addLocationSearchField("destination"),
                     addVerticalSpace(10.0),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        primary: BlipColors.orange,
-                        padding: const EdgeInsets.all(8.0),
-                      ),
-                      onPressed: () {
+                    WideButton(
+                      text: rideType == "offer"
+                          ? 'Post an offer'
+                          : "Look for ride offers",
+                      onPressedAction: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -205,11 +205,6 @@ class _MapScreenState extends State<MapScreen> {
                                   : const RideRequestDetailsScreen(),
                             ));
                       },
-                      label: Text(rideType == "offer"
-                          ? 'Post an offer'
-                          : "Look for ride offers"),
-                      icon: Icon(
-                          rideType == "offer" ? Icons.post_add : Icons.search),
                     ),
                   ],
                 ),
