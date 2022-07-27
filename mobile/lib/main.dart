@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/blocs/application_bloc.dart';
 import 'package:mobile/screens/login/login_screen.dart';
+import 'package:mobile/screens/offer-ride/driver_ride_visibility_screen.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_destination_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_source_screen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: ViewRideRequestsScreen(),
+        home: DriverRideVisibilityScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
