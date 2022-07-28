@@ -5,6 +5,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/search_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -111,7 +112,7 @@ class DestinationScreenState extends State<DestinationScreen> {
                 isRideAnOffer
                     ? 'Where are you headed?'
                     : 'Where are you going?',
-                style: Theme.of(context).textTheme.displaySmall,
+                style: BlipFonts.title,
               ),
               addVerticalSpace(8),
               Text(

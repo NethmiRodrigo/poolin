@@ -80,10 +80,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Widget _addLocationSearchField(String type) {
-    return TextFormField(
-      initialValue: type == "source"
-          ? widget.sourcePosition!.name
-          : widget.destinationPosition!.name,
+    return TextField(
       autofocus: false,
       showCursor: false,
       readOnly: true,
@@ -98,6 +95,9 @@ class _MapScreenState extends State<MapScreen> {
         ),
         prefixIcon: const Icon(FluentIcons.location_16_filled),
         prefixIconColor: BlipColors.orange,
+        hintText: type == "source"
+            ? widget.sourcePosition!.name
+            : widget.destinationPosition!.name,
       ),
       onTap: () {
         Navigator.pop(context);
@@ -107,9 +107,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    const double padding = 16;
-    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     Set<Marker> _markers = {
       Marker(
         markerId: const MarkerId('source'),
@@ -148,7 +145,7 @@ class _MapScreenState extends State<MapScreen> {
         LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return SizedBox(
-              // height: constraints.maxHeight / 3 * 2,
+              height: constraints.maxHeight / 2 * 1,
               child: GoogleMap(
                 initialCameraPosition: _initalPosition,
                 markers: Set.from(_markers),
@@ -169,52 +166,47 @@ class _MapScreenState extends State<MapScreen> {
             );
           },
         ),
-      ]),
-      bottomSheet: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          padding: sidePadding,
-          height: size.height * 0.5,
-          width: size.width,
-          child: Column(
-            children: [
-              addVerticalSpace(24),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  "Your Trip Details",
-                  style: BlipFonts.title,
+        DraggableScrollableSheet(
+            initialChildSize: 1 / 2,
+            minChildSize: 1 / 2,
+            maxChildSize: 1 / 2,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "Your Trip Details",
+                        style: BlipFonts.title,
+                      ),
+                    ),
+                    addVerticalSpace(24),
+                    addVerticalSpace(10.0),
+                    _addLocationSearchField("source"),
+                    addVerticalSpace(10.0),
+                    _addLocationSearchField("destination"),
+                    addVerticalSpace(48),
+                    WideButton(
+                      text: rideType == "offer"
+                          ? 'Post an offer'
+                          : "Look for ride offers",
+                      onPressedAction: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => rideType == "offer"
+                                  ? const RideOfferDetailsScreen()
+                                  : const RideRequestDetailsScreen(),
+                            ));
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              addVerticalSpace(40),
-              _addLocationSearchField("source"),
-              addVerticalSpace(24),
-              _addLocationSearchField("destination"),
-              addVerticalSpace(48),
-              WideButton(
-                text: rideType == "offer"
-                    ? 'Post an offer'
-                    : "Look for ride offers",
-                onPressedAction: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => rideType == "offer"
-                            ? const RideOfferDetailsScreen()
-                            : const RideRequestDetailsScreen(),
-                      ));
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+              );
+            }),
+      ]),
     );
   }
 }

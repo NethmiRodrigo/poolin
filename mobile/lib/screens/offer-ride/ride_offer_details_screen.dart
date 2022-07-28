@@ -133,7 +133,11 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelLarge),
-                                    Icon(FluentIcons.edit_16_regular)
+                                    Icon(
+                                      FluentIcons.edit_16_regular,
+                                      size: 14,
+                                      color: BlipColors.orange,
+                                    ),
                                   ],
                                 ),
                                 addVerticalSpace(16),
@@ -148,7 +152,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall),
-                                        addVerticalSpace(20),
+                                        addVerticalSpace(8),
                                         TextButton(
                                             onPressed: () {
                                               DatePicker.showDatePicker(context,
@@ -211,7 +215,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(40),
                                     border: Border.all(
-                                      color: Theme.of(context).primaryColor,
+                                      color: BlipColors.orange,
                                       width: 1,
                                     ),
                                   ),
@@ -240,7 +244,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                   ],
                 ),
               ),
-              addVerticalSpace(20),
+              addVerticalSpace(32),
               WideButton(
                   text: "I'll arrive at 4.30PM in 2 days",
                   onPressedAction: () {})
