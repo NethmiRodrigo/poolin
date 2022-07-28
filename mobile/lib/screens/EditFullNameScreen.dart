@@ -44,25 +44,26 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
     return Scaffold(
         body: SafeArea(
       child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: ListView(key: _formKey,
+        // onTap: () {
+        //   FocusScope.of(context).unfocus();
+        // },
+        child: Column(
+          key: _formKey,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               addVerticalSpace(48),
-
-              Container(
+              Form(
+                // key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
                 // width: double.infinity,
                 // padding: sidePadding,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     addHorizontalSpace(8),
-                    Form(
-                        // key: _formKey,
-                        child: Row(
-                      children: [
+                    
                         IconButton(
                           icon: const Icon(
                             Icons.close,
@@ -116,8 +117,7 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
                             // Navigator.pop(context);
                           },
                         ),
-                      ],
-                    )),
+                      
                   ],
                 ),
               ),
@@ -129,7 +129,6 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
               // ),
               Container(
                 child: Column(children: [
-                  //FOrm ---------------------------->>>>>>>>>>>
                   Padding(
                       padding: EdgeInsets.only(
                     top: 10,
@@ -245,6 +244,9 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
                   ),
                 ]),
               ),
+
+                  ],)),
+              
 
               // Container(
               //   color: Colors.blue,

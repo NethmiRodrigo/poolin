@@ -65,11 +65,11 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                         style: Theme.of(context).textTheme.headline3!.merge(
                             const TextStyle(color: Colors.black, fontSize: 24)),
                       ),
-                      addHorizontalSpace(44),
-                      Icon(
-                        Icons.check,
-                        color: Colors.black,
-                      ),
+                      // addHorizontalSpace(44),
+                      // Icon(
+                      //   Icons.check,
+                      //   color: Colors.black,
+                      // ),
                     ],
                   ),
                 ),
@@ -86,6 +86,7 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                 addVerticalSpace(40),
                 // Form(),
                 Form(
+                  key: _formKey,
                   child: Padding(
                     padding: sidePadding,
                     child: Column(children: [

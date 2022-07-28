@@ -32,14 +32,18 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(48),
-              Container(
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
                 // width: double.infinity,
                 // padding: sidePadding,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     addHorizontalSpace(8),
-                    Form(child: Row(children: [
+                    
                       IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -77,7 +81,8 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    ],))
+                    /////this is
+                    
                     
                   ],
                 ),
@@ -89,6 +94,10 @@ class EditDateOfBirthScreenState extends State<EditDateOfBirthScreen> {
                       children: [addVerticalSpace(72), SfDateRangePicker()]),
                 ),
               ),
+
+                  ],)),
+              
+              
             ],
           ),
         ),

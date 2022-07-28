@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:mobile/screens/EditPersonalDetailsScreen.dart';
+import 'package:mobile/screens/EditProfileScreen.dart';
 import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -15,18 +17,16 @@ class EditGenderScreen extends StatefulWidget {
 
 class EditGenderScreenState extends State<EditGenderScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fname = TextEditingController();
-  final TextEditingController _lname = TextEditingController();
   final _storage = const FlutterSecureStorage();
   List<bool> isSelected = [true, false];
   String _gender = "male";
 
-  @override
-  void dispose() {
-    _fname.dispose();
-    _lname.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _fname.dispose();
+  //   _lname.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,11 @@ class EditGenderScreenState extends State<EditGenderScreen> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(48),
-              Container(
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
                 // width: double.infinity,
                 // padding: sidePadding,
                 child: Row(
@@ -51,9 +55,7 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                   children: <Widget>[
                     
                     addHorizontalSpace(8),
-                    Form(
-                      // key: _formKey,
-                      child: Row(children: [
+                   
                       IconButton(
                       icon: const Icon(
                         Icons.close,
@@ -96,22 +98,27 @@ class EditGenderScreenState extends State<EditGenderScreen> {
 
                           } else {}
                         }
-                        Navigator.pop(context);
+                        Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditPersonalDetailsScreen()),
+                                );
                       },
                     ),
-                    ],)),
+                   
                     
                   ],
                 ),
               ),
               addVerticalSpace(72),
               Container(
-                child: Column(children: [
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  
+                      
+                      
                         addVerticalSpace(24),
                         ToggleButtons(
                           onPressed: (int index) {
@@ -159,21 +166,13 @@ class EditGenderScreenState extends State<EditGenderScreen> {
                           ],
                         ),
                         addVerticalSpace(40),
-                        // WideButton(
-                        //   text: 'Start Pooling!',
-                        //   onPressedAction: () {
-                        //     if (_formKey.currentState!.validate()) {
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //         const SnackBar(content: Text('Processing Data')),
-                        //       );
-                        //     }
-                        //   },
-                        // )
-                      ],
-                    ),
-                  ),
+                        
+                     
                 ]),
               ),
+
+              ],)),
+              
             ],
           ),
         ),

@@ -13,7 +13,6 @@ import 'package:mobile/utils/widget_functions.dart';
 
 import '../custom/wide_button.dart';
 
-
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
 
@@ -23,8 +22,7 @@ class ChangePasswordScreen extends StatefulWidget {
   }
 }
 
-class ChangePasswordScreenState
-    extends State<ChangePasswordScreen> {
+class ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _currentpass = TextEditingController();
   final TextEditingController _newpass = TextEditingController();
@@ -33,6 +31,7 @@ class ChangePasswordScreenState
 
   @override
   void dispose() {
+    _newpass.dispose();
     _currentpass.dispose();
     _confirmPass.dispose();
     super.dispose();
@@ -78,7 +77,6 @@ class ChangePasswordScreenState
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     // Spacer(),
-                    
                   ],
                 ),
               ),
@@ -87,110 +85,118 @@ class ChangePasswordScreenState
               Container(
                 child: Padding(
                   padding: sidePadding,
-                  child: Column(children: [Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      key: const Key('currentpassword-field'),
-                      controller: _currentpass,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter current password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password is required';
-                        } else if (value.length < 8) {
-                          return 'Password length must be atleast 8 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    addVerticalSpace(24),
-                    TextFormField(
-                      key: const Key('newpassword-field'),
-                      controller: _newpass,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter new password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password is required';
-                        } else if (value.length < 8) {
-                          return 'Password length must be atleast 8 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    addVerticalSpace(24),
-                    TextFormField(
-                      key: const Key('confirm-password-field'),
-                      controller: _confirmPass,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Confirm new password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      ),
-                      validator: (value) {
-                        if ((value == null || value.isEmpty) &&
-                            !(_newpass.text == null || _newpass.text.isEmpty)) {
-                          return 'Please re-enter your password';
-                        } else if (value != _newpass.text) {
-                          return 'Passwords do not match';
-                        }
+                  child: Column(children: [
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextFormField(
+                            key: const Key('currentpassword-field'),
+                            controller: _currentpass,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              isDense: true,
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter current password',
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Password is required';
+                              } else if (value.length < 8) {
+                                return 'Password length must be atleast 8 characters';
+                              }
+                              return null;
+                            },
+                          ),
+                          addVerticalSpace(24),
+                          TextFormField(
+                            key: const Key('newpassword-field'),
+                            controller: _newpass,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              isDense: true,
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter new password',
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Password is required';
+                              } else if (value.length < 8) {
+                                return 'Password length must be atleast 8 characters';
+                              }
+                              return null;
+                            },
+                          ),
+                          addVerticalSpace(24),
+                          TextFormField(
+                            key: const Key('confirm-password-field'),
+                            controller: _confirmPass,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              isDense: true,
+                              border: OutlineInputBorder(),
+                              hintText: 'Confirm new password',
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
+                            ),
+                            validator: (value) {
+                              if ((value == null || value.isEmpty) &&
+                                  !(_newpass.text == null ||
+                                      _newpass.text.isEmpty)) {
+                                return 'Please re-enter your password';
+                              } else if (value != _newpass.text) {
+                                return 'Passwords do not match';
+                              }
 
-                        return null;
-                      },
+                              return null;
+                            },
+                          ),
+                          addVerticalSpace(40),
+                          WideButton(
+                              text: 'Reset Password',
+                              onPressedAction: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  String? token =
+                                      await _storage.read(key: 'TOKEN');
+                                  Response response = await changepassword(
+                                      _currentpass.text,
+                                      _newpass.text,
+                                      _confirmPass.text,
+                                      token!);
+                                  if (!mounted) {
+                                    return;
+                                  }
+                                  if (response.statusCode == 200) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EditProfileScreen()),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Error: ${response.body}')),
+                                    );
+                                  }
+                                }
+                              }),
+                          addVerticalSpace(16),
+                        ],
+                      ),
                     ),
-                    addVerticalSpace(40),
-                    WideButton(
-                        text: 'Reset Password',
-                        onPressedAction: () async {
-                          if (_formKey.currentState!.validate()) {
-                            String? token = await _storage.read(key: 'TOKEN');
-                            Response response = await changepassword(
-                                _currentpass.text, _newpass.text, _confirmPass.text,token!);
-                            if (!mounted) {
-                              return;
-                            }
-                            if (response.statusCode == 200) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const EditProfileScreen()),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text('Error: ${response.body}')),
-                              );
-                            }
-                          }
-                        }),
-                    addVerticalSpace(16),
-                  ],
+                  ]),
                 ),
-              ),]),
-                  ),),
-              
+              ),
             ],
           ),
         ),

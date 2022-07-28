@@ -44,6 +44,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               addVerticalSpace(48),
+              Form(child: Column(children: [
               Container(
                 width: double.infinity,
                 padding: sidePadding,
@@ -153,17 +154,19 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       left: 16,
                       bottom: 16,
                     ),
-                    child: Column(children: [
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                       // Padding(
                       //     padding: EdgeInsets.only(
                       //   right: 35,
                       //   left: 35,
                       // )),
                       addVerticalSpace(4),
-                      Form(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                      
+                          
+                        
+                        
                           Text(
                             'Name',
                             style: Theme.of(context)
@@ -299,8 +302,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             }).toList(),
                           ),
                           ///////////////////////////////////////
-                        ],
-                      )),
+                      
 
                       addVerticalSpace(24),
                       Row(
@@ -375,6 +377,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ]),
               ),
+              ],)),
 
               // Container(
               //   color: Colors.blue,

@@ -83,9 +83,9 @@ class EditPhoneNumberOTPScreenState extends State<EditPhoneNumberOTPScreen> {
                   onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
                       String? token = await _storage.read(key: 'TOKEN');
-                      String? mobile = await _storage.read(key: 'KEY_MOBILE');
+                      // String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
-                          await editcheckSMSOTP(currentText, mobile!, token!);
+                          await editcheckSMSOTP(currentText, token!);
                       if (response.statusCode == 200) {
                         if (!mounted) {
                           return;

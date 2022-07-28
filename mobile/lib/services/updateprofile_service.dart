@@ -25,26 +25,26 @@ Future<http.Response> updateprofile(Map data, String? token) async {
 
 
 
-Future<http.Response> changePhoneNumber(String number, token) async {
-  Map data = {'mobile': number, 'TOKEN':token};
+// Future<http.Response> changePhoneNumber(String number, token) async {
+//   Map data = {'mobile': number, 'TOKEN':token};
 
-  String body = json.encode(data);
-  final url = Uri.parse('$baseURL/change-phone-number');
-  final response = await http.post(
-    url,
-    body: body,
-    headers: {
-      "Token":token!,
-      "Content-Type": "application/json",
-      "accept": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    },
-  );
-  return response;
-}
+//   String body = json.encode(data);
+//   final url = Uri.parse('$baseURL/change-phone-number');
+//   final response = await http.post(
+//     url,
+//     body: body,
+//     headers: {
+//       "Token":token!,
+//       "Content-Type": "application/json",
+//       "accept": "application/json",
+//       "Access-Control-Allow-Origin": "*"
+//     },
+//   );
+//   return response;
+// }
 
 Future<http.Response> editcheckSMSOTP(
-    String otp, String mobile, String? token) async {
+    String otp, String? token) async {
   Map data = {'otp': otp, 'TOKEN': token};
 
   String body = json.encode(data);

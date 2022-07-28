@@ -41,98 +41,104 @@ class EditBioScreenState extends State<EditBioScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(48),
-              Container(
-                // width: double.infinity,
-                // padding: sidePadding,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    addHorizontalSpace(8),
-                    Form(
-                        child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
+              ////////////////////////////////////////
+              Form(
+                key: _formKey,
+                  child: Column(
+                children: [
+                  Container(
+                    // width: double.infinity,
+                    // padding: sidePadding,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
                         addHorizontalSpace(8),
-                        Text(
-                          'Edit Bio',
-                          style: Theme.of(context).textTheme.headline3!.merge(
-                              const TextStyle(
-                                  color: Colors.black, fontSize: 24)),
-                        ),
-                        addHorizontalSpace(180),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.check,
-                            color: Colors.black,
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              Map data = {
-                                'bio': _bio
-                              };
-                              String? token = await _storage.read(key: 'TOKEN');
-                              Response response = await updateprofile(data, token!);
-                              if (response.statusCode == 200) {
-                                if (!mounted) {
-                                  return;
+                        
+                            
+                          
+                            IconButton(
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            addHorizontalSpace(8),
+                            Text(
+                              'Edit Bio',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3!
+                                  .merge(const TextStyle(
+                                      color: Colors.black, fontSize: 24)),
+                            ),
+                            addHorizontalSpace(172),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.check,
+                                color: Colors.black,
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  Map data = {'bio': _bio};
+                                  String? token =
+                                      await _storage.read(key: 'TOKEN');
+                                  Response response =
+                                      await updateprofile(data, token!);
+                                  if (response.statusCode == 200) {
+                                    if (!mounted) {
+                                      return;
+                                    }
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EditProfileScreen()),
+                                    );
+                                    //replace this with navigation to home page
+
+                                  } else {}
                                 }
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EditProfileScreen()),
-                                );
-                                //replace this with navigation to home page
-
-                              } else {}
-                            }
-                            Navigator.pop(context);
-                          },
-                        ),
+                                Navigator.pop(context);
+                              },
+                            ),
+                          
+                        
                       ],
-                    )),
-                  ],
-                ),
-              ),
-              Container(
-                  child: Padding(
-                padding: sidePadding,
-                child: Column(children: [
-                  ////////////
-                  // SizedBox(
-                  //   height: 64,
-                  // ),
-                  addVerticalSpace(64),
-                  TextField(
-                    decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        // border: OutlineInputBorder(
-                        //     borderRadius: BorderRadius.circular(4)),
-                        hintText:
-                            "I am a person that does things and well there is nothing much to say here but random word.  Anyays hope I’vesaid enough",
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        )),
+                    ),
                   ),
-                ]),
-              )
-                  // margin: EdgeInsets.only(
-                  //   right: 4,
-                  //   left: 4,
-                  //   // bottom: 64,
-                  // ),
+                  Container(
+                      child: Padding(
+                    padding: sidePadding,
+                    child: Column(children: [
+                      ////////////
+                      // SizedBox(
+                      //   height: 64,
+                      // ),
+                      addVerticalSpace(64),
+                      TextField(
+                        decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            // border: OutlineInputBorder(
+                            //     borderRadius: BorderRadius.circular(4)),
+                            hintText:
+                                "I am a person that does things and well there is nothing much to say here but random word.  Anyays hope I’vesaid enough",
+                            hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            )),
+                      ),
+                    ]),
+                  )
 
-                  ),
-              addVerticalSpace(32),
+
+                      ),
+                  addVerticalSpace(32),
+                ],
+              )),
+              ////////////////////////////////////////
             ],
           ),
         ),

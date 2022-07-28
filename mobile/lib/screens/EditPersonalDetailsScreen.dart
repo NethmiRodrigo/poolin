@@ -61,7 +61,6 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           const TextStyle(color: Colors.black, fontSize: 24)),
                     ),
                     Spacer(),
-                    
                   ],
                 ),
               ),
@@ -220,7 +219,6 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                           // ),
                           addVerticalSpace(4),
                           TextFormField(
-                            
                             onTap: () {
                               Navigator.push(
                                   context,
