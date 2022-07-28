@@ -49,7 +49,7 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
-                  'Enter the emal address you \nused when you joined and \nwe’ll send you the instructions \nto reset your password',
+                  'Enter the email address you \nused when you joined and \nwe’ll send you the instructions \nto reset your password',
                   style: BlipFonts.label,
                   textAlign: TextAlign.center,
                 ),
