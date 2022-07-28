@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-final baseURL = 'http://${dotenv.env['API_URL']}/api/auth/';
+import '../constants/constants.dart' as constants;
+
+final baseURL = '${dotenv.env['API_URL']}/api/auth/';
 
 Future<http.Response> login(String email, pass) async {
   Map data = {
@@ -15,11 +17,7 @@ Future<http.Response> login(String email, pass) async {
   var response = await http.post(
     url,
     body: body,
-    headers: {
-      "Content-Type": "application/json",
-      "accept": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    },
+    headers: constants.header,
   );
 
   return response;

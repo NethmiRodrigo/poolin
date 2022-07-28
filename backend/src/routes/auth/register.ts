@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { isEmail, isEmpty } from "class-validator";
+import bcrypt from "bcrypt";
 
 /** Utility functions */
 import { AppError } from "../../util/error-handler";
@@ -9,7 +10,7 @@ import {
   emailOTPAtSignup,
   isEmailDomainValid,
   isEmailRegistered,
-  smsOTPAtSignup,
+  smsOTP,
 } from "../../util/auth-helper";
 
 /** Entities */
@@ -44,13 +45,18 @@ export const verifyCredentials = async (req: Request, res: Response) => {
   if (!isEmailDomainValid(email)) throw new AppError(401, {}, "Invalid email");
 
   const tempUser = await TempUser.findOneBy({ email });
-  if (tempUser) throw new AppError(401, {}, "Signup details already verified");
-
+  if (tempUser) {
+    const hashedPassword = await bcrypt.hash(password, 8);
+    await TempUser.update({ email }, { email, password: hashedPassword });
+  }
   // save user credentials in temporary entity
-  await TempUser.create({
-    email: email,
-    password: password,
-  }).save();
+  else {
+    const newUser = new TempUser({
+      email: email,
+      password: password,
+    });
+    const result = await newUser.save();
+  }
 
   // send OTP via Email (valid for 15 mins)
   const { otp } = await emailOTPAtSignup(email);
@@ -125,7 +131,7 @@ export const verifyMobileNumber = async (req: Request, res: Response) => {
   const user = await User.findOneBy({ mobile });
   if (user) throw new AppError(401, { error: "Mobile already registered" });
 
-  const { result, otp } = await smsOTPAtSignup(mobile, email);
+  const { result, otp } = await smsOTP(mobile, email);
   if (!result)
     throw new AppError(400, {}, "Couldn't send OTP. Please try again");
 
@@ -156,6 +162,9 @@ export const verifySMSOTP = async (req: Request, res: Response) => {
   const expiresAt = new Date(tempUser.smsOTPSentAt.getTime() + 15 * 60000);
   if (currentDate > expiresAt)
     throw new AppError(401, {}, "OTP expired. PLease try again");
+
+  if (otp !== tempUser.smsOTP)
+    throw new AppError(400, { otp: "OTP is incorrect" });
 
   // update SMS verification status
   tempUser.mobileStatus = VerificationStatus.VERIFIED;

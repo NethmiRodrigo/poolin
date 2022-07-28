@@ -1,4 +1,3 @@
-import nodemailer from "nodemailer";
 import { Transporter } from "nodemailer";
 import { MailOptions } from "nodemailer/lib/json-transport";
 import cookie from "cookie";
@@ -61,7 +60,11 @@ export const isEmailRegistered = async (email: string) => {
  * @param email - string (email of user)
  * @returns response from SMS API
  */
-export const smsOTPAtSignup = async (mobile: string, email: string) => {
+export const smsOTP = async (
+  mobile: string,
+  email: string,
+  type: string = "signup"
+) => {
   // generate 4-digit OTP
   const otp = codeHandler(4, true);
 
@@ -70,12 +73,22 @@ export const smsOTPAtSignup = async (mobile: string, email: string) => {
   const expiresAt = new Date(currentDate.getTime() + 15 * 60000);
 
   // save mobile and otp in database
-  const tempUser = await TempUser.findOneBy({ email });
-  if (!tempUser) throw new AppError(400, {}, "User cannot be found");
-  tempUser.mobile = mobile;
-  tempUser.smsOTP = otp;
-  tempUser.smsOTPSentAt = currentDate;
-  await tempUser.save();
+  if (type === "signup") {
+    const tempUser = await TempUser.findOneBy({ email });
+    if (!tempUser) throw new AppError(400, {}, "User cannot be found");
+    tempUser.mobile = mobile;
+    tempUser.smsOTP = otp;
+    tempUser.smsOTPSentAt = currentDate;
+    await tempUser.save();
+  } else {
+    const user = await User.findOneBy({ email });
+    if (!user) throw new AppError(400, {}, "Could not find user");
+    user.mobile = mobile;
+    user.smsOTP = otp;
+    user.smsOTPSentAt = currentDate;
+    user.mobileVerified = VerificationStatus.UNVERIFIED;
+    await user.save();
+  }
 
   // send SMS
   const message = `Hi there! This is to verify the mobile number of your Poolin account. Please enter the OTP ${otp} in your app to verify (Expires at: ${expiresAt}`;
@@ -174,4 +187,25 @@ export const createUserToken = async (response: Response, user: object) => {
   );
 
   return { token, response };
+};
+
+/**
+ * @description Checks if a phone number is valid
+ * @param mobile
+ * @returns a boolean
+ */
+export const IsPhoneValid = async (mobile: string) => {
+  let valid = true;
+  // remove all non-numeric characters except '+'
+  mobile = mobile.replace(/[^\+0-9]/gi, "");
+
+  // check if mobile number is valid
+  // (should have a leading '+' followed by 11 digits)
+  if (!/^\+[0-9]+$/.test(mobile) || !(mobile.length == 12)) valid = false;
+
+  // check if mobile number already registered
+  const user = await User.findOneBy({ mobile });
+  if (user) valid = false;
+
+  return valid;
 };
