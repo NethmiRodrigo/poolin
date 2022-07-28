@@ -98,6 +98,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     addVerticalSpace(24),
                     ToggleButtons(
                       selectedColor: BlipColors.white,
+                      color: BlipColors.grey,
                       fillColor: Colors.black,
                       borderRadius: BorderRadius.circular(40),
                       onPressed: (int index) {
