@@ -1,12 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'package:mobile/screens/register/register_screen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile/models/ride_type_model.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 
 import './theme.dart';
 
 Future<void> main() async {
   await dotenv.load();
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
   runApp(const MyApp());
 }
 
@@ -18,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: const RegisterScreen(),
+      home: DestinationScreen(rideType: RideType.offer),
       debugShowCheckedModeBanner: false,
     );
   }
