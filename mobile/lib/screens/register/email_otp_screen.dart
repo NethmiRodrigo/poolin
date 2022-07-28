@@ -1,8 +1,10 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/otp_fields.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/register/phone_number_screen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -35,28 +37,23 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                addVerticalSpace(48),
+                addVerticalSpace(44),
                 Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    'STEP 2/5',
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ),
-                addVerticalSpace(40),
-                const Icon(Icons.lock_outline_rounded, size: 110),
-                addVerticalSpace(40),
+                    alignment: Alignment.topLeft,
+                    child: Icon(
+                      EvaIcons.arrowBackOutline,
+                      color: Colors.black,
+                    )),
+                addVerticalSpace(48),
+                Image.asset('assets/images/otp.png', height: 206),
                 Text(
                   "Verify it's you",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .merge(const TextStyle(color: Colors.black)),
+                  style: BlipFonts.title,
                 ),
                 addVerticalSpace(16),
                 Text(
                   'We sent a one-time code \nto your email to confirm',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: BlipFonts.label,
                   textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(48),
@@ -72,7 +69,7 @@ class EmailOTPScreenState extends State<EmailOTPScreen> {
                     },
                   ),
                 ),
-                addVerticalSpace(56),
+                addVerticalSpace(32),
                 WideButton(
                     text: 'Verify Email',
                     onPressedAction: () async {

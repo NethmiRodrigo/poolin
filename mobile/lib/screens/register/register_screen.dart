@@ -166,10 +166,10 @@ class RegisterScreenState extends State<RegisterScreen> {
                         text: TextSpan(children: [
                           TextSpan(
                               text: 'Already have an account? ',
-                              style: BlipFonts.label),
+                              style: BlipFonts.outline),
                           TextSpan(
                               text: 'Login',
-                              style: BlipFonts.labelBold.merge(
+                              style: BlipFonts.outlineBold.merge(
                                 TextStyle(color: BlipColors.orange),
                               ),
                               recognizer: TapGestureRecognizer()
