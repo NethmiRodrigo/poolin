@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -43,19 +44,13 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(184),
-              Text(
-                "Create a password",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .merge(const TextStyle(color: Colors.black)),
-              ),
+              Text("Create a password", style: BlipFonts.title),
               addVerticalSpace(16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
                   'Your new password should be different from your last one',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: BlipFonts.label,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -67,15 +62,12 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   children: [
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _pass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
                         hintText: 'Enter a password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -88,15 +80,12 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _confirmPass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
                         hintText: 'Confirm password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if ((value == null || value.isEmpty) &&

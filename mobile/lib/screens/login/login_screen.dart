@@ -66,6 +66,7 @@ class LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _email,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
@@ -81,6 +82,7 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _pass,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -141,11 +143,11 @@ class LoginScreenState extends State<LoginScreen> {
                         text: TextSpan(children: [
                           TextSpan(
                             text: 'Not a member? ',
-                            style: BlipFonts.label,
+                            style: BlipFonts.outline,
                           ),
                           TextSpan(
                               text: 'Sign Up',
-                              style: BlipFonts.labelBold.merge(
+                              style: BlipFonts.outlineBold.merge(
                                 TextStyle(color: BlipColors.orange),
                               ),
                               recognizer: TapGestureRecognizer()
