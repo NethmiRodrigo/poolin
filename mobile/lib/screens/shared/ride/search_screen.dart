@@ -71,12 +71,15 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           children: [
             addVerticalSpace(44),
-            const Align(
-                alignment: Alignment.topLeft,
-                child: Icon(
-                  EvaIcons.arrowBackOutline,
-                  color: Colors.black,
-                )),
+            Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back, color: BlipColors.black),
+              ),
+            ),
             addVerticalSpace(16),
             Row(
               children: [
@@ -225,58 +228,62 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
             ),
             addVerticalSpace(10.0),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: predictions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: BlipColors.lightGrey,
-                    radius: 15,
-                    child: Icon(
-                      FluentIcons.location_16_filled,
-                      color: BlipColors.black,
-                      size: 20,
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: predictions.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: const CircleAvatar(
+                      backgroundColor: BlipColors.lightGrey,
+                      radius: 15,
+                      child: Icon(
+                        FluentIcons.location_16_filled,
+                        color: BlipColors.black,
+                        size: 20,
+                      ),
                     ),
-                  ),
-                  title: Text(
-                    predictions[index].description.toString(),
-                    style: BlipFonts.outline,
-                  ),
-                  onTap: () async {
-                    final placeId = predictions[index].placeId;
-                    final details = await googlePlace.details.get(placeId!);
-                    if (details != null && details.result != null && mounted) {
-                      if (sourceFocusNode.hasFocus) {
-                        setState(() {
-                          sourcePosition = details.result;
-                          _sourceSearchFieldController.text =
-                              details.result!.name!;
-                          predictions = [];
-                        });
-                      } else {
-                        setState(() {
-                          destinationPosition = details.result;
-                          _destinationSearchFieldController.text =
-                              details.result!.name!;
-                          predictions = [];
-                        });
-                      }
+                    title: Text(
+                      predictions[index].description.toString(),
+                      style: BlipFonts.outline,
+                    ),
+                    onTap: () async {
+                      final placeId = predictions[index].placeId;
+                      final details = await googlePlace.details.get(placeId!);
+                      if (details != null &&
+                          details.result != null &&
+                          mounted) {
+                        if (sourceFocusNode.hasFocus) {
+                          setState(() {
+                            sourcePosition = details.result;
+                            _sourceSearchFieldController.text =
+                                details.result!.name!;
+                            predictions = [];
+                          });
+                        } else {
+                          setState(() {
+                            destinationPosition = details.result;
+                            _destinationSearchFieldController.text =
+                                details.result!.name!;
+                            predictions = [];
+                          });
+                        }
 
-                      if (sourcePosition != null &&
-                          destinationPosition != null) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MapScreen(
-                                  sourcePosition: sourcePosition,
-                                  destinationPosition: destinationPosition),
-                            ));
+                        if (sourcePosition != null &&
+                            destinationPosition != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MapScreen(
+                                    sourcePosition: sourcePosition,
+                                    destinationPosition: destinationPosition),
+                              ));
+                        }
                       }
-                    }
-                  },
-                );
-              },
+                    },
+                  );
+                },
+              ),
             )
           ],
         ),
