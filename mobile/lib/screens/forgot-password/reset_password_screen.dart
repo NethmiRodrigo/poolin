@@ -100,7 +100,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     addVerticalSpace(40),
                     WideButton(
-                      text: 'Verify Email',
+                      text: 'Reset Password',
                       onPressedAction: () async {
                         if (_formKey.currentState!.validate()) {
                           String? email = await _storage.read(key: 'KEY_EMAIL');

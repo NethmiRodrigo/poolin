@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: VerifyEmailScreen(),
+      home: ForgotPasswordScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
