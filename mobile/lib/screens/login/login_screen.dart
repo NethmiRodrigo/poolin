@@ -85,7 +85,7 @@ class LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
-                        hintText: 'Enter a password',
+                        hintText: 'Enter password',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -102,7 +102,7 @@ class LoginScreenState extends State<LoginScreen> {
                       child: RichText(
                         text: TextSpan(
                             text: 'Forgot password?',
-                            style: BlipFonts.labelBold.merge(
+                            style: BlipFonts.outlineBold.merge(
                               TextStyle(color: BlipColors.orange),
                             ),
                             recognizer: TapGestureRecognizer()
