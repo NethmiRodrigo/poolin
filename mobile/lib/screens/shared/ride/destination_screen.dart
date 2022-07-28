@@ -137,11 +137,7 @@ class DestinationScreenState extends State<DestinationScreen> {
                       key: const Key('destination-field'),
                       decoration: const InputDecoration(
                         prefixIcon: Icon(AkarIcons.search),
-                        isDense: true,
-                        border: InputBorder.none,
-                        alignLabelWithHint: true,
                         hintText: "What's your destination?",
-                        contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 0),
                       ),
                       onTap: (() => setRideTypeInStoreage(
                             context,

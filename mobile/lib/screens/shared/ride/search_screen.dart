@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_place/google_place.dart';
@@ -60,73 +62,85 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    const double padding = 16;
+    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: BlipColors.white,
-        leading: const BackButton(color: BlipColors.black),
-        elevation: 0,
-      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        padding: sidePadding,
         child: Column(
           children: [
+            addVerticalSpace(44),
+            const Align(
+                alignment: Alignment.topLeft,
+                child: Icon(
+                  EvaIcons.arrowBackOutline,
+                  color: Colors.black,
+                )),
+            addVerticalSpace(16),
             Row(
               children: [
                 const Icon(
-                  Icons.location_pin,
+                  FluentIcons.location_16_filled,
                   color: BlipColors.orange,
                 ),
                 addHorizontalSpace(10.0),
                 Expanded(
-                  child: TextField(
-                    controller: _sourceSearchFieldController,
-                    autofocus: false,
-                    focusNode: sourceFocusNode,
-                    style: BlipFonts.label,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Start",
+                          style: BlipFonts.outline,
                         ),
-                        hintText: "Source",
-                        hintStyle: BlipFonts.label,
-                        filled: true,
-                        fillColor: BlipColors.lightGrey,
-                        contentPadding: const EdgeInsets.all(8.0),
-                        suffixIcon: _sourceSearchFieldController.text.isNotEmpty
-                            ? IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    predictions = [];
-                                    sourcePosition = null;
-                                    _sourceSearchFieldController.clear();
-                                  });
-                                },
-                                icon: const Icon(Icons.clear_outlined),
-                              )
-                            : null),
-                    onChanged: (value) {
-                      if (_debounce?.isActive ?? false) _debounce!.cancel();
-                      _debounce = Timer(const Duration(milliseconds: 1000), () {
-                        if (value.isNotEmpty) {
-                          autoCompleteSearch(value);
-                        } else {
-                          predictions = [];
-                          sourcePosition = null;
-                        }
-                      });
-                    },
+                      ),
+                      addVerticalSpace(8),
+                      TextField(
+                        controller: _sourceSearchFieldController,
+                        autofocus: false,
+                        focusNode: sourceFocusNode,
+                        style: BlipFonts.label,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: "Where you start from",
+                            suffixIcon: _sourceSearchFieldController
+                                    .text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        predictions = [];
+                                        sourcePosition = null;
+                                        _sourceSearchFieldController.clear();
+                                      });
+                                    },
+                                    icon: const Icon(Icons.clear_outlined),
+                                  )
+                                : null),
+                        onChanged: (value) {
+                          if (_debounce?.isActive ?? false) _debounce!.cancel();
+                          _debounce =
+                              Timer(const Duration(milliseconds: 1000), () {
+                            if (value.isNotEmpty) {
+                              autoCompleteSearch(value);
+                            } else {
+                              predictions = [];
+                              sourcePosition = null;
+                            }
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                ),
-                addHorizontalSpace(10.0),
-                Text(
-                  "Start location",
-                  style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
             ),
@@ -144,62 +158,69 @@ class _SearchScreenState extends State<SearchScreen> {
             Row(
               children: [
                 const Icon(
-                  Icons.location_pin,
+                  FluentIcons.location_16_filled,
                   color: BlipColors.orange,
                 ),
                 addHorizontalSpace(10.0),
                 Expanded(
-                  child: TextField(
-                    controller: _destinationSearchFieldController,
-                    autofocus: false,
-                    focusNode: destinationFocusNode,
-                    enabled: _sourceSearchFieldController.text.isNotEmpty &&
-                        sourcePosition != null,
-                    style: BlipFonts.label,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "End",
+                          style: BlipFonts.outline,
                         ),
-                        hintText: "Destination",
-                        hintStyle: BlipFonts.label,
-                        filled: true,
-                        fillColor: BlipColors.lightGrey,
-                        contentPadding: const EdgeInsets.all(8.0),
-                        suffixIcon: _destinationSearchFieldController
-                                .text.isNotEmpty
-                            ? IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    predictions = [];
-                                    destinationPosition = null;
-                                    _destinationSearchFieldController.clear();
-                                  });
-                                },
-                                icon: const Icon(Icons.clear_outlined),
-                              )
-                            : null),
-                    onChanged: (value) {
-                      if (_debounce?.isActive ?? false) _debounce!.cancel();
-                      _debounce = Timer(const Duration(milliseconds: 1000), () {
-                        if (value.isNotEmpty) {
-                          autoCompleteSearch(value);
-                        } else {
-                          predictions = [];
-                          destinationPosition = null;
-                        }
-                      });
-                    },
+                      ),
+                      addVerticalSpace(8),
+                      TextField(
+                        controller: _destinationSearchFieldController,
+                        autofocus: false,
+                        focusNode: destinationFocusNode,
+                        enabled: _sourceSearchFieldController.text.isNotEmpty &&
+                            sourcePosition != null,
+                        style: BlipFonts.label,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: "Where you want to go",
+                            suffixIcon: _destinationSearchFieldController
+                                    .text.isNotEmpty
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        predictions = [];
+                                        destinationPosition = null;
+                                        _destinationSearchFieldController
+                                            .clear();
+                                      });
+                                    },
+                                    icon: const Icon(Icons.clear_outlined),
+                                  )
+                                : null),
+                        onChanged: (value) {
+                          if (_debounce?.isActive ?? false) _debounce!.cancel();
+                          _debounce =
+                              Timer(const Duration(milliseconds: 1000), () {
+                            if (value.isNotEmpty) {
+                              autoCompleteSearch(value);
+                            } else {
+                              predictions = [];
+                              destinationPosition = null;
+                            }
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                ),
-                addHorizontalSpace(10.0),
-                Text(
-                  "End location",
-                  style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
             ),
@@ -213,8 +234,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     backgroundColor: BlipColors.lightGrey,
                     radius: 15,
                     child: Icon(
-                      Icons.location_pin,
-                      color: BlipColors.orange,
+                      FluentIcons.location_16_filled,
+                      color: BlipColors.black,
                       size: 20,
                     ),
                   ),
