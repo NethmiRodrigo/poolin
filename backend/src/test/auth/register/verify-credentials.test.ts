@@ -44,7 +44,7 @@ describe("Test verify-credentials endpoint", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("temp_user");
+    await connection.clearDatabase();
     await connection.destroy();
     app.close();
   });

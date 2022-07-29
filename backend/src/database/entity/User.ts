@@ -7,9 +7,12 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
+import { Vehicle } from "./Vehicle";
 
 export enum Gender {
   MALE = "male",
@@ -93,6 +96,9 @@ export class User extends BaseEntity {
 
   @Column({ default: Role.USER })
   role: Role;
+
+  @OneToMany(() => Vehicle, (vehicle) => vehicle.owner)
+  vehicles!: Vehicle[];
 
   @CreateDateColumn()
   createdAt: Date;
