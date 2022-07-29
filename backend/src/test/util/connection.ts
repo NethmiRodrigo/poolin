@@ -18,6 +18,15 @@ export default class TestConnection {
     await this.queryRunner.dropTable(table!);
   }
 
+  async clearDatabase() {
+    const entities = this.dataSource.entityMetadatas;
+    const tableNames = entities
+      .map((entity) => `"${entity.tableName}"`)
+      .join(", ");
+
+    await this.dataSource.query(`TRUNCATE ${tableNames} CASCADE;`);
+  }
+
   async destroy() {
     await TestAppDataSource.destroy();
   }

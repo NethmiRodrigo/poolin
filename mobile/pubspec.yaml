@@ -102,6 +102,7 @@ flutter:
   # example:
 
   assets:
+    - assets/
     - assets/images/
     - .env
 
