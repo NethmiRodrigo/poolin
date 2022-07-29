@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth/index";
 import userRoutes from "./routes/user/index";
 import adminRoutes from "./routes/admin/index";
 import vehicleRoutes from "./routes/vehicle/index";
+import ratingRoutes from "./routes/rating/index";
 
 /** Middleware */
 import trim from "./middleware/trim";
@@ -38,7 +39,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/vehicle", vehicleRoutes);
 app.use("/api/admin", [auth, forRole([Role.ADMIN])], adminRoutes);
-
+app.use("/api/rate", ratingRoutes);
 // Upstream error handling
 if (process.env.NODE_ENV === "development") app.use(errorLogger);
 app.use(errorResponder);
