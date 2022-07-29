@@ -26,7 +26,6 @@ export class RideOffer extends BaseEntity {
   })
   fromGeom: Geometry;
   @Column({
-    name: "toGeom",
     type: "geometry",
     spatialFeatureType: "Point",
   })
