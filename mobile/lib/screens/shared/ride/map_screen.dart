@@ -1,19 +1,23 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/outline_button.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_type_model.dart';
+
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
+
+import 'package:mobile/models/ride_type_model.dart';
+
+import 'package:mobile/colors.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
+import 'package:mobile/icons.dart';
 
 class MapScreen extends StatefulWidget {
   final DetailsResult? sourcePosition;
@@ -38,11 +42,13 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     __loadRideType();
-    super.initState();
+    __saveLocations();
+
     _initalPosition = CameraPosition(
         target: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
             widget.sourcePosition!.geometry!.location!.lng!),
         zoom: 20);
+    super.initState();
   }
 
   __loadRideType() async {
@@ -52,15 +58,31 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
+  __saveLocations() async {
+    Map source = {
+      "latitude": widget.sourcePosition!.geometry!.location!.lat,
+      "longitude": widget.sourcePosition!.geometry!.location!.lng
+    };
+    Map destination = {
+      "latitude": widget.destinationPosition!.geometry!.location!.lat,
+      "longitude": widget.destinationPosition!.geometry!.location!.lng
+    };
+    await _storage.write(key: "SOURCE", value: jsonEncode(source));
+    await _storage.write(key: "DESTINATION", value: jsonEncode(destination));
+  }
+
   _addPolyLine() {
+    Map<PolylineId, Polyline> polylineResult = {};
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id,
         color: BlipColors.orange,
         points: polylineCoordinates,
         width: 2);
-    polylines[id] = polyline;
-    setState(() {});
+    polylineResult[id] = polyline;
+    setState(() {
+      polylines = polylineResult;
+    });
   }
 
   _getPolyline() async {
@@ -93,7 +115,8 @@ class _MapScreenState extends State<MapScreen> {
             style: BorderStyle.none,
           ),
         ),
-        prefixIcon: const Icon(FluentIcons.location_16_filled),
+        prefixIcon:
+            Icon(type == "source" ? BlipIcons.source : BlipIcons.destination),
         prefixIconColor: BlipColors.orange,
         hintText: type == "source"
             ? widget.sourcePosition!.name
@@ -175,9 +198,9 @@ class _MapScreenState extends State<MapScreen> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         "Your Trip Details",
                         style: BlipFonts.title,
                       ),

@@ -132,8 +132,8 @@ export const verifyMobileNumber = async (req: Request, res: Response) => {
   if (user) throw new AppError(401, { error: "Mobile already registered" });
 
   const { result, otp } = await smsOTP(mobile, email);
-  if (!result)
-    throw new AppError(400, {}, "Couldn't send OTP. Please try again");
+  // if (!result)
+  //   throw new AppError(400, {}, "Couldn't send OTP. Please try again");
 
   return res.status(200).json({ success: "OTP sent via SMS", otp });
 };

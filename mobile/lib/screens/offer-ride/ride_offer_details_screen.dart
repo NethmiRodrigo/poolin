@@ -1,15 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/utils/map_utils.dart';
 
-import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -28,35 +28,42 @@ class RideOfferDetailsScreen extends StatefulWidget {
 }
 
 class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  late CameraPosition _initalPosition;
   final _storage = const FlutterSecureStorage();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
+  Set<Marker> _markers = {};
+  final MapType _currentMapType = MapType.normal;
+
   List<AutocompletePrediction> predictions = [];
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
 
-  static const LatLng _center = const LatLng(6.9271, 79.8612);
+  static const LatLng _center = LatLng(6.9271, 79.8612);
 
-  final Set<Marker> _markers = {};
-
-  LatLng _lastMapPosition = _center;
-
-  MapType _currentMapType = MapType.normal;
-
-  void _onCameraMove(CameraPosition position) {
-    _lastMapPosition = position.target;
-  }
+  String? apiKey = dotenv.env['MAPS_API_KEY'];
 
   void _onMapCreated(GoogleMapController controller) {
+    Future.delayed(
+      const Duration(milliseconds: 200),
+      () => controller.animateCamera(
+        CameraUpdate.newLatLngBounds(
+            MapUtils.boundsFromLatLngList(
+                _markers.map((loc) => loc.position).toList()),
+            1),
+      ),
+    );
     _controller.complete(controller);
   }
 
   @override
   void initState() {
-    String? apiKey = dotenv.env['MAPS_API_KEY'];
     googlePlace = GooglePlace(apiKey!);
+    _getPolyline();
     super.initState();
   }
 
@@ -66,6 +73,63 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
     _pass.dispose();
     _confirmPass.dispose();
     super.dispose();
+  }
+
+  _addPolyLine() {
+    Map<PolylineId, Polyline> polylineResult = {};
+    PolylineId id = const PolylineId("poly");
+    Polyline polyline = Polyline(
+        polylineId: id,
+        color: BlipColors.orange,
+        points: polylineCoordinates,
+        width: 2);
+    polylineResult[id] = polyline;
+    setState(() {
+      polylines = polylineResult;
+    });
+  }
+
+  _getPolyline() async {
+    var sourceString = (await _storage.read(key: "SOURCE"));
+    var sourceLocation = jsonDecode(sourceString!);
+    var destinationString = (await _storage.read(key: "DESTINATION"));
+    var destinationLocation = jsonDecode(destinationString!);
+
+    //Set markers
+    Set<Marker> markers = {
+      Marker(
+        markerId: const MarkerId('source'),
+        position:
+            LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
+        draggable: false,
+      ),
+      Marker(
+        markerId: const MarkerId('destination'),
+        position: LatLng(
+            destinationLocation['latitude'], destinationLocation['longitude']),
+        draggable: false,
+      ),
+    };
+    setState(() {
+      _markers = markers;
+      _initalPosition = CameraPosition(
+          target:
+              LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
+          zoom: 20);
+    });
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        apiKey!,
+        PointLatLng(sourceLocation['latitude'], sourceLocation['longitude']),
+        PointLatLng(
+            destinationLocation['latitude'], destinationLocation['longitude']),
+        travelMode: TravelMode.driving);
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+    }
+    _addPolyLine();
   }
 
   @override
@@ -90,12 +154,12 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
         ),
       ),
       bottomSheet: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           padding: sidePadding,
@@ -105,13 +169,13 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(24),
-              Text(
+              const Text(
                 'Confirm your Offer',
                 style: BlipFonts.title,
               ),
               addVerticalSpace(40),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
                     Row(
@@ -133,7 +197,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelLarge),
-                                    Icon(
+                                    const Icon(
                                       FluentIcons.edit_16_regular,
                                       size: 14,
                                       color: BlipColors.orange,
@@ -192,7 +256,8 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
                                 addVerticalSpace(20),
                                 Row(
                                   children: [
-                                    Icon(FluentIcons.eye_16_filled, size: 18),
+                                    const Icon(FluentIcons.eye_16_filled,
+                                        size: 18),
                                     addHorizontalSpace(8),
                                     Text("Public",
                                         style: Theme.of(context)
@@ -252,17 +317,15 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
           ),
         ),
       ),
-      body: Container(
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: const CameraPosition(
-            target: _center,
-            zoom: 12.0,
-          ),
-          mapType: _currentMapType,
-          markers: _markers,
-          onCameraMove: _onCameraMove,
+      body: GoogleMap(
+        onMapCreated: _onMapCreated,
+        polylines: Set<Polyline>.of(polylines.values),
+        initialCameraPosition: const CameraPosition(
+          target: _center,
+          zoom: 12.0,
         ),
+        mapType: _currentMapType,
+        markers: _markers,
       ),
     );
   }
