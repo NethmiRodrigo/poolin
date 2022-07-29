@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 export enum Role {
   RIDER = "rider",
@@ -33,9 +40,9 @@ export class Rating extends BaseEntity {
   @Column()
   rating: number;
 
-  @Column({ nullable: true })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ nullable: true })
+  @UpdateDateColumn()
   updatedAt: Date;
 }
