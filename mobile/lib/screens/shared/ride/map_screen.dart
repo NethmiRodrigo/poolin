@@ -193,6 +193,7 @@ class _MapScreenState extends State<MapScreen> {
                           ? 'Post an offer'
                           : "Look for ride offers",
                       onPressedAction: () {
+                        
                         Navigator.push(
                             context,
                             MaterialPageRoute(
