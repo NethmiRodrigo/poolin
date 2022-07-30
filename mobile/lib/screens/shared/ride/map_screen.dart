@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
+import 'package:mobile/screens/request-ride/ride_offer_results_screen.dart';
 import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -59,11 +59,13 @@ class _MapScreenState extends State<MapScreen> {
   __saveLocations() async {
     Map source = {
       "latitude": widget.sourcePosition!.geometry!.location!.lat,
-      "longitude": widget.sourcePosition!.geometry!.location!.lng
+      "longitude": widget.sourcePosition!.geometry!.location!.lng,
+      "name": widget.sourcePosition!.name
     };
     Map destination = {
       "latitude": widget.destinationPosition!.geometry!.location!.lat,
-      "longitude": widget.destinationPosition!.geometry!.location!.lng
+      "longitude": widget.destinationPosition!.geometry!.location!.lng,
+      "name": widget.destinationPosition!.name,
     };
     await _storage.write(key: "SOURCE", value: jsonEncode(source));
     await _storage.write(key: "DESTINATION", value: jsonEncode(destination));
@@ -200,7 +202,7 @@ class _MapScreenState extends State<MapScreen> {
                             MaterialPageRoute(
                               builder: (context) => rideType == "offer"
                                   ? const RideOfferDetailsScreen()
-                                  : const RideRequestDetailsScreen(),
+                                  : RideOfferResultsScreen(),
                             ));
                       },
                     ),

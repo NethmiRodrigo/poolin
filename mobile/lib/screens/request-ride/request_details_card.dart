@@ -1,10 +1,12 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/utils/widget_functions.dart';
+
+import 'package:mobile/fonts.dart';
 
 class RequestDetailsCard extends StatefulWidget {
   const RequestDetailsCard({Key? key}) : super(key: key);
@@ -37,7 +39,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
           children: [
             addVerticalSpace(24),
             const Text(
-              'Confirm your Request',
+              'Confirm your Ride Request',
               style: BlipFonts.title,
             ),
             addVerticalSpace(40),
