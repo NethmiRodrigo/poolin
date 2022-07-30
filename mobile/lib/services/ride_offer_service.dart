@@ -5,16 +5,9 @@ import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/models/coordinate_model.dart';
 
 import '../constants/constants.dart' as constants;
+import '../utils/helper_functions.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
-
-void prettyPrintJson(String input) {
-  const JsonDecoder decoder = JsonDecoder();
-  const JsonEncoder encoder = JsonEncoder.withIndent('  ');
-  final dynamic object = decoder.convert(input);
-  final dynamic prettyString = encoder.convert(object);
-  prettyString.split('\n').forEach((dynamic element) => print(element));
-}
 
 Future<http.Response> postOffer(RideOffer rideOffer) async {
   Map data = {
