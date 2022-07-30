@@ -13,6 +13,7 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/services/distance_duration_service.dart';
 import 'package:mobile/services/ride_offer_service.dart';
+import 'package:mobile/utils/helper_functions.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class OfferDetailsCard extends StatefulWidget {
@@ -107,7 +108,6 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                                 onChanged: (date) {
                                               print('change $date');
                                             }, onConfirm: (date) {
-                                              offerCubit.setStartTime(date);
                                               setState(() {
                                                 startTime = date;
                                               });
@@ -206,25 +206,35 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                     " " +
                     Jiffy(startTime).startOf(Units.HOUR).fromNow(),
                 onPressedAction: () async {
-                  // Response response = await getDistanceAndTime(
-                  //     offerCubit.state.source, offerCubit.state.destination);
-                  // final res = json.decode(response.body);
-                  // offerCubit.setDistance(double.parse(
-                  //     res["routes"]["legs"]["distance"].split(' ')[0] *
-                  //         1.60934));
-                  // offerCubit.setDuration(int.parse(
-                  //     res["routes"]["legs"]["duration"].split(' ')[0]));
-
-                  Response response = await postOffer(offerCubit.state);
+                  offerCubit.setStartTime(startTime);
+                  Response response = await getDistanceAndTime(
+                      offerCubit.state.source, offerCubit.state.destination);
+                  final res = json.decode(response.body);
                   if (response.statusCode == 200) {
-                    print("Success! " + response.body);
+                    print(res["rows"][0]["elements"]);
+                  }
+                  final distance = double.parse(res["rows"][0]["elements"][0]
+                          ["distance"]["text"]
+                      .split(' ')[0]);
+                  print(distance);
+                  final duration = int.parse(res["rows"][0]["elements"][0]
+                          ["duration"]["text"]
+                      .split(' ')[0]);
+                  print(duration);
+                  offerCubit.setDistance(distance * 1.60934);
+                  print("done");
+                  offerCubit.setDuration(duration);
+
+                  Response postResponse = await postOffer(offerCubit.state);
+                  if (postResponse.statusCode == 200) {
+                    print("Success! " + postResponse.body);
 
                     // if (!mounted) {
                     //   return;
                     // }
 
                   } else {
-                    print("Error! " + response.body);
+                    print("Error! " + postResponse.body);
                   }
                 })
           ],

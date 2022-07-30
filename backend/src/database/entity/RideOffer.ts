@@ -7,6 +7,7 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
+  Double,
 } from "typeorm";
 
 @Entity()
@@ -43,7 +44,7 @@ export class RideOffer extends BaseEntity {
   pricePerKm: number;
   @Column({ nullable: false })
   seats: number;
-  @Column({ nullable: false })
+  @Column("decimal", { nullable: false })
   distance: number;
   @Column({ nullable: false, default: true })
   isActive: boolean;
