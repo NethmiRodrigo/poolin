@@ -5,10 +5,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
+import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -34,8 +34,6 @@ class _MapScreenState extends State<MapScreen> {
   String rideType = RideType.offer.name;
   late CameraPosition _initalPosition;
   Map<PolylineId, Polyline> polylines = {};
-  List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
 
   String? apiKey = dotenv.env['MAPS_API_KEY'];
 
@@ -71,34 +69,15 @@ class _MapScreenState extends State<MapScreen> {
     await _storage.write(key: "DESTINATION", value: jsonEncode(destination));
   }
 
-  _addPolyLine() {
-    Map<PolylineId, Polyline> polylineResult = {};
-    PolylineId id = const PolylineId("poly");
-    Polyline polyline = Polyline(
-        polylineId: id,
-        color: BlipColors.orange,
-        points: polylineCoordinates,
-        width: 2);
-    polylineResult[id] = polyline;
-    setState(() {
-      polylines = polylineResult;
-    });
-  }
-
   _getPolyline() async {
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        apiKey!,
-        PointLatLng(widget.sourcePosition!.geometry!.location!.lat!,
-            widget.sourcePosition!.geometry!.location!.lng!),
-        PointLatLng(widget.destinationPosition!.geometry!.location!.lat!,
-            widget.destinationPosition!.geometry!.location!.lng!),
-        travelMode: TravelMode.driving);
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      }
-    }
-    _addPolyLine();
+    var result = await getPolyline(
+        widget.sourcePosition!.geometry!.location!.lat!,
+        widget.sourcePosition!.geometry!.location!.lng!,
+        widget.destinationPosition!.geometry!.location!.lat!,
+        widget.destinationPosition!.geometry!.location!.lng!);
+    setState(() {
+      polylines = result;
+    });
   }
 
   Widget _addLocationSearchField(String type) {

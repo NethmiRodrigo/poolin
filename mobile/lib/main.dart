@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/models/ride_type_model.dart';
+import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
+import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
 
 import './theme.dart';
