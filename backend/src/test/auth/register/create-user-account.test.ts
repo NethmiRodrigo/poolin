@@ -1,3 +1,4 @@
+import app from "../../../app";
 import {
   TempUser,
   VerificationStatus,
@@ -12,11 +13,6 @@ let tempUser;
 describe("Check if user account is created", () => {
   beforeAll(async () => {
     connection = await new TestConnection().initialize();
-    await TempUser.clear();
-  });
-
-  afterEach(async () => {
-    await TempUser.clear();
   });
 
   it("Should create account when mobile and email is verified", async () => {
@@ -35,7 +31,8 @@ describe("Check if user account is created", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("temp_user");
+    await connection.clearDatabase();
     await connection.destroy();
+    app.close();
   });
 });
