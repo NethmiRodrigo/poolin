@@ -97,10 +97,13 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                       addVerticalSpace(20),
                                       TextButton(
                                           onPressed: () {
-                                            DatePicker.showDatePicker(context,
+                                            DatePicker.showDateTimePicker(
+                                                context,
                                                 showTitleActions: true,
-                                                minTime: DateTime(2018, 3, 5),
-                                                maxTime: DateTime(2019, 6, 7),
+                                                minTime: DateTime.now()
+                                                    .add(Duration(days: 1)),
+                                                maxTime: DateTime.now()
+                                                    .add(Duration(days: 7)),
                                                 onChanged: (date) {
                                               print('change $date');
                                             }, onConfirm: (date) {
@@ -198,7 +201,10 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
             ),
             addVerticalSpace(32),
             WideButton(
-                text: "I'll arrive at 4.30PM in 2 days",
+                text: "I'll arrive at " +
+                    Jiffy(startTime).format("h:mm a").split(" ").join('') +
+                    " " +
+                    Jiffy(startTime).startOf(Units.HOUR).fromNow(),
                 onPressedAction: () async {
                   // Response response = await getDistanceAndTime(
                   //     offerCubit.state.source, offerCubit.state.destination);
