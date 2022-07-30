@@ -221,7 +221,7 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                           ["duration"]["text"]
                       .split(' ')[0]);
                   print(duration);
-                  offerCubit.setDistance(distance * 1.60934);
+                  offerCubit.setDistance((distance * 1.60934));
                   print("done");
                   offerCubit.setDuration(duration);
 
