@@ -6,6 +6,7 @@ import { User } from "./database/entity/User";
 import { TempUser } from "./database/entity/TempUser";
 import { EmailFormat } from "./database/entity/EmailFormat";
 import { RideOffer } from "./database/entity/RideOffer";
+import { Vehicle } from "./database/entity/Vehicle";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
-  entities: [User, ForgotPassword, EmailFormat, TempUser, RideOffer],
+  entities: [User, ForgotPassword, EmailFormat, TempUser, RideOffer, Vehicle],
   migrations: ["./src/database/migration"],
   subscribers: [],
 });
