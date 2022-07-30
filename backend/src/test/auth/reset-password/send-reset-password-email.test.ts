@@ -43,8 +43,7 @@ describe(API_URL, () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("users");
-    await connection.dropTable("forgot_password");
+    await connection.clearDatabase();
     await connection.destroy();
     app.close();
   });

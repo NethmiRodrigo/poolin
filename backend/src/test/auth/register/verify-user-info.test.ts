@@ -11,9 +11,8 @@ const API_URL: string = "/api/auth/verify-user-info";
 describe("Test verify-user-info endpoint", () => {
   beforeAll(async () => {
     connection = await new TestConnection().initialize();
-    await User.clear();
     const password = await bcrypt.hash("password", 8);
-    const user = await User.create({
+    await User.create({
       email: "test000@stu.ucsc.lk",
       password: password,
       mobile: "+94770000005",
@@ -43,7 +42,7 @@ describe("Test verify-user-info endpoint", () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("users");
+    await connection.clearDatabase();
     await connection.destroy();
     app.close();
   });
