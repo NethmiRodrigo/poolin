@@ -1,8 +1,10 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -15,6 +17,8 @@ class OfferDetailsCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
+    print(offerCubit.state.seatCount.toString());
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(30),

@@ -41,7 +41,7 @@ class RideOffer {
     required this.startTime,
     required this.destination,
     this.duration = 0,
-    this.seatCount = 0,
+    this.seatCount = 15,
     this.ppkm = 0,
     this.distance = 0,
   });
