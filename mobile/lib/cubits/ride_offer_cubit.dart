@@ -9,14 +9,14 @@ class RideOfferCubit extends Cubit<RideOffer> {
           startTime: DateTime.now(),
         ));
 
-  void changeSource(Coordinate source) => emit(state.copyWith(source: source));
+  void setSource(Coordinate source) => emit(state.copyWith(source: source));
 
-  void changeDestination(Coordinate destination) =>
+  void setDestination(Coordinate destination) =>
       emit(state.copyWith(destination: destination));
 
   void setDistance(double distance) => emit(state.copyWith(distance: distance));
 
-  void changeSeatCount(int seatCount) =>
+  void setSeatCount(int seatCount) =>
       emit(state.copyWith(seatCount: seatCount));
 
   void setStartTime(DateTime startTime) =>
