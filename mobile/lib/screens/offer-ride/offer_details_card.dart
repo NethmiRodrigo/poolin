@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:http/http.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
@@ -14,9 +15,15 @@ import 'package:mobile/services/distance_duration_service.dart';
 import 'package:mobile/services/ride_offer_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
-class OfferDetailsCard extends StatelessWidget {
+class OfferDetailsCard extends StatefulWidget {
   const OfferDetailsCard({Key? key}) : super(key: key);
 
+  @override
+  OfferDetailsCardState createState() => OfferDetailsCardState();
+}
+
+class OfferDetailsCardState extends State<OfferDetailsCard> {
+  DateTime startTime = DateTime.now().add(Duration(days: 1));
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -87,7 +94,7 @@ class OfferDetailsCard extends StatelessWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .headlineSmall),
-                                      addVerticalSpace(8),
+                                      addVerticalSpace(20),
                                       TextButton(
                                           onPressed: () {
                                             DatePicker.showDatePicker(context,
@@ -98,13 +105,16 @@ class OfferDetailsCard extends StatelessWidget {
                                               print('change $date');
                                             }, onConfirm: (date) {
                                               offerCubit.setStartTime(date);
+                                              setState(() {
+                                                startTime = date;
+                                              });
                                               print('confirm $date');
                                             },
-                                                currentTime: DateTime.now(),
+                                                currentTime: startTime,
                                                 locale: LocaleType.en);
                                           },
                                           child: Text(
-                                            '26 Oct, 2022',
+                                            Jiffy(startTime).yMMMd,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelLarge,
@@ -149,6 +159,7 @@ class OfferDetailsCard extends StatelessWidget {
                               addVerticalSpace(16),
                               Container(
                                 width: 140,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(40),
                                   border: Border.all(
@@ -157,14 +168,15 @@ class OfferDetailsCard extends StatelessWidget {
                                   ),
                                 ),
                                 child: SpinBox(
+                                  textAlign: TextAlign.center,
                                   iconColor:
                                       MaterialStateProperty.all(Colors.black),
-                                  textStyle:
-                                      Theme.of(context).textTheme.labelLarge,
+                                  textStyle: BlipFonts.label,
                                   decoration: const InputDecoration(
+                                    filled: false,
                                     border: InputBorder.none,
                                     contentPadding:
-                                        EdgeInsets.fromLTRB(0, 0, 0, 12),
+                                        EdgeInsets.fromLTRB(0, 6, 0, 0),
                                   ),
                                   min: 1,
                                   max: 5,

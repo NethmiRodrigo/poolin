@@ -31,9 +31,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: DestinationScreen(
-          rideType: RideType.offer,
-        ),
+        home: RideOfferDetailsScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
