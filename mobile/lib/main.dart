@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:mobile/screens/register/register_screen.dart';
+import 'package:mobile/screens/rides/ride_history.dart';
 
 import './theme.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: const RegisterScreen(),
+      home: const RideHistory(),
       debugShowCheckedModeBanner: false,
     );
   }
