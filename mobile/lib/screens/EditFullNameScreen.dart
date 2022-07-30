@@ -23,14 +23,12 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fname = TextEditingController();
   final TextEditingController _lname = TextEditingController();
-  final TextEditingController _gender = TextEditingController();
   final _storage = const FlutterSecureStorage();
 
   @override
   void dispose() {
     _fname.dispose();
     _lname.dispose();
-    _gender.dispose();
     super.dispose();
   }
 
@@ -48,12 +46,12 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
         //   FocusScope.of(context).unfocus();
         // },
         child: Column(
-          key: _formKey,
+          // key: _formKey,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               addVerticalSpace(48),
               Form(
-                // key: _formKey,
+                key: _formKey,
                 child: Column(
                   children: [
                     Container(
@@ -141,18 +139,15 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
                       left: 16,
                       bottom: 16,
                     ),
-                    child: Column(children: [
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                       // Padding(
                       //     padding: EdgeInsets.only(
                       //   right: 35,
                       //   left: 35,
                       // )),
-                      addVerticalSpace(4),
-                      Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                      addVerticalSpace(4),                           
                               Text(
                                 'First name',
                                 style: Theme.of(context)
@@ -236,8 +231,7 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
                               // DropdownButtonFormField(items: items, onChanged: onChanged)
 
                               ///////////////////////////////////////
-                            ],
-                          )),
+                           
 
                       addVerticalSpace(24),
                     ]),
