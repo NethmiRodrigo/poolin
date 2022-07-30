@@ -23,6 +23,8 @@ class RideOfferCubit extends Cubit<RideOffer> {
       emit(state.copyWith(startTime: startTime));
 
   void setDuration(int duration) => emit(state.copyWith(duration: duration));
+
+  void setPerKilometerPrice(int ppkm) => emit(state.copyWith(ppkm: ppkm));
 }
 
 //class for information
@@ -41,7 +43,7 @@ class RideOffer {
     required this.startTime,
     required this.destination,
     this.duration = 0,
-    this.seatCount = 15,
+    this.seatCount = 0,
     this.ppkm = 0,
     this.distance = 0,
   });

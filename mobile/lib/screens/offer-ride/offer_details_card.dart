@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:http/http.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/services/distance_duration_service.dart';
+import 'package:mobile/services/ride_offer_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class OfferDetailsCard extends StatelessWidget {
@@ -92,6 +97,7 @@ class OfferDetailsCard extends StatelessWidget {
                                                 onChanged: (date) {
                                               print('change $date');
                                             }, onConfirm: (date) {
+                                              offerCubit.setStartTime(date);
                                               print('confirm $date');
                                             },
                                                 currentTime: DateTime.now(),
@@ -161,9 +167,12 @@ class OfferDetailsCard extends StatelessWidget {
                                         EdgeInsets.fromLTRB(0, 0, 0, 12),
                                   ),
                                   min: 1,
-                                  max: 100,
-                                  value: 50,
-                                  onChanged: (value) => print(value),
+                                  max: 5,
+                                  value: 3,
+                                  onChanged: (value) => {
+                                    print(value),
+                                    offerCubit.setSeatCount(value.toInt())
+                                  },
                                 ),
                               ),
                             ],
@@ -177,7 +186,29 @@ class OfferDetailsCard extends StatelessWidget {
             ),
             addVerticalSpace(32),
             WideButton(
-                text: "I'll arrive at 4.30PM in 2 days", onPressedAction: () {})
+                text: "I'll arrive at 4.30PM in 2 days",
+                onPressedAction: () async {
+                  // Response response = await getDistanceAndTime(
+                  //     offerCubit.state.source, offerCubit.state.destination);
+                  // final res = json.decode(response.body);
+                  // offerCubit.setDistance(double.parse(
+                  //     res["routes"]["legs"]["distance"].split(' ')[0] *
+                  //         1.60934));
+                  // offerCubit.setDuration(int.parse(
+                  //     res["routes"]["legs"]["duration"].split(' ')[0]));
+
+                  Response response = await postOffer(offerCubit.state);
+                  if (response.statusCode == 200) {
+                    print("Success! " + response.body);
+
+                    // if (!mounted) {
+                    //   return;
+                    // }
+
+                  } else {
+                    print("Error! " + response.body);
+                  }
+                })
           ],
         ),
       ),

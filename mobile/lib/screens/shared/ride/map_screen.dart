@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:mobile/models/coordinate_model.dart';
 
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/request-ride/ride_offer_results_screen.dart';
@@ -18,6 +20,8 @@ import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/icons.dart';
+
+import '../../../cubits/ride_offer_cubit.dart';
 
 class MapScreen extends StatefulWidget {
   final DetailsResult? sourcePosition;
@@ -111,6 +115,16 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
+    offerCubit.setSource(Coordinate(
+        lat: widget.sourcePosition!.geometry!.location!.lat!,
+        lang: widget.sourcePosition!.geometry!.location!.lng!,
+        name: widget.sourcePosition!.name!));
+    offerCubit.setDestination(Coordinate(
+        lat: widget.destinationPosition!.geometry!.location!.lat!,
+        lang: widget.destinationPosition!.geometry!.location!.lng!,
+        name: widget.destinationPosition!.name!));
+
     Set<Marker> _markers = {
       Marker(
         markerId: const MarkerId('source'),
@@ -197,7 +211,6 @@ class _MapScreenState extends State<MapScreen> {
                           ? 'Post an offer'
                           : "Look for ride offers",
                       onPressedAction: () {
-                        
                         Navigator.push(
                             context,
                             MaterialPageRoute(
