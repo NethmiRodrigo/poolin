@@ -4,6 +4,7 @@ import 'package:flutter_countdown_timer/index.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 
 class RideCountDown extends StatefulWidget {
   final int endTime;
@@ -92,7 +93,13 @@ class _RideCountDownState extends State<RideCountDown> {
                       size: 20,
                       color: BlipColors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DestinationScreen(),
+                          ));
+                    },
                   ),
                 ],
               )
