@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'dart:async';
 
 import 'package:mobile/colors.dart';
@@ -11,7 +12,7 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/current-ride/driver_nav.dart';
-import 'package:mobile/screens/current-ride/ride_nav.dart';
+import 'package:mobile/screens/current-ride/driver_nav.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class StartRide extends StatefulWidget {
@@ -32,81 +33,122 @@ class _StartRideState extends State<StartRide> {
     gender: 'female',
   );
 
-  final LatLng startPoint = const LatLng(6.9020788145677, 79.86035186605507);
-  final LatLng destination = const LatLng(6.901226727080122, 79.86455756968157);
+  final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
+  final LatLng destination = const LatLng(6.9037302, 79.8595853);
   final Completer<GoogleMapController> _controller = Completer();
-  late LatLng _center;
-  Set<Marker> _markers = {};
   final MapType _currentMapType = MapType.normal;
 
+  List<LatLng>? _coordinates;
   late GoogleMapPolyline googleMapPolyline;
-  int _polylineCount = 1;
-  final Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
-  }
+  LocationData? currentLocation;
 
-  void _setMarkers() {
-    _markers = {
-      Marker(markerId: const MarkerId('0'), position: startPoint),
-      Marker(markerId: const MarkerId('1'), position: destination),
-    };
-    _center = startPoint;
-  }
+  Set<Marker> _markers = {};
+  BitmapDescriptor startMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
 
   @override
   void initState() {
     super.initState();
     String? apiKey = dotenv.env['MAPS_API_KEY'];
     googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
-    generateRoute();
+    getPolyPoints();
+    getCurrentLocation();
     timerController =
         CountdownTimerController(endTime: rideStartTime, onEnd: () => {});
-    _setMarkers();
+    setCustomMarkers();
   }
 
-  void generateRoute() async {
-    List<LatLng>? _coordinates =
-        await googleMapPolyline.getCoordinatesWithLocation(
-            origin: startPoint,
-            destination: destination,
-            mode: RouteMode.driving);
+  void getCurrentLocation() async {
+    Location location = Location();
 
-    setState(() {
-      _polylines.clear();
+    location.getLocation().then((location) {
+      setState(() {
+        currentLocation = location;
+      });
     });
-    _addPolyline(_coordinates);
-  }
 
-  _addPolyline(List<LatLng>? _coordinates) {
-    PolylineId id = PolylineId("poly$_polylineCount");
-    Polyline polyline = Polyline(
-        polylineId: id,
-        patterns: patterns[0],
-        color: BlipColors.blue,
-        points: _coordinates!,
-        width: 5,
-        onTap: () {});
+    GoogleMapController googleMapController = await _controller.future;
 
-    setState(() {
-      _polylines[id] = polyline;
-      _polylineCount++;
+    location.onLocationChanged.listen((newLocation) {
+      setState(() {
+        currentLocation = newLocation;
+        googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(newLocation.latitude!, newLocation.longitude!),
+              zoom: 18,
+            ),
+          ),
+        );
+      });
     });
   }
 
-  //Polyline patterns
-  List<List<PatternItem>> patterns = <List<PatternItem>>[
-    <PatternItem>[],
-    <PatternItem>[PatternItem.dash(30.0), PatternItem.gap(20.0)],
-    <PatternItem>[PatternItem.dot, PatternItem.gap(10.0)],
-    <PatternItem>[
-      PatternItem.dash(30.0),
-      PatternItem.gap(20.0),
-      PatternItem.dot,
-      PatternItem.gap(20.0)
-    ],
-  ];
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
+
+  void getPolyPoints() async {
+    List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
+        origin: startPoint, destination: destination, mode: RouteMode.driving);
+    setState(() {
+      _coordinates = coords;
+    });
+  }
+
+  void setCustomMarkers() {
+    // Create custom icons
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source_pin.png",
+    ).then((icon) {
+      setState(() {
+        startMarker = icon;
+      });
+    });
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/destination_pin.png",
+    ).then((icon) {
+      setState(() {
+        destinationMarker = icon;
+      });
+    });
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/car_pin.png",
+    ).then((icon) {
+      setState(() {
+        currentLocationMarker = icon;
+      });
+    });
+
+    // Create markers
+    _markers = {
+      Marker(
+        markerId: const MarkerId('currentLocation'),
+        position: LatLng(
+          currentLocation!.latitude!,
+          currentLocation!.longitude!,
+        ),
+        icon: currentLocationMarker,
+      ),
+      Marker(
+        markerId: const MarkerId('source'),
+        position: startPoint,
+        icon: startMarker,
+      ),
+      Marker(
+        markerId: const MarkerId('destination'),
+        position: destination,
+        icon: destinationMarker,
+      ),
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,24 +193,34 @@ class _StartRideState extends State<StartRide> {
             ),
             addVerticalSpace(24),
             Container(
-                height: size.width * 0.8,
-                color: BlipColors.lightGrey,
-                child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 15.0,
-                    ),
-                    mapType: _currentMapType,
-                    polylines: Set<Polyline>.of(_polylines.values),
-                    markers: _markers)),
+              height: size.width * 0.8,
+              color: BlipColors.lightGrey,
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: startPoint,
+                  zoom: 15.0,
+                ),
+                mapType: _currentMapType,
+                polylines: {
+                  Polyline(
+                    polylineId: const PolylineId("route"),
+                    color: BlipColors.blue,
+                    points: _coordinates!,
+                    width: 5,
+                    onTap: () {},
+                  )
+                },
+                markers: _markers,
+              ),
+            ),
             addVerticalSpace(16),
             WideButton(
                 text: 'Start',
                 onPressedAction: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const RideNav()),
+                    MaterialPageRoute(builder: (context) => const DriverNav()),
                   );
                 }),
             addVerticalSpace(8),

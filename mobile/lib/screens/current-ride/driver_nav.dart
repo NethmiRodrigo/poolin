@@ -1,13 +1,13 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
-import 'package:flutter/gestures.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/wide_button.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:location/location.dart';
+
+import 'package:mobile/colors.dart';
 
 class DriverNav extends StatefulWidget {
   const DriverNav({Key? key}) : super(key: key);
@@ -17,57 +17,130 @@ class DriverNav extends StatefulWidget {
 }
 
 class _DriverNavState extends State<DriverNav> {
-  late IO.Socket socket;
-  double? latitude = 3.33;
-  double? longitude = 0.111;
-
-  final LatLng startPoint = const LatLng(6.9020788145677, 79.86035186605507);
-  final LatLng destination = const LatLng(6.901226727080122, 79.86455756968157);
+  final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
+  final LatLng destination = const LatLng(6.9037302, 79.8595853);
   final Completer<GoogleMapController> _controller = Completer();
-  late LatLng _center;
-  Set<Marker> _markers = {};
   final MapType _currentMapType = MapType.normal;
+  GoogleMapController? mapController;
+
   List<LatLng>? _coordinates;
   late GoogleMapPolyline googleMapPolyline;
-  int _polylineCount = 1;
-  final Map<PolylineId, Polyline> _polylines = <PolylineId, Polyline>{};
+
+  LocationData? currentLocation;
+
+  Set<Marker> _markers = {};
+  BitmapDescriptor startMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
+
+  late IO.Socket socket;
 
   @override
   void initState() {
     super.initState();
     String? apiKey = dotenv.env['MAPS_API_KEY'];
     googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
-    generateRoute();
-    _setMarkers();
-    initSocket();
-  }
-
-  void _onCameraMove(CameraPosition position) {
-    _sendLocation();
+    getPolyPoints();
+    getCurrentLocation();
+    setCustomMarkers();
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
 
-  void _setMarkers() {
-    _markers = {
-      Marker(markerId: const MarkerId('0'), position: startPoint),
-      Marker(markerId: const MarkerId('1'), position: destination),
-    };
-    _center = startPoint;
+  void _onCameraMove(CameraPosition position) {}
+
+  void getCurrentLocation() async {
+    Location location = Location();
+
+    location.getLocation().then((location) {
+      setState(() {
+        currentLocation = location;
+      });
+    });
+
+    GoogleMapController googleMapController = await _controller.future;
+
+    location.onLocationChanged.listen((newLocation) {
+      setState(() {
+        currentLocation = newLocation;
+        googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(newLocation.latitude!, newLocation.longitude!),
+              zoom: 18,
+            ),
+          ),
+        );
+        sendLocation();
+      });
+    });
   }
 
-  void _mockMovement() {
-    if (_coordinates != null) {
-      print('traversing list');
-      _coordinates!.forEach((coord) => print(coord));
-    }
+  void getPolyPoints() async {
+    List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
+        origin: startPoint, destination: destination, mode: RouteMode.driving);
+    setState(() {
+      _coordinates = coords;
+    });
+  }
+
+  void setCustomMarkers() {
+    // Create custom icons
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source_pin.png",
+    ).then((icon) {
+      setState(() {
+        startMarker = icon;
+      });
+    });
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/destination_pin.png",
+    ).then((icon) {
+      setState(() {
+        destinationMarker = icon;
+      });
+    });
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/car_pin.png",
+    ).then((icon) {
+      setState(() {
+        currentLocationMarker = icon;
+      });
+    });
+
+    // Create markers
+    _markers = {
+      Marker(
+        markerId: const MarkerId('currentLocation'),
+        position: LatLng(
+          currentLocation!.latitude!,
+          currentLocation!.longitude!,
+        ),
+        icon: currentLocationMarker,
+      ),
+      Marker(
+        markerId: const MarkerId('source'),
+        position: startPoint,
+        icon: startMarker,
+      ),
+      Marker(
+        markerId: const MarkerId('destination'),
+        position: destination,
+        icon: destinationMarker,
+      ),
+    };
   }
 
   Future<void> initSocket() async {
     try {
-      socket = IO.io("http://3.1.170.150:3700", <String, dynamic>{
+      socket = IO.io("http://${dotenv.env['SOCKET_SERVER']}", <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });
@@ -80,89 +153,50 @@ class _DriverNavState extends State<DriverNav> {
     }
   }
 
-  void generateRoute() async {
-    List<LatLng>? _coordinates =
-        await googleMapPolyline.getCoordinatesWithLocation(
-            origin: startPoint,
-            destination: destination,
-            mode: RouteMode.driving);
-
-    setState(() {
-      _polylines.clear();
-    });
-    _addPolyline(_coordinates);
-  }
-
-  _addPolyline(List<LatLng>? _coordinates) {
-    PolylineId id = PolylineId("poly$_polylineCount");
-    Polyline polyline = Polyline(
-        polylineId: id,
-        patterns: patterns[0],
-        color: BlipColors.blue,
-        points: _coordinates!,
-        width: 5,
-        onTap: () {});
-
-    setState(() {
-      _polylines[id] = polyline;
-      _polylineCount++;
-    });
-  }
-
-  //Polyline patterns
-  List<List<PatternItem>> patterns = <List<PatternItem>>[
-    <PatternItem>[],
-    <PatternItem>[PatternItem.dash(30.0), PatternItem.gap(20.0)],
-    <PatternItem>[PatternItem.dot, PatternItem.gap(10.0)],
-    <PatternItem>[
-      PatternItem.dash(30.0),
-      PatternItem.gap(20.0),
-      PatternItem.dot,
-      PatternItem.gap(20.0)
-    ],
-  ];
-
-  void _sendLocation() {
-    var coords = {'lat': latitude, 'lng': longitude};
+  void sendLocation() {
+    var coords = {
+      'lat': currentLocation!.latitude!,
+      'lng': currentLocation!.latitude!
+    };
     socket.emit('position-change', jsonEncode(coords));
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    const double padding = 16;
-    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: size.width,
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 15.0,
+      body: (currentLocation == null || _coordinates == null)
+          ? const Text('Loading')
+          : Container(
+              height: size.height * 0.8,
+              color: BlipColors.lightGrey,
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: startPoint,
+                  zoom: 15.0,
+                ),
+                mapType: _currentMapType,
+                polylines: {
+                  Polyline(
+                    polylineId: const PolylineId("route"),
+                    color: BlipColors.blue,
+                    points: _coordinates!,
+                    width: 5,
+                    onTap: () {},
+                  )
+                },
+                markers: _markers,
+                onCameraMove: _onCameraMove,
               ),
-              mapType: _currentMapType,
-              
-              markers: _markers,
-              onCameraMove: _onCameraMove,
             ),
-          ),
-          WideButton(
-              text: 'Share my Location',
-              onPressedAction: () {
-                _mockMovement();
-              }),
-        ],
-      ),
     );
   }
 
   @override
   void dispose() {
-    socket.disconnect();
     super.dispose();
+    socket.disconnect();
   }
 }
