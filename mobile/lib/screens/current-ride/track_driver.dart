@@ -215,96 +215,99 @@ class _TrackDriverState extends State<TrackDriver> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: sidePadding,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: size.height * 0.1),
-            Text(
-              'Hey ${currentUser.firstName}!\nYour ride will be here soon,',
-              style: BlipFonts.title,
-              textAlign: TextAlign.center,
-            ),
-            CountdownTimer(
-              controller: timerController,
-              widgetBuilder: (_, CurrentRemainingTime? time) {
-                if (time == null) {
-                  return const Text(
-                    'Your ride is here!',
-                    style: BlipFonts.labelBold,
+      body: (_currentLocation == null || _coordinates == null)
+          ? const Text('Loading')
+          : SingleChildScrollView(
+              padding: sidePadding,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: size.height * 0.1),
+                  Text(
+                    'Hey ${currentUser.firstName}!\nYour ride will be here soon,',
+                    style: BlipFonts.title,
                     textAlign: TextAlign.center,
-                  );
-                }
-                return Column(
-                  children: [
-                    addVerticalSpace(24),
-                    Text(
-                      '${time.min.toString().padLeft(2, '0')} : ${time.sec.toString().padLeft(2, '0')}',
-                      style: BlipFonts.display,
-                      textAlign: TextAlign.center,
+                  ),
+                  CountdownTimer(
+                    controller: timerController,
+                    widgetBuilder: (_, CurrentRemainingTime? time) {
+                      if (time == null) {
+                        return const Text(
+                          'Your ride is here!',
+                          style: BlipFonts.labelBold,
+                          textAlign: TextAlign.center,
+                        );
+                      }
+                      return Column(
+                        children: [
+                          addVerticalSpace(24),
+                          Text(
+                            '${time.min.toString().padLeft(2, '0')} : ${time.sec.toString().padLeft(2, '0')}',
+                            style: BlipFonts.display,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  addVerticalSpace(24),
+                  Container(
+                    height: size.width * 0.8,
+                    color: BlipColors.lightGrey,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: pickupLoc,
+                        zoom: 15.0,
+                      ),
+                      mapType: MapType.normal,
+                      onMapCreated: _onMapCreated,
+                      polylines: {
+                        Polyline(
+                          polylineId: const PolylineId("route"),
+                          color: BlipColors.blue,
+                          points: _coordinates!,
+                          width: 5,
+                          onTap: () {},
+                        )
+                      },
+                      markers: _markers,
                     ),
-                  ],
-                );
-              },
-            ),
-            addVerticalSpace(24),
-            Container(
-              height: size.width * 0.8,
-              color: BlipColors.lightGrey,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: pickupLoc,
-                  zoom: 15.0,
-                ),
-                mapType: MapType.normal,
-                onMapCreated: _onMapCreated,
-                polylines: {
-                  Polyline(
-                    polylineId: const PolylineId("route"),
-                    color: BlipColors.blue,
-                    points: _coordinates!,
-                    width: 5,
-                    onTap: () {},
-                  )
-                },
-                markers: _markers,
-              ),
-            ),
-            addVerticalSpace(16),
-            WideButton(
-                text: 'Start',
-                onPressedAction: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const DriverNav()),
-                  );
-                }),
-            addVerticalSpace(8),
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: 'Any problems? ',
-                    style: BlipFonts.label
-                        .merge(const TextStyle(color: BlipColors.black))),
-                TextSpan(
-                    text: 'Tell the driver',
-                    style: BlipFonts.label
-                        .merge(const TextStyle(color: BlipColors.black)),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
+                  ),
+                  addVerticalSpace(16),
+                  WideButton(
+                      text: 'Start',
+                      onPressedAction: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const DriverNav()),
                         );
                       }),
-              ]),
-            )
-          ],
-        ),
-      ),
+                  addVerticalSpace(8),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: 'Any problems? ',
+                          style: BlipFonts.label
+                              .merge(const TextStyle(color: BlipColors.black))),
+                      TextSpan(
+                          text: 'Tell the driver',
+                          style: BlipFonts.label
+                              .merge(const TextStyle(color: BlipColors.black)),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DriverNav()),
+                              );
+                            }),
+                    ]),
+                  )
+                ],
+              ),
+            ),
     );
   }
 
