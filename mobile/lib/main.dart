@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: const DriverNav(),
+      home: const StartRide(),
       debugShowCheckedModeBanner: false,
     );
   }

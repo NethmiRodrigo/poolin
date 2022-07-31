@@ -90,7 +90,7 @@ class _DriverNavState extends State<DriverNav> {
     // Create custom icons
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/source_pin.png",
+      "assets/images/source-pin-black.png",
     ).then((icon) {
       setState(() {
         startMarker = icon;
@@ -99,7 +99,7 @@ class _DriverNavState extends State<DriverNav> {
 
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/destination_pin.png",
+      "assets/images/location-pin-orange.png",
     ).then((icon) {
       setState(() {
         destinationMarker = icon;
@@ -108,34 +108,12 @@ class _DriverNavState extends State<DriverNav> {
 
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/car_pin.png",
+      "assets/images/car-pin-black.png",
     ).then((icon) {
       setState(() {
         currentLocationMarker = icon;
       });
     });
-
-    // Create markers
-    _markers = {
-      Marker(
-        markerId: const MarkerId('currentLocation'),
-        position: LatLng(
-          currentLocation!.latitude!,
-          currentLocation!.longitude!,
-        ),
-        icon: currentLocationMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('source'),
-        position: startPoint,
-        icon: startMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('destination'),
-        position: destination,
-        icon: destinationMarker,
-      ),
-    };
   }
 
   Future<void> initSocket() async {
@@ -187,7 +165,26 @@ class _DriverNavState extends State<DriverNav> {
                     onTap: () {},
                   )
                 },
-                markers: _markers,
+                markers: {
+                  Marker(
+                    markerId: const MarkerId('currentLocation'),
+                    position: LatLng(
+                      currentLocation!.latitude!,
+                      currentLocation!.longitude!,
+                    ),
+                    icon: currentLocationMarker,
+                  ),
+                  Marker(
+                    markerId: const MarkerId('source'),
+                    position: startPoint,
+                    icon: startMarker,
+                  ),
+                  Marker(
+                    markerId: const MarkerId('destination'),
+                    position: destination,
+                    icon: destinationMarker,
+                  ),
+                },
                 onCameraMove: _onCameraMove,
               ),
             ),

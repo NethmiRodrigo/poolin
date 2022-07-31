@@ -35,9 +35,9 @@ class _TrackDriverState extends State<TrackDriver> {
     gender: 'female',
   );
 
-  final LatLng pickupLoc = const LatLng(6.9018871, 79.8604377);
+  final LatLng pickupLoc = const LatLng(6.901911577143022, 79.85903954456438);
   final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
-  final LatLng dropOffLoc = const LatLng(6.9037302, 79.8595853);
+  final LatLng dropOffLoc = const LatLng(6.90242011186893, 79.85889213533603);
   late LatLng _driverLoc;
   LocationData? _currentLocation;
   final Completer<GoogleMapController> _controller = Completer();
@@ -124,7 +124,7 @@ class _TrackDriverState extends State<TrackDriver> {
     // Create custom icons
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/source_pin.png",
+      "assets/images/source-pin-black.png",
     ).then((icon) {
       setState(() {
         pickupLocMarker = icon;
@@ -133,7 +133,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/source_pin.png",
+      "assets/images/source-pin-grey.png",
     ).then((icon) {
       setState(() {
         startPointMarker = icon;
@@ -142,7 +142,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/destination_pin.png",
+      "assets/images/location-pin-orange.png",
     ).then((icon) {
       setState(() {
         dropOffLocMarker = icon;
@@ -151,7 +151,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/car_pin.png",
+      "assets/images/car-pin-black.png",
     ).then((icon) {
       setState(() {
         driverMarker = icon;
@@ -160,44 +160,12 @@ class _TrackDriverState extends State<TrackDriver> {
 
     BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
-      "assets/images/car_pin.png",
+      "assets/images/radio-blue.png",
     ).then((icon) {
       setState(() {
         currentLocationMarker = icon;
       });
     });
-
-    // Create markers
-    _markers = {
-      Marker(
-        markerId: const MarkerId('currentLocation'),
-        position: LatLng(
-          _currentLocation!.latitude!,
-          _currentLocation!.longitude!,
-        ),
-        icon: currentLocationMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('driver'),
-        position: _driverLoc,
-        icon: driverMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('source'),
-        position: startPoint,
-        icon: startPointMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('pickUp'),
-        position: pickupLoc,
-        icon: pickupLocMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('dropOff'),
-        position: dropOffLoc,
-        icon: dropOffLocMarker,
-      ),
-    };
   }
 
   void getPolyPoints() async {
@@ -271,7 +239,36 @@ class _TrackDriverState extends State<TrackDriver> {
                           onTap: () {},
                         )
                       },
-                      markers: _markers,
+                      markers: {
+                        Marker(
+                          markerId: const MarkerId('currentLocation'),
+                          position: LatLng(
+                            _currentLocation!.latitude!,
+                            _currentLocation!.longitude!,
+                          ),
+                          icon: currentLocationMarker,
+                        ),
+                        Marker(
+                          markerId: const MarkerId('driver'),
+                          position: _driverLoc,
+                          icon: driverMarker,
+                        ),
+                        Marker(
+                          markerId: const MarkerId('source'),
+                          position: startPoint,
+                          icon: startPointMarker,
+                        ),
+                        Marker(
+                          markerId: const MarkerId('pickUp'),
+                          position: pickupLoc,
+                          icon: pickupLocMarker,
+                        ),
+                        Marker(
+                          markerId: const MarkerId('dropOff'),
+                          position: dropOffLoc,
+                          icon: dropOffLocMarker,
+                        ),
+                      },
                     ),
                   ),
                   addVerticalSpace(16),
