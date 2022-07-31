@@ -38,6 +38,7 @@ class _DriverNavState extends State<DriverNav> {
   @override
   void initState() {
     super.initState();
+    initSocket();
     String? apiKey = dotenv.env['MAPS_API_KEY'];
     googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
     getPolyPoints();
@@ -57,6 +58,7 @@ class _DriverNavState extends State<DriverNav> {
     location.getLocation().then((location) {
       setState(() {
         currentLocation = location;
+        sendLocation();
       });
     });
 
@@ -118,7 +120,7 @@ class _DriverNavState extends State<DriverNav> {
 
   Future<void> initSocket() async {
     try {
-      socket = IO.io("http://${dotenv.env['SOCKET_SERVER']}", <String, dynamic>{
+      socket = IO.io("http://3.1.170.150:3700", <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });

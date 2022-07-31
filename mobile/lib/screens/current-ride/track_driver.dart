@@ -38,15 +38,14 @@ class _TrackDriverState extends State<TrackDriver> {
   final LatLng pickupLoc = const LatLng(6.901911577143022, 79.85903954456438);
   final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
   final LatLng dropOffLoc = const LatLng(6.90242011186893, 79.85889213533603);
-  late LatLng _driverLoc;
-  LocationData? _currentLocation;
+  LatLng driverLoc = const LatLng(0, 0);
+  LocationData? currentLocation;
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
 
   List<LatLng>? _coordinates;
   late GoogleMapPolyline googleMapPolyline;
 
-  Set<Marker> _markers = {};
   BitmapDescriptor startPointMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor pickupLocMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor dropOffLocMarker = BitmapDescriptor.defaultMarker;
@@ -60,6 +59,8 @@ class _TrackDriverState extends State<TrackDriver> {
     super.initState();
     initSocket();
     getCurrentLocation();
+    String? apiKey = dotenv.env['MAPS_API_KEY'];
+    googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
     setCustomMarkers();
     getPolyPoints();
     timerController =
@@ -72,7 +73,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
   Future<void> initSocket() async {
     try {
-      socket = IO.io("http://${dotenv.env['SOCKET_SERVER']}", <String, dynamic>{
+      socket = IO.io("http://3.1.170.150:3700", <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });
@@ -80,13 +81,18 @@ class _TrackDriverState extends State<TrackDriver> {
       socket.connect();
       socket.on("position-change", (data) async {
         var latLng = jsonDecode(data);
-        // final GoogleMapController controller = await _controller.future;
-        // controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        //   target: LatLng(latLng["lat"], latLng["lng"]),
-        //   zoom: 19,
-        // )));
+
+        final GoogleMapController controller = await _controller.future;
+
+        controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(latLng["lat"], latLng["lng"]),
+          zoom: 19,
+        )));
+
         setState(() {
-          _driverLoc = LatLng(latLng["lat"], latLng["lng"]);
+          if (latLng) {
+            driverLoc = LatLng(latLng["lat"], latLng["lng"]);
+          }
         });
       });
     } catch (e) {
@@ -99,7 +105,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
     location.getLocation().then((location) {
       setState(() {
-        _currentLocation = location;
+        currentLocation = location;
       });
     });
 
@@ -107,7 +113,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
     location.onLocationChanged.listen((newLocation) {
       setState(() {
-        _currentLocation = newLocation;
+        currentLocation = newLocation;
         googleMapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
@@ -183,7 +189,7 @@ class _TrackDriverState extends State<TrackDriver> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
-      body: (_currentLocation == null || _coordinates == null)
+      body: (currentLocation == null || _coordinates == null)
           ? const Text('Loading')
           : SingleChildScrollView(
               padding: sidePadding,
@@ -228,7 +234,7 @@ class _TrackDriverState extends State<TrackDriver> {
                         target: pickupLoc,
                         zoom: 15.0,
                       ),
-                      mapType: MapType.normal,
+                      mapType: _currentMapType,
                       onMapCreated: _onMapCreated,
                       polylines: {
                         Polyline(
@@ -243,16 +249,18 @@ class _TrackDriverState extends State<TrackDriver> {
                         Marker(
                           markerId: const MarkerId('currentLocation'),
                           position: LatLng(
-                            _currentLocation!.latitude!,
-                            _currentLocation!.longitude!,
+                            currentLocation!.latitude!,
+                            currentLocation!.longitude!,
                           ),
                           icon: currentLocationMarker,
                         ),
-                        Marker(
-                          markerId: const MarkerId('driver'),
-                          position: _driverLoc,
-                          icon: driverMarker,
-                        ),
+                        (driverLoc != const LatLng(0, 0))
+                            ? Marker(
+                                markerId: const MarkerId('driver'),
+                                position: driverLoc,
+                                icon: driverMarker,
+                              )
+                            : Marker(markerId: MarkerId('NA')),
                         Marker(
                           markerId: const MarkerId('source'),
                           position: startPoint,
