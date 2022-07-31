@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:mobile/screens/request-ride/ride_offer_results_screen.dart';
+import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -202,7 +202,7 @@ class _MapScreenState extends State<MapScreen> {
                             MaterialPageRoute(
                               builder: (context) => rideType == "offer"
                                   ? const RideOfferDetailsScreen()
-                                  : RideOfferResultsScreen(),
+                                  : const ViewRideOffersScreen(),
                             ));
                       },
                     ),
