@@ -4,19 +4,16 @@ import bcrypt from "bcrypt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
-
-/** Utility functions */
-import { AppError } from "../../util/error-handler";
-import { AppDataSource } from "../../data-source";
-import { EntityMetadata } from "typeorm";
-import { Point } from "geojson";
+import { User } from "../../database/entity/User";
 
 export const postRideOffer = async (req: Request, res: Response) => {
-  const { userId, src, dest, seats, ppkm, startTime, endTime, distance } =
+  const { email, src, dest, seats, ppkm, startTime, endTime, distance } =
     req.body;
 
+  const user = await User.findOne({ where: { email } });
+
   const newOffer = new RideOffer({
-    userId: userId,
+    user: user,
     from: src.name,
     fromGeom: {
       type: "Point",
