@@ -61,6 +61,7 @@ export const getRequestDetails = async (req: Request, res: Response) => {
       "user.firstname AS fname",
       "user.lastname AS lname",
       "user.id AS id",
+      "user.profileImageUri as avatar",
       "request.from AS pickup",
       "request.to AS dropOff",
       "request.startTime AS startTime",

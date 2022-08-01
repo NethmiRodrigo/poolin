@@ -53,7 +53,7 @@ export const getOfferDetails = async (req: Request, res: Response) => {
 export const getOfferRequests = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const offers = await RideOffer.createQueryBuilder("offer")
+  const requests = await RideOffer.createQueryBuilder("offer")
     //join happens as property of parent
     .leftJoinAndSelect("offer.requestsToOffer", "request")
     .where("offer.id = :id", { id: +id })
@@ -62,6 +62,7 @@ export const getOfferRequests = async (req: Request, res: Response) => {
     .leftJoinAndSelect("rideRequest.user", "user")
     .select([
       "user.firstname AS fname",
+      "user.profileImageUri as avatar",
       "rideRequest.id AS requestId",
       "request.price AS price",
     ])
@@ -69,13 +70,13 @@ export const getOfferRequests = async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json({ success: "Ride Offer Requests fetched successfully", offers });
+    .json({ success: "Ride Offer Requests fetched successfully", requests });
 };
 
 export const getConfirmedRequests = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const offers = await RideOffer.createQueryBuilder("offer")
+  const requests = await RideOffer.createQueryBuilder("offer")
     //join happens as property of parent
     .leftJoinAndSelect("offer.requestsToOffer", "request")
     .where("offer.id = :id", { id: +id })
@@ -85,6 +86,7 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     .select([
       "user.firstname AS fname",
       "user.lastname AS lname",
+      "user.profileImageUri as avatar",
       "rideRequest.from AS pickup",
       "rideRequest.startTime AS startTime",
     ])
@@ -92,5 +94,5 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json({ success: "Confirmed Requests  fetched successfully", offers });
+    .json({ success: "Confirmed Requests  fetched successfully", requests });
 };
