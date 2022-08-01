@@ -1,11 +1,7 @@
 import { Router } from "express";
-import { v4 } from "uuid";
 
 /** Middleware */
 import auth from "../../middleware/auth";
-
-/** Utils */
-import { upload } from "../../service/upload-service";
 
 /** Routes */
 import {
@@ -14,13 +10,16 @@ import {
   getOfferRequests,
   postRideOffer,
 } from "./offer";
-import { postRideRequests } from "./request";
+import { getRequestDetails, postRideRequests } from "./request";
 
 const router = Router();
 
 router.post("/create-offer", postRideOffer);
-router.post("/post-requests", postRideRequests);
 router.get("/get/offer/:id", getOfferDetails);
 router.get("/get/offer/requests/:id", getOfferRequests);
 router.get("/get/offer/party/:id", getConfirmedRequests);
+
+router.post("/post-requests", postRideRequests);
+router.get("/get/request/:id", getRequestDetails);
+
 export default router;

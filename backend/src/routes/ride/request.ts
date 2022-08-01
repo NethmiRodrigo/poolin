@@ -48,3 +48,26 @@ export const postRideRequests = async (req: Request, res: Response) => {
 
   return res.status(200).json({ success: "Ride Offer posted successfully" });
 };
+
+export const getRequestDetails = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const request = await RideRequest.createQueryBuilder("request")
+    //join happens as property of parent
+    .leftJoinAndSelect("offer.requestsToOffer", "rto")
+    .where("request.id = :id", { id: +id })
+    .leftJoinAndSelect("request.user", "user")
+    .select([
+      "user.firstname AS fname",
+      "user.lastname AS lname",
+      "user.id AS id",
+      "request.from AS pickup",
+      "request.to AS dropOff",
+      "request.startTime AS startTime",
+    ])
+    .getRawMany();
+
+  return res
+    .status(200)
+    .json({ success: "Ride Request fetched successfully", request });
+};

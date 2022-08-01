@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
+import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 
 export const postRideOffer = async (req: Request, res: Response) => {
@@ -68,7 +69,7 @@ export const getOfferRequests = async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json({ success: "Ride Offer fetched successfully", offers });
+    .json({ success: "Ride Offer Requests fetched successfully", offers });
 };
 
 export const getConfirmedRequests = async (req: Request, res: Response) => {
@@ -91,5 +92,5 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json({ success: "Ride Offer fetched successfully", offers });
+    .json({ success: "Confirmed Requests  fetched successfully", offers });
 };
