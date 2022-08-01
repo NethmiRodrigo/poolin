@@ -1,13 +1,10 @@
 import { Request, Response } from "express";
-import { isEmpty } from "class-validator";
-import bcrypt from "bcrypt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
-import { off } from "process";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { email, offers, src, dest, startTime, window, distance, price } =
