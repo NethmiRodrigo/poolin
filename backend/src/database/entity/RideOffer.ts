@@ -62,5 +62,5 @@ export class RideOffer extends BaseEntity {
   user: User;
 
   @OneToMany(() => RequestToOffer, (requestToOffer) => requestToOffer.offer)
-  public requestToOffers: RequestToOffer[];
+  public requestsToOffer: RequestToOffer[];
 }

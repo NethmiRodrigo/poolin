@@ -44,7 +44,7 @@ export class RequestToOffer extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => RideOffer, (offer) => offer.requestToOffers)
+  @ManyToOne(() => RideOffer, (offer) => offer.requestsToOffer)
   public offer: RideOffer;
 
   @ManyToOne(() => RideRequest, (request) => request.requestToOffers)

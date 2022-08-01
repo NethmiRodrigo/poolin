@@ -34,3 +34,15 @@ export const postRideOffer = async (req: Request, res: Response) => {
   await newOffer.save();
   return res.status(200).json({ success: "Ride Offer posted successfully" });
 };
+
+export const getOfferDetails = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const offer = await RideOffer.findOne({
+    where: { id: +id },
+    relations: ["user", "requestsToOffer"],
+  });
+  return res
+    .status(200)
+    .json({ success: "Ride Offer fetched successfully", offer });
+};
