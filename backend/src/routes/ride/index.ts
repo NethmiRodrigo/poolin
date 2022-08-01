@@ -8,13 +8,19 @@ import auth from "../../middleware/auth";
 import { upload } from "../../service/upload-service";
 
 /** Routes */
-import { getOfferDetails, postRideOffer } from "./offer";
+import {
+  getConfirmedRequests,
+  getOfferDetails,
+  getOfferRequests,
+  postRideOffer,
+} from "./offer";
 import { postRideRequests } from "./request";
 
 const router = Router();
 
 router.post("/create-offer", postRideOffer);
 router.post("/post-requests", postRideRequests);
-router.get("/get/:id", getOfferDetails);
-
+router.get("/get/offer/:id", getOfferDetails);
+router.get("/get/offer/requests/:id", getOfferRequests);
+router.get("/get/offer/party/:id", getConfirmedRequests);
 export default router;

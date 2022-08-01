@@ -12,7 +12,6 @@ import {
   ManyToOne,
 } from "typeorm";
 import { RequestToOffer } from "./RequestToOffer";
-import { RideOffer } from "./RideOffer";
 import { User } from "./User";
 
 @Entity()
@@ -57,15 +56,12 @@ export class RideRequest extends BaseEntity {
   @Column({ nullable: false, default: true })
   isActive: boolean;
 
-  @Column({ default: false })
-  isDeleted: boolean;
-
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.requests)
+  @ManyToOne(() => User, (user) => user.requests, { eager: true })
   user: User;
 
   @OneToMany(() => RequestToOffer, (requestToOffer) => requestToOffer.request)

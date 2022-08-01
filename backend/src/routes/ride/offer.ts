@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { isEmpty } from "class-validator";
-import bcrypt from "bcrypt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
@@ -39,10 +37,59 @@ export const getOfferDetails = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const offer = await RideOffer.findOne({
-    where: { id: +id },
-    relations: ["user", "requestsToOffer"],
+    where: [{ id: +id }, { isActive: true }],
   });
+
+  if (!offer) {
+    return res.status(404).json({ error: "No active offer" });
+  }
+
   return res
     .status(200)
     .json({ success: "Ride Offer fetched successfully", offer });
+};
+
+export const getOfferRequests = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const offers = await RideOffer.createQueryBuilder("offer")
+    //join happens as property of parent
+    .leftJoinAndSelect("offer.requestsToOffer", "request")
+    .where("offer.id = :id", { id: +id })
+    .leftJoinAndSelect("request.request", "rideRequest")
+    .where("rideRequest.isActive = true")
+    .leftJoinAndSelect("rideRequest.user", "user")
+    .select([
+      "user.firstname AS fname",
+      "rideRequest.id AS requestId",
+      "request.price AS price",
+    ])
+    .getRawMany();
+
+  return res
+    .status(200)
+    .json({ success: "Ride Offer fetched successfully", offers });
+};
+
+export const getConfirmedRequests = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const offers = await RideOffer.createQueryBuilder("offer")
+    //join happens as property of parent
+    .leftJoinAndSelect("offer.requestsToOffer", "request")
+    .where("offer.id = :id", { id: +id })
+    .where("request.isAccepted = true")
+    .leftJoinAndSelect("request.request", "rideRequest")
+    .leftJoinAndSelect("rideRequest.user", "user")
+    .select([
+      "user.firstname AS fname",
+      "user.lastname AS lname",
+      "rideRequest.from AS pickup",
+      "rideRequest.startTime AS startTime",
+    ])
+    .getRawMany();
+
+  return res
+    .status(200)
+    .json({ success: "Ride Offer fetched successfully", offers });
 };

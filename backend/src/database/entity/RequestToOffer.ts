@@ -23,20 +23,11 @@ export class RequestToOffer extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
-  offerId: number;
-
-  @Column({ nullable: false })
-  requestId: number;
-
   @Column("decimal", { nullable: false })
   price: number;
 
   @Column({ nullable: false, default: false })
   isAccepted: boolean;
-
-  @Column({ default: false })
-  isDeleted: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
