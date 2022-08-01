@@ -55,9 +55,9 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                 'Enter vehicle information',
                 style: BlipFonts.title,
               ),
-              addVerticalSpace(42),
+              addVerticalSpace(36),
               Align(
-                child: Image.asset('assets/images/car.png', height: 117),
+                child: Image.asset('assets/images/car.png', height: 137),
               ),
               Column(
                 children: [
