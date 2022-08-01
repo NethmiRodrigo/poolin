@@ -13,6 +13,7 @@ import {
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
 import { Vehicle } from "./Vehicle";
+import { Rating } from "./Rating";
 
 export enum Gender {
   MALE = "male",
@@ -29,6 +30,7 @@ export enum Role {
 export class User extends BaseEntity {
   constructor(user?: Partial<User>) {
     super();
+
     Object.assign(this, user);
   }
 
@@ -105,4 +107,10 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Rating, (rating) => rating.ratingBy)
+  ratingsGiven: Rating[];
+
+  @OneToMany(() => Rating, (rating) => rating.ratingFor)
+  ratingsReceived: Rating[];
 }

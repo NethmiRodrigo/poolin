@@ -5,7 +5,10 @@ import {
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  ManyToOne,
 } from "typeorm";
+import { User } from "./User";
 
 export enum Role {
   RIDER = "rider",
@@ -21,6 +24,11 @@ export class Rating extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => User, (user) => user.ratingsGiven)
+  ratingFor: User;
+  @ManyToOne(() => User, (user) => user.ratingsReceived)
+  ratingBy: User;
 
   @Column()
   ratingFor: number;
