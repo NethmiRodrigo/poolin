@@ -48,7 +48,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                         color: BlipColors.orange,
                       ),
                       right: 10.0,
-                      bottom: 2.0,
+                      bottom: 0.0,
                     ),
                   ],
                 ),

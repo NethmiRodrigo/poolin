@@ -47,7 +47,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                         color: BlipColors.orange,
                       ),
                       right: 10.0,
-                      bottom: 2.0,
+                      bottom: 0.0,
                     ),
                   ],
                 ),
