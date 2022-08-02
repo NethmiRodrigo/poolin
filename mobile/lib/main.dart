@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile/screens/EditProfileScreen.dart';
+import 'package:mobile/screens/UploadDocumentScreen.dart';
 import 'package:mobile/screens/register/register_screen.dart';
 
 import './theme.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: EditProfileScreen(),
+      home: UploadDocumentScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
