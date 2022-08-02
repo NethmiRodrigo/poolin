@@ -1,10 +1,13 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/register/personal_details_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import '../../colors.dart';
 import '../../custom/otp_fields.dart';
 import '../../services/register_service.dart';
 
@@ -36,31 +39,24 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                addVerticalSpace(48),
+                addVerticalSpace(44),
                 Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    'STEP 4/5',
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ),
-                addVerticalSpace(40),
-                const Icon(Icons.lock_outline_rounded, size: 110),
-                addVerticalSpace(40),
-                Text(
-                  "Enter the code",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .merge(const TextStyle(color: Colors.black)),
-                ),
+                    alignment: Alignment.topLeft,
+                    child: Icon(
+                      EvaIcons.arrowBackOutline,
+                      color: Colors.black,
+                    )),
+                addVerticalSpace(48),
+                Image.asset('assets/images/otp.png', height: 206),
+                // addVerticalSpace(16),
+                Text("Enter the code", style: BlipFonts.title),
                 addVerticalSpace(16),
                 Text(
-                  'We sent a one-time code via \nSMS to confirm',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  'We sent a one-time code \nvia SMS to confirm',
+                  style: BlipFonts.label,
                   textAlign: TextAlign.center,
                 ),
-                addVerticalSpace(48),
+                addVerticalSpace(32),
                 Form(
                   key: _formKey,
                   child: OTPFields(
@@ -73,7 +69,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     },
                   ),
                 ),
-                addVerticalSpace(56),
+                addVerticalSpace(32),
                 WideButton(
                   text: 'Verify Phone Number',
                   onPressedAction: () async {
@@ -104,10 +100,11 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                       text: TextSpan(children: [
                         TextSpan(
                             text: "Didn't receive a code? ",
-                            style: Theme.of(context).textTheme.bodyText1),
+                            style: BlipFonts.outline),
                         TextSpan(
                             text: 'Try again',
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: BlipFonts.outlineBold
+                                .merge(TextStyle(color: BlipColors.orange)),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.pop(context);

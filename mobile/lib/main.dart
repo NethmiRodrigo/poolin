@@ -1,13 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'package:mobile/screens/register/register_screen.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/screens/rides/ride_history.dart';
 
 import './theme.dart';
 
 Future<void> main() async {
   await dotenv.load();
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
   runApp(const MyApp());
 }
 

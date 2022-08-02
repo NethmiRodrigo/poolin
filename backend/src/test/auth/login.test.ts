@@ -92,7 +92,7 @@ describe(API_URL, () => {
   });
 
   afterAll(async () => {
-    await connection.dropTable("users");
+    await connection.clearDatabase();
     await connection.destroy();
     app.close();
   });
