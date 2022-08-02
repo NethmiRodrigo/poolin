@@ -62,6 +62,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   time_elapsed: ^0.2.6
   flutter_bloc: ^8.0.1
+  phosphor_flutter: ^1.4.0
   # flutter_svg: any
 
 dev_dependencies:
