@@ -57,10 +57,7 @@ class DestinationScreenState extends State<DestinationScreen> {
               addVerticalSpace(44),
               const Align(
                   alignment: Alignment.topLeft,
-                  child: Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
+                  child: Icon(EvaIcons.arrowBackOutline, color: Colors.black)),
               Align(
                 alignment: Alignment.topRight,
                 child: AnimatedToggleSwitch<bool>.dual(
