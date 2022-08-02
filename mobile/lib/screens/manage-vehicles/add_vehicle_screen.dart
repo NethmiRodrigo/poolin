@@ -64,83 +64,147 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                   Row(
                     children: [
                       Expanded(
-                        child: ListTile(
-                          title: const Text(
-                            'Vehicle Make',
-                            style: BlipFonts.outline,
-                          ),
-                          subtitle: TextFormField(
-                            decoration: const InputDecoration(
-                              hintText: 'Ex: Toyota',
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
+                        child: Column(children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Vehicle Make",
+                              style: BlipFonts.outline,
                             ),
                           ),
-                        ),
+                          addVerticalSpace(8),
+                          TextField(
+                            style: BlipFonts.label,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintText: "Ex: Toyota",
+                            ),
+                          ),
+                        ]),
                       ),
                       const SizedBox(
                         width: 5,
                       ),
                       Expanded(
-                        child: ListTile(
-                          title: const Text(
-                            'Vehicle Model',
-                            style: BlipFonts.outline,
-                          ),
-                          //style: BlipFonts.labelBold,
-                          subtitle: TextFormField(
-                            decoration: const InputDecoration(
-                              hintText: 'Ex: Prius',
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
+                        child: Column(children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Vehicle Model",
+                              style: BlipFonts.outline,
                             ),
                           ),
-                        ),
+                          addVerticalSpace(8),
+                          TextField(
+                            style: BlipFonts.label,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintText: "Ex: Prius",
+                            ),
+                          ),
+                        ]),
                       ),
                     ],
                   ),
                   addVerticalSpace(16),
-                  ListTile(
-                    title: const Text(
-                      'Year',
-                      style: BlipFonts.outline,
-                    ),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Ex: 2018',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      ),
-                    ),
-                  ),
+                  Column(children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Year",
+                              style: BlipFonts.outline,
+                            ),
+                          ),
+                          addVerticalSpace(8),
+                          TextField(
+                            style: BlipFonts.label,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintText: "Ex: 2018",
+                            ),
+                          ),
+                        ]),
                   addVerticalSpace(16),
-                  ListTile(
-                    title: const Text(
-                      'License Plate Number',
-                      style: BlipFonts.outline,
-                    ),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Ex: EX2727596664',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      ),
-                    ),
-                  ),
+                  Column(children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "License Plate Number",
+                              style: BlipFonts.outline,
+                            ),
+                          ),
+                          addVerticalSpace(8),
+                          TextField(
+                            style: BlipFonts.label,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintText: "Ex: CAT 9345",
+                            ),
+                          ),
+                        ]),
                   addVerticalSpace(16),
-                  ListTile(
-                    title: const Text(
-                      'Vehicle Color',
-                      style: BlipFonts.outline,
-                    ),
-                    subtitle: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Ex: Blue',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      ),
-                    ),
-                  ),
+                  Column(children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Vehicle Color",
+                              style: BlipFonts.outline,
+                            ),
+                          ),
+                          addVerticalSpace(8),
+                          TextField(
+                            style: BlipFonts.label,
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              hintText: "Ex: Blue",
+                            ),
+                          ),
+                        ]),
                   addVerticalSpace(42),
                   WideButton(
                     text: 'Add Vehicle',
