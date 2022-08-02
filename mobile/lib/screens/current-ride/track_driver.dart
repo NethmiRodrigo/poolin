@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -84,15 +83,14 @@ class _TrackDriverState extends State<TrackDriver> {
 
         final GoogleMapController controller = await _controller.future;
 
-        controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(latLng["lat"], latLng["lng"]),
-          zoom: 19,
-        )));
-
         setState(() {
-          if (latLng) {
-            driverLoc = LatLng(latLng["lat"], latLng["lng"]);
-          }
+          driverLoc = LatLng(latLng["lat"], latLng["lng"]);
+          print('driver is at $driverLoc');
+          controller
+              .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+            target: driverLoc,
+            zoom: 19,
+          )));
         });
       });
     } catch (e) {
