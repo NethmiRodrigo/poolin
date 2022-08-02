@@ -1,11 +1,9 @@
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
-
 import '../../../colors.dart';
 
 class DriverProfileScreen extends StatefulWidget {
@@ -34,25 +32,26 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(64),
-              const Align(
-                  alignment: Alignment.topCenter,
-                  child: SizedBox(
-                    child: CircleAvatar(
+              Align(
+                alignment: Alignment.topCenter,
+                child: Stack(
+                  alignment: AlignmentDirectional.topCenter,
+                  children: [
+                    CircleAvatar(
                       radius: 60.0,
                       backgroundImage: AssetImage('assets/images/user.jpg'),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 12.0,
-                          child: Icon(
-                            PhosphorIcons.circleWavyCheckFill,
-                            color: BlipColors.orange,
-                          ),
-                        ),
-                      ),
                     ),
-                  )),
+                    Positioned(
+                      child: Icon(
+                        PhosphorIcons.circleWavyCheckFill,
+                        color: BlipColors.orange,
+                      ),
+                      right: 10.0,
+                      bottom: 2.0,
+                    ),
+                  ],
+                ),
+              ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Column(
@@ -75,8 +74,8 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     border: Border.all(width: 1.0),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(7) //                 <--- border radius here
+                    borderRadius: BorderRadius.all(Radius.circular(
+                            7) //                 <--- border radius here
                         ),
                   ),
                   child: SizedBox(
@@ -85,7 +84,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const Icon(Icons.star_rate, color: Colors.yellow),
+                          const Icon(EvaIcons.star, color: Colors.yellow),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -106,8 +105,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                             endIndent: 0,
                             color: Colors.black,
                           ),
-                          const Icon( EvaIcons.navigation2,
-                                color: Colors.blue),
+                          const Icon(EvaIcons.navigation2, color:BlipColors.blue ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
