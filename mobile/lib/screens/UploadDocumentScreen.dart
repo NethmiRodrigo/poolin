@@ -52,29 +52,35 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
   }
 
   //build buttons
-  // @override
-  // Widget buildButton({
-  //   required String title,
-  //   required IconData icon,
-  //   required VoidCallback onClicked,
-  // }) =>
-  //     ElevatedButton(
-  //       style: ElevatedButton.styleFrom(
-  //         minimumSize: Size.fromHeight(56),
-  //         primary: Color.fromARGB(255, 0, 0, 0),
-  //         onPrimary: Color.fromARGB(255, 255, 255, 255),
-  //         textStyle: Theme.of(context).textTheme.bodyText1, 
-  //       ),
-  //       child: Row(children: [
-  //         Icon(
-  //           icon,
-  //           size: 28,
-  //         ),
-  //         const SizedBox(width: 16),
-  //         Text(title)
-  //       ]),
-  //       onPressed: onClicked,
-  //     );
+  @override
+  Widget buildButton({
+    required String title,
+    required IconData icon,
+    required VoidCallback onClicked,
+  }) =>
+      ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(16.0),
+          // minimumSize: Size.fromHeight(56),
+          primary: Colors.black,
+          onPrimary: Colors.white,
+          textStyle: Theme.of(context).textTheme.bodyText1,
+        ),
+        
+        child: Row(
+          children: [
+          // Center(),
+          // Spacer(),
+          Icon(
+            icon,
+            size: 24,
+          ),
+          const SizedBox(width: 16),
+          Text(title)
+        ]),
+        onPressed: onClicked,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +120,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
                     "Driving Lisence",
                     style: Theme.of(context)
                         .textTheme
-                        .headline2!
+                        .headline4!
                         .merge(const TextStyle(color: Colors.black)),
                   ),
                 ),
@@ -134,15 +140,15 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 //     onPressed: () {
                 //       pickImageCamera();
                 //     }),
-                MiniButton(
-                    text: 'Use Camera',
-                    onPressedAction: () async {
-                      pickImageCamera();
-                    }),
-                // buildButton(
-                //     title: 'Use Camera',
-                //     icon: Icons.camera_alt_outlined,
-                //     onClicked: () => pickImageCamera()),
+                // MiniButton(
+                //     text: 'Use Camera',
+                //     onPressedAction: () async {
+                //       pickImageCamera();
+                //     }),
+                buildButton(
+                    title: 'Use Camera',
+                    icon: Icons.camera_alt_outlined,
+                    onClicked: () => pickImageCamera()),
                 addVerticalSpace(16),
                 Text(
                   'or',
@@ -164,15 +170,15 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 //     }),
                 //Display Image
 
-                MiniButton(
-                    text: 'Upload from Gallery',
-                    onPressedAction: () async {
-                      pickImage();
-                    }),
-                // buildButton(
-                //     title: 'Upload from Gallery',
-                //     icon: Icons.image_outlined,
-                //     onClicked: () => pickImage()),
+                // MiniButton(
+                //     text: 'Upload from Gallery',
+                //     onPressedAction: () async {
+                //       pickImage();
+                //     }),
+                buildButton(
+                    title: 'Upload from Gallery',
+                    icon: Icons.image_outlined,
+                    onClicked: () => pickImage()),
               ],
             ),
           ),

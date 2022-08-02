@@ -5,6 +5,7 @@ import 'package:mobile/screens/ChangePasswordScreen.dart';
 import 'package:mobile/screens/EditBioScreen.dart';
 import 'package:mobile/screens/EditFullNameScreen.dart';
 import 'package:mobile/screens/EditPersonalDetailsScreen.dart';
+import 'package:mobile/screens/UploadDocumentScreen.dart';
 import 'package:mobile/services/getuserlogindetails_service.dart';
 import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -363,7 +364,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const EditPersonalDetailsScreen()),
+                                                const UploadDocumentScreen()),
                                       );
                                     },
                                     child: Text(
