@@ -33,25 +33,26 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(64),
-              const Align(
-                  alignment: Alignment.topCenter,
-                  child: SizedBox(
-                    child: CircleAvatar(
+              Align(
+                alignment: Alignment.topCenter,
+                child: Stack(
+                  alignment: AlignmentDirectional.topCenter,
+                  children: [
+                    CircleAvatar(
                       radius: 60.0,
-                      backgroundImage: AssetImage('assets/images/user.png'),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 12.0,
-                          child: Icon(
-                            PhosphorIcons.circleWavyCheckFill,
-                            color: BlipColors.orange,
-                          ),
-                        ),
-                      ),
+                      backgroundImage: AssetImage('assets/images/user.jpg'),
                     ),
-                  )),
+                    Positioned(
+                      child: Icon(
+                        PhosphorIcons.circleWavyCheckFill,
+                        color: BlipColors.orange,
+                      ),
+                      right: 10.0,
+                      bottom: 2.0,
+                    ),
+                  ],
+                ),
+              ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Column(
