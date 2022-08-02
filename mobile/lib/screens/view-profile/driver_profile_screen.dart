@@ -84,7 +84,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const Icon(EvaIcons.star, color: Colors.yellow),
+                          const Icon(EvaIcons.star, color: BlipColors.gold),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
