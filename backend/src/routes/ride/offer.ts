@@ -111,14 +111,14 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     .where("offer.id = :id", { id: +id })
     .where("request.isAccepted = true")
     .leftJoinAndSelect("request.request", "rideRequest")
-    .where("request.status = 'confirmed'")
+    .where("rideRequest.status = 'confirmed'")
     .leftJoinAndSelect("rideRequest.user", "user")
     .select([
       "user.firstname AS fname",
       "user.lastname AS lname",
       "user.profileImageUri as avatar",
       "rideRequest.from AS pickup",
-      "rideRequest.startTime AS startTime",
+      "rideRequest.departureTime AS startTime",
     ])
     .getRawMany();
 

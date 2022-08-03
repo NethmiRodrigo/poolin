@@ -37,7 +37,7 @@ Future<http.Response> postOffer(RideOffer rideOffer) async {
   return response;
 }
 
-Future<http.Response> getActiveOffer() async {
+Future<http.Response> getActiveRequest() async {
   var url = Uri.parse('$baseURL/get/offer/requests/1');
   var response = await http.get(
     url,
