@@ -65,6 +65,8 @@ dependencies:
   google_map_polyline_new: ^0.3.0+2
   location: ^4.4.0
   dio: ^4.0.6
+  flutter_bloc: ^8.0.1
+  jiffy: ^5.0.0
   # flutter_svg: any
 
 dev_dependencies:

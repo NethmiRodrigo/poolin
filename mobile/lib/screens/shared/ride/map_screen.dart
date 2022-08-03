@@ -1,19 +1,27 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/outline_button.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_type_model.dart';
+import 'package:mobile/models/coordinate_model.dart';
+
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
+import 'package:mobile/screens/request-ride/ride_offer_results_screen.dart';
+import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
+
+import 'package:mobile/models/ride_type_model.dart';
+
+import 'package:mobile/colors.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
+import 'package:mobile/icons.dart';
+
+import '../../../cubits/ride_offer_cubit.dart';
 
 class MapScreen extends StatefulWidget {
   final DetailsResult? sourcePosition;
@@ -30,19 +38,19 @@ class _MapScreenState extends State<MapScreen> {
   String rideType = RideType.offer.name;
   late CameraPosition _initalPosition;
   Map<PolylineId, Polyline> polylines = {};
-  List<LatLng> polylineCoordinates = [];
-  PolylinePoints polylinePoints = PolylinePoints();
 
   String? apiKey = dotenv.env['MAPS_API_KEY'];
 
   @override
   void initState() {
     __loadRideType();
-    super.initState();
+    __saveLocations();
+
     _initalPosition = CameraPosition(
         target: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
             widget.sourcePosition!.geometry!.location!.lng!),
         zoom: 20);
+    super.initState();
   }
 
   __loadRideType() async {
@@ -52,31 +60,30 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  _addPolyLine() {
-    PolylineId id = const PolylineId("poly");
-    Polyline polyline = Polyline(
-        polylineId: id,
-        color: BlipColors.orange,
-        points: polylineCoordinates,
-        width: 2);
-    polylines[id] = polyline;
-    setState(() {});
+  __saveLocations() async {
+    Map source = {
+      "latitude": widget.sourcePosition!.geometry!.location!.lat,
+      "longitude": widget.sourcePosition!.geometry!.location!.lng,
+      "name": widget.sourcePosition!.name
+    };
+    Map destination = {
+      "latitude": widget.destinationPosition!.geometry!.location!.lat,
+      "longitude": widget.destinationPosition!.geometry!.location!.lng,
+      "name": widget.destinationPosition!.name,
+    };
+    await _storage.write(key: "SOURCE", value: jsonEncode(source));
+    await _storage.write(key: "DESTINATION", value: jsonEncode(destination));
   }
 
   _getPolyline() async {
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        apiKey!,
-        PointLatLng(widget.sourcePosition!.geometry!.location!.lat!,
-            widget.sourcePosition!.geometry!.location!.lng!),
-        PointLatLng(widget.destinationPosition!.geometry!.location!.lat!,
-            widget.destinationPosition!.geometry!.location!.lng!),
-        travelMode: TravelMode.driving);
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      }
-    }
-    _addPolyLine();
+    var result = await getPolyline(
+        widget.sourcePosition!.geometry!.location!.lat!,
+        widget.sourcePosition!.geometry!.location!.lng!,
+        widget.destinationPosition!.geometry!.location!.lat!,
+        widget.destinationPosition!.geometry!.location!.lng!);
+    setState(() {
+      polylines = result;
+    });
   }
 
   Widget _addLocationSearchField(String type) {
@@ -93,7 +100,8 @@ class _MapScreenState extends State<MapScreen> {
             style: BorderStyle.none,
           ),
         ),
-        prefixIcon: const Icon(FluentIcons.location_16_filled),
+        prefixIcon:
+            Icon(type == "source" ? BlipIcons.source : BlipIcons.destination),
         prefixIconColor: BlipColors.orange,
         hintText: type == "source"
             ? widget.sourcePosition!.name
@@ -107,6 +115,16 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
+    offerCubit.setSource(Coordinate(
+        lat: widget.sourcePosition!.geometry!.location!.lat!,
+        lang: widget.sourcePosition!.geometry!.location!.lng!,
+        name: widget.sourcePosition!.name!));
+    offerCubit.setDestination(Coordinate(
+        lat: widget.destinationPosition!.geometry!.location!.lat!,
+        lang: widget.destinationPosition!.geometry!.location!.lng!,
+        name: widget.destinationPosition!.name!));
+
     Set<Marker> _markers = {
       Marker(
         markerId: const MarkerId('source'),
@@ -175,9 +193,9 @@ class _MapScreenState extends State<MapScreen> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         "Your Trip Details",
                         style: BlipFonts.title,
                       ),
@@ -198,7 +216,7 @@ class _MapScreenState extends State<MapScreen> {
                             MaterialPageRoute(
                               builder: (context) => rideType == "offer"
                                   ? const RideOfferDetailsScreen()
-                                  : const RideRequestDetailsScreen(),
+                                  : RideOfferResultsScreen(),
                             ));
                       },
                     ),

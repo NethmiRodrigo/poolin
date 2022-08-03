@@ -77,15 +77,14 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                     color: Colors.black,
                   )),
               addVerticalSpace(16),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Ride Visibility', style: BlipFonts.title),
-                    OutlineButton(
-                      color: BlipColors.black,
-                      text: "Clear All",
-                    )
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text('Ride Visibility', style: BlipFonts.title),
+                OutlineButton(
+                  onPressedAction: () {},
+                  color: BlipColors.black,
+                  text: "Clear All",
+                )
+              ]),
               addVerticalSpace(48),
               Align(
                 alignment: Alignment.topLeft,
