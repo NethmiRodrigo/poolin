@@ -27,7 +27,7 @@ class TrackDriver extends StatefulWidget {
 
 class _TrackDriverState extends State<TrackDriver> {
   int rideArrivalTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(minutes: 30).inMilliseconds;
+      const Duration(minutes: 15).inMilliseconds;
   late CountdownTimerController timerController;
   final User currentUser = User(
     firstName: 'Nethmi',
@@ -84,8 +84,10 @@ class _TrackDriverState extends State<TrackDriver> {
   }
 
   Future<void> initSocket() async {
+    String? socketServer = dotenv.env['SOCKET_SERVER'];
+
     try {
-      socket = IO.io("http://3.1.170.150:3700", <String, dynamic>{
+      socket = IO.io("http://$socketServer", <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });
@@ -131,11 +133,12 @@ class _TrackDriverState extends State<TrackDriver> {
   }
 
   void getEstimatedArivalTime() async {
-    Dio dio = new Dio();
+    Dio dio = Dio();
+    String? apiURL = dotenv.env['DISTANCE_MATRIX_API_URL'];
 
     try {
       Response response = await dio.get(
-          "https://maps.googleapis.com/maps/api/distancematrix/json?origins=6.857870456227357%2C79.87058268465782&destinations=6.029392%2C80.215113&key=$apiKey&mode=driving");
+          "$apiURL?origins=${driverLoc.latitude}%2C${driverLoc.longitude}&destinations=${pickupLoc.latitude}%2C${pickupLoc.longitude}&key=$apiKey&mode=driving");
 
       print(response.data);
 
@@ -153,13 +156,6 @@ class _TrackDriverState extends State<TrackDriver> {
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  void _whenDriverArrived() {
-    setState(() {
-      driverArrived = true;
-      print('Driver arrived');
-    });
   }
 
   void setCustomMarkers() {
@@ -227,12 +223,12 @@ class _TrackDriverState extends State<TrackDriver> {
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
           ? const Center(
-            child: CircularProgressIndicator(
+              child: CircularProgressIndicator(
                 value: null,
                 semanticsLabel: 'Please wait',
                 color: BlipColors.grey,
               ),
-          )
+            )
           : SingleChildScrollView(
               padding: sidePadding,
               child: Column(
@@ -251,28 +247,26 @@ class _TrackDriverState extends State<TrackDriver> {
                           style: BlipFonts.title,
                           textAlign: TextAlign.center,
                         ),
-                  CountdownTimer(
-                    controller: timerController,
-                    widgetBuilder: (_, CurrentRemainingTime? time) {
-                      if (time == null) {
-                        return const Text(
-                          'Your ride is here!',
-                          style: BlipFonts.labelBold,
-                          textAlign: TextAlign.center,
-                        );
-                      }
-                      return Column(
-                        children: [
-                          addVerticalSpace(24),
-                          Text(
-                            '${time.min == null ? '00' : time.min.toString().padLeft(2, '0')} : ${time.sec == null ? '00' : time.sec.toString().padLeft(2, '0')}',
-                            style: BlipFonts.display,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                  addVerticalSpace(24),
+                  !driverArrived
+                      ? CountdownTimer(
+                          controller: timerController,
+                          widgetBuilder: (_, CurrentRemainingTime? time) {
+                            if (time == null) {
+                              return const Text(
+                                '00 : 00',
+                                style: BlipFonts.display,
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                            return Text(
+                              '${time.min == null ? '00' : time.min.toString().padLeft(2, '0')} : ${time.sec == null ? '00' : time.sec.toString().padLeft(2, '0')}',
+                              style: BlipFonts.display,
+                              textAlign: TextAlign.center,
+                            );
+                          },
+                        )
+                      : Container(),
                   addVerticalSpace(24),
                   Container(
                     height: size.width * 0.8,

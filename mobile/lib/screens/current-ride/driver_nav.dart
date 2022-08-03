@@ -119,8 +119,10 @@ class _DriverNavState extends State<DriverNav> {
   }
 
   Future<void> initSocket() async {
+    String? socketServer = dotenv.env['SOCKET_SERVER'];
+
     try {
-      socket = IO.io("http://3.1.170.150:3700", <String, dynamic>{
+      socket = IO.io("http://$socketServer", <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });

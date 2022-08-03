@@ -16,8 +16,6 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/current-ride/driver_nav.dart';
-import 'package:mobile/screens/current-ride/driver_nav.dart';
-import 'package:mobile/screens/current-ride/track_driver.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class StartRide extends StatefulWidget {
@@ -29,7 +27,7 @@ class StartRide extends StatefulWidget {
 
 class _StartRideState extends State<StartRide> {
   int rideStartTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+      const Duration(minutes: 15).inMilliseconds;
   late CountdownTimerController timerController;
   final User currentUser = User(
     firstName: 'Yadeesha',
@@ -77,21 +75,9 @@ class _StartRideState extends State<StartRide> {
       });
     });
 
-    GoogleMapController googleMapController = await _controller.future;
-
     location.onLocationChanged.listen((newLocation) {
       setState(() {
         currentLocation = newLocation;
-        // if (newLocation != null) {
-        //   googleMapController.animateCamera(
-        //     CameraUpdate.newCameraPosition(
-        //       CameraPosition(
-        //         target: LatLng(newLocation.latitude!, newLocation.longitude!),
-        //         zoom: 18,
-        //       ),
-        //     ),
-        //   );
-        // }
       });
     });
   }
@@ -118,7 +104,6 @@ class _StartRideState extends State<StartRide> {
     ).then((icon) {
       setState(() {
         startMarker = icon;
-        // isLoading = true;
       });
     });
 
@@ -161,12 +146,12 @@ class _StartRideState extends State<StartRide> {
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
           ? const Center(
-            child: CircularProgressIndicator(
+              child: CircularProgressIndicator(
                 value: null,
                 semanticsLabel: 'Please wait',
                 color: BlipColors.grey,
               ),
-          )
+            )
           : SingleChildScrollView(
               padding: sidePadding,
               child: Column(
@@ -174,23 +159,23 @@ class _StartRideState extends State<StartRide> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: size.height * 0.1),
-                  Text(
-                    'Hey ${currentUser.firstName}!\nYour ride starts in,',
-                    style: BlipFonts.title,
-                    textAlign: TextAlign.center,
-                  ),
                   CountdownTimer(
                     controller: timerController,
                     widgetBuilder: (_, CurrentRemainingTime? time) {
                       if (time == null) {
                         return const Text(
-                          'Start your ride',
-                          style: BlipFonts.labelBold,
+                          'Time for your ride!\nStart now',
+                          style: BlipFonts.title,
                           textAlign: TextAlign.center,
                         );
                       }
                       return Column(
                         children: [
+                          Text(
+                            'Hey ${currentUser.firstName}!\nYour ride starts in,',
+                            style: BlipFonts.title,
+                            textAlign: TextAlign.center,
+                          ),
                           addVerticalSpace(24),
                           Text(
                             '${time.min == null ? '00' : time.min.toString().padLeft(2, '0')} : ${time.sec == null ? '00' : time.sec.toString().padLeft(2, '0')}',

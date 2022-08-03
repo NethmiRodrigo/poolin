@@ -2,9 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile/screens/current-ride/driver_nav.dart';
-import 'package:mobile/screens/current-ride/start_ride.dart';
-import 'package:mobile/screens/current-ride/track_driver.dart';
+import 'package:mobile/screens/register/register_screen.dart';
 
 import './theme.dart';
 
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: const TrackDriver(),
+      home: const RegisterScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
