@@ -39,7 +39,7 @@ class _TrackDriverState extends State<TrackDriver> {
   final LatLng pickupLoc = const LatLng(6.881727666204392, 79.8696165771317);
   final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
   final LatLng dropOffLoc = const LatLng(6.9037311247468995, 79.8611484867312);
-  LatLng driverLoc = const LatLng(6.858241522234863, 79.87051579562947);
+  LatLng driverLoc = const LatLng(0.0, 0.0);
   LocationData? currentLocation;
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
@@ -155,6 +155,13 @@ class _TrackDriverState extends State<TrackDriver> {
     }
   }
 
+  void _whenDriverArrived() {
+    setState(() {
+      driverArrived = true;
+      print('Driver arrived');
+    });
+  }
+
   void setCustomMarkers() {
     // Create custom icons
     BitmapDescriptor.fromAssetImage(
@@ -219,7 +226,13 @@ class _TrackDriverState extends State<TrackDriver> {
 
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
-          ? const Text('Loading')
+          ? const Center(
+            child: CircularProgressIndicator(
+                value: null,
+                semanticsLabel: 'Please wait',
+                color: BlipColors.grey,
+              ),
+          )
           : SingleChildScrollView(
               padding: sidePadding,
               child: Column(
@@ -227,11 +240,17 @@ class _TrackDriverState extends State<TrackDriver> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: size.height * 0.1),
-                  Text(
-                    'Hey ${currentUser.firstName}!\nYour ride will be here in',
-                    style: BlipFonts.title,
-                    textAlign: TextAlign.center,
-                  ),
+                  driverArrived
+                      ? const Text(
+                          'Your ride is here!\nCheck in soon',
+                          style: BlipFonts.title,
+                          textAlign: TextAlign.center,
+                        )
+                      : Text(
+                          'Hey ${currentUser.firstName}!\nYour ride will be here in',
+                          style: BlipFonts.title,
+                          textAlign: TextAlign.center,
+                        ),
                   CountdownTimer(
                     controller: timerController,
                     widgetBuilder: (_, CurrentRemainingTime? time) {

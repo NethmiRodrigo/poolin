@@ -147,7 +147,13 @@ class _DriverNavState extends State<DriverNav> {
 
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
-          ? const Text('Loading')
+          ? const Center(
+            child: CircularProgressIndicator(
+                value: null,
+                semanticsLabel: 'Please wait',
+                color: BlipColors.grey,
+              ),
+          )
           : Container(
               height: size.height,
               color: BlipColors.lightGrey,
