@@ -1,7 +1,6 @@
 import app from "./app";
 import { AppDataSource } from "./data-source";
 
-
 app.listen(process.env.PORT, async () => {
   console.log(`
   ▄███████▄  ▄██████▄   ▄██████▄   ▄█             ▄█   ███▄▄▄▄   
@@ -18,7 +17,6 @@ app.listen(process.env.PORT, async () => {
   try {
     await AppDataSource.initialize();
     console.log("Database is connected!");
-    
   } catch (error) {
     console.log(error);
   }
