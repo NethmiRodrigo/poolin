@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poolin',
       theme: AppTheme().themeData,
-      home: EditProfileScreen(),
+      home: UploadDocumentScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -72,6 +72,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
           children: [
           // Center(),
           // Spacer(),
+          const SizedBox(width: 16),
           Icon(
             icon,
             size: 24,
@@ -85,7 +86,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    const double padding = 16;
+    const double padding = 64;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(
       child: Scaffold(
