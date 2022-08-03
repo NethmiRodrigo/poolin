@@ -4,15 +4,15 @@ import {
   PrimaryGeneratedColumn,
   Column,
   BaseEntity,
-  Index,
   CreateDateColumn,
   UpdateDateColumn,
-  Double,
   OneToMany,
   ManyToOne,
 } from "typeorm";
 import { RequestToOffer } from "./RequestToOffer";
 import { User } from "./User";
+
+export type Status = "active" | "completed" | "cancelled" | "confirmed";
 
 @Entity()
 export class RideRequest extends BaseEntity {
@@ -47,14 +47,8 @@ export class RideRequest extends BaseEntity {
   @Column({ nullable: false })
   timeWindow: number;
 
-  // @Column("decimal", { nullable: false })
-  // price: number;
-
   @Column("decimal", { nullable: false })
   distance: number;
-
-  @Column({ nullable: false, default: true })
-  isActive: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -63,6 +57,13 @@ export class RideRequest extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.requests, { eager: true })
   user: User;
+
+  @Column({
+    type: "enum",
+    enum: ["active", "completed", "cancelled", "confirmed"],
+    default: "active",
+  })
+  status: Status;
 
   @OneToMany(() => RequestToOffer, (requestToOffer) => requestToOffer.request)
   public requestToOffers: RequestToOffer[];

@@ -5,11 +5,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/models/ride_type_model.dart';
+import 'package:mobile/screens/home/driver_home.dart';
 import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/request-ride/ride_offer_results_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
+import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 import './theme.dart';
 
@@ -31,9 +34,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: DestinationScreen(
-          rideType: RideType.offer,
-        ),
+        home: ViewRideRequestsScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
