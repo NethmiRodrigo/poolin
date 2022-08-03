@@ -11,7 +11,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 
 import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_request.dart';
+
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
@@ -365,14 +365,3 @@ class _CheckState extends State<Check> {
     );
   }
 }
-
-// class CounterText extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<CounterCubit, int>(
-//       builder: (context, count) {
-//         return Text('$count');
-//       },
-//     );
-//   }
-// }
