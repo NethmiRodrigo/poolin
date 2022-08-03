@@ -4,6 +4,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:mobile/custom/backward_button.dart';
 
 import 'package:mobile/custom/wide_button.dart';
 
@@ -20,8 +22,9 @@ import '../../custom/outline_button.dart';
 import '../../fonts.dart';
 
 class ReserveRequestScreen extends StatefulWidget {
+  const ReserveRequestScreen({super.key, required this.request});
+
   final request;
-  const ReserveRequestScreen({super.key, this.request});
 
   @override
   ReserveRequestScreenState createState() {
@@ -87,12 +90,8 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(44),
-              Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
+              // Text(widget.request["fname"]),
+              BackwardButton(),
               addVerticalSpace(16),
               Text(
                 'Reservation Request',
@@ -119,7 +118,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Wednesday, 11th June, 2022',
+                  Jiffy(widget.request["date"]).format("EEEE, do MMMM, yyyy"),
                   style: BlipFonts.outline,
                 ),
               ),
@@ -150,11 +149,11 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("University of Colombo",
+                      Text(widget.request["start"],
                           style: BlipFonts.labelBold
                               .merge(TextStyle(color: BlipColors.orange))),
                       addVerticalSpace(24),
-                      Text("Galadari Hotel",
+                      Text(widget.request["end"],
                           style: BlipFonts.labelBold
                               .merge(TextStyle(color: BlipColors.orange))),
                     ],
@@ -183,7 +182,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                             addHorizontalSpace(8),
                             Indicator(
                                 icon: Icons.arrow_upward,
-                                text: "+ Rs. 500",
+                                text: "+ Rs. " + widget.request["price"],
                                 color: BlipColors.green),
                           ],
                         ),
@@ -221,15 +220,16 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?fit=640,427"),
+                        backgroundImage: NetworkImage(widget.request["avatar"]),
                       ),
                       addHorizontalSpace(8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Yadeeesha Werasinghe",
+                            widget.request["fname"] +
+                                " " +
+                                widget.request["lname"],
                             style: BlipFonts.outline,
                           ),
                           Row(

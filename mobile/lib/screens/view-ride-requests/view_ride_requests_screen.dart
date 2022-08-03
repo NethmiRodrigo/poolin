@@ -12,9 +12,11 @@ import 'package:mobile/custom/check.dart';
 
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_request.dart';
+import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
 
+import '../../custom/backward_button.dart';
 import '../../custom/indicator.dart';
 import '../../custom/outline_button.dart';
 import '../../custom/timeline.dart';
@@ -85,15 +87,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 addVerticalSpace(44),
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: const Icon(EvaIcons.arrowBackOutline),
-                      color: Colors.black,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )),
+                BackwardButton(),
                 addVerticalSpace(24),
                 Row(
                   children: [
@@ -225,7 +219,17 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                         ],
                                       ),
                                       OutlineButton(
-                                          onPressedAction: () {},
+                                          onPressedAction: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReserveRequestScreen(
+                                                          request:
+                                                              pendingRequests![
+                                                                  index])),
+                                            );
+                                          },
                                           text: "View Request",
                                           color: BlipColors.white),
                                     ],
