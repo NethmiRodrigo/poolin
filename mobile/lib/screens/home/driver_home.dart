@@ -50,20 +50,20 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   final List<RideRequest> _rideRequests = [
     RideRequest(
       id: '1',
-      startLocation: 'University of Colombo',
-      destination: 'Keells Super Dehiwala',
+      pickupLocation: 'University of Colombo',
+      dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now(),
     ),
     RideRequest(
       id: '2',
-      startLocation: 'Faculty of Science',
-      destination: 'Keells Super Dehiwala',
+      pickupLocation: 'Faculty of Science',
+      dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
     ),
     RideRequest(
       id: '2',
-      startLocation: 'Faculty of Science',
-      destination: 'Keells Super Dehiwala',
+      pickupLocation: 'Faculty of Science',
+      dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
     ),
   ];

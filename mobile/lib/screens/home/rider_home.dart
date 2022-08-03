@@ -30,24 +30,32 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       startLocation: 'University of Colombo School of Computing',
       destination: 'Fort Railway Station',
       offeredOn: DateTime.now(),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
     RideOffer(
       id: '2',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
     RideOffer(
       id: '3',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
     RideOffer(
       id: '4',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
   ];
   final List<Friend> _friends = [
