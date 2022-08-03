@@ -38,8 +38,8 @@ class _StartRideState extends State<StartRide> {
     gender: 'female',
   );
 
-  final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
-  final LatLng destination = const LatLng(6.9037302, 79.8595853);
+  final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
+  final LatLng destination = const LatLng(6.9037311247468995, 79.8611484867312);
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
 
@@ -187,7 +187,7 @@ class _StartRideState extends State<StartRide> {
                         children: [
                           addVerticalSpace(24),
                           Text(
-                            '${time.min.toString().padLeft(2, '0')} : ${time.sec.toString().padLeft(2, '0')}',
+                            '${time.min == null ? '00' : time.min.toString().padLeft(2, '0')} : ${time.sec == null ? '00' : time.sec.toString().padLeft(2, '0')}',
                             style: BlipFonts.display,
                             textAlign: TextAlign.center,
                           ),
@@ -203,7 +203,7 @@ class _StartRideState extends State<StartRide> {
                       onMapCreated: _onMapCreated,
                       initialCameraPosition: CameraPosition(
                         target: startPoint,
-                        zoom: 15.0,
+                        zoom: 13.0,
                       ),
                       mapType: _currentMapType,
                       polylines: {

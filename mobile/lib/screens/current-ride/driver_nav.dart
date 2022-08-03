@@ -17,8 +17,8 @@ class DriverNav extends StatefulWidget {
 }
 
 class _DriverNavState extends State<DriverNav> {
-  final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
-  final LatLng destination = const LatLng(6.9037302, 79.8595853);
+  final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
+  final LatLng destination = const LatLng(6.9037311247468995, 79.8611484867312);
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
   GoogleMapController? mapController;
@@ -149,13 +149,13 @@ class _DriverNavState extends State<DriverNav> {
       body: (currentLocation == null || _coordinates == null)
           ? const Text('Loading')
           : Container(
-              height: size.height * 0.8,
+              height: size.height,
               color: BlipColors.lightGrey,
               child: GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
                   target: startPoint,
-                  zoom: 15.0,
+                  zoom: 13.0,
                 ),
                 mapType: _currentMapType,
                 polylines: {

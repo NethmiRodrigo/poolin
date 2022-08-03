@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:location/location.dart';
+import 'package:mobile/screens/home/rider_home.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
@@ -26,7 +27,7 @@ class TrackDriver extends StatefulWidget {
 
 class _TrackDriverState extends State<TrackDriver> {
   int rideArrivalTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+      const Duration(minutes: 30).inMilliseconds;
   late CountdownTimerController timerController;
   final User currentUser = User(
     firstName: 'Nethmi',
@@ -35,10 +36,10 @@ class _TrackDriverState extends State<TrackDriver> {
     gender: 'female',
   );
 
-  final LatLng pickupLoc = const LatLng(6.901911577143022, 79.85903954456438);
-  final LatLng startPoint = const LatLng(6.9018871, 79.8604377);
-  final LatLng dropOffLoc = const LatLng(6.90242011186893, 79.85889213533603);
-  LatLng driverLoc = const LatLng(0, 0);
+  final LatLng pickupLoc = const LatLng(6.881727666204392, 79.8696165771317);
+  final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
+  final LatLng dropOffLoc = const LatLng(6.9037311247468995, 79.8611484867312);
+  LatLng driverLoc = const LatLng(6.858241522234863, 79.87051579562947);
   LocationData? currentLocation;
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
@@ -55,6 +56,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
   LatLng camPosition = const LatLng(0, 0);
   bool isDriverAvailable = false;
+  bool driverArrived = false;
 
   late IO.Socket socket;
 
@@ -67,7 +69,6 @@ class _TrackDriverState extends State<TrackDriver> {
     googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
     setCustomMarkers();
     getPolyPoints();
-    // getEstimatedArivalTime();
     timerController =
         CountdownTimerController(endTime: rideArrivalTime, onEnd: () => {});
   }
@@ -97,7 +98,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
         setState(() {
           driverLoc = LatLng(latLng["lat"], latLng["lng"]);
-          if(isDriverAvailable == false) {
+          if (isDriverAvailable == false) {
             getEstimatedArivalTime();
             isDriverAvailable = true;
           }
@@ -131,15 +132,27 @@ class _TrackDriverState extends State<TrackDriver> {
 
   void getEstimatedArivalTime() async {
     Dio dio = new Dio();
-    // String? apiKey = dotenv.env['MAPS_API_KEY'];
 
-    // Response response = await dio.get(
-    //     "https://maps.googleapis.com/maps/api/distancematrix/json?origins=${driverLoc.latitude}%2C${driverLoc.longitude}&destinations=${currentLocation!.latitude}%2C${currentLocation!.longitude}&key=${apiKey}&mode=driving");
+    try {
+      Response response = await dio.get(
+          "https://maps.googleapis.com/maps/api/distancematrix/json?origins=6.857870456227357%2C79.87058268465782&destinations=6.029392%2C80.215113&key=$apiKey&mode=driving");
 
-    Response response = await dio.get(
-        "https://maps.googleapis.com/maps/api/distancematrix/json?origins=6.857870456227357%2C79.87058268465782&destinations=6.029392%2C80.215113&mode=driving");
-        
-    print(response.data);
+      print(response.data);
+
+      if (response.data["rows"][0]["elements"][0]["status"] == "OK") {
+        int seconds =
+            response.data["rows"][0]["elements"][0]["duration"]["value"];
+
+        setState(() {
+          rideArrivalTime =
+              DateTime.now().millisecondsSinceEpoch + seconds * 1000;
+          timerController = CountdownTimerController(
+              endTime: rideArrivalTime, onEnd: () => {});
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void setCustomMarkers() {
@@ -215,7 +228,7 @@ class _TrackDriverState extends State<TrackDriver> {
                 children: [
                   SizedBox(height: size.height * 0.1),
                   Text(
-                    'Hey ${currentUser.firstName}!\nYour ride will be here soon,',
+                    'Hey ${currentUser.firstName}!\nYour ride will be here in',
                     style: BlipFonts.title,
                     textAlign: TextAlign.center,
                   ),
@@ -233,7 +246,7 @@ class _TrackDriverState extends State<TrackDriver> {
                         children: [
                           addVerticalSpace(24),
                           Text(
-                            '${time.min.toString().padLeft(2, '0')} : ${time.sec.toString().padLeft(2, '0')}',
+                            '${time.min == null ? '00' : time.min.toString().padLeft(2, '0')} : ${time.sec == null ? '00' : time.sec.toString().padLeft(2, '0')}',
                             style: BlipFonts.display,
                             textAlign: TextAlign.center,
                           ),
@@ -246,11 +259,10 @@ class _TrackDriverState extends State<TrackDriver> {
                     height: size.width * 0.8,
                     color: BlipColors.lightGrey,
                     child: GoogleMap(
-                      // myLocationButtonEnabled: true,
                       myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: pickupLoc,
-                        zoom: 15.0,
+                        zoom: 13.0,
                       ),
                       mapType: _currentMapType,
                       onMapCreated: _onMapCreated,
@@ -284,7 +296,7 @@ class _TrackDriverState extends State<TrackDriver> {
                                   title: 'Driver is here',
                                 ),
                               )
-                            : Marker(markerId: MarkerId('NA')),
+                            : const Marker(markerId: MarkerId('NA')),
                         Marker(
                           markerId: const MarkerId('source'),
                           position: startPoint,
@@ -311,39 +323,48 @@ class _TrackDriverState extends State<TrackDriver> {
                     ),
                   ),
                   addVerticalSpace(16),
-                  Text('Driver is at: $driverLoc', style: BlipFonts.outline),
-                  // WideButton(
-                  //     text: 'Start',
-                  //     onPressedAction: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => const DriverNav()),
-                  //       );
-                  //     }),
+                  driverArrived
+                      ? WideButton(
+                          text: 'Check in',
+                          onPressedAction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RiderHomeScreen()),
+                            );
+                          })
+                      : WideButton(
+                          text: 'Cancel Ride',
+                          onPressedAction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RiderHomeScreen()),
+                            );
+                          }),
                   addVerticalSpace(8),
-                  // RichText(
-                  //   text: TextSpan(children: [
-                  //     TextSpan(
-                  //         text: 'Any problems? ',
-                  //         style: BlipFonts.label
-                  //             .merge(const TextStyle(color: BlipColors.black))),
-                  //     TextSpan(
-                  //         text: 'Tell the driver',
-                  //         style: BlipFonts.label
-                  //             .merge(const TextStyle(color: BlipColors.black)),
-                  //         recognizer: TapGestureRecognizer()
-                  //           ..onTap = () {
-                  //             Navigator.push(
-                  //               context,
-                  //               MaterialPageRoute(
-                  //                   builder: (context) => const DriverNav()),
-                  //             );
-                  //           }),
-                  //   ]),
-                  // ),
-                  Text('Camera position: $camPosition',
-                      style: BlipFonts.outline),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(
+                          text: 'Any problems? ',
+                          style: BlipFonts.label
+                              .merge(const TextStyle(color: BlipColors.black))),
+                      TextSpan(
+                          text: 'Tell the driver',
+                          style: BlipFonts.label
+                              .merge(const TextStyle(color: BlipColors.black)),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const DriverNav()),
+                              );
+                            }),
+                    ]),
+                  ),
                 ],
               ),
             ),
