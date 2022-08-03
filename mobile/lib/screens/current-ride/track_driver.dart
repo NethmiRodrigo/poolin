@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -50,24 +51,35 @@ class _TrackDriverState extends State<TrackDriver> {
   BitmapDescriptor dropOffLocMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor driverMarker = BitmapDescriptor.defaultMarker;
+  String? apiKey;
+
+  LatLng camPosition = const LatLng(0, 0);
+  bool isDriverAvailable = false;
 
   late IO.Socket socket;
 
   @override
   void initState() {
     super.initState();
-    initSocket();
     getCurrentLocation();
-    String? apiKey = dotenv.env['MAPS_API_KEY'];
+    initSocket();
+    apiKey = dotenv.env['MAPS_API_KEY'];
     googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
     setCustomMarkers();
     getPolyPoints();
+    // getEstimatedArivalTime();
     timerController =
         CountdownTimerController(endTime: rideArrivalTime, onEnd: () => {});
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+  }
+
+  void _onCameraMove(CameraPosition position) {
+    setState(() {
+      camPosition = position.target;
+    });
   }
 
   Future<void> initSocket() async {
@@ -85,11 +97,14 @@ class _TrackDriverState extends State<TrackDriver> {
 
         setState(() {
           driverLoc = LatLng(latLng["lat"], latLng["lng"]);
-          print('driver is at $driverLoc');
+          if(isDriverAvailable == false) {
+            getEstimatedArivalTime();
+            isDriverAvailable = true;
+          }
           controller
               .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: driverLoc,
-            zoom: 19,
+            zoom: 12,
           )));
         });
       });
@@ -107,21 +122,24 @@ class _TrackDriverState extends State<TrackDriver> {
       });
     });
 
-    GoogleMapController googleMapController = await _controller.future;
-
     location.onLocationChanged.listen((newLocation) {
       setState(() {
         currentLocation = newLocation;
-        googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(newLocation.latitude!, newLocation.longitude!),
-              zoom: 18,
-            ),
-          ),
-        );
       });
     });
+  }
+
+  void getEstimatedArivalTime() async {
+    Dio dio = new Dio();
+    // String? apiKey = dotenv.env['MAPS_API_KEY'];
+
+    // Response response = await dio.get(
+    //     "https://maps.googleapis.com/maps/api/distancematrix/json?origins=${driverLoc.latitude}%2C${driverLoc.longitude}&destinations=${currentLocation!.latitude}%2C${currentLocation!.longitude}&key=${apiKey}&mode=driving");
+
+    Response response = await dio.get(
+        "https://maps.googleapis.com/maps/api/distancematrix/json?origins=6.857870456227357%2C79.87058268465782&destinations=6.029392%2C80.215113&mode=driving");
+        
+    print(response.data);
   }
 
   void setCustomMarkers() {
@@ -228,6 +246,8 @@ class _TrackDriverState extends State<TrackDriver> {
                     height: size.width * 0.8,
                     color: BlipColors.lightGrey,
                     child: GoogleMap(
+                      // myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: pickupLoc,
                         zoom: 15.0,
@@ -251,12 +271,18 @@ class _TrackDriverState extends State<TrackDriver> {
                             currentLocation!.longitude!,
                           ),
                           icon: currentLocationMarker,
+                          infoWindow: const InfoWindow(
+                            title: 'You are here',
+                          ),
                         ),
                         (driverLoc != const LatLng(0, 0))
                             ? Marker(
                                 markerId: const MarkerId('driver'),
                                 position: driverLoc,
                                 icon: driverMarker,
+                                infoWindow: const InfoWindow(
+                                  title: 'Driver is here',
+                                ),
                               )
                             : Marker(markerId: MarkerId('NA')),
                         Marker(
@@ -268,46 +294,56 @@ class _TrackDriverState extends State<TrackDriver> {
                           markerId: const MarkerId('pickUp'),
                           position: pickupLoc,
                           icon: pickupLocMarker,
+                          infoWindow: const InfoWindow(
+                            title: 'Pickup Location',
+                          ),
                         ),
                         Marker(
                           markerId: const MarkerId('dropOff'),
                           position: dropOffLoc,
                           icon: dropOffLocMarker,
+                          infoWindow: const InfoWindow(
+                            title: 'Your stop',
+                          ),
                         ),
                       },
+                      onCameraMove: _onCameraMove,
                     ),
                   ),
                   addVerticalSpace(16),
-                  WideButton(
-                      text: 'Start',
-                      onPressedAction: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DriverNav()),
-                        );
-                      }),
+                  Text('Driver is at: $driverLoc', style: BlipFonts.outline),
+                  // WideButton(
+                  //     text: 'Start',
+                  //     onPressedAction: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => const DriverNav()),
+                  //       );
+                  //     }),
                   addVerticalSpace(8),
-                  RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: 'Any problems? ',
-                          style: BlipFonts.label
-                              .merge(const TextStyle(color: BlipColors.black))),
-                      TextSpan(
-                          text: 'Tell the driver',
-                          style: BlipFonts.label
-                              .merge(const TextStyle(color: BlipColors.black)),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const DriverNav()),
-                              );
-                            }),
-                    ]),
-                  )
+                  // RichText(
+                  //   text: TextSpan(children: [
+                  //     TextSpan(
+                  //         text: 'Any problems? ',
+                  //         style: BlipFonts.label
+                  //             .merge(const TextStyle(color: BlipColors.black))),
+                  //     TextSpan(
+                  //         text: 'Tell the driver',
+                  //         style: BlipFonts.label
+                  //             .merge(const TextStyle(color: BlipColors.black)),
+                  //         recognizer: TapGestureRecognizer()
+                  //           ..onTap = () {
+                  //             Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) => const DriverNav()),
+                  //             );
+                  //           }),
+                  //   ]),
+                  // ),
+                  Text('Camera position: $camPosition',
+                      style: BlipFonts.outline),
                 ],
               ),
             ),
