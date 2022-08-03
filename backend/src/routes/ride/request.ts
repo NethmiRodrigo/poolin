@@ -47,9 +47,8 @@ export const postRideRequests = async (req: Request, res: Response) => {
 };
 
 export const getActiveRequest = async (req: Request, res: Response) => {
-  console.log("email");
   const email = req.query.email;
-  console.log(email);
+
   const user = await User.findOne({ where: { email: email as string } });
 
   if (!user) {
