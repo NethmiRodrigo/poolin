@@ -105,7 +105,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 image != null
                     ? Image.file(image!,
                         width: 160, height: 160, fit: BoxFit.cover)
-                    : const Icon(Icons.account_box_sharp, size: 110),
+                    : const Icon(Icons.upload_file_outlined, size: 110),
                 const SizedBox(
                   height: 20,
                 ),
