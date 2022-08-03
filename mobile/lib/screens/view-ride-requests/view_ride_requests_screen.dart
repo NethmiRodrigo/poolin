@@ -5,6 +5,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jiffy/jiffy.dart';
 
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/check.dart';
@@ -35,7 +36,8 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   final TextEditingController _confirmPass = TextEditingController();
   final _storage = const FlutterSecureStorage();
   var isVisible = false;
-  List<dynamic>? requests;
+  List<dynamic>? pendingRequests;
+  List<dynamic>? confirmedRequests;
 
   @override
   void initState() {
@@ -52,10 +54,13 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   }
 
   getData() async {
-    var requestData = await getOfferRequests();
-    var requestsJson = json.decode(requestData.body);
-    requests = (requestsJson['requests']);
-    // var requests = requestsFromJson(requestsJson['requests']);
+    final requestData = await getOfferRequests();
+    final pendingRequestsJson = json.decode(requestData.body);
+    pendingRequests = (pendingRequestsJson['requests']);
+    final partyData = await getConfirmedRequests();
+    confirmedRequests = json.decode(partyData.body)['requests'];
+    print(confirmedRequests![0]);
+
     setState(() {
       isVisible = true;
     });
@@ -157,7 +162,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                   height: 125,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: requests?.length,
+                    itemCount: pendingRequests?.length,
                     itemBuilder: (context, index) {
                       return Row(
                         children: [
@@ -179,9 +184,10 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                     children: [
                                       CircleAvatar(
                                           backgroundImage: NetworkImage(
-                                              requests![index]['avatar'])),
+                                              pendingRequests![index]
+                                                  ['avatar'])),
                                       Text(
-                                        requests![index]['fname'],
+                                        pendingRequests![index]['fname'],
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelLarge!
@@ -189,7 +195,8 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                                 TextStyle(color: Colors.white)),
                                       ),
                                       Text(
-                                        "+ Rs. " + requests![index]['price'],
+                                        "+ Rs. " +
+                                            pendingRequests![index]['price'],
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineLarge!
@@ -226,96 +233,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                         ],
                       );
                     },
-                    // children: <Widget>[
-                    //   Container(
-                    //       width: 257,
-                    //       padding: EdgeInsets.symmetric(
-                    //           horizontal: 12, vertical: 16),
-                    //       decoration: BoxDecoration(
-                    //         color: BlipColors.orange,
-                    //         borderRadius: BorderRadius.all(
-                    //             Radius.circular(20)), // red as border color
-                    //       ),
-                    //       child: Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         crossAxisAlignment: CrossAxisAlignment.center,
-                    //         children: [
-                    //           Column(
-                    //             children: [
-                    //               CircleAvatar(
-                    //                 backgroundImage: NetworkImage(
-                    //                     "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?fit=640,427"),
-                    //               ),
-                    //               Text(
-                    //                 "Yadeesha",
-                    //                 style: Theme.of(context)
-                    //                     .textTheme
-                    //                     .labelLarge!
-                    //                     .merge(TextStyle(color: Colors.white)),
-                    //               ),
-                    //               Text(
-                    //                 "+ Rs. 500",
-                    //                 style: Theme.of(context)
-                    //                     .textTheme
-                    //                     .headlineLarge!
-                    //                     .merge(TextStyle(color: Colors.white)),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //           Column(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceBetween,
-                    //             crossAxisAlignment: CrossAxisAlignment.end,
-                    //             children: [
-                    //               Row(
-                    //                 children: [
-                    //                   Check(),
-                    //                   addHorizontalSpace(8),
-                    //                   Text(('select').toUpperCase(),
-                    //                       style: Theme.of(context)
-                    //                           .textTheme
-                    //                           .headlineSmall!
-                    //                           .merge(TextStyle(
-                    //                               color: Colors.white))),
-                    //                 ],
-                    //               ),
-                    //               OutlineButton(
-                    //                   text: "View Request",
-                    //                   color: BlipColors.white)
-                    //             ],
-                    //           ),
-                    //         ],
-                    //       )),
-                    //   addHorizontalSpace(16),
-                    //   Container(
-                    //     width: 257,
-                    //     padding:
-                    //         EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                    //     decoration: BoxDecoration(
-                    //       color: BlipColors.black,
-                    //       borderRadius: BorderRadius.all(
-                    //           Radius.circular(20)), // red as border color
-                    //     ),
-                    //   ),
-                    //   Container(
-                    //     width: 200,
-                    //     color: Colors.purple[400],
-                    //     child: const Center(
-                    //         child: Text(
-                    //       'Item 3',
-                    //       style: TextStyle(fontSize: 18, color: Colors.white),
-                    //     )),
-                    //   ),
-                    //   Container(
-                    //     width: 200,
-                    //     color: Colors.orange[800],
-                    //     child: const Center(
-                    //         child: Text(
-                    //       'Item 4',
-                    //       style: TextStyle(fontSize: 18, color: Colors.white),
-                    //     )),
-                    //   ),
-                    // ],
                   ),
                 ),
                 addVerticalSpace(24),
@@ -325,55 +242,41 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                   textAlign: TextAlign.left,
                 ),
                 Timeline(
-                  indicators: const <Widget>[
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?fit=640,427"),
-                    ),
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg?fit=640,427"),
-                    ),
+                  indicators: <Widget>[
+                    for (var request in confirmedRequests!)
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(request['avatar']),
+                      ),
                   ],
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Yadeesha Weerasinghe', style: BlipFonts.outline),
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: BlipColors.lightBlue,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              ('gets on at University of Colombo at 10AM')
-                                  .toUpperCase(),
-                              style: BlipFonts.taglineBold
-                                  .merge(TextStyle(color: BlipColors.blue)),
-                            )),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Yadeesha Weerasinghe', style: BlipFonts.outline),
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: BlipColors.lightBlue,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              ('gets on at University of Colombo at 10AM')
-                                  .toUpperCase(),
-                              style: BlipFonts.taglineBold
-                                  .merge(TextStyle(color: BlipColors.blue)),
-                            )),
-                      ],
-                    ),
+                    for (var request in confirmedRequests!)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(request['fname'] + " " + request['lname'],
+                              style: BlipFonts.outline),
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: BlipColors.lightBlue,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                ('gets on at ' +
+                                        request['pickup'] +
+                                        " at " +
+                                        Jiffy(request['starttime'])
+                                            .format("h:mm a")
+                                            .split(" ")
+                                            .join(''))
+                                    .toUpperCase(),
+                                style: BlipFonts.taglineBold
+                                    .merge(TextStyle(color: BlipColors.blue)),
+                              )),
+                        ],
+                      ),
+                    //
                   ],
                 ),
               ],
