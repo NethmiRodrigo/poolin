@@ -133,7 +133,9 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                       ],
                     ),
                     OutlineButton(
-                        text: "View Ride Details", color: BlipColors.black)
+                        onPressedAction: () {},
+                        text: "View Ride Details",
+                        color: BlipColors.black)
                   ],
                 ),
                 addVerticalSpace(24),
@@ -223,8 +225,9 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                         ],
                                       ),
                                       OutlineButton(
+                                          onPressedAction: () {},
                                           text: "View Request",
-                                          color: BlipColors.white)
+                                          color: BlipColors.white),
                                     ],
                                   ),
                                 ],

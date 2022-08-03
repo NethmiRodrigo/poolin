@@ -1,22 +1,17 @@
 import 'dart:async';
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import 'package:mobile/services/register_service.dart';
+import 'package:mobile/custom/wide_button.dart';
+
 import 'package:mobile/utils/widget_functions.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../colors.dart';
 import '../../custom/dashed_line.dart';
@@ -25,7 +20,8 @@ import '../../custom/outline_button.dart';
 import '../../fonts.dart';
 
 class ReserveRequestScreen extends StatefulWidget {
-  const ReserveRequestScreen({super.key});
+  final request;
+  const ReserveRequestScreen({super.key, this.request});
 
   @override
   ReserveRequestScreenState createState() {
@@ -265,6 +261,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                     ],
                   ),
                   OutlineButton(
+                    onPressedAction: () {},
                     text: "See Profile",
                     color: BlipColors.black,
                   )
