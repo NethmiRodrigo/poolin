@@ -9,6 +9,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../colors.dart';
 
+var reports = [
+  {'title': 'assets/images/car.png', 'content': 'Car'},
+  {'title': 'assets/images/van.png', 'content': 'Van'},
+  {'title': 'assets/images/bike.png', 'content': 'Bike'},
+];
+
 class SelectVehicleTypeScreen extends StatefulWidget {
   const SelectVehicleTypeScreen({super.key});
 
@@ -20,8 +26,6 @@ class SelectVehicleTypeScreen extends StatefulWidget {
 
 class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
   final controller = CarouselController();
-
-  final featuredImages = ['assets/images/car.png', 'assets/images/van.png', 'assets/images/bike.png'];
 
   @override
   Widget build(BuildContext context) {
@@ -55,47 +59,59 @@ class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
               Row(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 7,
+                    child: Column(
+                      children: [
+                        CarouselSlider(
+                          carouselController: controller,
+                          options: CarouselOptions(viewportFraction: 1),
+                          items: reports
+                              .asMap()
+                              .map(
+                                (i, report) {
+                                  return MapEntry(
+                                    i,
+                                    Builder(
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Expanded(
+                                                flex: 8,
+                                                child: Image.asset(
+                                                  '${report['title']}',
+                                                  height: 80,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Text(
+                                                  '${report['content']}',
+                                                  style: BlipFonts.label,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              )
+                              .values
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
                     child: Column(
                       children: [
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: IconButton(
-                            onPressed: () {
-                              // Use the controller to change the current page
-                              controller.previousPage();
-                            },
-                            icon: const Icon(Icons.arrow_back_ios),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: Column(
-                      children: [
-                        CarouselSlider(
-                          carouselController: controller, // Give the controller
-                          options: CarouselOptions(
-                            autoPlay: false,
-                          ),
-                          items: featuredImages.map((featuredImage) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 7),
-                              child: Image.asset(featuredImage),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerRight,
                           child: IconButton(
                             onPressed: () {
                               // Use the controller to change the current page
@@ -111,9 +127,9 @@ class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
               ),
               addVerticalSpace(44),
               WideButton(
-                    text: 'Proceed',
-                    onPressedAction: () async {},
-                  ),
+                text: 'Proceed',
+                onPressedAction: () async {},
+              ),
             ],
           ),
         ),
