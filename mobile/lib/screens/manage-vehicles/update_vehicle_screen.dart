@@ -64,7 +64,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                 style: BlipFonts.title,
               ),
               addVerticalSpace(36),
-             Row(
+              Row(
                 children: [
                   Expanded(
                     flex: 7,
@@ -200,85 +200,85 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                   ),
                   addVerticalSpace(16),
                   Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Year",
-                              style: BlipFonts.outline,
-                            ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Year",
+                        style: BlipFonts.outline,
+                      ),
+                    ),
+                    addVerticalSpace(8),
+                    TextField(
+                      style: BlipFonts.label,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
                           ),
-                          addVerticalSpace(8),
-                          TextField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: 2018",
-                            ),
-                          ),
-                        ]),
+                        ),
+                        hintText: "Ex: 2018",
+                      ),
+                    ),
+                  ]),
                   addVerticalSpace(16),
                   Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "License Plate Number",
-                              style: BlipFonts.outline,
-                            ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "License Plate Number",
+                        style: BlipFonts.outline,
+                      ),
+                    ),
+                    addVerticalSpace(8),
+                    TextField(
+                      style: BlipFonts.label,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
                           ),
-                          addVerticalSpace(8),
-                          TextField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: CAT 9345",
-                            ),
-                          ),
-                        ]),
+                        ),
+                        hintText: "Ex: CAT 9345",
+                      ),
+                    ),
+                  ]),
                   addVerticalSpace(16),
                   Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Vehicle Color",
-                              style: BlipFonts.outline,
-                            ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Vehicle Color",
+                        style: BlipFonts.outline,
+                      ),
+                    ),
+                    addVerticalSpace(8),
+                    TextField(
+                      style: BlipFonts.label,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 16),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
                           ),
-                          addVerticalSpace(8),
-                          TextField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: Blue",
-                            ),
-                          ),
-                        ]),
+                        ),
+                        hintText: "Ex: Blue",
+                      ),
+                    ),
+                  ]),
                   addVerticalSpace(42),
                   WideButton(
                     text: 'Add Vehicle',
