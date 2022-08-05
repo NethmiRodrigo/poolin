@@ -8,6 +8,7 @@ import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/models/user_model.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
@@ -141,7 +142,13 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                               size: 20,
                               color: BlipColors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DestinationScreen(),
+                                  ));
+                            },
                           ),
                         )
                       ],

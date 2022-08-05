@@ -4,10 +4,12 @@ import 'package:mobile/fonts.dart';
 class OutlineButton extends StatelessWidget {
   final String text;
   final Color color;
+  final Function onPressedAction;
   const OutlineButton({
     Key? key,
     required this.text,
     required this.color,
+    required this.onPressedAction,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,9 @@ class OutlineButton extends StatelessWidget {
         child: Text((text).toUpperCase(),
             style: BlipFonts.outlineBold.merge(TextStyle(color: color))),
       ),
-      onPressed: () {},
+      onPressed: () {
+        onPressedAction();
+      },
     );
   }
 }

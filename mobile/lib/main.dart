@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/screens/shared/ride/ride_history.dart';
+import 'package:mobile/cubits/active_ride_cubit.dart';
+import 'package:mobile/cubits/ride_offer_cubit.dart';
 
 import './theme.dart';
 
@@ -19,11 +22,21 @@ class MyApp extends StatelessWidget {
 
  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Poolin',
-      theme: AppTheme().themeData,
-      home: const RideHistory(),
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RideOfferCubit>(
+          create: (context) => RideOfferCubit(),
+        ),
+        BlocProvider<ActiveRideCubit>(
+          create: (context) => ActiveRideCubit(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Poolin',
+        theme: AppTheme().themeData,
+        home: const RideHistory(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

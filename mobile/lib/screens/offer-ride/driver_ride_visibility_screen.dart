@@ -1,11 +1,8 @@
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../custom/outline_button.dart';
@@ -49,24 +46,23 @@ class _DriverRideVisibilityScreenState
           child: Column(
             children: [
               addVerticalSpace(44),
-              Align(
+              const Align(
                   alignment: Alignment.topLeft,
                   child: Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
                   )),
               addVerticalSpace(16),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Ride Visibility', style: BlipFonts.title),
-                    OutlineButton(
-                      color: BlipColors.black,
-                      text: "Clear All",
-                    )
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                const Text('Ride Visibility', style: BlipFonts.title),
+                OutlineButton(
+                  onPressedAction: () {},
+                  color: BlipColors.black,
+                  text: "Clear All",
+                )
+              ]),
               addVerticalSpace(48),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Contact level",
@@ -92,7 +88,7 @@ class _DriverRideVisibilityScreenState
                 },
               ),
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Price Range",
@@ -118,7 +114,7 @@ class _DriverRideVisibilityScreenState
               ),
 
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Gender",
@@ -165,7 +161,7 @@ class _DriverRideVisibilityScreenState
                 ),
               ),
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Faculty",

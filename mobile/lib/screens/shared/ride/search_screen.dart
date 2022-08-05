@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,6 +7,7 @@ import 'package:google_place/google_place.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/dashed_line.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/icons.dart';
 import 'package:mobile/screens/shared/ride/map_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -60,9 +60,56 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  Widget searchField(String type, Function onClear, bool onClearCondition) {
+    return TextField(
+      controller: type == "source"
+          ? _sourceSearchFieldController
+          : _destinationSearchFieldController,
+      autofocus: type == "source" ? true : false,
+      enabled: type == "destination"
+          ? _sourceSearchFieldController.text.isNotEmpty &&
+              sourcePosition != null
+          : true,
+      focusNode: type == "source" ? sourceFocusNode : destinationFocusNode,
+      style: BlipFonts.label,
+      textAlignVertical: TextAlignVertical.center,
+      decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
+          ),
+          hintText: type == "source"
+              ? "Where you start from"
+              : "Where you want to go",
+          suffixIcon: onClearCondition
+              ? IconButton(
+                  onPressed: () {
+                    onClear();
+                  },
+                  icon: const Icon(Icons.clear_outlined),
+                )
+              : null),
+      onChanged: (value) {
+        if (_debounce?.isActive ?? false) _debounce!.cancel();
+        _debounce = Timer(const Duration(milliseconds: 1000), () {
+          if (value.isNotEmpty) {
+            autoCompleteSearch(value);
+          } else {
+            predictions = [];
+            sourcePosition = null;
+          }
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
@@ -77,21 +124,21 @@ class _SearchScreenState extends State<SearchScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.arrow_back, color: BlipColors.black),
+                icon: const Icon(Icons.arrow_back, color: BlipColors.black),
               ),
             ),
             addVerticalSpace(16),
             Row(
               children: [
                 const Icon(
-                  FluentIcons.location_16_filled,
+                  BlipIcons.source,
                   color: BlipColors.orange,
                 ),
                 addHorizontalSpace(10.0),
                 Expanded(
                   child: Column(
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Start",
@@ -99,49 +146,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ),
                       addVerticalSpace(8),
-                      TextField(
-                        controller: _sourceSearchFieldController,
-                        autofocus: false,
-                        focusNode: sourceFocusNode,
-                        style: BlipFonts.label,
-                        textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 16),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            hintText: "Where you start from",
-                            suffixIcon: _sourceSearchFieldController
-                                    .text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        predictions = [];
-                                        sourcePosition = null;
-                                        _sourceSearchFieldController.clear();
-                                      });
-                                    },
-                                    icon: const Icon(Icons.clear_outlined),
-                                  )
-                                : null),
-                        onChanged: (value) {
-                          if (_debounce?.isActive ?? false) _debounce!.cancel();
-                          _debounce =
-                              Timer(const Duration(milliseconds: 1000), () {
-                            if (value.isNotEmpty) {
-                              autoCompleteSearch(value);
-                            } else {
-                              predictions = [];
-                              sourcePosition = null;
-                            }
-                          });
-                        },
-                      ),
+                      searchField("source", () {
+                        setState(() {
+                          predictions = [];
+                          sourcePosition = null;
+                          _sourceSearchFieldController.clear();
+                        });
+                      }, _sourceSearchFieldController.text.isNotEmpty),
                     ],
                   ),
                 ),
@@ -168,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   child: Column(
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "End",
@@ -176,52 +187,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ),
                       addVerticalSpace(8),
-                      TextField(
-                        controller: _destinationSearchFieldController,
-                        autofocus: false,
-                        focusNode: destinationFocusNode,
-                        enabled: _sourceSearchFieldController.text.isNotEmpty &&
-                            sourcePosition != null,
-                        style: BlipFonts.label,
-                        textAlignVertical: TextAlignVertical.center,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 16),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            hintText: "Where you want to go",
-                            suffixIcon: _destinationSearchFieldController
-                                    .text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        predictions = [];
-                                        destinationPosition = null;
-                                        _destinationSearchFieldController
-                                            .clear();
-                                      });
-                                    },
-                                    icon: const Icon(Icons.clear_outlined),
-                                  )
-                                : null),
-                        onChanged: (value) {
-                          if (_debounce?.isActive ?? false) _debounce!.cancel();
-                          _debounce =
-                              Timer(const Duration(milliseconds: 1000), () {
-                            if (value.isNotEmpty) {
-                              autoCompleteSearch(value);
-                            } else {
-                              predictions = [];
-                              destinationPosition = null;
-                            }
-                          });
-                        },
-                      ),
+                      searchField("destination", () {
+                        setState(() {
+                          predictions = [];
+                          destinationPosition = null;
+                          _destinationSearchFieldController.clear();
+                        });
+                      }, _destinationSearchFieldController.text.isNotEmpty),
                     ],
                   ),
                 ),
@@ -271,13 +243,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
                         if (sourcePosition != null &&
                             destinationPosition != null) {
-                          Navigator.push(
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Timer(const Duration(seconds: 1), () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => MapScreen(
                                     sourcePosition: sourcePosition,
                                     destinationPosition: destinationPosition),
-                              ));
+                              ),
+                            );
+                          });
                         }
                       }
                     },
