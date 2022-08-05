@@ -8,6 +8,8 @@ import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/models/user_model.dart';
+import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
 import '../../colors.dart';
@@ -32,6 +34,11 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now(),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com'),
     ),
     RideOffer(
       id: '2',
@@ -40,6 +47,11 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com'),
     ),
     RideOffer(
       id: '3',
@@ -48,6 +60,11 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com'),
     ),
     RideOffer(
       id: '4',
@@ -56,6 +73,11 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com'),
     ),
   ];
   final List<Friend> _friends = [

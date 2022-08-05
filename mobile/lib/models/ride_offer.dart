@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/models/ride_type_model.dart';
+import 'package:mobile/models/user_model.dart';
 
 RideOffer userFromJson(String str) => RideOffer.fromJson(json.decode(str));
 
@@ -13,10 +15,13 @@ class RideOffer {
   String destination;
   String profilePicture = 'https://i.pravatar.cc/300';
   double totalDistance;
-  double totalCharge;
+  double perKmPrice;
+  double totalEarnings;
   DateTime rideDate;
   DateTime offeredOn;
   DateTime estimatedArrivalTime;
+  User driver;
+  List<RideRequest> requests;
 
   RideOffer({
     required this.id,
@@ -25,9 +30,12 @@ class RideOffer {
     required this.rideDate,
     required this.offeredOn,
     required this.estimatedArrivalTime,
+    required this.driver,
+    List<RideRequest>? requests,
     this.totalDistance = 0.0,
-    this.totalCharge = 0.0,
-  });
+    this.perKmPrice = 0.0,
+    this.totalEarnings = 0.0,
+  }) : requests = requests ?? [];
 
   factory RideOffer.fromJson(Map<String, dynamic> json) => RideOffer(
         id: json["id"],
@@ -36,6 +44,7 @@ class RideOffer {
         offeredOn: DateTime.parse(json["offeredOn"]),
         rideDate: DateTime.parse(json["offeredOn"]),
         estimatedArrivalTime: DateTime.parse(json["offeredOn"]),
+        driver: User.fromJson(json["driver"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,5 +54,6 @@ class RideOffer {
         "offeredOn": offeredOn,
         "rideDate": rideDate,
         "estimatedArrivalTime": estimatedArrivalTime,
+        "driver": driver,
       };
 }
