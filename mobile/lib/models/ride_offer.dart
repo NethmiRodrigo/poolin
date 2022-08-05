@@ -20,7 +20,6 @@ class RideOffer {
   DateTime rideDate;
   DateTime offeredOn;
   DateTime estimatedArrivalTime;
-  User driver;
   List<RideRequest> requests;
 
   RideOffer({
@@ -30,7 +29,6 @@ class RideOffer {
     required this.rideDate,
     required this.offeredOn,
     required this.estimatedArrivalTime,
-    required this.driver,
     List<RideRequest>? requests,
     this.totalDistance = 0.0,
     this.perKmPrice = 0.0,
@@ -44,7 +42,6 @@ class RideOffer {
         offeredOn: DateTime.parse(json["offeredOn"]),
         rideDate: DateTime.parse(json["offeredOn"]),
         estimatedArrivalTime: DateTime.parse(json["offeredOn"]),
-        driver: User.fromJson(json["driver"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +51,5 @@ class RideOffer {
         "offeredOn": offeredOn,
         "rideDate": rideDate,
         "estimatedArrivalTime": estimatedArrivalTime,
-        "driver": driver,
       };
 }

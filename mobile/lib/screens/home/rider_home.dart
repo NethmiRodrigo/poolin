@@ -34,11 +34,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now(),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com'),
     ),
     RideOffer(
       id: '2',
@@ -47,11 +42,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com'),
     ),
     RideOffer(
       id: '3',
@@ -60,11 +50,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com'),
     ),
     RideOffer(
       id: '4',
@@ -73,11 +58,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com'),
     ),
   ];
   final List<Friend> _friends = [

@@ -52,8 +52,7 @@ class RideOfferCard extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                            DateFormat('h.mm a').format(rideOffer.rideDate),
+                        Text(DateFormat('h.mm a').format(rideOffer.rideDate),
                             style: BlipFonts.outline),
                         Text(
                             DateFormat('h.mm a')
@@ -64,11 +63,10 @@ class RideOfferCard extends StatelessWidget {
                     const SizedBox(width: 24.0),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(rideOffer.startLocation,
-                            style: BlipFonts.outline),
-                        Text(rideOffer.destination,
-                            style: BlipFonts.outline),
+                        Text(rideOffer.startLocation, style: BlipFonts.outline),
+                        Text(rideOffer.destination, style: BlipFonts.outline),
                       ],
                     ),
                   ],
@@ -94,7 +92,7 @@ class RideOfferCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${req.rider.firstName} ${req.rider.lastName}',
+                              '${req.driver.firstName} ${req.driver.lastName}',
                               style: BlipFonts.outline,
                             ),
                             Wrap(
@@ -109,13 +107,13 @@ class RideOfferCard extends StatelessWidget {
                                       size: 10.0,
                                     ),
                                     Text(
-                                      req.rider.stars.toString(),
+                                      req.driver.stars.toString(),
                                       style: BlipFonts.tagline,
                                     ),
                                   ],
                                 ),
                                 Text(
-                                  '\u2022 ${req.rider.totalRatings} ratings',
+                                  '\u2022 ${req.driver.totalRatings} ratings',
                                   style: BlipFonts.tagline,
                                 )
                               ],

@@ -55,7 +55,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       pickupLocation: 'University of Colombo',
       dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now(),
-      rider: User(
+      driver: User(
         firstName: 'Yadeesha',
         lastName: 'Weerasinghe',
         gender: 'female',
@@ -68,7 +68,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       pickupLocation: 'Faculty of Science',
       dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
-      rider: User(
+      driver: User(
         firstName: 'Yadeesha',
         lastName: 'Weerasinghe',
         gender: 'female',
@@ -81,7 +81,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       pickupLocation: 'Faculty of Science',
       dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
-      rider: User(
+      driver: User(
         firstName: 'Yadeesha',
         lastName: 'Weerasinghe',
         gender: 'female',

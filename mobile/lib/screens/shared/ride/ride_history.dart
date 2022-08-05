@@ -1,8 +1,14 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/custom/lists/completed_rides_list.dart';
 import 'package:mobile/custom/lists/upcoming_rides_list.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/models/ride_request.dart';
+import 'package:mobile/models/user_model.dart';
+import 'package:mobile/models/vehicle_type.dart';
+import 'package:mobile/data.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideHistory extends StatefulWidget {
@@ -13,6 +19,14 @@ class RideHistory extends StatefulWidget {
 }
 
 class _RideHistoryState extends State<RideHistory> {
+  final RideRequest sampleRideRequest = TestData.testRideRequest;
+  final RideOffer sampleRideOffer = TestData.testRideOffer;
+
+  final List<RideRequest> sampleRideRequestsList =
+      TestData.testRideRequestsList;
+  final List<RideOffer> sampleRideOffersList =
+      TestData.testRideOffersList;
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -63,14 +77,8 @@ class _RideHistoryState extends State<RideHistory> {
                               BorderSide(color: BlipColors.black, width: 1.0))),
                   child: TabBarView(
                     children: [
-                      UpcomingRidesList(),
-                      Container(
-                        child: const Center(
-                          child: Text('Display Tab 2',
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold)),
-                        ),
-                      ),
+                      UpcomingRidesList(sampleRideRequest, sampleRideOffer),
+                      CompletedRidesList(sampleRideRequestsList, sampleRideOffersList),
                       Container(
                         child: const Center(
                           child: Text('Display Tab 3',

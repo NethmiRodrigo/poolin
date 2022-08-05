@@ -20,13 +20,13 @@ class RideRequest {
   DateTime dropoffTime;
   double totalDistance;
   double rideFare;
-  User rider;
+  User driver;
   String rideID;
 
   RideRequest({
     required this.id,
     required this.rideID,
-    required this.rider,
+    required this.driver,
     required this.pickupLocation,
     required this.dropoffLocation,
     required this.requestedOn,
@@ -41,7 +41,7 @@ class RideRequest {
   factory RideRequest.fromJson(Map<String, dynamic> json) => RideRequest(
         id: json["id"],
         rideID: json["rideID"],
-        rider: json["rider"],
+        driver: json["rider"],
         status: json["status"],
         pickupLocation: json["startLocation"],
         dropoffLocation: json["destination"],
@@ -51,7 +51,7 @@ class RideRequest {
   Map<String, dynamic> toJson() => {
         "id": id,
         "rideID": rideID,
-        "rider": rider,
+        "rider": driver,
         "startLocation": pickupLocation,
         "destination": dropoffLocation,
         "requestedOn": requestedOn,

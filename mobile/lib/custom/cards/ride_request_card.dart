@@ -6,19 +6,14 @@ import 'package:mobile/colors.dart';
 import 'package:mobile/custom/role_tag.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/icons.dart';
-import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/models/user_model.dart';
 import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideRequestCard extends StatelessWidget {
   final RideRequest rideRequest;
-  final RideOffer rideOffer;
 
-  RideRequestCard(this.rideRequest, this.rideOffer, {Key? key})
-      : super(key: key);
+  const RideRequestCard(this.rideRequest, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +31,7 @@ class RideRequestCard extends StatelessWidget {
                 children: [
                   Text(
                       DateFormat('d MMM yyyy, h.mm a')
-                          .format(rideOffer.rideDate),
+                          .format(rideRequest.pickupTime),
                       style: BlipFonts.outline
                           .merge(const TextStyle(color: BlipColors.grey))),
                   UserRoleTag.rider,
@@ -65,6 +60,7 @@ class RideRequestCard extends StatelessWidget {
                     const SizedBox(width: 24.0),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(rideRequest.pickupLocation,
                             style: BlipFonts.outline),
@@ -86,13 +82,14 @@ class RideRequestCard extends StatelessWidget {
               expanded: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Trip ID - ${rideOffer.id}', style: BlipFonts.labelBold),
+                  Text('Trip ID - ${rideRequest.id}',
+                      style: BlipFonts.labelBold),
                   addVerticalSpace(16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                          '${rideOffer.driver.firstName} ${rideOffer.driver.lastName}',
+                          '${rideRequest.driver.firstName} ${rideRequest.driver.lastName}',
                           style: BlipFonts.outline),
                       Wrap(
                         spacing: 10.0,
@@ -106,13 +103,13 @@ class RideRequestCard extends StatelessWidget {
                                 size: 10.0,
                               ),
                               Text(
-                                rideOffer.driver.stars.toString(),
+                                rideRequest.driver.stars.toString(),
                                 style: BlipFonts.tagline,
                               ),
                             ],
                           ),
                           Text(
-                            '\u2022 ${rideOffer.driver.totalRatings} ratings',
+                            '\u2022 ${rideRequest.driver.totalRatings} ratings',
                             style: BlipFonts.tagline,
                           )
                         ],
@@ -123,32 +120,32 @@ class RideRequestCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      (rideOffer.driver.vehicleType == VehicleType.car)
+                      (rideRequest.driver.vehicleType == VehicleType.bike)
                           ? const Icon(
-                              BlipIcons.car,
+                              BlipIcons.bike,
                               color: BlipColors.grey,
                               size: 24.0,
                             )
-                          : (rideOffer.driver.vehicleType == VehicleType.van)
+                          : (rideRequest.driver.vehicleType == VehicleType.van)
                               ? const Icon(
                                   BlipIcons.car,
                                   color: BlipColors.grey,
                                   size: 24.0,
                                 )
                               : const Icon(
-                                  BlipIcons.bike,
-                                  color: BlipColors.grey,
-                                  size: 24.0,
-                                ),
+                              BlipIcons.car,
+                              color: BlipColors.grey,
+                              size: 24.0,
+                            ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            rideOffer.driver.VehicleNum,
+                            rideRequest.driver.VehicleNum,
                             style: BlipFonts.labelBold,
                           ),
                           Text(
-                            '${toBeginningOfSentenceCase(rideOffer.driver.vehicleType.name)}',
+                            '${toBeginningOfSentenceCase(rideRequest.driver.vehicleType.name)}',
                             style: BlipFonts.outline,
                           ),
                         ],
