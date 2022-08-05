@@ -87,7 +87,7 @@ class _TrackDriverState extends State<TrackDriver> {
     String? socketServer = dotenv.env['SOCKET_SERVER'];
 
     try {
-      socket = IO.io("http://$socketServer", <String, dynamic>{
+      socket = IO.io(socketServer, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });
@@ -119,10 +119,10 @@ class _TrackDriverState extends State<TrackDriver> {
   void getCurrentLocation() async {
     Location location = Location();
 
-    location.getLocation().then((location) {
-      setState(() {
-        currentLocation = location;
-      });
+    LocationData? result = await location.getLocation();
+
+    setState(() {
+      currentLocation = result;
     });
 
     location.onLocationChanged.listen((newLocation) {
@@ -158,51 +158,39 @@ class _TrackDriverState extends State<TrackDriver> {
     }
   }
 
-  void setCustomMarkers() {
-    // Create custom icons
-    BitmapDescriptor.fromAssetImage(
+  Future<void> setCustomMarkers() async {
+
+    BitmapDescriptor blackSourceIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",
-    ).then((icon) {
-      setState(() {
-        pickupLocMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor greySourceIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-grey.png",
-    ).then((icon) {
-      setState(() {
-        startPointMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/location-pin-orange.png",
-    ).then((icon) {
-      setState(() {
-        dropOffLocMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor carIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/car-pin-black.png",
-    ).then((icon) {
-      setState(() {
-        driverMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor blueIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/radio-blue.png",
-    ).then((icon) {
-      setState(() {
-        currentLocationMarker = icon;
-      });
+    );
+
+    setState(() {
+      currentLocationMarker = blueIcon;
+      startPointMarker = greySourceIcon;
+      pickupLocMarker = blackSourceIcon;
+      dropOffLocMarker = destinationIcon;
+      driverMarker = carIcon;
     });
   }
 

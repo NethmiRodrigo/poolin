@@ -6,7 +6,6 @@ import 'package:flutter_countdown_timer/index.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'dart:async';
-
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'dart:typed_data';
@@ -67,12 +66,10 @@ class _StartRideState extends State<StartRide> {
   void getCurrentLocation() async {
     Location location = Location();
 
-    location.getLocation().then((location) {
-      setState(() {
-        if (location != null) {
-          currentLocation = location;
-        }
-      });
+    LocationData? result = await location.getLocation();
+
+    setState(() {
+      currentLocation = result;
     });
 
     location.onLocationChanged.listen((newLocation) {
@@ -98,31 +95,26 @@ class _StartRideState extends State<StartRide> {
 
   void setCustomMarkers() async {
     // Create custom icons
-    BitmapDescriptor.fromAssetImage(
+
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",
-    ).then((icon) {
-      setState(() {
-        startMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/location-pin-orange.png",
-    ).then((icon) {
-      setState(() {
-        destinationMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor currentLocIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/radio-blue.png",
-    ).then((icon) {
-      setState(() {
-        currentLocationMarker = icon;
-      });
+    );
+
+    setState(() {
+      currentLocationMarker = currentLocIcon;
+      destinationMarker = destinationIcon;
+      startMarker = startIcon;
     });
   }
 
@@ -243,14 +235,12 @@ class _StartRideState extends State<StartRide> {
                   addVerticalSpace(8),
                   RichText(
                     text: TextSpan(children: [
+                      const TextSpan(
+                          text: 'Any problems? ', style: BlipFonts.outline),
                       TextSpan(
-                          text: 'Any problems? ',
-                          style: BlipFonts.label
-                              .merge(const TextStyle(color: BlipColors.black))),
-                      TextSpan(
-                          text: 'Tell the driver',
-                          style: BlipFonts.label
-                              .merge(const TextStyle(color: BlipColors.black)),
+                          text: 'Tell the riders',
+                          style: BlipFonts.outlineBold
+                              .merge(const TextStyle(color: BlipColors.orange)),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.push(

@@ -55,11 +55,10 @@ class _DriverNavState extends State<DriverNav> {
   void getCurrentLocation() async {
     Location location = Location();
 
-    location.getLocation().then((location) {
-      setState(() {
-        currentLocation = location;
-        sendLocation();
-      });
+    LocationData? result = await location.getLocation();
+
+    setState(() {
+      currentLocation = result;
     });
 
     GoogleMapController googleMapController = await _controller.future;
@@ -88,33 +87,27 @@ class _DriverNavState extends State<DriverNav> {
     });
   }
 
-  void setCustomMarkers() {
-    // Create custom icons
-    BitmapDescriptor.fromAssetImage(
+  Future<void> setCustomMarkers() async {
+
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",
-    ).then((icon) {
-      setState(() {
-        startMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/location-pin-orange.png",
-    ).then((icon) {
-      setState(() {
-        destinationMarker = icon;
-      });
-    });
+    );
 
-    BitmapDescriptor.fromAssetImage(
+    BitmapDescriptor carIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/car-pin-black.png",
-    ).then((icon) {
-      setState(() {
-        currentLocationMarker = icon;
-      });
+    );
+
+    setState(() {
+      currentLocationMarker = carIcon;
+      destinationMarker = destinationIcon;
+      startMarker = startIcon;
     });
   }
 
@@ -122,7 +115,7 @@ class _DriverNavState extends State<DriverNav> {
     String? socketServer = dotenv.env['SOCKET_SERVER'];
 
     try {
-      socket = IO.io("http://$socketServer", <String, dynamic>{
+      socket = IO.io(socketServer, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });
@@ -150,12 +143,12 @@ class _DriverNavState extends State<DriverNav> {
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
           ? const Center(
-            child: CircularProgressIndicator(
+              child: CircularProgressIndicator(
                 value: null,
                 semanticsLabel: 'Please wait',
                 color: BlipColors.grey,
               ),
-          )
+            )
           : Container(
               height: size.height,
               color: BlipColors.lightGrey,
