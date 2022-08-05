@@ -6,20 +6,20 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_request.dart';
 
-class CompletedRidesList extends StatelessWidget {
-  final List<RideRequest> completedRideRequests;
-  final List<RideOffer> completedRideOffers;
-  late List completedRides;
+class CancelledRidesList extends StatelessWidget {
+  final List<RideRequest> cancelledRideRequests;
+  final List<RideOffer> cancelledRideOffers;
+  late List cancelledRides;
 
-  CompletedRidesList(this.completedRideRequests, this.completedRideOffers,
+  CancelledRidesList(this.cancelledRideRequests, this.cancelledRideOffers,
       {Key? key})
       : super(key: key) {
     combineList();
   }
 
   void combineList() {
-    completedRides = [...completedRideRequests, ...completedRideOffers];
-    completedRides.shuffle();
+    cancelledRides = [...cancelledRideRequests, ...cancelledRideOffers];
+    cancelledRides.length = cancelledRides.length - 5;
   }
 
   @override
@@ -27,7 +27,7 @@ class CompletedRidesList extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          for (var item in completedRides)
+          for (var item in cancelledRides)
             (item is RideOffer)
                 ? RideOfferCard(item)
                 : (item is RideRequest)
@@ -35,7 +35,7 @@ class CompletedRidesList extends StatelessWidget {
                     : const Expanded(
                         child: Center(
                           child: Text(
-                            'No completed rides yet',
+                            'No cancelled rides yet',
                             style: BlipFonts.heading,
                           ),
                         ),

@@ -31,7 +31,7 @@ class UpcomingRidesList extends StatelessWidget {
                       style: BlipFonts.heading,
                     ),
                   ),
-                )
+                ),
         ],
       ),
     );

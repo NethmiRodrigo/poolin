@@ -1,13 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/custom/lists/cancelled_rides_list.dart';
 import 'package:mobile/custom/lists/completed_rides_list.dart';
 import 'package:mobile/custom/lists/upcoming_rides_list.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/data.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -79,13 +78,7 @@ class _RideHistoryState extends State<RideHistory> {
                     children: [
                       UpcomingRidesList(sampleRideRequest, sampleRideOffer),
                       CompletedRidesList(sampleRideRequestsList, sampleRideOffersList),
-                      Container(
-                        child: const Center(
-                          child: Text('Display Tab 3',
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold)),
-                        ),
-                      ),
+                      CancelledRidesList(sampleRideRequestsList, sampleRideOffersList),
                     ],
                   ),
                 ),
