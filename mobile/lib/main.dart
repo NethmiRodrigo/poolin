@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile/screens/shared/ride/ride_history.dart';
+import 'package:mobile/screens/current-ride/start_ride.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const RideHistory(),
+        home: const StartRide(),
         debugShowCheckedModeBanner: false,
       ),
     );
