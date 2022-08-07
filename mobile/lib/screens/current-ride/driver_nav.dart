@@ -131,7 +131,7 @@ class _DriverNavState extends State<DriverNav> {
   void sendLocation() {
     var coords = {
       'lat': currentLocation!.latitude!,
-      'lng': currentLocation!.latitude!
+      'lng': currentLocation!.longitude!
     };
     socket.emit('position-change', jsonEncode(coords));
   }
