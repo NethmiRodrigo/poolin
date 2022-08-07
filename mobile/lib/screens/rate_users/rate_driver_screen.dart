@@ -34,7 +34,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
               children: [
                 addVerticalSpace(96),
                 Text(
-                  "Your ride has been completed",
+                  "Your ride has been completed!",
                   style: BlipFonts.heading,
                   textAlign: TextAlign.center,
                 ),
@@ -183,11 +183,11 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                         ],
                       ),
                     ),
-                    addVerticalSpace(16),
                   ],
                 ),
-                addVerticalSpace(160),
+                Spacer(),
                 Text("Skip", style: BlipFonts.outlineBold),
+                addVerticalSpace(48),
               ],
             ),
           ),
