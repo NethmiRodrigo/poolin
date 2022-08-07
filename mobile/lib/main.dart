@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/screens/current-ride/start_ride.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/screens/rate_users/rate_driver_screen.dart';
+import 'package:mobile/screens/rate_users/rate_passengers_screen.dart';
 
 import './theme.dart';
 
@@ -20,7 +22,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
- @override
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const StartRide(),
+        home: RatePassengersScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
