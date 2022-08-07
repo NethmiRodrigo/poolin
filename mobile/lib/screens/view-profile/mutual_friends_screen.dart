@@ -6,6 +6,8 @@ import 'package:mobile/custom/outline_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import '../../../colors.dart';
+import 'package:akar_icons_flutter/akar_icons_flutter.dart';
+
 
 class MutualFriendsScreen extends StatefulWidget {
   const MutualFriendsScreen({super.key});
@@ -36,6 +38,30 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
               Text(
                 "Mutual Friends",
                 style: BlipFonts.display,
+              ),
+              addVerticalSpace(32),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextFormField(
+                      autofocus: false,
+                      showCursor: false,
+                      readOnly: true,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlignVertical: TextAlignVertical.center,
+                      key: const Key('destination-field'),
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(AkarIcons.search),
+                        hintText: "Who are you looking for?",
+                      ),
+                      
+                    ),
+                  ),
+                ],
               ),
               addVerticalSpace(40),
               Padding(
