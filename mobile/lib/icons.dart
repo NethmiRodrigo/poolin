@@ -11,4 +11,9 @@ class BlipIcons {
   static const IconData driver = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData source = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData destination = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData car = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData double_location_pin = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData star = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData van = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bike = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
