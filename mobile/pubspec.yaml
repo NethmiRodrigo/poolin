@@ -46,6 +46,8 @@ dependencies:
   time_elapsed: ^0.2.6
   animated_toggle_switch: ^0.5.2
   image_picker: ^0.8.5+3
+  flutter_svg: ^1.1.3
+  font_awesome_flutter: ^10.1.0
   # flutter_svg: any
 
 dev_dependencies:
@@ -89,6 +91,8 @@ flutter:
 
   assets:
     - assets/images/logo.png
+    - assets/images/profilePic.jpg
+    - assets/images/iconverified.png
     - .env
  
 
