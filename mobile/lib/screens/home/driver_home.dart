@@ -1,5 +1,8 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'package:mobile/custom/lists/pass_request_list.dart';
 import 'package:mobile/custom/lists/ride_request_list.dart';
@@ -91,6 +94,12 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     ),
   ];
   bool isDriving = true; //driver is driving if he currently has a ride
+  int _selectedIndex = 0; //New
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +108,42 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+          selectedIconTheme: IconThemeData(color: BlipColors.white, size: 35),
+          currentIndex: _selectedIndex, //New
+          onTap: _onItemTapped,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
+                FluentIcons.home_16_filled,
+                color: BlipColors.black,
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                FeatherIcons.barChart,
+                color: BlipColors.black,
+              ),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Ionicons.notifications,
+                color: BlipColors.black,
+              ),
+              label: 'Notififactions',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                FluentIcons.person_20_filled,
+                color: BlipColors.black,
+              ),
+              label: 'Profile',
+            ),
+          ]),
       body: SingleChildScrollView(
         padding: sidePadding,
         child: Column(

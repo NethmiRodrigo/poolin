@@ -7,6 +7,8 @@ import 'package:mobile/screens/current-ride/start_ride.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/screens/current-ride/track_driver.dart';
+import 'package:mobile/screens/home/driver_home.dart';
+import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 import './theme.dart';
 
@@ -21,7 +23,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
- @override
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const StartRide(),
+        home: const ViewRideRequestsScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
