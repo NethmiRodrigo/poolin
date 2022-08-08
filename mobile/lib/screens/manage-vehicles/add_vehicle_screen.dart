@@ -44,6 +44,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
+              
               const Align(
                   alignment: Alignment.topLeft,
                   child: Icon(
@@ -73,8 +74,9 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                           ),
                           addVerticalSpace(8),
-                          TextField(
+                          TextFormField(
                             style: BlipFonts.label,
+                            controller: _make,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
@@ -88,6 +90,12 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                               ),
                               hintText: "Ex: Toyota",
                             ),
+                            validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Field cannot be empty';
+                        } 
+                        return null;
+                      },
                           ),
                         ]),
                       ),
@@ -104,7 +112,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                           ),
                           addVerticalSpace(8),
-                          TextField(
+                          TextFormField(
                             style: BlipFonts.label,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
@@ -134,7 +142,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                           ),
                           addVerticalSpace(8),
-                          TextField(
+                          TextFormField(
                             style: BlipFonts.label,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
@@ -161,7 +169,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                           ),
                           addVerticalSpace(8),
-                          TextField(
+                          TextFormField(
                             style: BlipFonts.label,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
@@ -188,7 +196,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                             ),
                           ),
                           addVerticalSpace(8),
-                          TextField(
+                          TextFormField(
                             style: BlipFonts.label,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
