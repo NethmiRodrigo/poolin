@@ -147,8 +147,11 @@ class RideOfferTimeline extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              OutlineButton(text: "View Ride Details", color: BlipColors.black)
+            children: [
+              OutlineButton(
+                  text: "View Ride Details",
+                  color: BlipColors.black,
+                  onPressedAction: () {})
             ],
           ),
         ],

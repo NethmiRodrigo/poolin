@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile/screens/current-ride/start_ride.dart';
+import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/home/rider_home.dart';
@@ -11,6 +13,7 @@ import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
+import 'package:mobile/screens/current-ride/track_driver.dart';
 
 import './theme.dart';
 
@@ -25,16 +28,21 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  @override
+ @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => RideOfferCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RideOfferCubit>(
+          create: (context) => RideOfferCubit(),
+        ),
+        BlocProvider<ActiveRideCubit>(
+          create: (context) => ActiveRideCubit(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: DestinationScreen(
-          rideType: RideType.offer,
-        ),
+        home: const StartRide(),
         debugShowCheckedModeBanner: false,
       ),
     );

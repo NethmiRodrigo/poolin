@@ -10,18 +10,16 @@ import {
   ManyToOne,
 } from "typeorm";
 import { RequestToOffer } from "./RequestToOffer";
-import { RideRequest } from "./RideRequest";
 import { User } from "./User";
 
-export type Status = "active" | "completed" | "cancelled" | "booked";
+export type Status = "active" | "completed" | "cancelled" | "confirmed";
 
 @Entity()
-export class RideOffer extends BaseEntity {
-  constructor(rideOffer?: Partial<RideOffer>) {
+export class RideRequest extends BaseEntity {
+  constructor(rideRequest?: Partial<RideRequest>) {
     super();
-    Object.assign(this, rideOffer);
+    Object.assign(this, rideRequest);
   }
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -47,13 +45,7 @@ export class RideOffer extends BaseEntity {
   departureTime: Date;
 
   @Column({ nullable: false })
-  arrivalTime: Date;
-
-  @Column({ nullable: false })
-  pricePerKm: number;
-
-  @Column({ nullable: false })
-  seats: number;
+  timeWindow: number;
 
   @Column("decimal", { nullable: false })
   distance: number;
@@ -63,16 +55,16 @@ export class RideOffer extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  @ManyToOne(() => User, (user) => user.requests, { eager: true })
+  user: User;
+
   @Column({
     type: "enum",
-    enum: ["active", "completed", "cancelled", "booked"],
+    enum: ["active", "completed", "cancelled", "confirmed"],
     default: "active",
   })
   status: Status;
 
-  @ManyToOne(() => User, (user) => user.offers)
-  user: User;
-
-  @OneToMany(() => RequestToOffer, (requestToOffer) => requestToOffer.offer)
-  public requestsToOffer: RequestToOffer[];
+  @OneToMany(() => RequestToOffer, (requestToOffer) => requestToOffer.request)
+  public requestToOffers: RequestToOffer[];
 }
