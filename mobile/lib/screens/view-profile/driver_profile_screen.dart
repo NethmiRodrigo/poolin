@@ -21,7 +21,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    // Build a Form widget using the _formKey created above.
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -31,7 +30,14 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(64),
+             addVerticalSpace(32),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  )),
+              addVerticalSpace(24),
               Align(
                 alignment: Alignment.topCenter,
                 child: Stack(
@@ -167,7 +173,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       ),
                     ],
                   ),
-                  // addHorizontalSpace(20),
                   Column(
                     children: [
                       CircleAvatar(
@@ -180,7 +185,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       ),
                     ],
                   ),
-                  // addHorizontalSpace(20),
                   Column(
                     children: [
                       CircleAvatar(
@@ -193,7 +197,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       ),
                     ],
                   ),
-                  // addHorizontalSpace(20),
                   Column(
                     children: [
                       CircleAvatar(

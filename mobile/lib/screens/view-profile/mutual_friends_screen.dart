@@ -34,7 +34,14 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(48),
+              addVerticalSpace(32),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  )),
+              addVerticalSpace(24),
               Text(
                 "Mutual Friends",
                 style: BlipFonts.display,

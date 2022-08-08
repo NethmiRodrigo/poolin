@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
@@ -22,7 +23,6 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    // Build a Form widget using the _formKey created above.
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -32,7 +32,14 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(64),
+               addVerticalSpace(32),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  )),
+              addVerticalSpace(24),
               Align(
                 alignment: Alignment.topCenter,
                 child: Stack(
@@ -112,7 +119,6 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                       ),
                     ],
                   ),
-                  // addHorizontalSpace(20),
                   Column(
                     children: [
                       CircleAvatar(
@@ -125,7 +131,6 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                       ),
                     ],
                   ),
-                  // addHorizontalSpace(20),
                   Column(
                     children: [
                       CircleAvatar(
@@ -138,7 +143,6 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                       ),
                     ],
                   ),
-                  // addHorizontalSpace(20),
                   Column(
                     children: [
                       CircleAvatar(
