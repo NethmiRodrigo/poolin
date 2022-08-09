@@ -6,6 +6,7 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
+  String id;
   String firstName;
   String lastName;
   String gender;
@@ -14,7 +15,9 @@ class User {
   int totalRatings;
   VehicleType vehicleType;
   String VehicleNum;
+  String profilePicture;
   User({
+    this.id = '000',
     required this.firstName,
     required this.lastName,
     required this.gender,
@@ -23,6 +26,7 @@ class User {
     this.totalRatings = 0,
     this.VehicleNum = '',
     this.vehicleType = VehicleType.NA,
+    this.profilePicture = '',
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
