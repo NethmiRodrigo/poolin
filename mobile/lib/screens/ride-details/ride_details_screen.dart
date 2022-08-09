@@ -123,8 +123,8 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                           Container(
                             height: 60,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Spacer(),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -136,6 +136,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                             style: BlipFonts.label),
                                         Text('Pick up Sarah',
                                             style: BlipFonts.outline),
+                                        addVerticalSpace(4),
                                       ],
                                     ),
                                     Spacer(),
@@ -148,8 +149,8 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                           Container(
                             height: 60,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Spacer(),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -161,6 +162,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                             style: BlipFonts.label),
                                         Text('Drop off Sarah',
                                             style: BlipFonts.outline),
+                                        addVerticalSpace(4),
                                       ],
                                     ),
                                     Spacer(),
