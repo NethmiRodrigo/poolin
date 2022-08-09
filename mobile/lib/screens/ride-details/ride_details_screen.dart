@@ -49,7 +49,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
               ),
               addVerticalSpace(16),
               Text(
-                "Your trip",
+                "Your Trip",
                 style: BlipFonts.heading,
               ),
               Row(
@@ -66,7 +66,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         borderRadius: BorderRadius.circular(5),
                         color: BlipColors.orange,
                       ),
-                      child: Text(("7:30 AM").toUpperCase(),
+                      child: Text(("7:30AM").toUpperCase(),
                           style: BlipFonts.outlineBold
                               .merge(TextStyle(color: BlipColors.white))),
                     ),
@@ -317,7 +317,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                 ],
               ),
               addVerticalSpace(24),
-              WideButton(text: 'Cancel ride', onPressedAction: () async {}),
+              WideButton(text: 'Cancel Ride', onPressedAction: () async {}),
             ],
           ),
         ),
