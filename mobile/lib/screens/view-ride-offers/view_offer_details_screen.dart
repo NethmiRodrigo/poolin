@@ -84,7 +84,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                                   MaterialStateProperty.all(BlipColors.black),
                             ),
                             child: Text(
-                              "Request To Join",
+                              "Select Ride",
                               style: BlipFonts.label.merge(
                                 const TextStyle(color: BlipColors.white),
                               ),

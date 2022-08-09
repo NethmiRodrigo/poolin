@@ -142,7 +142,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                   ),
                   addVerticalSpace(20.0),
                   Expanded(
-                    child: RideOfferResultList(_rideOffers),
+                    child: RideOfferResultList(_rideOffers, "view"),
                   ),
                   addVerticalSpace(10.0),
                   WideButton(
@@ -155,7 +155,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                         ),
                       );
                     },
-                    text: "Don't like any offers? Post a ride request",
+                    text: "Proceed",
                   )
                 ],
               ),

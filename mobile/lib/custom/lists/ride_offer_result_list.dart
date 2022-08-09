@@ -8,9 +8,23 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
 
 class RideOfferResultList extends StatelessWidget {
+  bool isChecked = false;
   final List<RideOfferSearchResult> offers;
+  final String type;
 
-  const RideOfferResultList(this.offers, {Key? key}) : super(key: key);
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.black;
+    }
+    return Colors.black;
+  }
+
+  RideOfferResultList(this.offers, this.type, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +98,34 @@ class RideOfferResultList extends StatelessWidget {
                                         style: BlipFonts.tagline,
                                       )
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                               const Spacer(),
+                              type == "view"
+                                  ? SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: Checkbox(
+                                        checkColor: BlipColors.black,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                getColor),
+                                        value: isChecked,
+                                        onChanged: (bool? value) {
+                                          isChecked = value!;
+                                        },
+                                      ),
+                                    )
+                                  : const Icon(
+                                      Icons.cancel_rounded,
+                                      color: BlipColors.grey,
+                                    ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
                               const Icon(
                                 Icons.directions_car_filled_rounded,
                                 color: BlipColors.grey,
@@ -95,7 +133,9 @@ class RideOfferResultList extends StatelessWidget {
                               addHorizontalSpace(5.0),
                               Text(
                                 offers[index].model,
-                                style: BlipFonts.outline,
+                                style: BlipFonts.outline.merge(
+                                  const TextStyle(color: BlipColors.grey),
+                                ),
                               )
                             ],
                           ),
