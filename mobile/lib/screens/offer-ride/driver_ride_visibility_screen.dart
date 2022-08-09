@@ -53,15 +53,14 @@ class _DriverRideVisibilityScreenState
                     color: Colors.black,
                   )),
               addVerticalSpace(16),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Ride Visibility', style: BlipFonts.title),
-                    OutlineButton(
-                      color: BlipColors.black,
-                      text: "Clear All",
-                    )
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                const Text('Ride Visibility', style: BlipFonts.title),
+                OutlineButton(
+                  onPressedAction: () {},
+                  color: BlipColors.black,
+                  text: "Clear All",
+                )
+              ]),
               addVerticalSpace(48),
               const Align(
                 alignment: Alignment.topLeft,
