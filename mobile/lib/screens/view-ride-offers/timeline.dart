@@ -26,9 +26,10 @@ class RideOfferTimeline extends StatelessWidget {
               addHorizontalSpace(10.0),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Yadeesha Weerasinghe', style: BlipFonts.outline),
+                  const Text('University of Colomo School of Computing',
+                      style: BlipFonts.outline),
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -73,9 +74,9 @@ class RideOfferTimeline extends StatelessWidget {
               addHorizontalSpace(10.0),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Yadeesha Weerasinghe', style: BlipFonts.outline),
+                  const Text('Town Hall', style: BlipFonts.outline),
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -84,7 +85,7 @@ class RideOfferTimeline extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      ('Yadeesha begins journey').toUpperCase(),
+                      ('You get picked up').toUpperCase(),
                       style: BlipFonts.taglineBold
                           .merge(const TextStyle(color: BlipColors.orange)),
                     ),
@@ -120,9 +121,10 @@ class RideOfferTimeline extends StatelessWidget {
               addHorizontalSpace(10.0),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Yadeesha Weerasinghe', style: BlipFonts.outline),
+                  const Text('Mahabuthgamuwa Bus Stop',
+                      style: BlipFonts.outline),
                   Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -131,7 +133,7 @@ class RideOfferTimeline extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      ('Yadeesha begins journey').toUpperCase(),
+                      ('You get dropped off').toUpperCase(),
                       style: BlipFonts.taglineBold
                           .merge(const TextStyle(color: BlipColors.orange)),
                     ),
