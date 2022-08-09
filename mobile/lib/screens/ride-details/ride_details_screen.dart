@@ -61,12 +61,12 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   Spacer(),
                   TextButton(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: BlipColors.orange,
                       ),
-                      child: Text(("7.30 AM").toUpperCase(),
+                      child: Text(("7:30 AM").toUpperCase(),
                           style: BlipFonts.outlineBold
                               .merge(TextStyle(color: BlipColors.white))),
                     ),
@@ -76,207 +76,243 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
               ),
               addVerticalSpace(12),
               Container(
-                height: 200,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                children: 
-                  [Timeline(
-                    indicators: const <Widget>[
-                      Icon(
+                  height: 200,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      Timeline(
+                        indicators: const <Widget>[
+                          Icon(
                             Icons.circle,
                             color: BlipColors.orange,
-                            size: 16,
+                            size: 12,
                           ),
-                      Icon(
+                          Icon(
                             Icons.circle,
                             color: BlipColors.black,
-                            size: 16,
+                            size: 12,
                           ),
-                      Icon(
+                          Icon(
                             Icons.circle,
                             color: BlipColors.black,
-                            size: 16,
+                            size: 12,
                           ),
-                      Icon(
+                          Icon(
                             Icons.circle,
                             color: BlipColors.orange,
-                            size: 16,
+                            size: 12,
                           ),
+                        ],
+                        children: <Widget>[
+                          Container(
+                            height: 60,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('No.20, Borelasgamuwa',
+                                        style: BlipFonts.labelBold),
+                                    Spacer(),
+                                    Text('7:30 AM', style: BlipFonts.outline),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: Column(
+                              children: [
+                                Spacer(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('No.20, Borelasgamuwa',
+                                            style: BlipFonts.label),
+                                        Text('Pick up Sarah',
+                                            style: BlipFonts.outline),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Text('7:30 AM', style: BlipFonts.outline),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: Column(
+                              children: [
+                                Spacer(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('No.20, Thunmulla',
+                                            style: BlipFonts.label),
+                                        Text('Drop off Sarah',
+                                            style: BlipFonts.outline),
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Text('7:30 AM', style: BlipFonts.outline),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        'University of Colombo\nSchool of Computing',
+                                        style: BlipFonts.labelBold),
+                                    Spacer(),
+                                    Text('7:30 AM', style: BlipFonts.outline),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 225,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('No.27, suwarapola, Piliyandala',
-                                    style: BlipFonts.labelBold),
-                              ],
-                            ),
-                          ),
-                          Spacer(),
-                          Text('7.30 AM', style: BlipFonts.outline),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 225,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('No.20, Borelasgamuwa',
-                                    style: BlipFonts.label),
-                                Text('Pick up sarah', style: BlipFonts.tagline),
-                              ],
-                            ),
-                          ),
-                          Spacer(),
-                          Text('7.40 AM', style: BlipFonts.outline),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 225,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Thunmulla junction', style: BlipFonts.label),
-                                Text('Drop off sarah', style: BlipFonts.tagline),
-                              ],
-                            ),
-                          ),
-                          Spacer(),
-                          Text('8.00 AM', style: BlipFonts.outline),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 225,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('University of Colombo School of Computing',
-                                    style: BlipFonts.labelBold),
-                              ],
-                            ),
-                          ),
-                          Spacer(),
-                          Text('8.05 AM', style: BlipFonts.outline),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              )),
+                  )),
               addVerticalSpace(32),
               Row(
                 children: [
                   Text(
                     "The Party",
-                    style: BlipFonts.title,
+                    style: BlipFonts.heading,
                   ),
                   Spacer(),
                   CircleAvatar(
-                      radius: 15.0,
+                      radius: 16.0,
                       backgroundColor: BlipColors.black,
                       child: Icon(
-                        Icons.message_outlined,
+                        EvaIcons.messageSquareOutline,
                         color: BlipColors.white,
-                        size: 18.0,
+                        size: 14.0,
                       )),
                 ],
               ),
               addVerticalSpace(16),
-              Container(
-                height: 120,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  itemExtent: 70.0,
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 40.0,
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 40.0,
+                        backgroundImage: AssetImage('assets/images/user.jpg'),
+                      ),
+                      Text(
+                        "John",
+                        style: BlipFonts.outline,
+                      ),
+                      Text(
+                        "Driver",
+                        style: BlipFonts.taglineBold,
+                      ),
+                    ],
+                  ),
+                  addHorizontalSpace(20),
+                  addVerticalSpace(24),
+                  Container(
+                    height: 100,
+                    width: 220,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      // itemExtent: 70.0,
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
                         ),
-                        Text(
-                          "John",
-                          style: BlipFonts.outline,
+                        addHorizontalSpace(16),
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
                         ),
-                        Text(
-                          "Driver",
-                          style: BlipFonts.tagline,
+                        addHorizontalSpace(16),
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
+                        ),
+                        addHorizontalSpace(16),
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
+                        ),
+                        addHorizontalSpace(16),
+                        Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
-                        Text(
-                          "John",
-                          style: BlipFonts.outline,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
-                        Text(
-                          "John",
-                          style: BlipFonts.outline,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
-                        Text(
-                          "John",
-                          style: BlipFonts.outline,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
-                        Text(
-                          "John",
-                          style: BlipFonts.outline,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
-                        Text(
-                          "John",
-                          style: BlipFonts.outline,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               addVerticalSpace(24),
               WideButton(text: 'Cancel ride', onPressedAction: () async {}),
