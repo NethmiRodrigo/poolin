@@ -42,9 +42,9 @@ class MyApp extends StatelessWidget {
         theme: AppTheme().themeData,
         home: AnimatedSplashScreen(
             splashTransition: SplashTransition.fadeTransition,
-            backgroundColor: BlipColors.orange,
-            splash: "assets/images/car.gif",
-            splashIconSize: 360,
+            backgroundColor: const Color(0xffff8210),
+            splash: "assets/images/poolin.gif",
+            splashIconSize: 2500,
             nextScreen: const DriverHomeScreen()),
         debugShowCheckedModeBanner: false,
       ),
