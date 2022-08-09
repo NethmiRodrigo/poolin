@@ -21,11 +21,17 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _make = TextEditingController();
   final TextEditingController _model = TextEditingController();
+  final TextEditingController _year = TextEditingController();
+  final TextEditingController _color = TextEditingController();
+  final TextEditingController _plateno = TextEditingController();
 
   @override
   void dispose() {
     _make.dispose();
     _model.dispose();
+    _year.dispose();
+    _color.dispose();
+    _plateno.dispose();
     super.dispose();
   }
 
@@ -44,7 +50,6 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              
               const Align(
                   alignment: Alignment.topLeft,
                   child: Icon(
@@ -60,166 +65,196 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
               Align(
                 child: Image.asset('assets/images/car.png', height: 137),
               ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Vehicle Make",
-                              style: BlipFonts.outline,
-                            ),
-                          ),
-                          addVerticalSpace(8),
-                          TextFormField(
-                            style: BlipFonts.label,
-                            controller: _make,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Vehicle Make",
+                                style: BlipFonts.outline,
                               ),
-                              hintText: "Ex: Toyota",
                             ),
-                            validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Field cannot be empty';
-                        } 
-                        return null;
-                      },
-                          ),
-                        ]),
+                            addVerticalSpace(8),
+                            TextFormField(
+                              style: BlipFonts.label,
+                              controller: _make,
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 16),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                                hintText: "Ex: Toyota",
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Field cannot be empty';
+                                }
+                                return null;
+                              },
+                            ),
+                          ]),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Column(children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Vehicle Model",
+                                style: BlipFonts.outline,
+                              ),
+                            ),
+                            addVerticalSpace(8),
+                            TextFormField(
+                              style: BlipFonts.label,
+                              controller: _model,
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 16),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                                hintText: "Ex: Prius",
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Field cannot be empty';
+                                }
+                                return null;
+                              },
+                            ),
+                          ]),
+                        ),
+                      ],
+                    ),
+                    addVerticalSpace(16),
+                    Column(children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Year",
+                          style: BlipFonts.outline,
+                        ),
                       ),
-                      const SizedBox(
-                        width: 5,
+                      addVerticalSpace(8),
+                      TextFormField(
+                        style: BlipFonts.label,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 16),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
+                            ),
+                          ),
+                          hintText: "Ex: 2018",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          }
+                          return null;
+                        },
                       ),
-                      Expanded(
-                        child: Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Vehicle Model",
-                              style: BlipFonts.outline,
-                            ),
-                          ),
-                          addVerticalSpace(8),
-                          TextFormField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: Prius",
-                            ),
-                          ),
-                        ]),
+                    ]),
+                    addVerticalSpace(16),
+                    Column(children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "License Plate Number",
+                          style: BlipFonts.outline,
+                        ),
                       ),
-                    ],
-                  ),
-                  addVerticalSpace(16),
-                  Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Year",
-                              style: BlipFonts.outline,
+                      addVerticalSpace(8),
+                      TextFormField(
+                        style: BlipFonts.label,
+                        controller: _plateno,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 16),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
                             ),
                           ),
-                          addVerticalSpace(8),
-                          TextFormField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: 2018",
+                          hintText: "Ex: CAT 9345",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
+                    ]),
+                    addVerticalSpace(16),
+                    Column(children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Vehicle Color",
+                          style: BlipFonts.outline,
+                        ),
+                      ),
+                      addVerticalSpace(8),
+                      TextFormField(
+                        style: BlipFonts.label,
+                        controller: _color,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 16),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: const BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
                             ),
                           ),
-                        ]),
-                  addVerticalSpace(16),
-                  Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "License Plate Number",
-                              style: BlipFonts.outline,
-                            ),
-                          ),
-                          addVerticalSpace(8),
-                          TextFormField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: CAT 9345",
-                            ),
-                          ),
-                        ]),
-                  addVerticalSpace(16),
-                  Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Vehicle Color",
-                              style: BlipFonts.outline,
-                            ),
-                          ),
-                          addVerticalSpace(8),
-                          TextFormField(
-                            style: BlipFonts.label,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: const BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              hintText: "Ex: Blue",
-                            ),
-                          ),
-                        ]),
-                  addVerticalSpace(42),
-                  WideButton(
-                    text: 'Add Vehicle',
-                    onPressedAction: () async {},
-                  ),
-                ],
-              ),
+                          hintText: "Ex: Blue",
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Field cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
+                    ]),
+                    addVerticalSpace(42),
+                    WideButton(
+                      text: 'Add Vehicle',
+                      onPressedAction: () async {},
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
