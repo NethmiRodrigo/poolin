@@ -144,7 +144,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                   Expanded(
                     child: RideOfferResultList(_rideOffers, "view"),
                   ),
-                  addVerticalSpace(10.0),
+                  addVerticalSpace(30.0),
                   WideButton(
                     onPressedAction: () {
                       Navigator.push(

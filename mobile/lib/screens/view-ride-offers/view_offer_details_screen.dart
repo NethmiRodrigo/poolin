@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/view-ride-offers/timeline.dart';
 import 'package:mobile/screens/view-ride-offers/user_card.dart';
+import 'package:mobile/utils/widget_functions.dart';
 
 class ViewRideOfferDetails extends StatefulWidget {
   const ViewRideOfferDetails({Key? key}) : super(key: key);
@@ -66,28 +68,19 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                     ),
                     const Expanded(child: RideOfferTimeline()),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
+                          addHorizontalSpace(8.0),
                           const Text(
-                            "Rs. 350.00",
+                            "Rs. 350",
                             style: BlipFonts.title,
                           ),
-                          const Spacer(
-                            flex: 1,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(BlipColors.black),
-                            ),
-                            child: Text(
-                              "Select Ride",
-                              style: BlipFonts.label.merge(
-                                const TextStyle(color: BlipColors.white),
-                              ),
+                          addHorizontalSpace(10.0),
+                          Expanded(
+                            child: WideButton(
+                              onPressedAction: () {},
+                              text: "Select Ride",
                             ),
                           ),
                         ],

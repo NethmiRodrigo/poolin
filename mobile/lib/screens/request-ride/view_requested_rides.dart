@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/constants/search_offer_results.dart';
+import 'package:mobile/custom/indicator.dart';
 import 'package:mobile/custom/lists/ride_offer_result_list.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
@@ -46,9 +46,25 @@ class _RequestedTripsState extends State<RequestedTrips> {
                 style: BlipFonts.heading,
               ),
               addVerticalSpace(8.0),
-              const Text(
-                "8.00 AM +- 45 mins",
-                style: BlipFonts.outline,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "8.00 AM",
+                    style: BlipFonts.outline,
+                  ),
+                  addHorizontalSpace(5.0),
+                  const Icon(
+                    CupertinoIcons.add,
+                    size: 8.0,
+                    color: BlipColors.grey,
+                  ),
+                  const Indicator(
+                      icon: CupertinoIcons.minus,
+                      text: "45 mins",
+                      color: BlipColors.grey),
+                ],
               ),
               addVerticalSpace(10.0),
               Expanded(

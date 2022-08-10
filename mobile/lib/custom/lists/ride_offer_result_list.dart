@@ -1,4 +1,7 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/icons.dart';
 import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -75,6 +78,7 @@ class RideOfferResultList extends StatelessWidget {
                                       const Icon(
                                         Icons.star_rounded,
                                         size: 10.0,
+                                        color: BlipColors.gold,
                                       ),
                                       addHorizontalSpace(8.0),
                                       Text(
@@ -117,9 +121,13 @@ class RideOfferResultList extends StatelessWidget {
                                         },
                                       ),
                                     )
-                                  : const Icon(
-                                      Icons.cancel_rounded,
-                                      color: BlipColors.grey,
+                                  : IconButton(
+                                      icon: const Icon(
+                                        EvaIcons.trash2,
+                                        color: BlipColors.grey,
+                                        size: 20.0,
+                                      ),
+                                      onPressed: () {},
                                     ),
                             ],
                           ),

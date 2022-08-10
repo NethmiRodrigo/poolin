@@ -44,7 +44,7 @@ class UserCard extends StatelessWidget {
                             const Icon(
                               Icons.star_rounded,
                               size: 10.0,
-                              color: BlipColors.grey,
+                              color: BlipColors.gold,
                             ),
                             addHorizontalSpace(8.0),
                             const Text("5.0", style: BlipFonts.tagline),
