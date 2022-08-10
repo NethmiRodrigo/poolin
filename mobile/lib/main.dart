@@ -1,8 +1,12 @@
+import 'dart:html';
+
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/screens/current-ride/start_ride.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
@@ -14,6 +18,7 @@ import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/screens/current-ride/track_driver.dart';
+import 'package:mobile/screens/home/driver_home.dart';
 
 import './theme.dart';
 
@@ -42,7 +47,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
+<<<<<<< HEAD
         home: ViewRideOffersScreen(),
+=======
+        home: AnimatedSplashScreen(
+            splashTransition: SplashTransition.fadeTransition,
+            backgroundColor: const Color(0xffff8210),
+            splash: "assets/images/poolin.gif",
+            splashIconSize: 2500,
+            nextScreen: const DriverHomeScreen()),
+>>>>>>> 82978f9d45b73746c6a6919498b98da0aec8c102
         debugShowCheckedModeBanner: false,
       ),
     );
