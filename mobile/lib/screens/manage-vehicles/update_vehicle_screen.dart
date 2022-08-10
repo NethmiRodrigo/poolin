@@ -6,6 +6,7 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+//import 'package:color_picker_field/color_picker_field.dart';
 
 import '../../colors.dart';
 
@@ -60,7 +61,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                   )),
               addVerticalSpace(42),
               const Text(
-                'Enter vehicle information',
+                'Update vehicle information',
                 style: BlipFonts.title,
               ),
               addVerticalSpace(36),
@@ -262,7 +263,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                       ),
                     ),
                     addVerticalSpace(8),
-                    TextField(
+                    TextFormField(
                       style: BlipFonts.label,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
@@ -280,9 +281,44 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                     ),
                   ]),
                   addVerticalSpace(42),
-                  WideButton(
-                    text: 'Add Vehicle',
-                    onPressedAction: () async {},
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 8,
+                            child: Column(
+                              children: [
+                                WideButton(
+                                  text: 'Confirm Changes',
+                                  onPressedAction: () async {},
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () async {},
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.red.shade400,
+                                      padding: const EdgeInsets.all(16.0),
+                                    ),
+                                    child: Icon(
+                                      Icons.delete_sharp,
+                                      color: Colors.white,
+                                    ))
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ],
               ),
