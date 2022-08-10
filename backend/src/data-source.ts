@@ -9,6 +9,7 @@ import { RideOffer } from "./database/entity/RideOffer";
 import { Vehicle } from "./database/entity/Vehicle";
 import { RequestToOffer } from "./database/entity/RequestToOffer";
 import { RideRequest } from "./database/entity/RideRequest";
+import { OfferRoute } from "./database/entity/OfferRoute";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ export const AppDataSource = new DataSource({
     Vehicle,
     RequestToOffer,
     RideRequest,
+    OfferRoute,
   ],
   migrations: ["./src/database/migration"],
   subscribers: [],

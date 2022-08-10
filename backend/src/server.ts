@@ -1,6 +1,6 @@
 import app from "./app";
 import { AppDataSource } from "./data-source";
-
+import { getPolyline } from "./middleware/polyline";
 
 app.listen(process.env.PORT, async () => {
   console.log(`
@@ -18,7 +18,7 @@ app.listen(process.env.PORT, async () => {
   try {
     await AppDataSource.initialize();
     console.log("Database is connected!");
-    
+    getPolyline();
   } catch (error) {
     console.log(error);
   }
