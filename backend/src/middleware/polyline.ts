@@ -10,10 +10,10 @@ export const getPolyline = () => {
    */
 
   // coordinates of start point appended with '%2C'
-  const startPoint = "University of Colombo School of Computing, Colombo";
+  const startPoint = "6.891910722041444%2C79.85974075584645";
 
   // coordinates of end point appended with '%2C'
-  const endPoint = "Nugegoda";
+  const endPoint = "6.8916558905925065%2C79.85739109069216";
 
   var config = {
     method: "get",
@@ -27,26 +27,24 @@ export const getPolyline = () => {
     .then(function (response) {
       var encodedString = response.data.routes[0].overview_polyline.points;
       var results = polyline.decode(encodedString);
-      const middleIndex = Math.ceil(results.length / 2);
-
-      const firstHalf = results.slice().splice(0, middleIndex);
-      const secondHalf = results.slice().splice(-middleIndex);
 
       const offerRoute = new OfferRoute({
         polylineStart: {
           type: "LineString",
-          coordinates: firstHalf,
+          coordinates: results,
         },
+
         polylineEnd: {
           type: "LineString",
-          coordinates: secondHalf,
+          coordinates: results,
         },
+
         from: startPoint,
         to: endPoint,
       });
 
       offerRoute.save();
-      console.log(secondHalf);
+      //   console.log(secondHalf);
       console.log(results);
     })
     .catch(function (error) {
