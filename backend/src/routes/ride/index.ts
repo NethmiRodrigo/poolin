@@ -19,11 +19,11 @@ import {
 
 const router = Router();
 
-router.post("/create-offer", auth, postRideOffer);
-router.get("/offer", auth, getActiveOffer);
-router.get("/get/offer/:id", auth, getOfferDetails);
-router.get("/get/offer/requests/:id", auth, getOfferRequests);
-router.get("/get/offer/party/:id", auth, getConfirmedRequests);
+router.post("/create-offer", postRideOffer);
+router.get("/offer", getActiveOffer);
+router.get("/get/offer/:id", getOfferDetails);
+router.get("/get/offer/requests/:id", getOfferRequests);
+router.get("/get/offer/party/:id", getConfirmedRequests);
 
 router.get("/request", auth, getActiveRequest);
 router.post("/post-requests", auth, postRideRequests);

@@ -71,6 +71,7 @@ dependencies:
   flutter_feather_icons: ^2.0.0+1
   ionicons: ^0.1.2
   animated_splash_screen: ^1.3.0
+  persistent_bottom_nav_bar: any
   # flutter_svg: any
 
 dev_dependencies:
