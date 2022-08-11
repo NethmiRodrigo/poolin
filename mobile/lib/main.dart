@@ -8,8 +8,7 @@ import 'package:mobile/app.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/screens/home/rider_home.dart';
-
-import './theme.dart';
+import 'package:mobile/theme.dart';
 
 Future<void> main() async {
   await dotenv.load();
