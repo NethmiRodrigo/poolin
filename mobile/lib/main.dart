@@ -7,7 +7,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/app.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/theme.dart';
 
 Future<void> main() async {
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<RideOfferCubit>(
           create: (context) => RideOfferCubit(),
         ),
+        BlocProvider<RideRequestCubit>(
+          create: (context) => RideRequestCubit(),
+        ),
         BlocProvider<ActiveRideCubit>(
           create: (context) => ActiveRideCubit(),
         ),
@@ -40,7 +45,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color(0xffff8210),
             splash: "assets/images/poolin.gif",
             splashIconSize: 2500,
-            nextScreen: const App()),
+            nextScreen: const ViewRideOffersScreen()),
         debugShowCheckedModeBanner: false,
         routes: {"/rider": ((context) => const RiderHomeScreen())},
       ),

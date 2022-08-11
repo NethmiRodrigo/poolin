@@ -47,6 +47,8 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(_rideOffers);
+    print("Hello");
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

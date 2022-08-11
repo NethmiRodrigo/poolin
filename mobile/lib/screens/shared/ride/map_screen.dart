@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/coordinate_model.dart';
 
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
@@ -115,15 +116,29 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
-    offerCubit.setSource(Coordinate(
-        lat: widget.sourcePosition!.geometry!.location!.lat!,
-        lang: widget.sourcePosition!.geometry!.location!.lng!,
-        name: widget.sourcePosition!.name!));
-    offerCubit.setDestination(Coordinate(
-        lat: widget.destinationPosition!.geometry!.location!.lat!,
-        lang: widget.destinationPosition!.geometry!.location!.lng!,
-        name: widget.destinationPosition!.name!));
+    if (rideType == "offer") {
+      final RideOfferCubit offerCubit =
+          BlocProvider.of<RideOfferCubit>(context);
+      offerCubit.setSource(Coordinate(
+          lat: widget.sourcePosition!.geometry!.location!.lat!,
+          lang: widget.sourcePosition!.geometry!.location!.lng!,
+          name: widget.sourcePosition!.name!));
+      offerCubit.setDestination(Coordinate(
+          lat: widget.destinationPosition!.geometry!.location!.lat!,
+          lang: widget.destinationPosition!.geometry!.location!.lng!,
+          name: widget.destinationPosition!.name!));
+    } else {
+      final RideRequestCubit rideRequestCubit =
+          BlocProvider.of<RideRequestCubit>(context);
+      rideRequestCubit.setSource(Coordinate(
+          lat: widget.sourcePosition!.geometry!.location!.lat!,
+          lang: widget.sourcePosition!.geometry!.location!.lng!,
+          name: widget.sourcePosition!.name!));
+      rideRequestCubit.setDestination(Coordinate(
+          lat: widget.destinationPosition!.geometry!.location!.lat!,
+          lang: widget.destinationPosition!.geometry!.location!.lng!,
+          name: widget.destinationPosition!.name!));
+    }
 
     Set<Marker> _markers = {
       Marker(
@@ -200,8 +215,7 @@ class _MapScreenState extends State<MapScreen> {
                         style: BlipFonts.title,
                       ),
                     ),
-                    addVerticalSpace(24),
-                    addVerticalSpace(10.0),
+                    addVerticalSpace(34),
                     _addLocationSearchField("source"),
                     addVerticalSpace(10.0),
                     _addLocationSearchField("destination"),

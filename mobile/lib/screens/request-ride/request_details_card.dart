@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/screens/request-ride/view_requested_rides.dart';
 import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
+import 'package:mobile/services/ride_request_service.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -10,6 +15,9 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 import 'package:mobile/fonts.dart';
+
+import '../../cubits/ride_request_cubit.dart';
+import '../../services/distance_duration_service.dart';
 
 class RequestDetailsCard extends StatefulWidget {
   const RequestDetailsCard({Key? key}) : super(key: key);
@@ -37,6 +45,8 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final RideRequestCubit rideRequestCubit =
+        BlocProvider.of<RideRequestCubit>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Column(
@@ -136,13 +146,41 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
           addVerticalSpace(20.0),
           WideButton(
             text: "I'll depart at around 8 AM in 2 days",
-            onPressedAction: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: ((context) => const RequestedTrips()),
-                ),
-              );
+            onPressedAction: () async {
+              Response response = await getDistanceAndTime(
+                  rideRequestCubit.state.source,
+                  rideRequestCubit.state.destination);
+              final res = json.decode(response.body);
+              if (response.statusCode == 200) {
+                print(res["rows"][0]["elements"]);
+              }
+              final distance = double.parse(res["rows"][0]["elements"][0]
+                      ["distance"]["text"]
+                  .split(' ')[0]);
+              print(distance);
+              final duration = int.parse(res["rows"][0]["elements"][0]
+                      ["duration"]["text"]
+                  .split(' ')[0]);
+              print(duration);
+              rideRequestCubit.setDistance((distance * 1.60934));
+              print("done");
+              rideRequestCubit.setDuration(duration);
+
+              Response postResponse = await postRequest(rideRequestCubit.state);
+              if (postResponse.statusCode == 200) {
+                print("Success! " + postResponse.body);
+                if (!mounted) {
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const RequestedTrips()),
+                  ),
+                );
+              } else {
+                print("Error! " + postResponse.body);
+              }
             },
           ),
         ],

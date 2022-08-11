@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -10,8 +11,11 @@ import 'package:mobile/fonts.dart';
 
 import 'package:mobile/models/ride_offer_search_result.dart';
 
+import '../../cubits/ride_request_cubit.dart';
+
 class RideOfferResultList extends StatelessWidget {
   bool isChecked = false;
+  List selectedOffers = [];
   final List<RideOfferSearchResult> offers;
   final String type;
 
@@ -31,6 +35,8 @@ class RideOfferResultList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RideRequestCubit rideRequestCubit =
+        BlocProvider.of<RideRequestCubit>(context);
     return Scrollbar(
       thumbVisibility: true,
       child: ListView.builder(
@@ -118,6 +124,17 @@ class RideOfferResultList extends StatelessWidget {
                                         value: isChecked,
                                         onChanged: (bool? value) {
                                           isChecked = value!;
+                                          if (isChecked) {
+                                            selectedOffers
+                                                .add(offers[index].id);
+                                          } else {
+                                            selectedOffers
+                                                .remove(offers[index].id);
+                                            ;
+                                          }
+                                          rideRequestCubit
+                                              .setOffers(selectedOffers);
+                                          print(selectedOffers);
                                         },
                                       ),
                                     )
