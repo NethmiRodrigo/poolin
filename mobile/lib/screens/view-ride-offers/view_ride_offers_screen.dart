@@ -15,14 +15,14 @@ import 'package:mobile/custom/lists/ride_offer_result_list.dart';
 
 import 'package:mobile/constants/search_offer_results.dart';
 
-class RideOfferResultsScreen extends StatefulWidget {
-  const RideOfferResultsScreen({Key? key}) : super(key: key);
+class ViewRideOffersScreen extends StatefulWidget {
+  const ViewRideOffersScreen({Key? key}) : super(key: key);
 
   @override
-  State<RideOfferResultsScreen> createState() => _RideOfferResultsScreenState();
+  State<ViewRideOffersScreen> createState() => _ViewRideOffersScreenState();
 }
 
-class _RideOfferResultsScreenState extends State<RideOfferResultsScreen> {
+class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
   final _storage = const FlutterSecureStorage();
   var sourceLocation = {};
   var destinationLocation = {};
@@ -142,9 +142,9 @@ class _RideOfferResultsScreenState extends State<RideOfferResultsScreen> {
                   ),
                   addVerticalSpace(20.0),
                   Expanded(
-                    child: RideOfferResultList(_rideOffers),
+                    child: RideOfferResultList(_rideOffers, "view"),
                   ),
-                  addVerticalSpace(10.0),
+                  addVerticalSpace(30.0),
                   WideButton(
                     onPressedAction: () {
                       Navigator.push(
@@ -155,7 +155,7 @@ class _RideOfferResultsScreenState extends State<RideOfferResultsScreen> {
                         ),
                       );
                     },
-                    text: "Don't like any offers? Post a ride request",
+                    text: "Proceed",
                   )
                 ],
               ),
