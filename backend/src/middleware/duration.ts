@@ -12,7 +12,7 @@ export const getDuration = async (start, end) => {
 
   await axios(config)
     .then(async function (response) {
-      var encodedString =
+      const encodedString =
         response.data["rows"][0]["elements"][0]["duration"]["text"].split(" ");
 
       if (encodedString[2]) {
