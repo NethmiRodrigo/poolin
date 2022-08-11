@@ -18,7 +18,6 @@ app.listen(process.env.PORT, async () => {
   try {
     await AppDataSource.initialize();
     console.log("Database is connected!");
-    getPolyline();
   } catch (error) {
     console.log(error);
   }

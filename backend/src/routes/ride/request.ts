@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { geojsonToWKT } from "@terraformer/wkt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
@@ -69,6 +70,34 @@ export const getActiveRequest = async (req: Request, res: Response) => {
   return res
     .status(200)
     .json({ success: "Ride Offer fetched successfully", request });
+};
+
+export const getAvailableOffers = async (req: Request, res: Response) => {
+  const { srcLat, srcLong, destLat, destLong } = req.query;
+  const start = {
+    type: "Point",
+    coordinates: [srcLat, srcLong],
+  };
+  const srcGeom = geojsonToWKT(start);
+
+  const end = {
+    type: "Point",
+    coordinates: [destLat, destLong],
+  };
+  const destGeom = geojsonToWKT(end);
+
+  const offers = await RideOffer.createQueryBuilder("offer")
+    .select("offer.id")
+    .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
+      point: srcGeom,
+    })
+    .andWhere("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
+      point: destGeom,
+    })
+    .andWhere("offer.status IN ('active')")
+    .getRawMany();
+  console.log(offers);
+  return res.status(200).json({ success: "Received available offers" });
 };
 
 export const getRequestDetails = async (req: Request, res: Response) => {

@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
+import { geojsonToWKT } from "@terraformer/wkt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
+import { getPolyline } from "../../middleware/polyline";
 
 export const postRideOffer = async (req: Request, res: Response) => {
   const { email, src, dest, seats, ppkm, startTime, endTime, distance } =
@@ -23,6 +25,11 @@ export const postRideOffer = async (req: Request, res: Response) => {
       type: "Point",
       coordinates: [dest.lat, dest.long],
     },
+    polyline: {
+      type: "LineString",
+      coordinates: await getPolyline(src, dest),
+    },
+
     departureTime: startTime,
     arrivalTime: endTime,
     pricePerKm: ppkm,
@@ -31,6 +38,7 @@ export const postRideOffer = async (req: Request, res: Response) => {
   });
 
   await newOffer.save();
+
   return res.status(200).json({ success: "Ride Offer posted successfully" });
 };
 

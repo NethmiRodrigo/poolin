@@ -1,19 +1,12 @@
-import { OfferRoute } from "../database/entity/OfferRoute";
-
-export const getPolyline = () => {
+export const getPolyline = async (start, end) => {
+  const startPoint = [start.lat, start.long].join("%2C");
+  const endPoint = [end.lat, end.long].join("%2C");
   var axios = require("axios");
+  console.log(startPoint);
+  console.log(endPoint);
 
   const api_key = "AIzaSyB5PFapIypRNpwikmNQG3WNbi2JUHOpgoQ";
-
-  /**
-   * refer to https://developers.google.com/maps/documentation/directions/get-directions#DirectionsRequests for more info
-   */
-
-  // coordinates of start point appended with '%2C'
-  const startPoint = "6.891910722041444%2C79.85974075584645";
-
-  // coordinates of end point appended with '%2C'
-  const endPoint = "6.8916558905925065%2C79.85739109069216";
+  var results = [];
 
   var config = {
     method: "get",
@@ -23,31 +16,15 @@ export const getPolyline = () => {
 
   var polyline = require("google-polyline");
 
-  axios(config)
-    .then(function (response) {
+  await axios(config)
+    .then(async function (response) {
       var encodedString = response.data.routes[0].overview_polyline.points;
-      var results = polyline.decode(encodedString);
-
-      const offerRoute = new OfferRoute({
-        polylineStart: {
-          type: "LineString",
-          coordinates: results,
-        },
-
-        polylineEnd: {
-          type: "LineString",
-          coordinates: results,
-        },
-
-        from: startPoint,
-        to: endPoint,
-      });
-
-      offerRoute.save();
-      //   console.log(secondHalf);
+      results = polyline.decode(encodedString);
       console.log(results);
+      return results;
     })
     .catch(function (error) {
       console.log(error);
     });
+  return results;
 };
