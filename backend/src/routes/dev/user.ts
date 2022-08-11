@@ -23,3 +23,16 @@ export const createUser = async (req: Request, res: Response) => {
 
   return res.status(200).json({ user, record });
 };
+
+export const createNode = async (req: Request, res: Response) => {
+  const { name, mobile, user_id } = req.body;
+
+  const statement =
+    'CREATE (a:User) SET a.user_id = $user_id, a.mobile = $mobile, a.name = $name RETURN a.user_id + ", from node " + id(a)';
+
+  const params = { user_id: user_id, mobile: mobile, name };
+
+  const result = await executeCypherQuery(statement, params);
+
+  return res.status(200).json(result.records[0].get(0));
+};
