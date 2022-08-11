@@ -2,6 +2,7 @@ const axios = require("axios");
 
 export const getDuration = async (start, end) => {
   const api_key = process.env.MAPS_API_KEY;
+  let duration = 0;
 
   const config = {
     method: "get",
@@ -11,7 +12,14 @@ export const getDuration = async (start, end) => {
 
   try {
     const response = await axios(config);
-    const duration = response.data.rows[0].elements[0].duration.value;
+    const encodedString =
+      response.data.rows[0].elements[0].duration.text.split(" ");
+    if (encodedString[2]) {
+      duration =
+        parseInt(encodedString[0]) * 60 + parseInt(encodedString[2]) * 1;
+    } else {
+      duration = encodedString[0];
+    }
     return duration;
   } catch (error) {
     console.log(error);
