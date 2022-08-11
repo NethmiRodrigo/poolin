@@ -11,6 +11,7 @@ import { AppDataSource } from "../../data-source";
 import { EntityMetadata } from "typeorm";
 import { IsPhoneValid, smsOTP } from "../../util/auth-helper";
 import { VerificationStatus } from "../../database/entity/TempUser";
+import { findFriendsOfAUser } from "../friends/util";
 
 export const updateInfo = async (req: Request, res: Response) => {
   const user: User = res.locals.user;
@@ -114,7 +115,11 @@ export const getUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const user = await User.findOneBy({ id: +id });
+
   if (!user) throw new AppError(404, { error: "User not found" });
 
-  return res.status(200).json({ user });
+  const friends = await findFriendsOfAUser(user.id.toFixed(1), 1);
+  const result = { ...user, friends };
+
+  return res.status(200).json(result);
 };
