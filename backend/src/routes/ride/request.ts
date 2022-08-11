@@ -91,6 +91,11 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   };
   const destGeom = geojsonToWKT(end);
 
+  //STD_Within checks for points that are within a given distance of a given polyline.
+  //We do this for start and end points of a request, checking whether they intersect with the polyline for each offer.
+  //Note : 0.002 is the optimal threhold value that was found by trial and error.
+  //All points and lines need to have the SRID value of 4326.
+
   const intersectingOffers = await RideOffer.createQueryBuilder("offer")
     .select([
       "offer.id, offer.departureTime, ST_AsText(offer.fromGeom) as from",
@@ -103,6 +108,8 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     })
     .andWhere("offer.status IN ('active')")
     .getRawMany();
+
+  //from the result set, we filter out offers that are not available at the time of the request
 
   const onTimeOffers = intersectingOffers.filter(async function (offer) {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
