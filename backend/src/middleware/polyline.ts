@@ -6,7 +6,6 @@ export const getPolyline = async (start, end) => {
   const endPoint = [end.lat, end.long].join("%2C");
 
   const api_key = process.env.MAPS_API_KEY;
-  let results = [];
 
   const config = {
     method: "get",
@@ -14,14 +13,12 @@ export const getPolyline = async (start, end) => {
     headers: {},
   };
 
-  await axios(config)
-    .then(async function (response) {
-      const encodedString = response.data.routes[0].overview_polyline.points;
-      results = polyline.decode(encodedString);
-      return results;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  return results;
+  try {
+    const response = await axios(config);
+    const encodedString = response.data.routes[0].overview_polyline.points;
+    const results = polyline.decode(encodedString);
+    return results;
+  } catch (error) {
+    console.log(error);
+  }
 };
