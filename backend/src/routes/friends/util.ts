@@ -2,7 +2,7 @@ import { Node } from "neo4j-driver";
 import { User } from "../../database/entity/User";
 import { executeCypherQuery } from "../../service/neo-service";
 
-export const findUsers = async (contacts: Array<String>) => {
+export const findUsersByMobile = async (contacts: Array<String>) => {
   let users = [];
   let promises = [];
   contacts.forEach((contact: string) =>
@@ -17,15 +17,7 @@ export const findUsers = async (contacts: Array<String>) => {
   return users;
 };
 
-export const findFriendsOfAUser = async (userid, level) => {
-  const statement = `MATCH (:User { user_id: $id })-[:TRUSTS*${level}..${level}]-(n) RETURN n`;
-
-  const params = {
-    id: userid,
-  };
-
-  const result = await executeCypherQuery(statement, params);
-
+const findUsersWithNeoResult = async (result) => {
   let users = [];
   let userPromises = [];
 
@@ -51,4 +43,41 @@ export const findFriendsOfAUser = async (userid, level) => {
   }
 
   return users;
+};
+
+export const findFriendsOfAUser = async (userid, level) => {
+  const statement = `MATCH (:User { user_id: $id })-[:TRUSTS*${level}..${level}]-(n) RETURN n`;
+
+  const params = {
+    id: userid,
+  };
+
+  const result = await executeCypherQuery(statement, params);
+
+  const users = await findUsersWithNeoResult(result);
+
+  return users;
+};
+
+export const findMutualFriends = async (user_id, friend_id) => {
+  const statement = `MATCH (start1 {user_id: $user_id})-[*..2]->(main), (start2 {user_id: $friend_id})-[*..2]->(main) RETURN main`;
+  const params = { user_id, friend_id };
+
+  const result = await executeCypherQuery(statement, params);
+  const users = await findUsersWithNeoResult(result);
+
+  return users;
+};
+
+export const findFriendLevelOfUser = async (user_id, friend_id) => {
+  const statement = `MATCH p=shortestPath((user:User)-[:TRUSTS*1..15]-(friend:User)) 
+  WHERE user.user_id=$user_id AND friend.user_id=$friend_id
+  RETURN p`;
+  const params = { user_id, friend_id };
+
+  const result = await executeCypherQuery(statement, params);
+
+  if (result.records && result.records.length)
+    return result.records[0].get(0).length;
+  else return -1;
 };

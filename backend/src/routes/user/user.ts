@@ -11,7 +11,11 @@ import { AppDataSource } from "../../data-source";
 import { EntityMetadata } from "typeorm";
 import { IsPhoneValid, smsOTP } from "../../util/auth-helper";
 import { VerificationStatus } from "../../database/entity/TempUser";
-import { findFriendsOfAUser } from "../friends/util";
+import {
+  findFriendLevelOfUser,
+  findFriendsOfAUser,
+  findMutualFriends,
+} from "../friends/util";
 
 export const updateInfo = async (req: Request, res: Response) => {
   const user: User = res.locals.user;
@@ -113,13 +117,29 @@ export const updateProfileImage = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const currentUser: User = res.locals.user;
 
   const user = await User.findOneBy({ id: +id });
 
   if (!user) throw new AppError(404, { error: "User not found" });
 
   const friends = await findFriendsOfAUser(user.id.toFixed(1), 1);
-  const result = { ...user, friends };
+  const mutuals = await findMutualFriends(
+    currentUser.id.toFixed(1),
+    user.id.toFixed(1)
+  );
+
+  const friend_level = await findFriendLevelOfUser(
+    currentUser.id.toFixed(1),
+    user.id.toFixed(1)
+  );
+
+  const result = {
+    ...user,
+    friends,
+    mutuals,
+    friend_level: friend_level > 0 && mutuals.length > 0 ? friend_level : 0,
+  };
 
   return res.status(200).json(result);
 };

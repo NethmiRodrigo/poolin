@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { User } from "../../database/entity/User";
 import { executeCypherQuery } from "../../service/neo-service";
-import { findFriendsOfAUser, findUsers } from "./util";
+import { findFriendsOfAUser, findUsersByMobile } from "./util";
 
 export const findFriendsFromContacts = async (req: Request, res: Response) => {
   const { contacts } = req.body;
 
-  const friends = await findUsers(contacts);
+  const friends = await findUsersByMobile(contacts);
 
   return res.status(200).json({ friends });
 };
@@ -15,7 +15,7 @@ export const addFriends = async (req: Request, res: Response) => {
   const { contacts } = req.body;
   const currentUser: User = res.locals.user;
 
-  const users = await findUsers(contacts);
+  const users = await findUsersByMobile(contacts);
 
   if (!users.length)
     return res.status(200).json({ message: "Could not find any users" });
