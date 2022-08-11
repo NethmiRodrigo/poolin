@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import { geojsonToWKT } from "@terraformer/wkt";
+var addMinutes = require("date-fns/addMinutes");
+import { wktToGeoJSON } from "@terraformer/wkt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
+import { parseJSON, subMinutes } from "date-fns";
+import { getDuration } from "../../middleware/duration";
+import { off } from "process";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { email, offers, src, dest, startTime, window, distance, price } =
@@ -73,7 +78,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 };
 
 export const getAvailableOffers = async (req: Request, res: Response) => {
-  const { srcLat, srcLong, destLat, destLong } = req.query;
+  const { srcLat, srcLong, destLat, destLong, startTime, window } = req.query;
   const start = {
     type: "Point",
     coordinates: [srcLat, srcLong],
@@ -86,8 +91,10 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   };
   const destGeom = geojsonToWKT(end);
 
-  const offers = await RideOffer.createQueryBuilder("offer")
-    .select("offer.id")
+  const intersectingOffers = await RideOffer.createQueryBuilder("offer")
+    .select([
+      "offer.id, offer.departureTime, ST_AsText(offer.fromGeom) as from",
+    ])
     .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: srcGeom,
     })
@@ -96,8 +103,23 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     })
     .andWhere("offer.status IN ('active')")
     .getRawMany();
-  console.log(offers);
-  return res.status(200).json({ success: "Received available offers" });
+
+  const onTimeOffers = intersectingOffers.filter(async function (offer) {
+    const departurePoint = wktToGeoJSON(offer.from).coordinates;
+    const duration = await getDuration(
+      { lat: departurePoint[0], long: departurePoint[1] },
+      { lat: srcLat, long: srcLong }
+    );
+    const pickupTime = addMinutes(offer.departureTime, duration);
+
+    return (
+      subMinutes(parseJSON(startTime as string), +window) <= pickupTime &&
+      pickupTime <= addMinutes(parseJSON(startTime as string), +window)
+    );
+  });
+
+  const offers = onTimeOffers;
+  return res.status(200).json({ success: "Received available offers", offers });
 };
 
 export const getRequestDetails = async (req: Request, res: Response) => {
