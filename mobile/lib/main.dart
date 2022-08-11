@@ -4,16 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile/app.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/screens/request-ride/view_requested_rides.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
-import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
-
-import './theme.dart';
+import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/theme.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -45,8 +40,9 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color(0xffff8210),
             splash: "assets/images/poolin.gif",
             splashIconSize: 2500,
-            nextScreen: const ViewRideOffersScreen()),
+            nextScreen: const App()),
         debugShowCheckedModeBanner: false,
+        routes: {"/rider": ((context) => const RiderHomeScreen())},
       ),
     );
   }
