@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { geojsonToWKT } from "@terraformer/wkt";
-var addMinutes = require("date-fns/addMinutes");
 import { wktToGeoJSON } from "@terraformer/wkt";
 
 /** Entities */
@@ -8,9 +7,8 @@ import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
-import { parseJSON, subMinutes } from "date-fns";
+import { parseJSON, subMinutes, addMinutes } from "date-fns";
 import { getDuration } from "../../middleware/duration";
-import { off } from "process";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { email, offers, src, dest, startTime, window, distance, price } =
