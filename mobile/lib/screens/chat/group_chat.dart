@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/screens/chat/received_msg_widget.dart';
-import 'package:mobile/screens/chat/sent_msg_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:mobile/colors.dart';
@@ -9,6 +7,8 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/models/message.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/utils/widget_functions.dart';
+import 'package:mobile/screens/chat/received_msg_widget.dart';
+import 'package:mobile/screens/chat/sent_msg_widget.dart';
 
 class GroupChat extends StatefulWidget {
   const GroupChat({Key? key}) : super(key: key);
@@ -83,37 +83,7 @@ class _GroupChatState extends State<GroupChat> {
     } catch (e) {
       print(e);
     }
-
-    // try {
-    //   socket = IO.io(socketServer, <String, dynamic>{
-    //     'transports': ['websocket'],
-    //     'autoConnect': true,
-    //   });
-
-    //   socket.connect();
-
-    //   socket.onConnect((data) => {print('Connect: ${socket.id}')});
-
-    //   socket.on("chat-message", (data) async {
-    //     // var message = Message(
-    //     //   senderID: data['senderID'],
-    //     //   msg: data['msg'],
-    //     // );
-    //     // messages.add(message);
-    //     print(data);
-    //   });
-    // } catch (e) {
-    //   print(e.toString());
-    // }
   }
-
-  // void sendMessage(String senderID, String msg) {
-  //   var data = {
-  //     'message': {'senderID': senderID, 'msg': msg},
-  //     'room': tripID.toString(),
-  //   };
-  //   socket.emit('chat-message', data);
-  // }
 
   void sendMessage(String senderID, String msg) {
     Message newMessage = Message(senderID: senderID, msg: msg);

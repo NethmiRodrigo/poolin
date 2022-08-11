@@ -15,7 +15,7 @@ class ReceivedMessage extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.centerLeft,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: size.width * 0.6,
