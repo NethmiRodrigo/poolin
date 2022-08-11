@@ -1,12 +1,12 @@
-export const getDuration = async (start, end) => {
-  var axios = require("axios");
-  console.log(start["lat"]);
-  const api_key = "AIzaSyB5PFapIypRNpwikmNQG3WNbi2JUHOpgoQ";
-  var duration = 0;
+const axios = require("axios");
 
-  var config = {
+export const getDuration = async (start, end) => {
+  const api_key = process.env.MAPS_API_KEY;
+  let duration = 0;
+
+  const config = {
     method: "get",
-    url: `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${start.lat},${start.long}&destinations=${end.lat},${end.long}&key=${api_key}`,
+    url: `${process.env.DISTANCE_MATRIX_API_URL}?units=imperial&origins=${start.lat},${start.long}&destinations=${end.lat},${end.long}&key=${api_key}`,
     headers: {},
   };
 

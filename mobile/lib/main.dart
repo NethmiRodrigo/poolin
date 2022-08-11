@@ -12,6 +12,7 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/screens/current-ride/track_driver.dart';
 import 'package:mobile/screens/home/driver_home.dart';
+import 'package:mobile/screens/register/register_screen.dart';
 
 import './theme.dart';
 
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color(0xffff8210),
             splash: "assets/images/poolin.gif",
             splashIconSize: 2500,
-            nextScreen: const DriverHomeScreen()),
+            nextScreen: const RegisterScreen()),
         debugShowCheckedModeBanner: false,
       ),
     );
