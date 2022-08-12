@@ -5,6 +5,7 @@ import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
+import { AppDataSource } from "../../data-source";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { email, offers, src, dest, startTime, window, distance, price } =
@@ -43,7 +44,7 @@ export const postRideRequests = async (req: Request, res: Response) => {
     await requestToOffer.save();
   });
 
-  return res.status(200).json({ success: "Ride Offer posted successfully" });
+  return res.status(200).json({ success: "Ride Requests posted successfully" });
 };
 
 export const getActiveRequest = async (req: Request, res: Response) => {
@@ -71,12 +72,43 @@ export const getActiveRequest = async (req: Request, res: Response) => {
     .json({ success: "Ride Offer fetched successfully", request });
 };
 
+const findRequestById = async (requests) => {
+  let result = [];
+  let requestPromises = [];
+  requests.map((request_id) => {
+    requestPromises.push(
+      RideRequest.createQueryBuilder("request")
+        //join happens as property of parent
+        .leftJoinAndSelect("request.requestToOffers", "rto")
+        .where("request.id = :id", { id: +request_id })
+        .leftJoinAndSelect("request.user", "user")
+        .select([
+          "user.firstname AS fname",
+          "user.lastname AS lname",
+          "user.id AS id",
+          "user.profileImageUri as avatar",
+          "request.from AS pickup",
+          "request.to AS dropOff",
+          "request.departureTime AS startTime",
+          "request.updatedAt AS updatedAt",
+        ])
+        .getRawMany()
+    );
+  });
+  const requestValues = await Promise.all(requestPromises);
+  requestValues.map((request) => {
+    if (request) result.push(requestValues[0]);
+  });
+
+  return result;
+};
+
 export const getRequestDetails = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const request = await RideRequest.createQueryBuilder("request")
     //join happens as property of parent
-    .leftJoinAndSelect("offer.requestsToOffer", "rto")
+    .leftJoinAndSelect("request.requestToOffers", "rto")
     .where("request.id = :id", { id: +id })
     .leftJoinAndSelect("request.user", "user")
     .select([
@@ -86,7 +118,7 @@ export const getRequestDetails = async (req: Request, res: Response) => {
       "user.profileImageUri as avatar",
       "request.from AS pickup",
       "request.to AS dropOff",
-      "request.startTime AS startTime",
+      "request.departureTime AS startTime",
       "request.updatedAt AS updatedAt",
     ])
     .getRawMany();
@@ -94,4 +126,36 @@ export const getRequestDetails = async (req: Request, res: Response) => {
   return res
     .status(200)
     .json({ success: "Ride Request fetched successfully", request });
+};
+
+export const acceptRequests = async (req: Request, res: Response) => {
+  const { requests, offer } = req.body;
+
+  const requestRepository = AppDataSource.getRepository(RequestToOffer);
+
+  let result = [];
+  let requestPromises = [];
+  requests.map((request_id) => {
+    requestPromises.push(
+      requestRepository.find({
+        relations: { request: true, offer: true },
+        where: {
+          request: {
+            id: +request_id,
+          },
+          offer: {
+            id: +offer,
+          },
+        },
+      })
+    );
+  });
+  const requestValues = await Promise.all(requestPromises);
+  requestValues.map((request: RideRequest) => {
+    if (request) console.log(request.requestToOffers);
+  });
+
+  console.log("result", requestValues);
+
+  return res.status(200).json(result);
 };

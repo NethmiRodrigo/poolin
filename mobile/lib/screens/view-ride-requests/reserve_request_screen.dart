@@ -93,7 +93,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
               // Text(widget.request["fname"]),
               BackwardButton(),
               addVerticalSpace(16),
-              Text(
+              const Text(
                 'Reservation Request',
                 style: BlipFonts.title,
               ),
@@ -104,7 +104,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                   height: 160,
                   child: GoogleMap(
                     onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
+                    initialCameraPosition: const CameraPosition(
                       target: _center,
                       zoom: 12.0,
                     ),
@@ -135,27 +135,28 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                   ),
                   Column(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.check_box_outline_blank_rounded,
                         color: BlipColors.orange,
                         size: 16,
                       ),
                       CustomPaint(
-                          size: Size(1, 18),
+                          size: const Size(1, 18),
                           painter: DashedLineVerticalPainter()),
-                      Icon(EvaIcons.arrowIosDownward, color: BlipColors.orange),
+                      const Icon(EvaIcons.arrowIosDownward,
+                          color: BlipColors.orange),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.request["start"],
-                          style: BlipFonts.labelBold
-                              .merge(TextStyle(color: BlipColors.orange))),
+                          style: BlipFonts.labelBold.merge(
+                              const TextStyle(color: BlipColors.orange))),
                       addVerticalSpace(24),
                       Text(widget.request["end"],
-                          style: BlipFonts.labelBold
-                              .merge(TextStyle(color: BlipColors.orange))),
+                          style: BlipFonts.labelBold.merge(
+                              const TextStyle(color: BlipColors.orange))),
                     ],
                   )
                 ],
@@ -175,7 +176,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                         addVerticalSpace(16),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               "Rs. 5500",
                               style: BlipFonts.labelBold,
                             ),
@@ -197,12 +198,12 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                         addVerticalSpace(16),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               "0",
                               style: BlipFonts.labelBold,
                             ),
                             addHorizontalSpace(8),
-                            Indicator(
+                            const Indicator(
                                 icon: Icons.arrow_downward,
                                 text: "-1",
                                 color: BlipColors.red),
@@ -219,9 +220,11 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(widget.request["avatar"]),
-                      ),
+                      if (widget.request["avatar"] != null)
+                        CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(widget.request["avatar"]),
+                        ),
                       addHorizontalSpace(8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,22 +241,23 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                               Row(
                                 children: [
                                   //star icon
-                                  Icon(EvaIcons.star,
+                                  const Icon(EvaIcons.star,
                                       color: BlipColors.gold, size: 8),
                                   addHorizontalSpace(4),
-                                  Text(
+                                  const Text(
                                     "4.5",
                                     style: BlipFonts.tagline,
                                   ),
                                 ],
                               ),
                               addHorizontalSpace(8),
-                              Icon(
+                              const Icon(
                                 Icons.circle,
                                 size: 2,
                               ),
                               addHorizontalSpace(8),
-                              Text("250 ratings", style: BlipFonts.tagline),
+                              const Text("250 ratings",
+                                  style: BlipFonts.tagline),
                             ],
                           )
                         ],

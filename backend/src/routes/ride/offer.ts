@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
-import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 
 export const postRideOffer = async (req: Request, res: Response) => {

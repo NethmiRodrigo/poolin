@@ -10,7 +10,6 @@ import {
   ManyToOne,
 } from "typeorm";
 import { RequestToOffer } from "./RequestToOffer";
-import { RideRequest } from "./RideRequest";
 import { User } from "./User";
 
 export type Status = "active" | "completed" | "cancelled" | "booked";
