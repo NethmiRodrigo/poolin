@@ -11,6 +11,8 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
           email: '',
         ));
 
+  void setId(String id) => emit(state.copyWith(id: id));
+
   void setFirstName(String firstName) =>
       emit(state.copyWith(firstName: firstName));
 
