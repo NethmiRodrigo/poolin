@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
+import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/register/register_screen.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ActiveRideCubit>(
           create: (context) => ActiveRideCubit(),
         ),
+        BlocProvider<CurrentUserCubit>(
+          create: (context) => CurrentUserCubit(),
+        ),
       ],
       child: MaterialApp(
         title: 'Poolin',
@@ -44,7 +49,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color(0xffff8210),
             splash: "assets/images/poolin.gif",
             splashIconSize: 2500,
-            nextScreen: DestinationScreen()),
+            nextScreen: RiderHomeScreen()),
         debugShowCheckedModeBanner: false,
       ),
     );
