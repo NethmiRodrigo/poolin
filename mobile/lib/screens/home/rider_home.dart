@@ -195,12 +195,12 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
             ),
             addVerticalSpace(8),
             CloseFriendsList(_friends),
-            addVerticalSpace(24),
+            addVerticalSpace(16),
             const Text(
               'Ride offers',
               style: BlipFonts.title,
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.4,
               child: RideOfferList(_rideOffers),
             ),

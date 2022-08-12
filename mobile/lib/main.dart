@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: const Color(0xffff8210),
             splash: "assets/images/poolin.gif",
             splashIconSize: 2500,
-            nextScreen: RiderHomeScreen()),
+            nextScreen: const RiderHomeScreen()),
         debugShowCheckedModeBanner: false,
       ),
     );
