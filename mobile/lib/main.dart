@@ -9,6 +9,10 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import './theme.dart';
 
+import 'package:mobile/app.dart';
+import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/theme.dart';
+
 Future<void> main() async {
   await dotenv.load();
   if (defaultTargetPlatform == TargetPlatform.android) {
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
             splashIconSize: 2500,
             nextScreen: const GroupChat()),
         debugShowCheckedModeBanner: false,
+        routes: {"/rider": ((context) => const RiderHomeScreen())},
       ),
     );
   }
