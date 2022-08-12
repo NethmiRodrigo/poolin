@@ -23,8 +23,7 @@ class _RideHistoryState extends State<RideHistory> {
 
   final List<RideRequest> sampleRideRequestsList =
       TestData.testRideRequestsList;
-  final List<RideOffer> sampleRideOffersList =
-      TestData.testRideOffersList;
+  final List<RideOffer> sampleRideOffersList = TestData.testRideOffersList;
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +76,10 @@ class _RideHistoryState extends State<RideHistory> {
                   child: TabBarView(
                     children: [
                       UpcomingRidesList(sampleRideRequest, sampleRideOffer),
-                      CompletedRidesList(sampleRideRequestsList, sampleRideOffersList),
-                      CancelledRidesList(sampleRideRequestsList, sampleRideOffersList),
+                      CompletedRidesList(
+                          sampleRideRequestsList, sampleRideOffersList),
+                      CancelledRidesList(
+                          sampleRideRequestsList, sampleRideOffersList),
                     ],
                   ),
                 ),

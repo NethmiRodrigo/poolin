@@ -62,8 +62,8 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     final pendingRequestsJson = json.decode(requestData.data);
     pendingRequests = (pendingRequestsJson['requests']);
     final partyData = await getConfirmedRequests();
+
     confirmedRequests = json.decode(partyData.data)['requests'];
-    print(confirmedRequests![0]);
 
     setState(() {
       isVisible = true;
@@ -268,44 +268,45 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                       style: BlipFonts.heading,
                       textAlign: TextAlign.left,
                     ),
-                    Timeline(
-                      indicators: <Widget>[
-                        for (var request in confirmedRequests!)
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(request['avatar']),
-                          ),
-                      ],
-                      children: <Widget>[
-                        for (var request in confirmedRequests!)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(request['fname'] + " " + request['lname'],
-                                  style: BlipFonts.outline),
-                              Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: BlipColors.lightBlue,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    ('gets on at ' +
-                                            request['pickup'] +
-                                            " at " +
-                                            Jiffy(request['starttime'])
-                                                .format("h:mm a")
-                                                .split(" ")
-                                                .join(''))
-                                        .toUpperCase(),
-                                    style: BlipFonts.taglineBold.merge(
-                                        TextStyle(color: BlipColors.blue)),
-                                  )),
-                            ],
-                          ),
-                        //
-                      ],
-                    ),
+                    if (confirmedRequests != null)
+                      Timeline(
+                        indicators: <Widget>[
+                          for (var request in confirmedRequests!)
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(request['avatar']),
+                            ),
+                        ],
+                        children: <Widget>[
+                          for (var request in confirmedRequests!)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(request['fname'] + " " + request['lname'],
+                                    style: BlipFonts.outline),
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: BlipColors.lightBlue,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      ('gets on at ' +
+                                              request['pickup'] +
+                                              " at " +
+                                              Jiffy(request['starttime'])
+                                                  .format("h:mm a")
+                                                  .split(" ")
+                                                  .join(''))
+                                          .toUpperCase(),
+                                      style: BlipFonts.taglineBold.merge(
+                                          TextStyle(color: BlipColors.blue)),
+                                    )),
+                              ],
+                            ),
+                          //
+                        ],
+                      ),
                   ],
                 ),
               ),
