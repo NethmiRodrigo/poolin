@@ -8,6 +8,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/search_screen.dart';
+import 'package:mobile/services/interceptor/dio_service.dart';
+import 'package:mobile/services/ride_offer_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 

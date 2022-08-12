@@ -1,13 +1,15 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
 import 'package:mobile/screens/home/driver_home.dart';
 import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -39,6 +41,7 @@ class LoginScreenState extends State<LoginScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -48,15 +51,15 @@ class LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              Align(
+              const Align(
                   alignment: Alignment.topLeft,
-                  child: Icon(
+                  child: const Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
                   )),
               addVerticalSpace(48),
               Image.asset('assets/images/logo.png', height: 24),
-              Text(
+              const Text(
                 "Let's sign \nyou back in",
                 style: BlipFonts.display,
                 textAlign: TextAlign.left,
@@ -107,7 +110,7 @@ class LoginScreenState extends State<LoginScreen> {
                         text: TextSpan(
                             text: 'Forgot password?',
                             style: BlipFonts.outlineBold.merge(
-                              TextStyle(color: BlipColors.orange),
+                              const TextStyle(color: BlipColors.orange),
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -129,7 +132,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 await login(_email.text, _pass.text);
 
                             if (response.statusCode == 200) {
-                              var res = json.decode(response.body);
+                              var res = json.decode(response.data);
                               await _storage.write(
                                   key: 'TOKEN', value: res["token"]);
                               if (!mounted) {
@@ -139,8 +142,8 @@ class LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DriverHomeScreen()),
+                                    builder: (context) => DestinationScreen()),
+                                // const DriverHomeScreen()),
                               );
                             } else {}
                           }
@@ -151,12 +154,13 @@ class LoginScreenState extends State<LoginScreen> {
                         text: TextSpan(children: [
                           TextSpan(
                             text: 'Not a member? ',
-                            style: BlipFonts.outline,
+                            style: BlipFonts.outline.merge(
+                                const TextStyle(color: BlipColors.black)),
                           ),
                           TextSpan(
                               text: 'Sign Up',
                               style: BlipFonts.outlineBold.merge(
-                                TextStyle(color: BlipColors.orange),
+                                const TextStyle(color: BlipColors.orange),
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {

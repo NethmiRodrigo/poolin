@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor();
+
+  String baseURL = '${dotenv.env['API_URL']}/api';
+  late BaseOptions options;
 
   @override
   void onRequest(
@@ -24,25 +28,28 @@ class AuthInterceptor extends Interceptor {
     ];
 
     if (listOfPaths.contains(options.path.toString())) {
-      // if the endpoint is matched the list skip adding the token
+      // if the endpoint is matched the list skip adding the cookie
       options.headers.addAll({
-      'Content-Type': 'application/json',
-      'accept': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    });
-    return handler.next(options);
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      });
+      return handler.next(options);
     }
-
-    // load your token here and pass to the header
-    const storage = FlutterSecureStorage();
-    var token = await storage.read(key: 'TOKEN');
 
     options.headers.addAll({
       'Content-Type': 'application/json',
       'accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': token,
+      'Access-Control-Allow-Origin': '*'
     });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cookie = prefs.getString('cookie');
+
+    options.headers.addAll({
+      'cookies': cookie,
+    });
+
     return handler.next(options);
   }
 

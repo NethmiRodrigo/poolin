@@ -8,6 +8,7 @@ class DioService {
     dio.interceptors
       ..add(LogInterceptor())
       ..add(AuthInterceptor());
+
     return dio;
   }
 }
