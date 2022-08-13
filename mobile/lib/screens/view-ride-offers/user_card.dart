@@ -56,7 +56,7 @@ class UserCard extends StatelessWidget {
                             ),
                             addHorizontalSpace(8.0),
                             const Text(
-                              "25 Ratings",
+                              "250 Ratings",
                               style: BlipFonts.tagline,
                             )
                           ],
@@ -68,25 +68,35 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.grey,
                             ),
                             addHorizontalSpace(5.0),
-                            const Text("Lexus Primio", style: BlipFonts.outline)
+                            const Text("Lexus Primio",
+                                style: BlipFonts.outline),
+                                addHorizontalSpace(70.0),
+                            IconButton(
+                              alignment: Alignment.centerRight,
+                              icon: const Icon(
+                                Icons.chevron_right,
+                                color: BlipColors.grey,
+                              ),
+                              onPressed: () {},
+                            )
                           ],
                         )
                       ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.chevron_right,
-                        color: BlipColors.grey,
-                      ),
-                      onPressed: () {},
-                    )
-                  ],
-                )
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     IconButton(
+                //       icon: Icon(
+                //         Icons.chevron_right,
+                //         color: BlipColors.grey,
+                //       ),
+                //       onPressed: () {},
+                //     )
+                //   ],
+                // )
               ],
             )
           ],

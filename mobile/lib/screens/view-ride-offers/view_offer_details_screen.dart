@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/view-ride-offers/timeline.dart';
 import 'package:mobile/screens/view-ride-offers/user_card.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -79,7 +80,14 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                           addHorizontalSpace(10.0),
                           Expanded(
                             child: WideButton(
-                              onPressedAction: () {},
+                              onPressedAction: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RequestConfirmation()),
+                                );
+                              },
                               text: "Select Ride",
                             ),
                           ),
