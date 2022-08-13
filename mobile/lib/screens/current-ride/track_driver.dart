@@ -140,7 +140,6 @@ class _TrackDriverState extends State<TrackDriver> {
       Response response = await dio.get(
           "$apiURL?origins=${driverLoc.latitude}%2C${driverLoc.longitude}&destinations=${pickupLoc.latitude}%2C${pickupLoc.longitude}&key=$apiKey&mode=driving");
 
-      print(response.data);
 
       if (response.data["rows"][0]["elements"][0]["status"] == "OK") {
         int seconds =

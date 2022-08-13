@@ -7,15 +7,12 @@ import 'package:mobile/custom/role_tag.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideOfferCard extends StatelessWidget {
   final RideOffer rideOffer;
 
-  RideOfferCard(this.rideOffer, {Key? key}) : super(key: key);
+  const RideOfferCard(this.rideOffer, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

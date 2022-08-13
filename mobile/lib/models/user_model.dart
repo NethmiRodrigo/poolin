@@ -22,7 +22,7 @@ class User {
     this.stars = 0.0,
     this.totalRatings = 0,
     this.VehicleNum = '',
-    this.vehicleType = VehicleType.NA,
+    this.vehicleType = VehicleType.na,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
