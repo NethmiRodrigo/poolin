@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/screens/view-profile/driver_profile_screen.dart';
 import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
 
 import './theme.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
           splash: "assets/images/poolin.gif",
           splashIconSize: 2500,
           // nextScreen: const App(),
-          nextScreen: const RiderHomeScreen(),
+          nextScreen: const DriverProfileScreen(),
         ),
         debugShowCheckedModeBanner: false,
       ),

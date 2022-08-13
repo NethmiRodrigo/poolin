@@ -52,7 +52,9 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                   children: const [
                     CircleAvatar(
                       radius: 60.0,
-                      backgroundImage: AssetImage('assets/images/user.jpg'),
+                      backgroundImage: NetworkImage(
+                        'https://i.pravatar.cc/300?img=2',
+                      ),
                     ),
                     Positioned(
                       right: 10.0,
@@ -102,7 +104,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
-                                "4.8",
+                                "5.0",
                                 style: BlipFonts.labelBold,
                               ),
                               Text(
@@ -155,7 +157,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     style: BlipFonts.title,
                   ),
                   const Text(
-                    "  (20)",
+                    "  (5)",
                     style: BlipFonts.label,
                   ),
                   Spacer(),
@@ -183,10 +185,12 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     children: const [
                       CircleAvatar(
                         radius: 30.0,
-                        backgroundImage: AssetImage('assets/images/user.jpg'),
+                        backgroundImage: NetworkImage(
+                        'https://i.pravatar.cc/300?img=4',
+                      ),
                       ),
                       Text(
-                        "John",
+                        "Dulaj",
                         style: BlipFonts.outline,
                       ),
                     ],

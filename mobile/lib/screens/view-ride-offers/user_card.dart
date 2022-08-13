@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/view-profile/driver_profile_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class UserCard extends StatelessWidget {
@@ -70,14 +71,21 @@ class UserCard extends StatelessWidget {
                             addHorizontalSpace(5.0),
                             const Text("Lexus Primio",
                                 style: BlipFonts.outline),
-                                addHorizontalSpace(70.0),
+                            addHorizontalSpace(70.0),
                             IconButton(
                               alignment: Alignment.centerRight,
                               icon: const Icon(
                                 Icons.chevron_right,
                                 color: BlipColors.grey,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DriverProfileScreen()),
+                                );
+                              },
                             )
                           ],
                         )
