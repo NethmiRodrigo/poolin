@@ -116,7 +116,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return SizedBox(
-                height: constraints.maxHeight / 2,
+                height: constraints.maxHeight * 1 / 2,
                 child: GoogleMap(
                   onMapCreated: _onMapCreated,
                   polylines: Set<Polyline>.of(polylines.values),

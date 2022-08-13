@@ -42,9 +42,9 @@ class RideRequestList extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     SizedBox(
-                       width: size.width * 0.45,
+                      width: size.width * 0.45,
                       child: Text(
-                        requests[index].startLocation,
+                        requests[index].pickupLocation,
                         overflow: TextOverflow.ellipsis,
                         style: BlipFonts.outline,
                       ),
@@ -63,7 +63,7 @@ class RideRequestList extends StatelessWidget {
                     SizedBox(
                       width: size.width * 0.45,
                       child: Text(
-                        requests[index].destination,
+                        requests[index].dropoffLocation,
                         overflow: TextOverflow.ellipsis,
                         style: BlipFonts.outline,
                       ),

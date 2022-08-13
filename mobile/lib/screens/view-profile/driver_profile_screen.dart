@@ -1,3 +1,4 @@
+import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -30,30 +31,36 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             addVerticalSpace(32),
+              addVerticalSpace(32),
               Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
-                  )),
+                  ),
+                ),
+              ),
               addVerticalSpace(24),
               Align(
                 alignment: Alignment.topCenter,
                 child: Stack(
                   alignment: AlignmentDirectional.topCenter,
-                  children: [
+                  children: const [
                     CircleAvatar(
                       radius: 60.0,
                       backgroundImage: AssetImage('assets/images/user.jpg'),
                     ),
                     Positioned(
+                      right: 10.0,
+                      bottom: 0.0,
                       child: Icon(
                         PhosphorIcons.circleWavyCheckFill,
                         color: BlipColors.orange,
                       ),
-                      right: 10.0,
-                      bottom: 0.0,
                     ),
                   ],
                 ),
@@ -61,7 +68,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Column(
-                  children: [
+                  children: const [
                     Text(
                       "Yadeesha",
                       style: BlipFonts.title,
@@ -80,7 +87,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     border: Border.all(width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(
+                    borderRadius: const BorderRadius.all(Radius.circular(
                             7) //                 <--- border radius here
                         ),
                   ),
@@ -93,7 +100,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                           const Icon(EvaIcons.star, color: BlipColors.gold),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 "4.8",
                                 style: BlipFonts.labelBold,
@@ -111,10 +118,11 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                             endIndent: 0,
                             color: Colors.black,
                           ),
-                          const Icon(EvaIcons.navigation2, color:BlipColors.blue ),
+                          const Icon(EvaIcons.navigation2,
+                              color: BlipColors.blue),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text(
                                 "12",
                                 style: BlipFonts.labelBold,
@@ -130,30 +138,40 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                 ),
               ),
               addVerticalSpace(32),
-              Text(
+              const Text(
                 "Know your driver",
                 style: BlipFonts.title,
               ),
               addVerticalSpace(16),
-              Text(
+              const Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
                 style: BlipFonts.outline,
               ),
               addVerticalSpace(32),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "Mutual friends",
                     style: BlipFonts.title,
                   ),
-                  Text(
+                  const Text(
                     "  (20)",
                     style: BlipFonts.label,
                   ),
-                  Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: 15,
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      size: 15,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const MutualFriendsScreen()),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

@@ -11,7 +11,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth/index";
 import userRoutes from "./routes/user/index";
 import adminRoutes from "./routes/admin/index";
-import vehicleRoutes from "./routes/vehicle/index";
+import rideRoutes from "./routes/ride/index";
 
 /** Middleware */
 import trim from "./middleware/trim";
@@ -36,8 +36,8 @@ app.use(cookieParser());
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/vehicle", vehicleRoutes);
 app.use("/api/admin", [auth, forRole([Role.ADMIN])], adminRoutes);
+app.use("/api/ride", rideRoutes);
 
 // Upstream error handling
 if (process.env.NODE_ENV === "development") app.use(errorLogger);

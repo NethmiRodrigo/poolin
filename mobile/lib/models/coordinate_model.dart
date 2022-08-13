@@ -10,13 +10,13 @@ String coordinateToJson(Coordinate data) => json.encode(data.toJson());
 
 class Coordinate {
   Coordinate({
-    this.lat = "",
-    this.lang = "",
+    this.lat = 0,
+    this.lang = 0,
     this.name = "",
   });
 
-  String lat;
-  String lang;
+  double lat;
+  double lang;
   String name;
 
   factory Coordinate.fromJson(Map<String, dynamic> json) => Coordinate(

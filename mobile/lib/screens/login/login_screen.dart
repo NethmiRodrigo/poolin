@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
+import 'package:mobile/screens/home/driver_home.dart';
+import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -130,10 +132,16 @@ class LoginScreenState extends State<LoginScreen> {
                               var res = json.decode(response.body);
                               await _storage.write(
                                   key: 'TOKEN', value: res["token"]);
-
                               if (!mounted) {
                                 return;
                               }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DriverHomeScreen()),
+                              );
                             } else {}
                           }
                         }),

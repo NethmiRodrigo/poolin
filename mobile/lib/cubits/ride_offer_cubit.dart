@@ -23,6 +23,8 @@ class RideOfferCubit extends Cubit<RideOffer> {
       emit(state.copyWith(startTime: startTime));
 
   void setDuration(int duration) => emit(state.copyWith(duration: duration));
+
+  void setPerKilometerPrice(int ppkm) => emit(state.copyWith(ppkm: ppkm));
 }
 
 //class for information

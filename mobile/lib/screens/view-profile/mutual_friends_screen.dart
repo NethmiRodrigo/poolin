@@ -8,7 +8,6 @@ import 'package:mobile/utils/widget_functions.dart';
 import '../../../colors.dart';
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 
-
 class MutualFriendsScreen extends StatefulWidget {
   const MutualFriendsScreen({super.key});
 
@@ -36,13 +35,18 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
             children: [
               addVerticalSpace(32),
               Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      EvaIcons.arrowBackOutline,
+                      color: Colors.black,
+                    )),
+              ),
               addVerticalSpace(24),
-              Text(
+              const Text(
                 "Mutual Friends",
                 style: BlipFonts.display,
               ),
@@ -65,7 +69,6 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
                         prefixIcon: Icon(AkarIcons.search),
                         hintText: "Who are you looking for?",
                       ),
-                      
                     ),
                   ),
                 ],
@@ -95,12 +98,16 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
                       ],
                     ),
                     Spacer(),
-                    OutlineButton(text: "SEE PROFILE", color: BlipColors.black),
+                    OutlineButton(
+                      text: "SEE PROFILE",
+                      color: BlipColors.black,
+                      onPressedAction: () {},
+                    ),
                   ],
                 ),
               ),
               addVerticalSpace(24),
-             Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,7 +131,11 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
                       ],
                     ),
                     Spacer(),
-                    OutlineButton(text: "SEE PROFILE", color: BlipColors.black),
+                    OutlineButton(
+                      text: "SEE PROFILE",
+                      color: BlipColors.black,
+                      onPressedAction: () {},
+                    ),
                   ],
                 ),
               ),
