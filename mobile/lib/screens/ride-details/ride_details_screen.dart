@@ -1,12 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/dashed_line.dart';
 import 'package:mobile/custom/timeline.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../colors.dart';
 
@@ -37,11 +34,17 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
             children: [
               addVerticalSpace(24),
               Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
-                  )),
+                  ),
+                ),
+              ),
               addVerticalSpace(16),
               Text(
                 "You're going to \nColombo!",
@@ -77,122 +80,128 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
               addVerticalSpace(12),
               Container(
                   height: 200,
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Timeline(
-                        indicators: const <Widget>[
-                          Icon(
-                            Icons.circle,
-                            color: BlipColors.orange,
-                            size: 12,
-                          ),
-                          Icon(
-                            Icons.circle,
-                            color: BlipColors.black,
-                            size: 12,
-                          ),
-                          Icon(
-                            Icons.circle,
-                            color: BlipColors.black,
-                            size: 12,
-                          ),
-                          Icon(
-                            Icons.circle,
-                            color: BlipColors.orange,
-                            size: 12,
-                          ),
-                        ],
-                        children: <Widget>[
-                          Container(
-                            height: 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text('No.20, Borelasgamuwa',
-                                        style: BlipFonts.labelBold),
-                                    Spacer(),
-                                    Text('7:30 AM', style: BlipFonts.outline),
-                                  ],
-                                ),
-                              ],
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    child: ListView(
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        Timeline(
+                          indicators: const <Widget>[
+                            Icon(
+                              Icons.circle,
+                              color: BlipColors.orange,
+                              size: 12,
                             ),
-                          ),
-                          Container(
-                            height: 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('No.20, Borelasgamuwa',
-                                            style: BlipFonts.label),
-                                        Text('Pick up Sarah',
-                                            style: BlipFonts.outline),
-                                        addVerticalSpace(4),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Text('7:30 AM', style: BlipFonts.outline),
-                                  ],
-                                ),
-                              ],
+                            Icon(
+                              Icons.circle,
+                              color: BlipColors.black,
+                              size: 12,
                             ),
-                          ),
-                          Container(
-                            height: 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('No.20, Thunmulla',
-                                            style: BlipFonts.label),
-                                        Text('Drop off Sarah',
-                                            style: BlipFonts.outline),
-                                        addVerticalSpace(4),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Text('7:30 AM', style: BlipFonts.outline),
-                                  ],
-                                ),
-                              ],
+                            Icon(
+                              Icons.circle,
+                              color: BlipColors.black,
+                              size: 12,
                             ),
-                          ),
-                          Container(
-                            height: 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        'University of Colombo\nSchool of Computing',
-                                        style: BlipFonts.labelBold),
-                                    Spacer(),
-                                    Text('7:30 AM', style: BlipFonts.outline),
-                                  ],
-                                ),
-                              ],
+                            Icon(
+                              Icons.circle,
+                              color: BlipColors.orange,
+                              size: 12,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                          children: <Widget>[
+                            Container(
+                              height: 60,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text('No.20, Borelasgamuwa',
+                                          style: BlipFonts.labelBold),
+                                      Spacer(),
+                                      Text('7:30 AM', style: BlipFonts.outline),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 60,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('No.20, Borelasgamuwa',
+                                              style: BlipFonts.label),
+                                          Text('Pick up Sarah',
+                                              style: BlipFonts.outline),
+                                          addVerticalSpace(4),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Text('7:30 AM', style: BlipFonts.outline),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 60,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('No.20, Thunmulla',
+                                              style: BlipFonts.label),
+                                          Text('Drop off Sarah',
+                                              style: BlipFonts.outline),
+                                          addVerticalSpace(4),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Text('7:30 AM', style: BlipFonts.outline),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: 60,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          'University of Colombo\nSchool of Computing',
+                                          style: BlipFonts.labelBold),
+                                      Spacer(),
+                                      Text('7:30 AM', style: BlipFonts.outline),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   )),
               addVerticalSpace(32),
               Row(

@@ -4,7 +4,7 @@ import 'package:flutter_countdown_timer/index.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
+import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 class RideCountDown extends StatefulWidget {
   final int endTime;
@@ -27,6 +27,7 @@ class _RideCountDownState extends State<RideCountDown> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle whiteText = const TextStyle(color: BlipColors.white);
     final Size size = MediaQuery.of(context).size;
 
     return CountdownTimer(
@@ -53,7 +54,7 @@ class _RideCountDownState extends State<RideCountDown> {
               RichText(
                 text: TextSpan(
                   text: '${time.days}',
-                  style: BlipFonts.display,
+                  style: BlipFonts.display.merge(whiteText),
                   children: [
                     TextSpan(
                       text: time.days! > 1 ? ' days' : ' day',
@@ -97,7 +98,7 @@ class _RideCountDownState extends State<RideCountDown> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DestinationScreen(),
+                            builder: (context) => ViewRideRequestsScreen(),
                           ));
                     },
                   ),

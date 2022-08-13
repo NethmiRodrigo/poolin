@@ -46,6 +46,31 @@ export const postRideRequests = async (req: Request, res: Response) => {
   return res.status(200).json({ success: "Ride Offer posted successfully" });
 };
 
+export const getActiveRequest = async (req: Request, res: Response) => {
+  const email = req.query.email;
+
+  const user = await User.findOne({ where: { email: email as string } });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const request = await RideRequest.createQueryBuilder("request")
+    .where("request.status='confirmed'")
+    .leftJoinAndSelect("request.user", "user")
+    .where("user.email = :email", { email: email as string })
+    .select(["request.id AS id"])
+    .getRawOne();
+
+  if (!request) {
+    return res.status(404).json({ error: "No active request" });
+  }
+
+  return res
+    .status(200)
+    .json({ success: "Ride Offer fetched successfully", request });
+};
+
 export const getRequestDetails = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -62,6 +87,7 @@ export const getRequestDetails = async (req: Request, res: Response) => {
       "request.from AS pickup",
       "request.to AS dropOff",
       "request.startTime AS startTime",
+      "request.updatedAt AS updatedAt",
     ])
     .getRawMany();
 

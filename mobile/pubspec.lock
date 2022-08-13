@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.11"
+  animated_splash_screen:
+    dependency: "direct main"
+    description:
+      name: animated_splash_screen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
   animated_toggle_switch:
     dependency: "direct main"
     description:
@@ -35,7 +42,7 @@ packages:
       name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.0.3"
+    version: "8.1.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -106,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.6"
   eva_icons_flutter:
     dependency: "direct main"
     description:
@@ -113,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  expandable:
+    dependency: "direct main"
+    description:
+      name: expandable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -133,7 +154,7 @@ packages:
       name: fluentui_system_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.176"
+    version: "1.1.177"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -167,6 +188,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.2"
+  flutter_feather_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_feather_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+1"
   flutter_google_places:
     dependency: "direct main"
     description:
@@ -201,21 +229,21 @@ packages:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.2"
+    version: "5.1.0"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
       name: flutter_secure_storage_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   flutter_secure_storage_macos:
     dependency: transitive
     description:
       name: flutter_secure_storage_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   flutter_secure_storage_platform_interface:
     dependency: transitive
     description:
@@ -310,6 +338,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  google_map_polyline_new:
+    dependency: "direct main"
+    description:
+      name: google_map_polyline_new
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0+2"
   google_maps:
     dependency: transitive
     description:
@@ -365,7 +400,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.4"
+    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -387,6 +422,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  ionicons:
+    dependency: "direct main"
+    description:
+      name: ionicons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   jiffy:
     dependency: "direct main"
     description:
@@ -422,6 +464,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  location:
+    dependency: "direct main"
+    description:
+      name: location
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.4.0"
+  location_platform_interface:
+    dependency: transitive
+    description:
+      name: location_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
+  location_web:
+    dependency: transitive
+    description:
+      name: location_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   mapbox_search:
     dependency: "direct main"
     description:
@@ -470,7 +540,7 @@ packages:
       name: package_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.3"
+    version: "1.4.3+1"
   package_info_plus_linux:
     dependency: transitive
     description:
@@ -506,6 +576,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  page_transition:
+    dependency: transitive
+    description:
+      name: page_transition
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.9"
   path:
     dependency: transitive
     description:
@@ -513,6 +590,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.1"
+  persistent_bottom_nav_bar:
+    dependency: "direct main"
+    description:
+      name: persistent_bottom_nav_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.2"
   phosphor_flutter:
     dependency: "direct main"
     description:
@@ -574,6 +658,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  socket_io_client:
+    dependency: "direct main"
+    description:
+      name: socket_io_client
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  socket_io_common:
+    dependency: transitive
+    description:
+      name: socket_io_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   source_span:
     dependency: transitive
     description:
@@ -615,14 +713,14 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.2.40"
+    version: "20.2.43"
   syncfusion_flutter_sliders:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_sliders
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.2.40"
+    version: "20.2.43"
   term_glyph:
     dependency: transitive
     description:
