@@ -21,7 +21,6 @@ class RiderHomeScreen extends StatefulWidget {
 }
 
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
-  final _storage = const FlutterSecureStorage();
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
 
@@ -33,6 +32,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now(),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      profilePicture: 'https://i.pravatar.cc/300?img=1',
     ),
     RideOffer(
       id: '2',
@@ -41,14 +41,16 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      profilePicture: 'https://i.pravatar.cc/300?img=4',
     ),
     RideOffer(
       id: '3',
-      startLocation: 'Negambo town',
-      destination: 'Baththaramulla',
+      startLocation: 'Piliyandala',
+      destination: 'Nugegoda Bus stand',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      profilePicture: 'https://i.pravatar.cc/300?img=3',
     ),
     RideOffer(
       id: '4',
@@ -62,12 +64,12 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   final List<Friend> _friends = [
     Friend(
         id: '1',
-        firstName: 'John',
+        firstName: 'Dulaj',
         lastName: 'Doe',
         profilePicture: 'https://i.pravatar.cc/300?img=4'),
     Friend(
         id: '2',
-        firstName: 'James',
+        firstName: 'Induwara',
         lastName: 'Anderson',
         profilePicture: 'https://i.pravatar.cc/300?img=3'),
     Friend(
@@ -91,7 +93,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
         lastName: 'Anderson',
         profilePicture: 'https://i.pravatar.cc/300?img=6'),
   ];
-  bool isRiding = true; //rider is riding if he currently has a ride
+  bool isRiding = false; //rider is riding if he currently has a ride
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +122,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                 ? RideCountDown(endTime)
                 : Container(
                     width: size.width,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(0),
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -130,10 +132,20 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          'See who else is travelling your way',
-                          style: BlipFonts.labelBold
-                              .merge(const TextStyle(color: BlipColors.white)),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 16,
+                            bottom: 16,
+                            left: 16,
+                          ),
+                          child: SizedBox(
+                            width: size.width * 0.7,
+                            child: Text(
+                              'See who else is travelling your way',
+                              style: BlipFonts.labelBold.merge(
+                                  const TextStyle(color: BlipColors.white)),
+                            ),
+                          ),
                         ),
                         Container(
                           alignment: Alignment.bottomRight,

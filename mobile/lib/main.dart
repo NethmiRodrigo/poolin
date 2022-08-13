@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           splash: "assets/images/poolin.gif",
           splashIconSize: 2500,
           // nextScreen: const App(),
-          nextScreen: DestinationScreen(),
+          nextScreen: const RiderHomeScreen(),
         ),
         debugShowCheckedModeBanner: false,
         routes: {"/rider": ((context) => const RiderHomeScreen())},

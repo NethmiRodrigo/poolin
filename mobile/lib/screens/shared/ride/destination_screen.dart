@@ -165,11 +165,11 @@ class DestinationScreenState extends State<DestinationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'University of Colombo',
+                              'Ladies\' College',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             Text(
-                              '206/A, Reid Avenue, Colombo 07',
+                              '66 Sir Ernest de Silva Mawatha, Colombo 7',
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ],
