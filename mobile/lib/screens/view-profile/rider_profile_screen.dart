@@ -102,7 +102,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                     "  (20)",
                     style: BlipFonts.label,
                   ),
-                  const Spacer(),
+                  Spacer(),
                   IconButton(
                     icon: const Icon(
                       Icons.arrow_forward_ios_outlined,

@@ -158,7 +158,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     "  (20)",
                     style: BlipFonts.label,
                   ),
-                  const Spacer(),
+                  Spacer(),
                   IconButton(
                     icon: const Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -168,7 +168,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: ((context) => const MutualFriendsScreen()),
+                          builder: (context) => const MutualFriendsScreen(),
                         ),
                       );
                     },
@@ -180,7 +180,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       CircleAvatar(
                         radius: 30.0,
                         backgroundImage: AssetImage('assets/images/user.jpg'),
@@ -192,7 +192,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       CircleAvatar(
                         radius: 30.0,
                         backgroundImage: AssetImage('assets/images/user.jpg'),
@@ -204,7 +204,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       CircleAvatar(
                         radius: 30.0,
                         backgroundImage: AssetImage('assets/images/user.jpg'),
@@ -216,7 +216,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       CircleAvatar(
                         radius: 30.0,
                         backgroundImage: AssetImage('assets/images/user.jpg'),
