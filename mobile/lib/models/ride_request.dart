@@ -14,7 +14,7 @@ class RideRequest {
   StatusType status;
   String pickupLocation;
   String dropoffLocation;
-  String profilePicture = 'https://i.pravatar.cc/300';
+  String profilePicture;
   DateTime requestedOn;
   DateTime pickupTime;
   DateTime dropoffTime;
@@ -30,6 +30,7 @@ class RideRequest {
     required this.pickupLocation,
     required this.dropoffLocation,
     required this.requestedOn,
+    required this.profilePicture,
     this.status = StatusType.pending,
     this.totalDistance = 0.0,
     this.rideFare = 0.00,
@@ -39,14 +40,14 @@ class RideRequest {
         this.dropoffTime = dropoffTime ?? DateTime.now();
 
   factory RideRequest.fromJson(Map<String, dynamic> json) => RideRequest(
-        id: json["id"],
-        rideID: json["rideID"],
-        driver: json["rider"],
-        status: json["status"],
-        pickupLocation: json["startLocation"],
-        dropoffLocation: json["destination"],
-        requestedOn: DateTime.parse(json["requestedOn"]),
-      );
+      id: json["id"],
+      rideID: json["rideID"],
+      driver: json["rider"],
+      status: json["status"],
+      pickupLocation: json["startLocation"],
+      dropoffLocation: json["destination"],
+      requestedOn: DateTime.parse(json["requestedOn"]),
+      profilePicture: json["profilePicture"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,

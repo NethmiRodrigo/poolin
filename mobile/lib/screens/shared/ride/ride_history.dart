@@ -18,12 +18,12 @@ class RideHistory extends StatefulWidget {
 }
 
 class _RideHistoryState extends State<RideHistory> {
-  final RideRequest sampleRideRequest = TestData.testRideRequest;
-  final RideOffer sampleRideOffer = TestData.testRideOffer;
+  // final RideRequest sampleRideRequest = TestData.testRideRequest;
+  // final RideOffer sampleRideOffer = TestData.testRideOffer;
 
-  final List<RideRequest> sampleRideRequestsList =
-      TestData.testRideRequestsList;
-  final List<RideOffer> sampleRideOffersList = TestData.testRideOffersList;
+  // final List<RideRequest> sampleRideRequestsList =
+  //     TestData.testRideRequestsList;
+  // final List<RideOffer> sampleRideOffersList = TestData.testRideOffersList;
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +75,11 @@ class _RideHistoryState extends State<RideHistory> {
                               BorderSide(color: BlipColors.black, width: 1.0))),
                   child: TabBarView(
                     children: [
-                      UpcomingRidesList(sampleRideRequest, sampleRideOffer),
-                      CompletedRidesList(
-                          sampleRideRequestsList, sampleRideOffersList),
-                      CancelledRidesList(
-                          sampleRideRequestsList, sampleRideOffersList),
+                      // UpcomingRidesList(sampleRideRequest, sampleRideOffer),
+                      // CompletedRidesList(
+                      //     sampleRideRequestsList, sampleRideOffersList),
+                      // CancelledRidesList(
+                      //     sampleRideRequestsList, sampleRideOffersList),
                     ],
                   ),
                 ),

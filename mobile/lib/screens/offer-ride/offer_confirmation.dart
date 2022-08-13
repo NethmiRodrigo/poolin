@@ -30,7 +30,9 @@ class OfferConfirmation extends StatelessWidget {
                           EvaIcons.arrowBackOutline,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                     addVerticalSpace(size.height * 0.12),
