@@ -38,16 +38,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
         rider: 'Nethmi Pathirana',
         date: DateTime.now(),
         profilePicture: 'https://i.pravatar.cc/150?img=47'),
-    PassengerRequest(
-        id: '3',
-        rider: 'Nethmi Rodrigo',
-        date: DateTime.now().subtract(const Duration(hours: 5)),
-        profilePicture: 'https://i.pravatar.cc/150?img=69'),
-    PassengerRequest(
-        id: '3',
-        rider: 'Azma Imtiaz',
-        date: DateTime.now().subtract(const Duration(hours: 5)),
-        profilePicture: 'https://i.pravatar.cc/150?img=3'),
   ];
   final List<RideRequest> _rideRequests = [
     RideRequest(
@@ -90,7 +80,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
         ),
         profilePicture: "https://i.pravatar.cc/150?img=3"),
   ];
-  bool isDriving = false; //driver is driving if he currently has a ride
+  bool isDriving = true; //driver is driving if he currently has a ride
 
   @override
   Widget build(BuildContext context) {

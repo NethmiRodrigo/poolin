@@ -2,11 +2,12 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/home/driver_home.dart';
 import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
-class RequestConfirmation extends StatelessWidget {
-  const RequestConfirmation({Key? key}) : super(key: key);
+class AcceptRequestConfirmation extends StatelessWidget {
+  const AcceptRequestConfirmation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class RequestConfirmation extends StatelessWidget {
                         width: size.width * 0.5),
                     addVerticalSpace(size.height * 0.05),
                     const Text(
-                      'Your request has been posted!\n We will let you know when once Yadeesha\n accepts your request',
+                      "Nethmi's request has been accepted!",
                       style: BlipFonts.outlineBold,
                       textAlign: TextAlign.center,
                     ),
@@ -51,7 +52,7 @@ class RequestConfirmation extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RiderHomeScreen()),
+                              builder: (context) => const DriverHomeScreen()),
                         );
                       },
                     )

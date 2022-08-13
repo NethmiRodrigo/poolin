@@ -54,7 +54,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                     CircleAvatar(
                       radius: 60.0,
                       backgroundImage: NetworkImage(
-                        'https://i.pravatar.cc/300?img=2',
+                        'https://i.pravatar.cc/300?img=3',
                       ),
                     ),
                     Positioned(
@@ -73,7 +73,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                 child: Column(
                   children: const [
                     Text(
-                      "Yadeesha",
+                      "Nethmi",
                       style: BlipFonts.title,
                     ),
                     Text(
@@ -132,7 +132,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                         backgroundImage: AssetImage('assets/images/user.jpg'),
                       ),
                       Text(
-                        "John",
+                        "Dulaj",
                         style: BlipFonts.outline,
                       ),
                     ],

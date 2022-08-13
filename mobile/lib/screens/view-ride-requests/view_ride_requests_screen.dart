@@ -11,6 +11,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/ride-details/ride_details_screen.dart';
 
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 
@@ -57,12 +58,27 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     super.dispose();
   }
 
-  getData() async {
-    final requestData = await getOfferRequests();
-    final pendingRequestsJson = json.decode(requestData.body);
-    pendingRequests = (pendingRequestsJson['requests']);
-    final partyData = await getConfirmedRequests();
-    confirmedRequests = json.decode(partyData.body)['requests'];
+  getData() {
+    pendingRequests = [
+      // {
+      //   "fname": "Nethmi",
+      //   "lname": "Pathirana",
+      //   "start": "Lionel Wendt Art Theatre",
+      //   "end": "Cinnamon Red",
+      //   "avatar": "https://i.pravatar.cc/150?img=3",
+      //   "requestid": 1,
+      //   "price": "250"
+      // }
+    ];
+    confirmedRequests = [
+      {
+        "fname": "Nethmi",
+        "lname": "Pathirana",
+        "avatar": "https://i.pravatar.cc/150?img=3",
+        "pickup": "Lionel Wendt Art Theatre",
+        "starttime": "2022-08-14T00:12:40.000Z"
+      },
+    ];
 
     setState(() {
       isVisible = true;
@@ -82,7 +98,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
         return Scaffold(
           body: Visibility(
             visible: isVisible,
-            replacement: Center(child: CircularProgressIndicator()),
+            replacement: const Center(child: CircularProgressIndicator()),
             child: SizedBox(
               width: size.width,
               height: size.height,
@@ -92,19 +108,19 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     addVerticalSpace(44),
-                    BackwardButton(),
+                    const BackwardButton(),
                     addVerticalSpace(24),
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           'Your ride \nis trending!',
                           style: BlipFonts.displayBlack,
                           textAlign: TextAlign.left,
                         ),
                         addHorizontalSpace(100),
-                        Indicator(
+                        const Indicator(
                             icon: FluentIcons.eye_12_regular,
-                            text: "500",
+                            text: "1",
                             color: BlipColors.green)
                       ],
                     ),
@@ -118,27 +134,34 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                 style: Theme.of(context).textTheme.titleLarge),
                             Row(
                               children: [
-                                Text('Rs. ' + state.price.toString(),
-                                    style: BlipFonts.title),
+                                const Text('Rs. 250', style: BlipFonts.title),
                                 addHorizontalSpace(8),
-                                Indicator(
-                                    icon: EvaIcons.arrowUpward,
-                                    text: "+ 500",
-                                    color: BlipColors.green)
+                                // Indicator(
+                                //     icon: EvaIcons.arrowUpward,
+                                //     text: "+ 250",
+                                //     color: BlipColors.green)
                               ],
                             ),
                           ],
                         ),
                         OutlineButton(
-                            onPressedAction: () {},
+                            onPressedAction: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RideDetailsScreen()),
+                              );
+                            },
                             text: "View Ride Details",
                             color: BlipColors.black)
                       ],
                     ),
                     addVerticalSpace(24),
                     Align(
+                        alignment: Alignment.center,
                         child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
@@ -148,120 +171,134 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                             child: Text(
                               'Your ride begins in 19 hours and 45 minutes',
                               style: Theme.of(context).textTheme.labelMedium,
-                            )),
-                        alignment: Alignment.center),
+                            ))),
                     addVerticalSpace(40),
-                    Text(
+                    const Text(
                       'Requests to join',
                       style: BlipFonts.heading,
                       textAlign: TextAlign.left,
                     ),
                     addVerticalSpace(16),
                     Container(
-                      height: 125,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: pendingRequests?.length,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              (Container(
-                                  width: 257,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 16),
-                                  decoration: BoxDecoration(
-                                    color: BlipColors.orange,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            20)), // red as border color
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  pendingRequests![index]
-                                                      ['avatar'])),
-                                          Text(
-                                            pendingRequests![index]['fname'],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge!
-                                                .merge(TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                          Text(
-                                            "+ Rs. " +
-                                                pendingRequests![index]
-                                                    ['price'],
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineLarge!
-                                                .merge(TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Check(
-                                                price: int.parse(
-                                                    (pendingRequests![index]
-                                                        ['price'])),
-                                                // onCheckedAction: () {
-                                                //   setState(() {
-                                                //     _total += int.parse(
-                                                //         (pendingRequests![index]
-                                                //             ['price']));
-                                                //   });
-                                                // },
-                                              ),
-                                              addHorizontalSpace(8),
-                                              Text(('select').toUpperCase(),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall!
-                                                      .merge(TextStyle(
-                                                          color:
-                                                              Colors.white))),
-                                            ],
-                                          ),
-                                          OutlineButton(
-                                              onPressedAction: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ReserveRequestScreen(
-                                                              request:
-                                                                  pendingRequests![
-                                                                      index])),
-                                                );
-                                              },
-                                              text: "View Request",
-                                              color: BlipColors.white),
-                                        ],
-                                      ),
-                                    ],
-                                  ))),
-                              addHorizontalSpace(16),
-                            ],
-                          );
-                        },
+                      width: 257,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
+                      decoration: const BoxDecoration(
+                        color: BlipColors.orange,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ), // red as border color
+                      ),
+                      child: Text(
+                        "All Requests Accepted",
+                        style: TextStyle(color: BlipColors.white),
                       ),
                     ),
-                    addVerticalSpace(24),
+                    // SizedBox(
+                    //   height: 130,
+                    //   child: ListView.builder(
+                    //     scrollDirection: Axis.horizontal,
+                    //     itemCount: pendingRequests?.length,
+                    //     itemBuilder: (context, index) {
+                    //       return Row(
+                    //         children: [
+                    //           (Container(
+                    //               width: 257,
+                    //               padding: const EdgeInsets.symmetric(
+                    //                   horizontal: 12, vertical: 16),
+                    //               decoration: const BoxDecoration(
+                    //                 color: BlipColors.orange,
+                    //                 borderRadius: BorderRadius.all(
+                    //                   Radius.circular(20),
+                    //                 ), // red as border color
+                    //               ),
+                    //               child: Row(
+                    //                 mainAxisAlignment:
+                    //                     MainAxisAlignment.spaceBetween,
+                    //                 crossAxisAlignment:
+                    //                     CrossAxisAlignment.center,
+                    //                 children: [
+                    //                   Column(
+                    //                     children: [
+                    //                       CircleAvatar(
+                    //                           backgroundImage: NetworkImage(
+                    //                               pendingRequests![index]
+                    //                                   ['avatar'])),
+                    //                       Text(
+                    //                         pendingRequests![index]['fname'],
+                    //                         style: Theme.of(context)
+                    //                             .textTheme
+                    //                             .labelLarge!
+                    //                             .merge(const TextStyle(
+                    //                                 color: Colors.white)),
+                    //                       ),
+                    //                       Text(
+                    //                         "+ Rs. " +
+                    //                             pendingRequests![index]
+                    //                                 ['price'],
+                    //                         style: Theme.of(context)
+                    //                             .textTheme
+                    //                             .headlineLarge!
+                    //                             .merge(const TextStyle(
+                    //                                 color: Colors.white)),
+                    //                       ),
+                    //                     ],
+                    //                   ),
+                    //                   Column(
+                    //                     mainAxisAlignment:
+                    //                         MainAxisAlignment.spaceBetween,
+                    //                     crossAxisAlignment:
+                    //                         CrossAxisAlignment.end,
+                    //                     children: [
+                    //                       Row(
+                    //                         children: [
+                    //                           Check(
+                    //                             price: int.parse(
+                    //                                 (pendingRequests![index]
+                    //                                     ['price'])),
+                    //                             // onCheckedAction: () {
+                    //                             //   setState(() {
+                    //                             //     _total += int.parse(
+                    //                             //         (pendingRequests![index]
+                    //                             //             ['price']));
+                    //                             //   });
+                    //                             // },
+                    //                           ),
+                    //                           addHorizontalSpace(8),
+                    //                           Text(('select').toUpperCase(),
+                    //                               style: Theme.of(context)
+                    //                                   .textTheme
+                    //                                   .headlineSmall!
+                    //                                   .merge(const TextStyle(
+                    //                                       color:
+                    //                                           Colors.white))),
+                    //                         ],
+                    //                       ),
+                    //                       OutlineButton(
+                    //                           onPressedAction: () {
+                    //                             Navigator.push(
+                    //                               context,
+                    //                               MaterialPageRoute(
+                    //                                   builder: (context) =>
+                    //                                       ReserveRequestScreen(
+                    //                                           request:
+                    //                                               pendingRequests![
+                    //                                                   index])),
+                    //                             );
+                    //                           },
+                    //                           text: "View Request",
+                    //                           color: BlipColors.white),
+                    //                     ],
+                    //                   ),
+                    //                 ],
+                    //               ))),
+                    //           addHorizontalSpace(16),
+                    //         ],
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                    addVerticalSpace(50),
                     const Text(
                       'Joining you',
                       style: BlipFonts.heading,
@@ -283,23 +320,17 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                 Text(request['fname'] + " " + request['lname'],
                                     style: BlipFonts.outline),
                                 Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 4, vertical: 2),
                                     decoration: BoxDecoration(
                                       color: BlipColors.lightBlue,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      ('gets on at ' +
-                                              request['pickup'] +
-                                              " at " +
-                                              Jiffy(request['starttime'])
-                                                  .format("h:mm a")
-                                                  .split(" ")
-                                                  .join(''))
-                                          .toUpperCase(),
+                                      'gets on at 12.40 PM'.toUpperCase(),
                                       style: BlipFonts.taglineBold.merge(
-                                          TextStyle(color: BlipColors.blue)),
+                                          const TextStyle(
+                                              color: BlipColors.blue)),
                                     )),
                               ],
                             ),

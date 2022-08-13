@@ -8,6 +8,9 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mobile/custom/backward_button.dart';
 
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
+import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
+import 'package:mobile/screens/view-ride-requests/accept_request_confirmation_screen.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -128,9 +131,9 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 children: [
                   Column(
                     children: [
-                      Text("11.30 AM", style: BlipFonts.outlineBold),
+                      Text("12.40 AM", style: BlipFonts.outlineBold),
                       addVerticalSpace(32),
-                      Text("12.30 AM", style: BlipFonts.outlineBold),
+                      Text("12.50 AM", style: BlipFonts.outlineBold),
                     ],
                   ),
                   Column(
@@ -176,7 +179,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                         Row(
                           children: [
                             Text(
-                              "Rs. 5500",
+                              "Rs. 0",
                               style: BlipFonts.labelBold,
                             ),
                             addHorizontalSpace(8),
@@ -198,7 +201,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                         Row(
                           children: [
                             Text(
-                              "0",
+                              "3",
                               style: BlipFonts.labelBold,
                             ),
                             addHorizontalSpace(8),
@@ -261,14 +264,29 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                     ],
                   ),
                   OutlineButton(
-                    onPressedAction: () {},
+                    onPressedAction: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RiderProfileScreen()),
+                      );
+                    },
                     text: "See Profile",
                     color: BlipColors.black,
                   )
                 ],
               ),
               addVerticalSpace(40),
-              WideButton(text: 'Reserve a Seat', onPressedAction: () {})
+              WideButton(
+                  text: 'Reserve a Seat',
+                  onPressedAction: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const AcceptRequestConfirmation()),
+                    );
+                  })
             ],
           ),
         ),

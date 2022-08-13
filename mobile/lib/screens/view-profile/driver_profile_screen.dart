@@ -1,3 +1,4 @@
+import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -160,7 +161,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     "  (5)",
                     style: BlipFonts.label,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
                     icon: const Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -186,8 +187,8 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       CircleAvatar(
                         radius: 30.0,
                         backgroundImage: NetworkImage(
-                        'https://i.pravatar.cc/300?img=4',
-                      ),
+                          'https://i.pravatar.cc/300?img=4',
+                        ),
                       ),
                       Text(
                         "Dulaj",
@@ -235,8 +236,15 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
               ),
               addVerticalSpace(32),
               WideButton(
-                  text: 'Request to join the ride',
-                  onPressedAction: () async {}),
+                text: 'Request to join the ride',
+                onPressedAction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RequestConfirmation()),
+                  );
+                },
+              ),
             ],
           ),
         ),

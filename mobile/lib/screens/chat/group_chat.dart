@@ -24,8 +24,8 @@ class _GroupChatState extends State<GroupChat> {
     firstName: 'Yadeesha',
     lastName: 'Weerasinghe',
     gender: 'female',
-    email: 'yadee@gamil.com',
-    profilePicture: 'https://i.pravatar.cc/300?img=36',
+    email: 'azma@gamil.com',
+    profilePicture: 'https://i.pravatar.cc/300?img=3',
   );
 
   final List<User> participants = [
@@ -38,12 +38,12 @@ class _GroupChatState extends State<GroupChat> {
       profilePicture: 'https://i.pravatar.cc/300?img=9',
     ),
     User(
-      id: '003',
-      firstName: 'Azma',
-      lastName: 'Imtiaz',
+      id: '002',
+      firstName: 'Yadeesha (You)',
+      lastName: 'Weerasinghe',
       gender: 'female',
       email: 'azma@gamil.com',
-      profilePicture: 'https://i.pravatar.cc/300?img=47',
+      profilePicture: 'https://i.pravatar.cc/300?img=3',
     ),
   ];
   TextEditingController _messageController = TextEditingController();
@@ -111,6 +111,16 @@ class _GroupChatState extends State<GroupChat> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: BlipColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Container(
           padding: sidePadding,
           child: Column(
@@ -202,7 +212,8 @@ class _GroupChatState extends State<GroupChat> {
                                   if (msg.isNotEmpty) {
                                     sendMessage(currentUser.id, msg);
                                     _messageController.clear();
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   }
                                 })),
                       ),
