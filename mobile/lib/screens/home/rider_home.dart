@@ -8,6 +8,7 @@ import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
@@ -74,9 +75,9 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
         profilePicture: 'https://i.pravatar.cc/300?img=3'),
     Friend(
         id: '3',
-        firstName: 'Yadeesha',
+        firstName: 'Sarah',
         lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=2'),
+        profilePicture: 'https://i.pravatar.cc/300?img=22'),
     Friend(
         id: '4',
         firstName: 'Nethmi',
@@ -159,7 +160,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DestinationScreen(),
+                                    builder: (context) => DestinationScreen(rideType: RideType.request,),
                                   ));
                             },
                           ),

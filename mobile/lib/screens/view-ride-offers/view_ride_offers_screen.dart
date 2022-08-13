@@ -75,12 +75,12 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                   Row(
                     children: const [
                       Text(
-                        "Monday, 23rd June",
+                        "Sunday, 14th August",
                         style: BlipFonts.labelBold,
                       ),
                       Spacer(),
                       Text(
-                        "07:00 AM",
+                        "12:28 AM",
                         style: BlipFonts.labelBold,
                       ),
                     ],

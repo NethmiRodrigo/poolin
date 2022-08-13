@@ -14,6 +14,7 @@ class User {
   int totalRatings;
   VehicleType vehicleType;
   String VehicleNum;
+  String profilePic;
   User({
     required this.firstName,
     required this.lastName,
@@ -23,6 +24,7 @@ class User {
     this.totalRatings = 0,
     this.VehicleNum = '',
     this.vehicleType = VehicleType.na,
+    this.profilePic = '',
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(

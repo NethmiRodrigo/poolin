@@ -73,7 +73,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                         children: [
                           addHorizontalSpace(8.0),
                           const Text(
-                            "Rs. 350",
+                            "Rs. 250",
                             style: BlipFonts.title,
                           ),
                           addHorizontalSpace(10.0),

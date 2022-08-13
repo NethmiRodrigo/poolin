@@ -35,7 +35,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   final _storage = const FlutterSecureStorage();
-  String rideType = RideType.offer.name;
+  String rideType = RideType.request.name;
   late CameraPosition _initalPosition;
   Map<PolylineId, Polyline> polylines = {};
 
