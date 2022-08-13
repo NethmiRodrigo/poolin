@@ -259,8 +259,11 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   Column(
                     children: [
                       CircleAvatar(
-                        radius: 40.0,
-                        backgroundImage: AssetImage('assets/images/user.jpg'),
+                        radius: 40,
+                        backgroundColor: BlipColors.lightGrey,
+                        foregroundImage: NetworkImage(
+                          "https://i.pravatar.cc/300?img=3",
+                        ),
                       ),
                       Text(
                         "Yadeesha (You)",
@@ -285,9 +288,11 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         Column(
                           children: [
                             CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
+                              radius: 30,
+                              backgroundColor: BlipColors.lightGrey,
+                              foregroundImage: NetworkImage(
+                                "https://i.pravatar.cc/300?img=9",
+                              ),
                             ),
                             Text(
                               "Nethmi",

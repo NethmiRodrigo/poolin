@@ -31,7 +31,7 @@ class _GroupChatState extends State<GroupChat> {
   final List<User> participants = [
     User(
       id: '001',
-      firstName: 'Nethmi',
+      firstName: 'Nethmi (You)',
       lastName: 'Pathirana',
       gender: 'female',
       email: 'neth@gamil.com',
@@ -39,7 +39,7 @@ class _GroupChatState extends State<GroupChat> {
     ),
     User(
       id: '002',
-      firstName: 'Yadeesha (You)',
+      firstName: 'Yadeesha',
       lastName: 'Weerasinghe',
       gender: 'female',
       email: 'azma@gamil.com',

@@ -36,9 +36,9 @@ class _TrackDriverState extends State<TrackDriver> {
     gender: 'female',
   );
 
-  final LatLng pickupLoc = const LatLng(6.881727666204392, 79.8696165771317);
-  final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
-  final LatLng dropOffLoc = const LatLng(6.9037311247468995, 79.8611484867312);
+  final LatLng pickupLoc = const LatLng(6.907684923079973, 79.86036268870303);
+  final LatLng startPoint = const LatLng(6.9063474012458, 79.86057108194697);
+  final LatLng dropOffLoc = const LatLng(6.915767773481873, 79.85512531825808);
   LatLng driverLoc = const LatLng(0.0, 0.0);
   LocationData? currentLocation;
   final Completer<GoogleMapController> _controller = Completer();
@@ -140,7 +140,6 @@ class _TrackDriverState extends State<TrackDriver> {
       Response response = await dio.get(
           "$apiURL?origins=${driverLoc.latitude}%2C${driverLoc.longitude}&destinations=${pickupLoc.latitude}%2C${pickupLoc.longitude}&key=$apiKey&mode=driving");
 
-
       if (response.data["rows"][0]["elements"][0]["status"] == "OK") {
         int seconds =
             response.data["rows"][0]["elements"][0]["duration"]["value"];
@@ -158,7 +157,6 @@ class _TrackDriverState extends State<TrackDriver> {
   }
 
   Future<void> setCustomMarkers() async {
-
     BitmapDescriptor blackSourceIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",
