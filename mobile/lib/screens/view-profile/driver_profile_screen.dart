@@ -1,3 +1,4 @@
+import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             addVerticalSpace(32),
+              addVerticalSpace(32),
               Align(
                   alignment: Alignment.topLeft,
                   child: Icon(
@@ -111,7 +112,8 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                             endIndent: 0,
                             color: Colors.black,
                           ),
-                          const Icon(EvaIcons.navigation2, color:BlipColors.blue ),
+                          const Icon(EvaIcons.navigation2,
+                              color: BlipColors.blue),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -151,9 +153,18 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     style: BlipFonts.label,
                   ),
                   Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: 15,
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      size: 15,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MutualFriendsScreen()),
+                      );
+                    },
                   ),
                 ],
               ),

@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -97,9 +98,18 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                     style: BlipFonts.label,
                   ),
                   Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: 15,
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      size: 15,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MutualFriendsScreen()),
+                      );
+                    },
                   ),
                 ],
               ),

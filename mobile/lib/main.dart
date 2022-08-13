@@ -12,6 +12,7 @@ import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/screens/view-profile/driver_profile_screen.dart';
 import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
+import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
 
 import './theme.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: DriverProfileScreen(),
+        home: RiderProfileScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
