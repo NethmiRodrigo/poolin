@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
+import { geojsonToWKT } from "@terraformer/wkt";
+import { wktToGeoJSON } from "@terraformer/wkt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
+import { parseJSON, subMinutes, addMinutes } from "date-fns";
+import { getDuration } from "../../middleware/duration";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { email, offers, src, dest, startTime, window, distance, price } =
@@ -69,6 +73,58 @@ export const getActiveRequest = async (req: Request, res: Response) => {
   return res
     .status(200)
     .json({ success: "Ride Offer fetched successfully", request });
+};
+
+export const getAvailableOffers = async (req: Request, res: Response) => {
+  const { srcLat, srcLong, destLat, destLong, startTime, window } = req.query;
+  const start = {
+    type: "Point",
+    coordinates: [srcLat, srcLong],
+  };
+  const srcGeom = geojsonToWKT(start);
+
+  const end = {
+    type: "Point",
+    coordinates: [destLat, destLong],
+  };
+  const destGeom = geojsonToWKT(end);
+
+  //STD_Within checks for points that are within a given distance of a given polyline.
+  //We do this for start and end points of a request, checking whether they intersect with the polyline for each offer.
+  //Note : 0.002 is the optimal threhold value that was found by trial and error.
+  //All points and lines need to have the SRID value of 4326.
+
+  const intersectingOffers = await RideOffer.createQueryBuilder("offer")
+    .select([
+      "offer.id, offer.departureTime, ST_AsText(offer.fromGeom) as from",
+    ])
+    .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
+      point: srcGeom,
+    })
+    .andWhere("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
+      point: destGeom,
+    })
+    .andWhere("offer.status IN ('active')")
+    .getRawMany();
+
+  //from the result set, we filter out offers that are not available at the time of the request
+
+  const onTimeOffers = intersectingOffers.filter(async function (offer) {
+    const departurePoint = wktToGeoJSON(offer.from).coordinates;
+    const duration = await getDuration(
+      { lat: departurePoint[0], long: departurePoint[1] },
+      { lat: srcLat, long: srcLong }
+    );
+    const pickupTime = addMinutes(offer.departureTime, duration);
+
+    return (
+      subMinutes(parseJSON(startTime as string), +window) <= pickupTime &&
+      pickupTime <= addMinutes(parseJSON(startTime as string), +window)
+    );
+  });
+
+  const offers = onTimeOffers;
+  return res.status(200).json({ success: "Received available offers", offers });
 };
 
 export const getRequestDetails = async (req: Request, res: Response) => {

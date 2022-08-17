@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../constants/constants.dart' as constants;
 
-final baseURL = '${dotenv.env['API_URL']}/api/auth/';
+final baseURL = '${dotenv.env['API_URL']}/api/auth';
 
 Future<http.Response> register(
     String email, String pass, String confirmPassword) async {

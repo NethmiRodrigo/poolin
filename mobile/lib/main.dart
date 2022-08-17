@@ -6,7 +6,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+<<<<<<< HEAD
 import 'package:mobile/screens/ride-details/ride_details_screen.dart';
+=======
+import 'package:mobile/screens/current-ride/track_driver.dart';
+import 'package:mobile/screens/home/driver_home.dart';
+import 'package:mobile/screens/register/register_screen.dart';
+>>>>>>> 111-route-intersection-algorithm
 
 import './theme.dart';
 
@@ -38,12 +44,20 @@ class MyApp extends StatelessWidget {
         title: 'Poolin',
         theme: AppTheme().themeData,
         home: AnimatedSplashScreen(
+<<<<<<< HEAD
           splashTransition: SplashTransition.fadeTransition,
           backgroundColor: const Color(0xffff8210),
           splash: "assets/images/poolin.gif",
           splashIconSize: 2500,
           nextScreen: const RideDetailsScreen(),
         ),
+=======
+            splashTransition: SplashTransition.fadeTransition,
+            backgroundColor: const Color(0xffff8210),
+            splash: "assets/images/poolin.gif",
+            splashIconSize: 2500,
+            nextScreen: const RegisterScreen()),
+>>>>>>> 111-route-intersection-algorithm
         debugShowCheckedModeBanner: false,
       ),
     );
