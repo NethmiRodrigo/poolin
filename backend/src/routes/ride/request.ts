@@ -105,6 +105,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       point: destGeom,
     })
     //lineLocalePoint returns as a fraction the portin of the line upto which the point lies from the start of the line.
+    //lineLocalePoint uses linear referencing. If point is not found on line, it returns the closest point on the line.
     .andWhere(
       "ST_LineLocatePoint(offer.polyline,ST_GeomFromText(:start,4326)) < ST_LineLocatePoint(offer.polyline,ST_GeomFromText(:end,4326))",
       {
