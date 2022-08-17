@@ -104,6 +104,14 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     .andWhere("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: destGeom,
     })
+    //lineLocalePoint returns as a fraction the portin of the line upto which the point lies from the start of the line.
+    .andWhere(
+      "ST_LineLocatePoint(offer.polyline,ST_GeomFromText(:start,4326)) < ST_LineLocatePoint(offer.polyline,ST_GeomFromText(:end,4326))",
+      {
+        start: srcGeom,
+        end: destGeom,
+      }
+    )
     .andWhere("offer.status IN ('active')")
     .getRawMany();
 
@@ -117,10 +125,11 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     );
     const pickupTime = addMinutes(offer.departureTime, duration);
 
-    return (
-      subMinutes(parseJSON(startTime as string), +window) <= pickupTime &&
-      pickupTime <= addMinutes(parseJSON(startTime as string), +window)
-    );
+    const minTime = subMinutes(parseJSON(startTime as string), +window);
+
+    const maxTime = addMinutes(parseJSON(startTime as string), +window);
+
+    return minTime <= pickupTime && pickupTime <= maxTime;
   });
 
   const offers = onTimeOffers;
