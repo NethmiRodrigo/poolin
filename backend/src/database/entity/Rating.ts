@@ -31,13 +31,7 @@ export class Rating extends BaseEntity {
   ratingBy: User;
 
   @Column()
-  ratingFor: number;
-
-  @Column()
   tripId: number;
-
-  @Column()
-  ratingBy: number;
 
   @Column({
     type: "enum",
