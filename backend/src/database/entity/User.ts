@@ -13,7 +13,12 @@ import {
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
 import { Vehicle } from "./Vehicle";
+<<<<<<< HEAD
 import { Rating } from "./Rating";
+=======
+import { RideOffer } from "./RideOffer";
+import { RideRequest } from "./RideRequest";
+>>>>>>> master
 
 export enum Gender {
   MALE = "male",
@@ -68,6 +73,9 @@ export class User extends BaseEntity {
   @Exclude()
   profileImageUri: string;
 
+  @Column({ nullable: true })
+  bio: string;
+
   @Column()
   password: string;
 
@@ -101,6 +109,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.owner)
   vehicles!: Vehicle[];
+
+  @OneToMany(() => RideOffer, (offer) => offer.user)
+  offers: RideOffer[];
+
+  @OneToMany(() => RideRequest, (request) => request.user)
+  requests: RideRequest[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -8,6 +8,7 @@ import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
 import '../../colors.dart';
@@ -30,24 +31,32 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       startLocation: 'University of Colombo School of Computing',
       destination: 'Fort Railway Station',
       offeredOn: DateTime.now(),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
     RideOffer(
       id: '2',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
     RideOffer(
       id: '3',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
     RideOffer(
       id: '4',
       startLocation: 'Negambo town',
       destination: 'Baththaramulla',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
+      rideDate: DateTime.now(),
+      estimatedArrivalTime: DateTime.now(),
     ),
   ];
   final List<Friend> _friends = [
@@ -134,7 +143,13 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                               size: 20,
                               color: BlipColors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DestinationScreen(),
+                                  ));
+                            },
                           ),
                         )
                       ],
