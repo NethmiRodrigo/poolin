@@ -13,12 +13,9 @@ import {
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
 import { Vehicle } from "./Vehicle";
-<<<<<<< HEAD
 import { Rating } from "./Rating";
-=======
 import { RideOffer } from "./RideOffer";
 import { RideRequest } from "./RideRequest";
->>>>>>> master
 
 export enum Gender {
   MALE = "male",

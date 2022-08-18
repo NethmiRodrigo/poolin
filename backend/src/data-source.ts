@@ -7,12 +7,9 @@ import { TempUser } from "./database/entity/TempUser";
 import { EmailFormat } from "./database/entity/EmailFormat";
 import { RideOffer } from "./database/entity/RideOffer";
 import { Vehicle } from "./database/entity/Vehicle";
-<<<<<<< HEAD
 import { Rating } from "./database/entity/Rating";
-=======
 import { RequestToOffer } from "./database/entity/RequestToOffer";
 import { RideRequest } from "./database/entity/RideRequest";
->>>>>>> master
 
 dotenv.config();
 
@@ -25,9 +22,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
-<<<<<<< HEAD
-  entities: [User, ForgotPassword, EmailFormat, TempUser, Vehicle, Rating],
-=======
+
   entities: [
     User,
     ForgotPassword,
@@ -37,8 +32,8 @@ export const AppDataSource = new DataSource({
     Vehicle,
     RequestToOffer,
     RideRequest,
+    Rating,
   ],
->>>>>>> master
   migrations: ["./src/database/migration"],
   subscribers: [],
 });
