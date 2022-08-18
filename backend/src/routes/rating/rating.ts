@@ -31,10 +31,7 @@ export const rateUser = async (req: Request, res: Response) => {
 export const getTotalRatings = async (req: Request, res: Response) => {
   const { id } = req.params;
   const role = req.query.role as string;
-  // const ratings = await Rating.find({
-  //   where: { ratingFor: id },
 
-  // });
   const user = await Rating.createQueryBuilder("rating")
     .where("rating.ratingFor = :id", {
       id,
