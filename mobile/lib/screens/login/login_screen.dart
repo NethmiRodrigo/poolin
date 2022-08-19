@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/app.dart';
 // import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
@@ -132,9 +133,6 @@ class LoginScreenState extends State<LoginScreen> {
                                 await login(_email.text, _pass.text);
 
                             if (response.statusCode == 200) {
-                              var res = json.decode(response.data);
-                              await _storage.write(
-                                  key: 'TOKEN', value: res["token"]);
                               if (!mounted) {
                                 return;
                               }
@@ -142,7 +140,7 @@ class LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DestinationScreen()),
+                                    builder: (context) => const App()),
                                 // const DriverHomeScreen()),
                               );
                             } else {}
