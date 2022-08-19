@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/screens/request-ride/view_requested_rides.dart';
+import 'package:poolin/screens/view-ride-requests/view_ride_requests_screen.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
-import 'package:mobile/fonts.dart';
+import 'package:poolin/fonts.dart';
 
 class RequestDetailsCard extends StatefulWidget {
   const RequestDetailsCard({Key? key}) : super(key: key);
@@ -16,160 +19,133 @@ class RequestDetailsCard extends StatefulWidget {
 }
 
 class _RequestDetailsCardState extends State<RequestDetailsCard> {
-  double _value = 40.0;
+  bool isChecked = false;
+
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.black;
+    }
+    return Colors.black;
+  }
+
+  double _value = 1200.0;
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    const double padding = 16;
-    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(30),
-        topRight: Radius.circular(30),
-      ),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        padding: sidePadding,
-        height: size.height * 0.5,
-        width: size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            addVerticalSpace(24),
-            const Text(
-              'Confirm your Ride Request',
-              style: BlipFonts.title,
-            ),
-            addVerticalSpace(40),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Column(
-                            children: [
-                              Text(("fare per rider".toUpperCase()),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
-                              addVerticalSpace(20),
-                              Row(
-                                children: [
-                                  Text("Rs. 5000",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge),
-                                  const Icon(FluentIcons.edit_16_regular)
-                                ],
-                              ),
-                              addVerticalSpace(16),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(("date and time".toUpperCase()),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineSmall),
-                                      addVerticalSpace(20),
-                                      TextButton(
-                                          onPressed: () {
-                                            DatePicker.showDatePicker(context,
-                                                showTitleActions: true,
-                                                minTime: DateTime(2018, 3, 5),
-                                                maxTime: DateTime(2019, 6, 7),
-                                                onChanged: (date) {},
-                                                onConfirm: (date) {},
-                                                currentTime: DateTime.now(),
-                                                locale: LocaleType.en);
-                                          },
-                                          child: Text(
-                                            '26 Oct, 2022',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelLarge,
-                                          ))
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          // Column(),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Column(
-                            children: [
-                              Text(("visibility".toUpperCase()),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
-                              addVerticalSpace(20),
-                              Row(
-                                children: [
-                                  const Icon(FluentIcons.eye_16_filled,
-                                      size: 18),
-                                  addHorizontalSpace(8),
-                                  Text("Public",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge),
-                                ],
-                              ),
-                            ],
-                          ),
-                          addVerticalSpace(16),
-                          Column(
-                            children: [
-                              Text(("expires in".toUpperCase()),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
-                              addVerticalSpace(16),
-                              SizedBox(
-                                width: 140,
-                                child: SfSlider(
-                                  min: 8.0,
-                                  max: 100.0,
-                                  value: _value,
-                                  interval: 20,
-                                  showTicks: false,
-                                  showLabels: false,
-                                  enableTooltip: true,
-                                  minorTicksPerInterval: 1,
-                                  onChanged: (dynamic value) {
-                                    setState(() {
-                                      _value = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Confirm your Ride Requests",
+            style: BlipFonts.title,
+          ),
+          addVerticalSpace(20.0),
+          const Text(
+            "Monday, 23rd June",
+            style: BlipFonts.labelBold,
+          ),
+          addVerticalSpace(5.0),
+          const Text(
+            "8.00 AM +- 45 mins",
+            style: BlipFonts.label,
+          ),
+          addVerticalSpace(20.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 70,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return const Align(
+                        widthFactor: 0.6,
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage:
+                              NetworkImage('https://i.pravatar.cc/300'),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+                addHorizontalSpace(25.0),
+                const Text(
+                  "+7 requests",
+                  style: BlipFonts.labelBold,
+                )
+              ],
             ),
-            addVerticalSpace(20),
-            WideButton(
-                text: "I'll arrive at 4.30PM in 2 days", onPressedAction: () {})
-          ],
-        ),
+          ),
+          addVerticalSpace(20.0),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: Checkbox(
+                  checkColor: BlipColors.white,
+                  fillColor: MaterialStateProperty.resolveWith(getColor),
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value!;
+                    });
+                  },
+                ),
+              ),
+              addHorizontalSpace(10.0),
+              const Text(
+                "I want to set my own price",
+                style: BlipFonts.label,
+              ),
+            ],
+          ),
+          addVerticalSpace(45.0),
+          SfSlider(
+            min: 1000.0,
+            max: 5000.0,
+            value: _value,
+            interval: 10,
+            enableTooltip: true,
+            shouldAlwaysShowTooltip: true,
+            activeColor: BlipColors.black,
+            inactiveColor: BlipColors.grey,
+            onChanged: isChecked
+                ? (dynamic value) {
+                    setState(() {
+                      _value = value;
+                    });
+                  }
+                : null,
+          ),
+          addVerticalSpace(20.0),
+          WideButton(
+            text: "I'll depart at around 8 AM in 2 days",
+            onPressedAction: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => const RequestedTrips()),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

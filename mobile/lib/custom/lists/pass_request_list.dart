@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/passenger_request.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/models/passenger_request.dart';
 
 class PassengerRequestList extends StatelessWidget {
   final List<PassengerRequest> requests;

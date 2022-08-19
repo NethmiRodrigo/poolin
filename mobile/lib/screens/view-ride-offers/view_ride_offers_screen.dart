@@ -3,26 +3,26 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
-import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/models/ride_offer_search_result.dart';
+import 'package:poolin/screens/request-ride/ride_request_details_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
-import 'package:mobile/custom/lists/ride_offer_result_list.dart';
+import 'package:poolin/custom/lists/ride_offer_result_list.dart';
 
-import 'package:mobile/constants/search_offer_results.dart';
+import 'package:poolin/constants/search_offer_results.dart';
 
-class RideOfferResultsScreen extends StatefulWidget {
-  const RideOfferResultsScreen({Key? key}) : super(key: key);
+class ViewRideOffersScreen extends StatefulWidget {
+  const ViewRideOffersScreen({Key? key}) : super(key: key);
 
   @override
-  State<RideOfferResultsScreen> createState() => _RideOfferResultsScreenState();
+  State<ViewRideOffersScreen> createState() => _ViewRideOffersScreenState();
 }
 
-class _RideOfferResultsScreenState extends State<RideOfferResultsScreen> {
+class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
   final _storage = const FlutterSecureStorage();
   var sourceLocation = {};
   var destinationLocation = {};
@@ -142,9 +142,9 @@ class _RideOfferResultsScreenState extends State<RideOfferResultsScreen> {
                   ),
                   addVerticalSpace(20.0),
                   Expanded(
-                    child: RideOfferResultList(_rideOffers),
+                    child: RideOfferResultList(_rideOffers, "view"),
                   ),
-                  addVerticalSpace(10.0),
+                  addVerticalSpace(30.0),
                   WideButton(
                     onPressedAction: () {
                       Navigator.push(
@@ -155,7 +155,7 @@ class _RideOfferResultsScreenState extends State<RideOfferResultsScreen> {
                         ),
                       );
                     },
-                    text: "Don't like any offers? Post a ride request",
+                    text: "Proceed",
                   )
                 ],
               ),

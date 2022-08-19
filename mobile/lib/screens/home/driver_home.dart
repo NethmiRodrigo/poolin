@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:mobile/custom/lists/pass_request_list.dart';
-import 'package:mobile/custom/lists/ride_request_list.dart';
-import 'package:mobile/custom/toggle_to_driver.dart';
-import 'package:mobile/custom/ride_countdown.dart';
-import 'package:mobile/models/passenger_request.dart';
-import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/custom/lists/pass_request_list.dart';
+import 'package:poolin/custom/lists/ride_request_list.dart';
+import 'package:poolin/custom/toggle_to_driver.dart';
+import 'package:poolin/custom/ride_countdown.dart';
+import 'package:poolin/models/passenger_request.dart';
+import 'package:poolin/models/ride_request.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/screens/shared/ride/destination_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/fonts.dart';
 import '../../colors.dart';
 
 class DriverHomeScreen extends StatefulWidget {

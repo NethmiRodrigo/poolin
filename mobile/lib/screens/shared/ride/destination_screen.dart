@@ -5,10 +5,11 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/screens/shared/ride/search_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/models/ride_type_model.dart';
+import 'package:poolin/screens/shared/ride/search_screen.dart';
+import 'package:poolin/services/auth_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class DestinationScreen extends StatefulWidget {
@@ -31,6 +32,7 @@ class DestinationScreenState extends State<DestinationScreen> {
     super.initState();
     _rideType = widget.rideType;
     isRideAnOffer = _rideType != RideType.request;
+    getCurrentUser();
   }
 
   Future<void> setRideTypeInStoreage(

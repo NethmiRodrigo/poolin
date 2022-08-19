@@ -3,11 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/screens/offer-ride/offer_details_card.dart';
-import 'package:mobile/services/polyline_service.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/screens/offer-ride/offer_details_card.dart';
+import 'package:poolin/services/polyline_service.dart';
 
-import 'package:mobile/utils/map_utils.dart';
+import 'package:poolin/utils/map_utils.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';

@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="mobile"
+        android:label="Poolin"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

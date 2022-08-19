@@ -1,10 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/services/register_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/services/register_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 import '../../colors.dart';
 
@@ -38,6 +38,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -48,7 +49,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
             children: [
               addVerticalSpace(68),
               Image.asset('assets/images/logo.png', height: 24),
-              Text(
+              const Text(
                 "And you're \nalmost there!",
                 style: BlipFonts.display,
                 textAlign: TextAlign.left,

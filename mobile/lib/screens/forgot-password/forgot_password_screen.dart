@@ -1,12 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/login/login_screen.dart';
-import 'package:mobile/services/reset_password_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/forgot-password/email_sent_screen.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/login/login_screen.dart';
+import 'package:poolin/services/reset_password_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
+import 'package:poolin/screens/forgot-password/email_sent_screen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../colors.dart';

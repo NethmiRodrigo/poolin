@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
@@ -8,13 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jiffy/jiffy.dart';
 
-import 'package:mobile/colors.dart';
+import 'package:poolin/colors.dart';
 
-import 'package:mobile/fonts.dart';
+import 'package:poolin/fonts.dart';
 
-import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
+import 'package:poolin/screens/view-ride-requests/reserve_request_screen.dart';
 
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
@@ -59,11 +57,10 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
 
   getData() async {
     final requestData = await getOfferRequests();
-    final pendingRequestsJson = json.decode(requestData.body);
-    pendingRequests = (pendingRequestsJson['requests']);
+    pendingRequests = requestData.data['requests'];
     final partyData = await getConfirmedRequests();
-    confirmedRequests = json.decode(partyData.body)['requests'];
-    print(confirmedRequests![0]);
+
+    confirmedRequests = partyData.data['requests'];
 
     setState(() {
       isVisible = true;
@@ -185,9 +182,11 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                       Column(
                                         children: [
                                           CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  pendingRequests![index]
-                                                      ['avatar'])),
+                                            backgroundImage: NetworkImage(
+                                                pendingRequests![index]
+                                                        ['avatar'] ??
+                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgc-n5tIsIl3mINsvtPHBB2vrDGu_VbDubeA&usqp=CAU"),
+                                          ),
                                           Text(
                                             pendingRequests![index]['fname'],
                                             style: Theme.of(context)
@@ -268,44 +267,46 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                       style: BlipFonts.heading,
                       textAlign: TextAlign.left,
                     ),
-                    Timeline(
-                      indicators: <Widget>[
-                        for (var request in confirmedRequests!)
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(request['avatar']),
-                          ),
-                      ],
-                      children: <Widget>[
-                        for (var request in confirmedRequests!)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(request['fname'] + " " + request['lname'],
-                                  style: BlipFonts.outline),
-                              Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: BlipColors.lightBlue,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    ('gets on at ' +
-                                            request['pickup'] +
-                                            " at " +
-                                            Jiffy(request['starttime'])
-                                                .format("h:mm a")
-                                                .split(" ")
-                                                .join(''))
-                                        .toUpperCase(),
-                                    style: BlipFonts.taglineBold.merge(
-                                        TextStyle(color: BlipColors.blue)),
-                                  )),
-                            ],
-                          ),
-                        //
-                      ],
-                    ),
+                    if (confirmedRequests != null)
+                      Timeline(
+                        indicators: <Widget>[
+                          for (var request in confirmedRequests!)
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(request['avatar'] ??
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgc-n5tIsIl3mINsvtPHBB2vrDGu_VbDubeA&usqp=CAU"),
+                            ),
+                        ],
+                        children: <Widget>[
+                          for (var request in confirmedRequests!)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(request['fname'] + " " + request['lname'],
+                                    style: BlipFonts.outline),
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: BlipColors.lightBlue,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      ('gets on at ' +
+                                              request['pickup'] +
+                                              " at " +
+                                              Jiffy(request['starttime'])
+                                                  .format("h:mm a")
+                                                  .split(" ")
+                                                  .join(''))
+                                          .toUpperCase(),
+                                      style: BlipFonts.taglineBold.merge(
+                                          TextStyle(color: BlipColors.blue)),
+                                    )),
+                              ],
+                            ),
+                          //
+                        ],
+                      ),
                   ],
                 ),
               ),

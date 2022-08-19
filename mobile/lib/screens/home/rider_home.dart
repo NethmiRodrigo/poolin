@@ -1,17 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
 
-import 'package:mobile/custom/lists/close_friends_list.dart';
-import 'package:mobile/custom/lists/ride_offer_list.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/custom/toggle_to_driver.dart';
-import 'package:mobile/custom/ride_countdown.dart';
-import 'package:mobile/models/friend.dart';
-import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/custom/lists/close_friends_list.dart';
+import 'package:poolin/custom/lists/ride_offer_list.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/custom/toggle_to_driver.dart';
+import 'package:poolin/custom/ride_countdown.dart';
+import 'package:poolin/models/friend.dart';
+import 'package:poolin/models/ride_offer.dart';
+import 'package:poolin/screens/shared/ride/destination_screen.dart';
+import 'package:poolin/services/auth_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
+import 'package:poolin/fonts.dart';
 import '../../colors.dart';
+import '../../models/user_model.dart';
 
 class RiderHomeScreen extends StatefulWidget {
   const RiderHomeScreen({Key? key}) : super(key: key);
@@ -24,6 +29,12 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   final _storage = const FlutterSecureStorage();
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+  late User currentUser = User(
+    firstName: '',
+    lastName: '',
+    email: '',
+    gender: '',
+  );
 
   final List<RideOffer> _rideOffers = [
     RideOffer(
@@ -94,10 +105,32 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   bool isRiding = true; //rider is riding if he currently has a ride
 
   @override
+  void initState() {
+    super.initState();
+    _getCurrentUser();
+  }
+
+  Future<void> _getCurrentUser() async {
+    Response res = await getCurrentUser();
+    currentUser = User.fromJson(res.data);
+  }
+
+  @override
   Widget build(BuildContext context) {
     const double padding = 16;
     final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+
+    final CurrentUserCubit currentUserCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
+
+    currentUserCubit.setFirstName(currentUser.firstName);
+    currentUserCubit.setLastName(currentUser.lastName);
+    currentUserCubit.setEmail(currentUser.email);
+    currentUserCubit.setGender(currentUser.gender);
+    currentUserCubit.setStars(currentUser.stars);
+    currentUserCubit.setProfilePic(currentUser.profilePicURL);
+    currentUserCubit.setIsVerified(currentUser.isVerified);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -162,12 +195,12 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
             ),
             addVerticalSpace(8),
             CloseFriendsList(_friends),
-            addVerticalSpace(24),
+            addVerticalSpace(16),
             const Text(
               'Ride offers',
               style: BlipFonts.title,
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.4,
               child: RideOfferList(_rideOffers),
             ),

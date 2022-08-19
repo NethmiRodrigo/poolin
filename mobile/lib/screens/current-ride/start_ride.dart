@@ -10,12 +10,12 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/screens/current-ride/driver_nav.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/screens/current-ride/driver_nav.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class StartRide extends StatefulWidget {
   const StartRide({Key? key}) : super(key: key);

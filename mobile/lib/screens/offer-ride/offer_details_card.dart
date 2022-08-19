@@ -1,20 +1,18 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/services/distance_duration_service.dart';
-import 'package:mobile/services/ride_offer_service.dart';
-import 'package:mobile/utils/helper_functions.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/ride_offer_cubit.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/services/distance_duration_service.dart';
+import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class OfferDetailsCard extends StatefulWidget {
   const OfferDetailsCard({Key? key}) : super(key: key);
@@ -209,7 +207,8 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                   offerCubit.setStartTime(startTime);
                   Response response = await getDistanceAndTime(
                       offerCubit.state.source, offerCubit.state.destination);
-                  final res = json.decode(response.body);
+                  // final res = json.decode(response.data);
+                  final res = response.data;
                   if (response.statusCode == 200) {
                     print(res["rows"][0]["elements"]);
                   }
@@ -227,14 +226,14 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
 
                   Response postResponse = await postOffer(offerCubit.state);
                   if (postResponse.statusCode == 200) {
-                    print("Success! " + postResponse.body);
+                    print("Success! " + postResponse.data);
 
                     // if (!mounted) {
                     //   return;
                     // }
 
                   } else {
-                    print("Error! " + postResponse.body);
+                    print("Error! " + postResponse.data);
                   }
                 })
           ],

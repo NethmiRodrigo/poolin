@@ -1,4 +1,4 @@
-import 'package:mobile/models/ride_offer_search_result.dart';
+import 'package:poolin/models/ride_offer_search_result.dart';
 
 List<RideOfferSearchResult> results = [
   RideOfferSearchResult(

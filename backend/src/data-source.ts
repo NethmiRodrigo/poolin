@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
+import neo4j from "neo4j-driver";
+
 import { ForgotPassword } from "./database/entity/ForgotPassword";
 import { User } from "./database/entity/User";
 import { TempUser } from "./database/entity/TempUser";
@@ -34,3 +36,8 @@ export const AppDataSource = new DataSource({
   migrations: ["./src/database/migration"],
   subscribers: [],
 });
+
+export const NeoDriver = neo4j.driver(
+  process.env.NEO_URL,
+  neo4j.auth.basic(process.env.NEO_USER, process.env.NEO_PASSWORD)
+);

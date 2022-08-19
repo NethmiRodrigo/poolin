@@ -1,8 +1,8 @@
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../custom/outline_button.dart';

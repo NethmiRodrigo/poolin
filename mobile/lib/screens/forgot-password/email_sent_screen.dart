@@ -1,11 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/login/login_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/forgot-password/verify_email_otp_screen.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/login/login_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
+import 'package:poolin/screens/forgot-password/verify_email_otp_screen.dart';
 
 import '../../colors.dart';
 

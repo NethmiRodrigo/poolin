@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/models/user_model.dart';
+import 'package:poolin/models/ride_request.dart';
+import 'package:poolin/models/ride_type_model.dart';
+import 'package:poolin/models/user_model.dart';
 
 RideOffer userFromJson(String str) => RideOffer.fromJson(json.decode(str));
 
