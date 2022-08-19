@@ -61,12 +61,9 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
 
   getData() async {
     final requestData = await getOfferRequests();
-    final pendingRequestsJson = json.decode(requestData.body);
-    pendingRequests = (pendingRequestsJson['requests']);
-    print(pendingRequests);
+    pendingRequests = requestData.data['requests'];
     final partyData = await getConfirmedRequests();
-    confirmedRequests = json.decode(partyData.body)['requests'];
-    print(confirmedRequests);
+    confirmedRequests = partyData.data['requests'];
 
     setState(() {
       isVisible = true;
@@ -192,15 +189,12 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                       children: [
                                         Column(
                                           children: [
-                                            if (pendingRequests![index]![
-                                                    'avatar'] !=
-                                                null)
-                                              CircleAvatar(
-                                                backgroundImage: NetworkImage(
+                                            CircleAvatar(
+                                              backgroundImage: NetworkImage(
                                                   pendingRequests![index]
-                                                      ['avatar'],
-                                                ),
-                                              ),
+                                                          ['avatar'] ??
+                                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgc-n5tIsIl3mINsvtPHBB2vrDGu_VbDubeA&usqp=CAU"),
+                                            ),
                                             Text(
                                               pendingRequests![index]['fname'],
                                               style: Theme.of(context)
@@ -290,7 +284,8 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                         indicators: <Widget>[
                           for (var request in confirmedRequests!)
                             CircleAvatar(
-                              backgroundImage: NetworkImage(request['avatar']),
+                              backgroundImage: NetworkImage(request['avatar'] ??
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgc-n5tIsIl3mINsvtPHBB2vrDGu_VbDubeA&usqp=CAU"),
                             ),
                         ],
                         children: <Widget>[

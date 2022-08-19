@@ -41,8 +41,12 @@ class _RideCountDownState extends State<RideCountDown> {
         }
         return Container(
           width: size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          height: 100,
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 12,
+          ),
+          // height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: BlipColors.orange,
