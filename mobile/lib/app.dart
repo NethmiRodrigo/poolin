@@ -7,7 +7,7 @@ import 'package:mobile/screens/home/driver_home.dart';
 import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/screens/user/profile/UserProfileScreen.dart';
+import 'package:mobile/screens/user/profile/user_profile_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class App extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:mobile/custom/otp_fields.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
-import 'package:mobile/services/updateprofile_service.dart';
+import 'package:mobile/services/update_profile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EditPhoneNumberOTPScreen extends StatefulWidget {
@@ -37,13 +37,6 @@ class EditPhoneNumberOTPScreenState extends State<EditPhoneNumberOTPScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 addVerticalSpace(48),
-                // Align(
-                //   alignment: Alignment.topRight,
-                //   child: Text(
-                //     'STEP 4/5',
-                //     style: Theme.of(context).textTheme.subtitle1,
-                //   ),
-                // ),
                 addVerticalSpace(40),
                 const Icon(Icons.lock_outline_rounded, size: 110),
                 addVerticalSpace(40),
@@ -80,7 +73,6 @@ class EditPhoneNumberOTPScreenState extends State<EditPhoneNumberOTPScreen> {
                   onPressedAction: () async {
                     if (_formKey.currentState!.validate()) {
                       String? token = await _storage.read(key: 'TOKEN');
-                      // String? mobile = await _storage.read(key: 'KEY_MOBILE');
                       Response response =
                           await editcheckSMSOTP(currentText, token!);
                       if (response.statusCode == 200) {

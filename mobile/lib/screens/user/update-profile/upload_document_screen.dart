@@ -1,12 +1,8 @@
-// import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-// import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/custom/mini_button.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
@@ -19,9 +15,8 @@ class UploadDocumentScreen extends StatefulWidget {
 class UploadDocumentScreenState extends State<UploadDocumentScreen> {
   TextEditingController textEditingController = TextEditingController();
 
-  /////////////////////////////////////////////////
   File? image;
-  //Gallery
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -52,7 +47,6 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
   }
 
   //build buttons
-  @override
   Widget buildButton({
     required String title,
     required IconData icon,
@@ -62,14 +56,12 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
         style: ElevatedButton.styleFrom(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(16.0),
-          // minimumSize: Size.fromHeight(56),
           primary: Colors.black,
           onPrimary: Colors.white,
           textStyle: Theme.of(context).textTheme.bodyText1,
         ),
+        onPressed: onClicked,
         child: Row(children: [
-          // Center(),
-          // Spacer(),
           const SizedBox(width: 16),
           Icon(
             icon,
@@ -78,7 +70,6 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
           const SizedBox(width: 16),
           Text(title)
         ]),
-        onPressed: onClicked,
       );
 
   @override
@@ -96,10 +87,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // addVerticalSpace(48),
-                // addVerticalSpace(120),
                 addVerticalSpace(120),
-                //Image file
                 image != null
                     ? Image.file(image!,
                         width: 160, height: 160, fit: BoxFit.cover)
@@ -123,27 +111,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         .merge(const TextStyle(color: Colors.black)),
                   ),
                 ),
-                // addVerticalSpace(48),
-
                 addVerticalSpace(16),
-                // MaterialButton(
-                //     color: Colors.black,
-                //     child: Text(
-                //       "Use Camera",
-                //       style: TextStyle(
-
-                //         color: Colors.white70,
-                //         // fontWeight: FontWeight.bold
-                //       ),
-                //     ),
-                //     onPressed: () {
-                //       pickImageCamera();
-                //     }),
-                // MiniButton(
-                //     text: 'Use Camera',
-                //     onPressedAction: () async {
-                //       pickImageCamera();
-                //     }),
                 buildButton(
                     title: 'Use Camera',
                     icon: Icons.camera_alt_outlined,
@@ -155,25 +123,6 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
                   textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(16),
-                // MaterialButton(
-                //     color: Colors.black,
-                //     child: Text(
-                //       "Upload from Gallery",
-                //       style: TextStyle(
-                //         color: Colors.white70,
-                //         // fontWeight: FontWeight.bold
-                //       ),
-                //     ),
-                //     onPressed: () {
-                //       pickImage();
-                //     }),
-                //Display Image
-
-                // MiniButton(
-                //     text: 'Upload from Gallery',
-                //     onPressedAction: () async {
-                //       pickImage();
-                //     }),
                 buildButton(
                     title: 'Upload from Gallery',
                     icon: Icons.image_outlined,
