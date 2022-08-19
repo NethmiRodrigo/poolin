@@ -47,15 +47,13 @@ class DestinationScreenState extends State<DestinationScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
-      body: SizedBox(
-        width: size.width,
-        height: size.height,
+      body: SingleChildScrollView(
         child: Padding(
           padding: sidePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(44),
+              addVerticalSpace(size.height * 0.05),
               Align(
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
@@ -114,11 +112,8 @@ class DestinationScreenState extends State<DestinationScreen> {
                         : 'assets/images/rider.png',
                     height: 272,
                   )),
-              addVerticalSpace(24),
               Text(
-                isRideAnOffer
-                    ? 'Where are you headed?'
-                    : 'Where are you going?',
+                isRideAnOffer ? 'Where are you headed?' : 'Where are you going?',
                 style: BlipFonts.title,
               ),
               addVerticalSpace(8),
@@ -175,11 +170,9 @@ class DestinationScreenState extends State<DestinationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-
                               'Ladies\' College',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
-
                             Text(
                               '66 Sir Ernest de Silva Mawatha, Colombo 7',
                               style: Theme.of(context).textTheme.labelMedium,

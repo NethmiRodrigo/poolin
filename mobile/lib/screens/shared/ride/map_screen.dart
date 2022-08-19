@@ -41,14 +41,20 @@ class _MapScreenState extends State<MapScreen> {
 
   String? apiKey = dotenv.env['MAPS_API_KEY'];
 
+  BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
+
   @override
   void initState() {
     __loadRideType();
     __saveLocations();
+    setCustomMarkers();
 
     _initalPosition = CameraPosition(
-        target: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
-            widget.sourcePosition!.geometry!.location!.lng!),
+        target: LatLng(
+          widget.sourcePosition!.geometry!.location!.lat!,
+          widget.sourcePosition!.geometry!.location!.lng!,
+        ),
         zoom: 20);
     super.initState();
   }
@@ -73,6 +79,25 @@ class _MapScreenState extends State<MapScreen> {
     };
     await _storage.write(key: "SOURCE", value: jsonEncode(source));
     await _storage.write(key: "DESTINATION", value: jsonEncode(destination));
+  }
+
+  void setCustomMarkers() async {
+    // Create custom icons
+
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-black.png",
+    );
+
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/location-pin-orange.png",
+    );
+
+    setState(() {
+      destinationMarker = destinationIcon;
+      sourceMarker = startIcon;
+    });
   }
 
   _getPolyline() async {
@@ -128,19 +153,29 @@ class _MapScreenState extends State<MapScreen> {
     Set<Marker> _markers = {
       Marker(
         markerId: const MarkerId('source'),
-        position: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
-            widget.sourcePosition!.geometry!.location!.lng!),
+        position: LatLng(
+          widget.sourcePosition!.geometry!.location!.lat!,
+          widget.sourcePosition!.geometry!.location!.lng!,
+        ),
         draggable: false,
         infoWindow: InfoWindow(
-            title: "Start Location", snippet: widget.sourcePosition!.name!),
+          title: "Start Location",
+          snippet: widget.sourcePosition!.name!,
+        ),
+        icon: sourceMarker,
       ),
       Marker(
         markerId: const MarkerId('destination'),
-        position: LatLng(widget.destinationPosition!.geometry!.location!.lat!,
-            widget.destinationPosition!.geometry!.location!.lng!),
+        position: LatLng(
+          widget.destinationPosition!.geometry!.location!.lat!,
+          widget.destinationPosition!.geometry!.location!.lng!,
+        ),
         draggable: false,
         infoWindow: InfoWindow(
-            title: "End Location", snippet: widget.destinationPosition!.name!),
+          title: "End Location",
+          snippet: widget.destinationPosition!.name!,
+        ),
+        icon: destinationMarker,
       ),
     };
 
