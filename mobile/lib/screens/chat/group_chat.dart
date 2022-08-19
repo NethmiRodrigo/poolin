@@ -20,31 +20,28 @@ class GroupChat extends StatefulWidget {
 class _GroupChatState extends State<GroupChat> {
   final int tripID = 845136993;
   final User currentUser = User(
-    id: '002',
-    firstName: 'Yadeesha',
-    lastName: 'Weerasinghe',
-    gender: 'female',
-    email: 'yadee@gamil.com',
-    profilePicture: 'https://i.pravatar.cc/300?img=36',
-  );
+      id: '002',
+      firstName: 'Yadeesha',
+      lastName: 'Weerasinghe',
+      gender: 'female',
+      email: 'yadee@gamil.com',
+      profilePicURL: 'https://i.pravatar.cc/300?img=9');
 
   final List<User> participants = [
     User(
-      id: '001',
-      firstName: 'Nethmi',
-      lastName: 'Pathirana',
-      gender: 'female',
-      email: 'neth@gamil.com',
-      profilePicture: 'https://i.pravatar.cc/300?img=9',
-    ),
+        id: '001',
+        firstName: 'Nethmi',
+        lastName: 'Pathirana',
+        gender: 'female',
+        email: 'neth@gamil.com',
+        profilePicURL: 'https://i.pravatar.cc/300?img=9'),
     User(
-      id: '003',
-      firstName: 'Azma',
-      lastName: 'Imtiaz',
-      gender: 'female',
-      email: 'azma@gamil.com',
-      profilePicture: 'https://i.pravatar.cc/300?img=47',
-    ),
+        id: '003',
+        firstName: 'Azma',
+        lastName: 'Imtiaz',
+        gender: 'female',
+        email: 'azma@gamil.com',
+        profilePicURL: 'https://i.pravatar.cc/300?img=47'),
   ];
   TextEditingController _messageController = TextEditingController();
   List<Message> messages = [];
@@ -132,7 +129,7 @@ class _GroupChatState extends State<GroupChat> {
                             radius: 20,
                             backgroundColor: BlipColors.lightGrey,
                             foregroundImage: NetworkImage(
-                              participants[index].profilePicture,
+                              participants[index].profilePicURL!,
                             ),
                           ),
                           addVerticalSpace(5),
@@ -200,9 +197,10 @@ class _GroupChatState extends State<GroupChat> {
                                 onPressed: () {
                                   String msg = _messageController.text;
                                   if (msg.isNotEmpty) {
-                                    sendMessage(currentUser.id, msg);
+                                    sendMessage(currentUser.id!, msg);
                                     _messageController.clear();
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   }
                                 })),
                       ),
