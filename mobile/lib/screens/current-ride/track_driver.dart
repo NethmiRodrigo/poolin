@@ -107,7 +107,7 @@ class _TrackDriverState extends State<TrackDriver> {
           controller
               .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: driverLoc,
-            zoom: 12,
+            zoom: 16,
           )));
         });
       });
@@ -260,7 +260,7 @@ class _TrackDriverState extends State<TrackDriver> {
                       myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: pickupLoc,
-                        zoom: 13.0,
+                        zoom: 15.0,
                       ),
                       mapType: _currentMapType,
                       onMapCreated: _onMapCreated,

@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/app.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/screens/current-ride/track_driver.dart';
 import 'package:mobile/screens/view-profile/driver_profile_screen.dart';
 import './theme.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: const Color(0xffff8210),
           splash: "assets/images/poolin.gif",
           splashIconSize: 2500,
-          nextScreen: const App(),
+          nextScreen: const TrackDriver(),
         ),
         debugShowCheckedModeBanner: false,
       ),
