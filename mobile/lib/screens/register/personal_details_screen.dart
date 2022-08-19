@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
+
+import '../../colors.dart';
 
 class PersonalDetailsScreen extends StatefulWidget {
   const PersonalDetailsScreen({super.key});
@@ -35,6 +38,7 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -43,21 +47,11 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(48),
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  'STEP 5/5',
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ),
-              Image.asset('assets/images/logo.png', scale: 3),
-              Text(
-                "You're almost there!",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .merge(const TextStyle(color: Colors.black)),
+              addVerticalSpace(68),
+              Image.asset('assets/images/logo.png', height: 24),
+              const Text(
+                "And you're \nalmost there!",
+                style: BlipFonts.display,
                 textAlign: TextAlign.left,
               ),
               addVerticalSpace(48),
@@ -67,13 +61,12 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _fname,
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
                         hintText: 'First Name',
-                        isDense: true,
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -87,13 +80,12 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _lname,
                       decoration: const InputDecoration(
-                        isDense: true,
-                        border: OutlineInputBorder(),
                         hintText: 'Last Name',
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -106,6 +98,10 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     ),
                     addVerticalSpace(24),
                     ToggleButtons(
+                      selectedColor: BlipColors.white,
+                      color: BlipColors.grey,
+                      fillColor: Colors.black,
+                      borderRadius: BorderRadius.circular(40),
                       onPressed: (int index) {
                         setState(() {
                           for (int buttonIndex = 0;

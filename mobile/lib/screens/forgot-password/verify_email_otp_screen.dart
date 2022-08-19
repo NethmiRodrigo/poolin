@@ -1,12 +1,16 @@
+import 'package:dio/dio.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/otp_fields.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:http/http.dart';
 import 'package:mobile/screens/forgot-password/reset_password_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/services/reset_password_service.dart';
+
+import '../../colors.dart';
+import '../../fonts.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);
@@ -36,20 +40,23 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                addVerticalSpace(104),
-                const Icon(Icons.lock_outline_rounded, size: 110),
-                addVerticalSpace(12),
+                addVerticalSpace(44),
+                Align(
+                    alignment: Alignment.topLeft,
+                    child: Icon(
+                      EvaIcons.arrowBackOutline,
+                      color: Colors.black,
+                    )),
+                addVerticalSpace(48),
+                Image.asset('assets/images/otp.png', height: 206),
                 Text(
                   "Verify it's you",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .merge(const TextStyle(color: Colors.black)),
+                  style: BlipFonts.title,
                 ),
                 addVerticalSpace(16),
                 Text(
                   'We sent a one-time code \nto your email to confirm',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: BlipFonts.label,
                   textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(48),
@@ -66,7 +73,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     },
                   ),
                 ),
-                addVerticalSpace(56),
+                addVerticalSpace(32),
                 WideButton(
                   text: 'Verify Email',
                   onPressedAction: () async {
@@ -97,10 +104,11 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     text: TextSpan(children: [
                       TextSpan(
                           text: "Didn't receive a code? ",
-                          style: Theme.of(context).textTheme.bodyText1),
+                          style: BlipFonts.outline),
                       TextSpan(
                           text: 'Try Again',
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: BlipFonts.outlineBold
+                              .merge(TextStyle(color: BlipColors.orange)),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
                               String? email =

@@ -4,6 +4,7 @@ import { EmailFormat } from "../../database/entity/EmailFormat";
 import { ForgotPassword } from "../../database/entity/ForgotPassword";
 import { TempUser } from "../../database/entity/TempUser";
 import { User } from "../../database/entity/User";
+import { Vehicle } from "../../database/entity/Vehicle";
 
 export const TestAppDataSource = new DataSource({
   type: "postgres",
@@ -14,7 +15,7 @@ export const TestAppDataSource = new DataSource({
   database: "poolin-test",
   synchronize: true,
   logging: false,
-  entities: [User, ForgotPassword, EmailFormat, TempUser],
+  entities: [User, ForgotPassword, EmailFormat, TempUser, Vehicle],
   migrations: [],
   subscribers: [],
 });

@@ -9,6 +9,8 @@ import { User } from "../../database/entity/User";
 /** Utility functions */
 import { AppError } from "../../util/error-handler";
 import { createUserToken } from "../../util/auth-helper";
+import { getCloseFriends } from "../friends/manage-friends";
+import { findFriendsOfAUser } from "../friends/util";
 
 /**
  * Login API Route
@@ -54,5 +56,8 @@ export const logout = async (_: Request, res: Response) => {
  * API Route to get the logged in user details
  */
 export const getLoggedInUser = async (_: Request, res: Response) => {
-  return res.json(res.locals.user);
+  const user: User = res.locals.user;
+  delete user.password;
+  const friends = await findFriendsOfAUser(user.id.toFixed(1), 1);
+  return res.json({ ...user, friends });
 };

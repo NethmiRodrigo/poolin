@@ -1,15 +1,23 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:dio/dio.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:mobile/app.dart';
+// import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
+import 'package:mobile/screens/home/driver_home.dart';
+import 'package:mobile/screens/home/rider_home.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
+import '../../colors.dart';
+import '../../fonts.dart';
 import '../register/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -34,6 +42,7 @@ class LoginScreenState extends State<LoginScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -42,14 +51,18 @@ class LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(64),
-              Image.asset('assets/images/logo.png', scale: 3),
-              Text(
+              addVerticalSpace(44),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: const Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  )),
+              addVerticalSpace(48),
+              Image.asset('assets/images/logo.png', height: 24),
+              const Text(
                 "Let's sign \nyou back in",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .merge(const TextStyle(color: Colors.black)),
+                style: BlipFonts.display,
                 textAlign: TextAlign.left,
               ),
               addVerticalSpace(48),
@@ -59,14 +72,11 @@ class LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _email,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(),
                         hintText: 'Enter University Email',
-                        isDense: true,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -78,15 +88,12 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _pass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Enter a password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        hintText: 'Enter password',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -103,7 +110,9 @@ class LoginScreenState extends State<LoginScreen> {
                       child: RichText(
                         text: TextSpan(
                             text: 'Forgot password?',
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: BlipFonts.outlineBold.merge(
+                              const TextStyle(color: BlipColors.orange),
+                            ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.push(
@@ -115,7 +124,7 @@ class LoginScreenState extends State<LoginScreen> {
                               }),
                       ),
                     ),
-                    addVerticalSpace(40),
+                    addVerticalSpace(32),
                     WideButton(
                         text: 'Sign in',
                         onPressedAction: () async {
@@ -124,35 +133,44 @@ class LoginScreenState extends State<LoginScreen> {
                                 await login(_email.text, _pass.text);
 
                             if (response.statusCode == 200) {
-                              var res = json.decode(response.body);
-                              await _storage.write(
-                                  key: 'TOKEN', value: res["token"]);
-
                               if (!mounted) {
                                 return;
                               }
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const App()),
+                                // const DriverHomeScreen()),
+                              );
                             } else {}
                           }
                         }),
                     addVerticalSpace(16),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
+                    Center(
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
                             text: 'Not a member? ',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        TextSpan(
-                            text: 'Register now',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterScreen()),
-                                );
-                              }),
-                      ]),
+                            style: BlipFonts.outline.merge(
+                                const TextStyle(color: BlipColors.black)),
+                          ),
+                          TextSpan(
+                              text: 'Sign Up',
+                              style: BlipFonts.outlineBold.merge(
+                                const TextStyle(color: BlipColors.orange),
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterScreen()),
+                                  );
+                                }),
+                        ]),
+                      ),
                     ),
                   ],
                 ),

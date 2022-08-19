@@ -7,6 +7,8 @@ import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_request.dart';
+import 'package:mobile/models/user_model.dart';
+import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
@@ -50,21 +52,42 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   final List<RideRequest> _rideRequests = [
     RideRequest(
       id: '1',
-      startLocation: 'University of Colombo',
-      destination: 'Keells Super Dehiwala',
+      rideID: '00001',
+      pickupLocation: 'University of Colombo',
+      dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now(),
+      driver: User(
+        firstName: 'Yadeesha',
+        lastName: 'Weerasinghe',
+        gender: 'female',
+        email: 'yadeesha@gmail.com',
+      ),
     ),
     RideRequest(
       id: '2',
-      startLocation: 'Faculty of Science',
-      destination: 'Keells Super Dehiwala',
+      rideID: '00001',
+      pickupLocation: 'Faculty of Science',
+      dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
+      driver: User(
+        firstName: 'Yadeesha',
+        lastName: 'Weerasinghe',
+        gender: 'female',
+        email: 'yadeesha@gmail.com',
+      ),
     ),
     RideRequest(
       id: '2',
-      startLocation: 'Faculty of Science',
-      destination: 'Keells Super Dehiwala',
+      rideID: '00001',
+      pickupLocation: 'Faculty of Science',
+      dropoffLocation: 'Keells Super Dehiwala',
       requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
+      driver: User(
+        firstName: 'Yadeesha',
+        lastName: 'Weerasinghe',
+        gender: 'female',
+        email: 'yadeesha@gmail.com',
+      ),
     ),
   ];
   bool isDriving = true; //driver is driving if he currently has a ride
@@ -119,7 +142,13 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                               size: 20,
                               color: BlipColors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DestinationScreen(),
+                                  ));
+                            },
                           ),
                         )
                       ],

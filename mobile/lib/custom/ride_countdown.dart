@@ -4,6 +4,7 @@ import 'package:flutter_countdown_timer/index.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 class RideCountDown extends StatefulWidget {
   final int endTime;
@@ -26,6 +27,7 @@ class _RideCountDownState extends State<RideCountDown> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle whiteText = const TextStyle(color: BlipColors.white);
     final Size size = MediaQuery.of(context).size;
 
     return CountdownTimer(
@@ -39,8 +41,12 @@ class _RideCountDownState extends State<RideCountDown> {
         }
         return Container(
           width: size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          height: 100,
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 12,
+          ),
+          // height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: BlipColors.orange,
@@ -52,7 +58,7 @@ class _RideCountDownState extends State<RideCountDown> {
               RichText(
                 text: TextSpan(
                   text: '${time.days}',
-                  style: BlipFonts.display,
+                  style: BlipFonts.display.merge(whiteText),
                   children: [
                     TextSpan(
                       text: time.days! > 1 ? ' days' : ' day',
@@ -92,7 +98,13 @@ class _RideCountDownState extends State<RideCountDown> {
                       size: 20,
                       color: BlipColors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewRideRequestsScreen(),
+                          ));
+                    },
                   ),
                 ],
               )

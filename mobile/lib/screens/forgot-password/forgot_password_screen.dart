@@ -1,12 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/reset_password_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/screens/forgot-password/email_sent_screen.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../colors.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -40,17 +43,14 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
               addVerticalSpace(160),
               Text(
                 "Forgot Password?",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .merge(const TextStyle(color: Colors.black)),
+                style: BlipFonts.title,
               ),
               addVerticalSpace(16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
-                  'Enter the emal address you used when you joined and we’ll send you the instructions to reset your password.',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  'Enter the email address you \nused when you joined and \nwe’ll send you the instructions \nto reset your password',
+                  style: BlipFonts.label,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -61,14 +61,11 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
                       controller: _email,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(),
                         hintText: 'Enter University Email',
-                        isDense: true,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -105,12 +102,11 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                     addVerticalSpace(16),
                     RichText(
                       text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Return to ',
-                            style: Theme.of(context).textTheme.bodyText1),
+                        TextSpan(text: 'Return to ', style: BlipFonts.outline),
                         TextSpan(
                             text: 'Sign in',
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: BlipFonts.outlineBold
+                                .merge(TextStyle(color: BlipColors.orange)),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.push(

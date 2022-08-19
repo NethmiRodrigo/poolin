@@ -1,8 +1,12 @@
+import 'package:dio/dio.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -39,6 +43,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -47,21 +52,18 @@ class RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              addVerticalSpace(44),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: const Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  )),
               addVerticalSpace(48),
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  'STEP 1/5',
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ),
-              Image.asset('assets/images/logo.png', scale: 3),
-              Text(
-                'Create your account',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3!
-                    .merge(const TextStyle(color: Colors.black)),
+              Image.asset('assets/images/logo.png', height: 24),
+              const Text(
+                'Sign up and \nstart pooling',
+                style: BlipFonts.display,
                 textAlign: TextAlign.left,
               ),
               addVerticalSpace(48),
@@ -71,15 +73,13 @@ class RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlignVertical: TextAlignVertical.center,
                       key: const Key('email-field'),
                       controller: _email,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(),
                         hintText: 'Enter University Email',
-                        isDense: true,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -96,16 +96,14 @@ class RegisterScreenState extends State<RegisterScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlignVertical: TextAlignVertical.center,
                       key: const Key('password-field'),
                       controller: _pass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
                         hintText: 'Enter a password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -118,16 +116,14 @@ class RegisterScreenState extends State<RegisterScreen> {
                     ),
                     addVerticalSpace(24),
                     TextFormField(
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlignVertical: TextAlignVertical.center,
                       key: const Key('confirm-password-field'),
                       controller: _confirmPass,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
-                        isDense: true,
-                        border: OutlineInputBorder(),
                         hintText: 'Confirm password',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       ),
                       validator: (value) {
                         if ((value == null || value.isEmpty) &&
@@ -146,6 +142,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
                             Response response = await register(
+                                _email.text, _pass.text, _confirmPass.text);
+                            await register(
                                 _email.text, _pass.text, _confirmPass.text);
 
                             if (response.statusCode == 200) {
@@ -166,24 +164,30 @@ class RegisterScreenState extends State<RegisterScreen> {
                           }
                         }),
                     addVerticalSpace(16),
-                    RichText(
-                      text: TextSpan(children: [
-                        TextSpan(
-                            text: 'Already have an account? ',
-                            style: Theme.of(context).textTheme.bodyText1),
-                        TextSpan(
-                            text: 'Login',
-                            style: Theme.of(context).textTheme.subtitle1,
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()),
-                                );
-                              }),
-                      ]),
+                    Align(
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: 'Already have an account? ',
+                              style: BlipFonts.outline.merge(
+                                  const TextStyle(color: BlipColors.black))),
+                          TextSpan(
+                              text: 'Login',
+                              style: BlipFonts.outlineBold.merge(
+                                const TextStyle(color: BlipColors.orange),
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen()),
+                                  );
+                                }),
+                        ]),
+                      ),
                     ),
                   ],
                 ),
