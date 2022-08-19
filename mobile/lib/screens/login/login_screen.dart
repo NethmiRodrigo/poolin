@@ -5,16 +5,10 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/app.dart';
-// import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
-import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/screens/home/rider_home.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:convert';
 
 import '../../colors.dart';
 import '../../fonts.dart';
@@ -33,7 +27,6 @@ class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +47,7 @@ class LoginScreenState extends State<LoginScreen> {
               addVerticalSpace(44),
               const Align(
                   alignment: Alignment.topLeft,
-                  child: const Icon(
+                  child: Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
                   )),

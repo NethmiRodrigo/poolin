@@ -7,6 +7,7 @@ class RideRequestCubit extends Cubit<RideRequest> {
           source: Coordinate(),
           destination: Coordinate(),
           startTime: DateTime.now(),
+          window: 30
         ));
 
   void setSource(Coordinate source) => emit(state.copyWith(source: source));
@@ -43,7 +44,7 @@ class RideRequest {
     required this.source,
     required this.startTime,
     required this.destination,
-    this.window = 0,
+    this.window = 30,
     this.offers = const [],
     this.duration = 0,
     this.distance = 0,

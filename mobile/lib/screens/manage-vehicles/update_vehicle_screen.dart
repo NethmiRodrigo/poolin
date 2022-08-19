@@ -1,14 +1,11 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 //import 'package:color_picker_field/color_picker_field.dart';
 
-import '../../colors.dart';
 
 var reports = [
   {'title': 'assets/images/car.png', 'content': 'Car'},
@@ -140,7 +137,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                     children: [
                       Expanded(
                         child: Column(children: [
-                          Align(
+                          const Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Vehicle Make",
@@ -152,7 +149,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                             style: BlipFonts.label,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -171,7 +168,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                       ),
                       Expanded(
                         child: Column(children: [
-                          Align(
+                          const Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Vehicle Model",
@@ -183,7 +180,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                             style: BlipFonts.label,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 16),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -201,7 +198,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                   ),
                   addVerticalSpace(16),
                   Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Year",
@@ -213,7 +210,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                       style: BlipFonts.label,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 16),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -228,7 +225,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                   ]),
                   addVerticalSpace(16),
                   Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "License Plate Number",
@@ -240,7 +237,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                       style: BlipFonts.label,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 16),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -255,7 +252,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                   ]),
                   addVerticalSpace(16),
                   Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Vehicle Color",
@@ -267,7 +264,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                       style: BlipFonts.label,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 16),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -309,7 +306,7 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                                       primary: Colors.red.shade400,
                                       padding: const EdgeInsets.all(16.0),
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.delete_sharp,
                                       color: Colors.white,
                                     ))

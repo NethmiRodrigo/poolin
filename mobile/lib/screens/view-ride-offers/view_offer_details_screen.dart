@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
@@ -17,9 +19,13 @@ class ViewRideOfferDetails extends StatefulWidget {
 
 class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
   static const LatLng _center = LatLng(6.9271, 79.8612);
-
+  
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -73,12 +79,14 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                       child: Row(
                         children: [
                           addHorizontalSpace(8.0),
-                          const Text(
-                            "Rs. 250",
-                            style: BlipFonts.title,
+                          Text(
+                            "Rs. ${reqCubit.state.price}",
+                            style: BlipFonts.heading,
                           ),
-                          addHorizontalSpace(10.0),
-                          Expanded(
+                          // addHorizontalSpace(10.0),
+                          Spacer(),
+                          SizedBox(
+                            width: size.width * 0.5,
                             child: WideButton(
                               onPressedAction: () {
                                 Navigator.push(

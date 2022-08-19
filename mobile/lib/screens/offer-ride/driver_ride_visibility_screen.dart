@@ -18,10 +18,10 @@ class DriverRideVisibilityScreen extends StatefulWidget {
 
 class _DriverRideVisibilityScreenState
     extends State<DriverRideVisibilityScreen> {
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
+  final RangeValues _currentRangeValues = const RangeValues(40, 80);
   List<bool> isSelected = [true, false];
 
-  double _currentSliderValue = 4;
+  final double _currentSliderValue = 4;
   SfRangeValues _values = SfRangeValues(40.0, 80.0);
   List<String> tags = [];
   List<String> options = [
