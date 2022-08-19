@@ -57,12 +57,12 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
 
   getData() async {
     final requestData = await getOfferRequests();
-    final pendingRequestsJson = json.decode(requestData.body);
+    final pendingRequestsJson = json.decode(requestData.data);
     pendingRequests = (pendingRequestsJson['requests']);
     print(pendingRequests);
     final partyData = await getConfirmedRequests();
-    confirmedRequests = json.decode(partyData.body)['requests'];
-    print(confirmedRequests);
+
+    confirmedRequests = json.decode(partyData.data)['requests'];
 
     setState(() {
       isVisible = true;

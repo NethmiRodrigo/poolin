@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
@@ -42,7 +43,7 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
       offerCubit.setStartTime(startTime);
       Response response = await getDistanceAndTime(
           offerCubit.state.source, offerCubit.state.destination);
-      final res = json.decode(response.body);
+      final res = json.decode(response.data);
       if (response.statusCode == 200) {
         print(res["rows"][0]["elements"]);
       }
@@ -289,7 +290,7 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                     const OfferConfirmation()),
                           );
                           // } else {
-                          //   print("Error! " + postResponse.body);
+                          //   print("Error! " + postResponse.data);
                           // }
                         },
                       )
@@ -298,6 +299,45 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                 ),
               ),
             ),
+      addVerticalSpace(32),
+      WideButton(
+          text: "I'll arrive at " +
+              Jiffy(startTime).format("h:mm a").split(" ").join('') +
+              " " +
+              Jiffy(startTime).startOf(Units.HOUR).fromNow(),
+          onPressedAction: () async {
+            offerCubit.setStartTime(startTime);
+            Response response = await getDistanceAndTime(
+                offerCubit.state.source, offerCubit.state.destination);
+            // final res = json.decode(response.data);
+            final res = response.data;
+            if (response.statusCode == 200) {
+              print(res["rows"][0]["elements"]);
+            }
+            final distance = double.parse(res["rows"][0]["elements"][0]
+                    ["distance"]["text"]
+                .split(' ')[0]);
+            print(distance);
+            final duration = int.parse(res["rows"][0]["elements"][0]["duration"]
+                    ["text"]
+                .split(' ')[0]);
+            print(duration);
+            offerCubit.setDistance((distance * 1.60934));
+            print("done");
+            offerCubit.setDuration(duration);
+
+            Response postResponse = await postOffer(offerCubit.state);
+            if (postResponse.statusCode == 200) {
+              print("Success! " + postResponse.data);
+
+              // if (!mounted) {
+              //   return;
+              // }
+
+            } else {
+              print("Error! " + postResponse.data);
+            }
+          }),
     );
   }
 }

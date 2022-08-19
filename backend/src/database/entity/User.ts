@@ -7,7 +7,6 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   OneToMany,
 } from "typeorm";
 import { Exclude } from "class-transformer";

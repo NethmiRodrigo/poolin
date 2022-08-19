@@ -25,7 +25,7 @@ class _GroupChatState extends State<GroupChat> {
     lastName: 'Weerasinghe',
     gender: 'female',
     email: 'azma@gamil.com',
-    profilePicture: 'https://i.pravatar.cc/300?img=3',
+    profilePicURL: 'https://i.pravatar.cc/300?img=3',
   );
 
   final List<User> participants = [
@@ -35,7 +35,7 @@ class _GroupChatState extends State<GroupChat> {
       lastName: 'Pathirana',
       gender: 'female',
       email: 'neth@gamil.com',
-      profilePicture: 'https://i.pravatar.cc/300?img=9',
+      profilePicURL: 'https://i.pravatar.cc/300?img=9',
     ),
     User(
       id: '002',
@@ -43,7 +43,7 @@ class _GroupChatState extends State<GroupChat> {
       lastName: 'Weerasinghe',
       gender: 'female',
       email: 'azma@gamil.com',
-      profilePicture: 'https://i.pravatar.cc/300?img=3',
+      profilePicURL: 'https://i.pravatar.cc/300?img=3',
     ),
   ];
   TextEditingController _messageController = TextEditingController();
@@ -142,7 +142,7 @@ class _GroupChatState extends State<GroupChat> {
                             radius: 20,
                             backgroundColor: BlipColors.lightGrey,
                             foregroundImage: NetworkImage(
-                              participants[index].profilePicture,
+                              participants[index].profilePicURL!,
                             ),
                           ),
                           addVerticalSpace(5),
@@ -210,7 +210,7 @@ class _GroupChatState extends State<GroupChat> {
                                 onPressed: () {
                                   String msg = _messageController.text;
                                   if (msg.isNotEmpty) {
-                                    sendMessage(currentUser.id, msg);
+                                    sendMessage(currentUser.id!, msg);
                                     _messageController.clear();
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();

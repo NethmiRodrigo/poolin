@@ -1,37 +1,35 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 
-import '../constants/constants.dart' as constants;
+import 'interceptor/dio_service.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/auth/';
 
-Future<http.Response> submitEmail(String email) async {
+final dio = DioService.getService();
+
+Future<Response> submitEmail(String email) async {
   Map data = {
     'email': email,
   };
 
-  String body = json.encode(data);
-  var url = Uri.parse('$baseURL/send-reset-password-email');
-  var response = await http.post(
-    url,
-    body: body,
-    headers: constants.header,
-  );
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.post('/send-reset-password-email', data: data);
 
   return response;
 }
 
-Future<http.Response> checkEmailOTP(String otp, String email) async {
+Future<Response> checkEmailOTP(String otp, String email) async {
   Map data = {'email': email, 'otp': otp};
 
-  String body = json.encode(data);
-  var url = Uri.parse('$baseURL/verify-password-otp');
-  var response = await http.post(url, body: body, headers: constants.header);
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.post('/verify-password-otp', data: data);
+
   return response;
 }
 
-Future<http.Response> resetPassword(
+Future<Response> resetPassword(
     String email, String pass, String confirmPass, String otp) async {
   Map data = {
     'email': email,
@@ -40,13 +38,9 @@ Future<http.Response> resetPassword(
     'otp': otp,
   };
 
-  String body = json.encode(data);
-  var url = Uri.parse('$baseURL/reset-password');
-  var response = await http.post(
-    url,
-    body: body,
-    headers: constants.header,
-  );
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.post('/reset-password', data: data);
 
   return response;
 }

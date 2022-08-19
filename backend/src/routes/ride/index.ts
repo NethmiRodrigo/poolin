@@ -26,10 +26,8 @@ router.get("/get/offer/:id", getOfferDetails);
 router.get("/get/offer/requests/:id", getOfferRequests);
 router.get("/get/offer/party/:id", getConfirmedRequests);
 
-router.get("/request", auth, getActiveRequest);
-router.post("/post-requests", auth, postRideRequests);
+router.get("/request", getActiveRequest);
+router.post("/post-requests", postRideRequests);
 router.get("/get/request/:id", getRequestDetails);
-
-router.post("/requests/accept", acceptRequests);
 
 export default router;
