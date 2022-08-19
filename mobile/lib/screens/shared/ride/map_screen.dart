@@ -83,7 +83,6 @@ class _MapScreenState extends State<MapScreen> {
 
   void setCustomMarkers() async {
     // Create custom icons
-
     BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",

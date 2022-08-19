@@ -27,6 +27,7 @@ class OfferDetailsCard extends StatefulWidget {
 class OfferDetailsCardState extends State<OfferDetailsCard> {
   DateTime startTime = DateTime.now().add(const Duration(days: 1));
   TextEditingController _email = TextEditingController(text: "500");
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -59,6 +60,18 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
       return postResponse;
     }
 
+    Future<DateTime?> showDatePicker() {
+      return DatePicker.showDateTimePicker(context,
+          showTitleActions: true,
+          minTime: DateTime.now().add(const Duration(days: 1)),
+          maxTime: DateTime.now().add(const Duration(days: 7)),
+          onChanged: (date) {}, onConfirm: (date) {
+        setState(() {
+          startTime = date;
+        });
+      }, currentTime: startTime, locale: LocaleType.en);
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: isLoading
@@ -85,12 +98,12 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      addVerticalSpace(24),
+                      addVerticalSpace(size.height * 0.5 * 0.05),
                       const Text(
                         'Confirm your Offer',
                         style: BlipFonts.title,
                       ),
-                      addVerticalSpace(40),
+                      addVerticalSpace(size.height * 0.5 * 0.03),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Column(
@@ -154,38 +167,16 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                                         .headlineSmall),
                                                 addVerticalSpace(20),
                                                 TextButton(
-                                                    onPressed: () {
-                                                      DatePicker.showDateTimePicker(
-                                                          context,
-                                                          showTitleActions:
-                                                              true,
-                                                          minTime: DateTime
-                                                                  .now()
-                                                              .add(
-                                                                  const Duration(
-                                                                      days: 1)),
-                                                          maxTime: DateTime
-                                                                  .now()
-                                                              .add(
-                                                                  const Duration(
-                                                                      days: 7)),
-                                                          onChanged: (date) {},
-                                                          onConfirm: (date) {
-                                                        setState(() {
-                                                          startTime = date;
-                                                        });
-                                                      },
-                                                          currentTime:
-                                                              startTime,
-                                                          locale:
-                                                              LocaleType.en);
-                                                    },
-                                                    child: Text(
-                                                      Jiffy(startTime).yMMMd,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .labelLarge,
-                                                    ))
+                                                  onPressed: () {
+                                                    showDatePicker();
+                                                  },
+                                                  child: Text(
+                                                    Jiffy(startTime).yMMMd,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -273,7 +264,7 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                           ],
                         ),
                       ),
-                      addVerticalSpace(32.0),
+                      addVerticalSpace(size.height * 0.5 * 0.05),
                       WideButton(
                         text:
                             "I'll arrive at ${Jiffy(startTime).format("h:mm a").split(" ").join('')} ${Jiffy(startTime).startOf(Units.HOUR).fromNow()}",
@@ -299,45 +290,6 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                 ),
               ),
             ),
-      addVerticalSpace(32),
-      WideButton(
-          text: "I'll arrive at " +
-              Jiffy(startTime).format("h:mm a").split(" ").join('') +
-              " " +
-              Jiffy(startTime).startOf(Units.HOUR).fromNow(),
-          onPressedAction: () async {
-            offerCubit.setStartTime(startTime);
-            Response response = await getDistanceAndTime(
-                offerCubit.state.source, offerCubit.state.destination);
-            // final res = json.decode(response.data);
-            final res = response.data;
-            if (response.statusCode == 200) {
-              print(res["rows"][0]["elements"]);
-            }
-            final distance = double.parse(res["rows"][0]["elements"][0]
-                    ["distance"]["text"]
-                .split(' ')[0]);
-            print(distance);
-            final duration = int.parse(res["rows"][0]["elements"][0]["duration"]
-                    ["text"]
-                .split(' ')[0]);
-            print(duration);
-            offerCubit.setDistance((distance * 1.60934));
-            print("done");
-            offerCubit.setDuration(duration);
-
-            Response postResponse = await postOffer(offerCubit.state);
-            if (postResponse.statusCode == 200) {
-              print("Success! " + postResponse.data);
-
-              // if (!mounted) {
-              //   return;
-              // }
-
-            } else {
-              print("Error! " + postResponse.data);
-            }
-          }),
     );
   }
 }

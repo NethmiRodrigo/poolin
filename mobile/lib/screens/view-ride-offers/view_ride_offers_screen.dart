@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jiffy/jiffy.dart';
 
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
@@ -24,6 +27,7 @@ class ViewRideOffersScreen extends StatefulWidget {
 
 class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
   final _storage = const FlutterSecureStorage();
+  DateTime startTime = DateTime.now().add(const Duration(days: 1));
   var sourceLocation = {};
   var destinationLocation = {};
 
@@ -43,6 +47,18 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
   void initState() {
     _getLocation();
     super.initState();
+  }
+
+  Future<DateTime?> showDatePicker() {
+    return DatePicker.showDateTimePicker(context,
+        showTitleActions: true,
+        minTime: DateTime.now().add(const Duration(days: 1)),
+        maxTime: DateTime.now().add(const Duration(days: 7)),
+        onChanged: (date) {}, onConfirm: (date) {
+      setState(() {
+        startTime = date;
+      });
+    }, currentTime: startTime, locale: LocaleType.en);
   }
 
   @override
@@ -72,18 +88,26 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
             child: Expanded(
               child: Column(
                 children: [
-                  Row(
-                    children: const [
-                      Text(
-                        "Sunday, 14th August",
-                        style: BlipFonts.labelBold,
-                      ),
-                      Spacer(),
-                      Text(
-                        "12:28 AM",
-                        style: BlipFonts.labelBold,
-                      ),
-                    ],
+                  TextButton(
+                    onPressed: () {
+                      showDatePicker();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.black)),
+                          textAlign: TextAlign.start,
+                        ),
+                        const Icon(
+                          FluentIcons.edit_16_regular,
+                          color: BlipColors.orange,
+                          size: 14,
+                        )
+                      ],
+                    ),
                   ),
                   addVerticalSpace(10.0),
                   Row(
