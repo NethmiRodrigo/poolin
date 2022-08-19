@@ -3,10 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/screens/EditPhoneNumberOTPScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditPhoneNumberOTPScreen.dart';
+import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-
-import '../services/updateprofile_service.dart';
 
 class EditPhoneNumberScreen extends StatefulWidget {
   const EditPhoneNumberScreen({Key? key}) : super(key: key);
@@ -22,7 +21,6 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
   final _storage = const FlutterSecureStorage();
   final _formKey = GlobalKey<FormState>();
   String currentText = "";
-  
 
   @override
   Widget build(BuildContext context) {
@@ -90,53 +88,50 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                   child: Padding(
                     padding: sidePadding,
                     child: Column(children: [
-                  IntlPhoneField(
-                  flagsButtonPadding: const EdgeInsets.only(left: 16),
-                  showDropdownIcon: false,
-                  decoration: const InputDecoration(
-                    hintText: 'Phone Number',
-                    isDense: true,
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  ),
-                  initialCountryCode: 'LK',
-                  onChanged: (phone) {
-                    print(phone.completeNumber);
-                  },
-                ),
-                addVerticalSpace(20),
-                WideButton(
-                    text: 'Proceed',
-                    onPressedAction: () async {
-                      if (_formKey.currentState!.validate()) {
-                        Map data = {
-                                'mobile': _mobile
-                              };
-                        String? token = await _storage.read(key: 'TOKEN');
-                        Response response =
-                            await updateprofile(data, token!);
-                        if (response.statusCode == 200) {
-                          // await _storage.write(
-                          //     key: 'KEY_MOBILE', value: currentNumber);
-                          if (!mounted) {
-                            return;
-                          }
+                      IntlPhoneField(
+                        flagsButtonPadding: const EdgeInsets.only(left: 16),
+                        showDropdownIcon: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Phone Number',
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
+                        ),
+                        initialCountryCode: 'LK',
+                        onChanged: (phone) {
+                          print(phone.completeNumber);
+                        },
+                      ),
+                      addVerticalSpace(20),
+                      WideButton(
+                          text: 'Proceed',
+                          onPressedAction: () async {
+                            if (_formKey.currentState!.validate()) {
+                              Map data = {'mobile': _mobile};
+                              String? token = await _storage.read(key: 'TOKEN');
+                              Response response =
+                                  await updateprofile(data, token!);
+                              if (response.statusCode == 200) {
+                                // await _storage.write(
+                                //     key: 'KEY_MOBILE', value: currentNumber);
+                                if (!mounted) {
+                                  return;
+                                }
 
-                          Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const EditPhoneNumberOTPScreen()),
-                      );
-                        } else {}
-                      }
-                      
-                    }),
-                ]),
-                    ),),
-                
-                
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditPhoneNumberOTPScreen()),
+                                );
+                              } else {}
+                            }
+                          }),
+                    ]),
+                  ),
+                ),
+
                 // addVerticalSpace(16),
               ],
             ),

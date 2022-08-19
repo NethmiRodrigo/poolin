@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:mobile/screens/EditDateOfBirthScreen.dart';
-import 'package:mobile/screens/EditGenderScreen.dart';
-import 'package:mobile/screens/EditPhoneNumberScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditDateOfBirthScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditGenderScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditPhoneNumberScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class EditPersonalDetailsScreen extends StatefulWidget {

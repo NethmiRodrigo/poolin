@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/screens/EditProfileScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditProfileScreen.dart';
 import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 // import 'package:';
@@ -43,19 +43,16 @@ class EditBioScreenState extends State<EditBioScreen> {
               addVerticalSpace(48),
               ////////////////////////////////////////
               Form(
-                key: _formKey,
+                  key: _formKey,
                   child: Column(
-                children: [
-                  Container(
-                    // width: double.infinity,
-                    // padding: sidePadding,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        addHorizontalSpace(8),
-                        
-                            
-                          
+                    children: [
+                      Container(
+                        // width: double.infinity,
+                        // padding: sidePadding,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            addHorizontalSpace(8),
                             IconButton(
                               icon: const Icon(
                                 Icons.close,
@@ -104,40 +101,36 @@ class EditBioScreenState extends State<EditBioScreen> {
                                 Navigator.pop(context);
                               },
                             ),
-                          
-                        
-                      ],
-                    ),
-                  ),
-                  Container(
-                      child: Padding(
-                    padding: sidePadding,
-                    child: Column(children: [
-                      ////////////
-                      // SizedBox(
-                      //   height: 64,
-                      // ),
-                      addVerticalSpace(64),
-                      TextField(
-                        decoration: InputDecoration(
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            // border: OutlineInputBorder(
-                            //     borderRadius: BorderRadius.circular(4)),
-                            hintText:
-                                "I am a person that does things and well there is nothing much to say here but random word.  Anyays hope I’vesaid enough",
-                            hintStyle: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                            )),
+                          ],
+                        ),
                       ),
-                    ]),
-                  )
-
-
-                      ),
-                  addVerticalSpace(32),
-                ],
-              )),
+                      Container(
+                          child: Padding(
+                        padding: sidePadding,
+                        child: Column(children: [
+                          ////////////
+                          // SizedBox(
+                          //   height: 64,
+                          // ),
+                          addVerticalSpace(64),
+                          TextField(
+                            decoration: InputDecoration(
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                // border: OutlineInputBorder(
+                                //     borderRadius: BorderRadius.circular(4)),
+                                hintText:
+                                    "I am a person that does things and well there is nothing much to say here but random word.  Anyays hope I’vesaid enough",
+                                hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                )),
+                          ),
+                        ]),
+                      )),
+                      addVerticalSpace(32),
+                    ],
+                  )),
               ////////////////////////////////////////
             ],
           ),

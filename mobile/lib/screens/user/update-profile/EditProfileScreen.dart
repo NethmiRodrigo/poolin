@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/screens/ChangePasswordScreen.dart';
-import 'package:mobile/screens/EditBioScreen.dart';
-import 'package:mobile/screens/EditFullNameScreen.dart';
-import 'package:mobile/screens/EditPersonalDetailsScreen.dart';
-import 'package:mobile/screens/UploadDocumentScreen.dart';
+import 'package:mobile/screens/user/update-profile/ChangePasswordScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditBioScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditFullNameScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditPersonalDetailsScreen.dart';
+import 'package:mobile/screens/user/update-profile/UploadDocumentScreen.dart';
 import 'package:mobile/services/getuserlogindetails_service.dart';
-import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-// import 'package:flutter/src/foundation/key.dart';
-// import 'package:flutter/src/widgets/framework.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -41,7 +38,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void getUserDetails() async {
-    Response response = await getProfileDetails();
+    // Response response = await getProfileDetails();
     // token = await _storage.read(key: 'TOKEN');
   }
 

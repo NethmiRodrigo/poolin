@@ -3,15 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/screens/register/email_otp_screen.dart';
-// import 'package:mobile/screens/EmailOTPScreen.dart';
-import 'package:mobile/screens/EditProfileScreen.dart';
+import 'package:mobile/custom/wide_button.dart';
+import 'package:mobile/screens/user/update-profile/EditProfileScreen.dart';
 
 import 'package:mobile/services/change_password_service.dart';
-import 'package:mobile/services/register_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-
-import '../custom/wide_button.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});

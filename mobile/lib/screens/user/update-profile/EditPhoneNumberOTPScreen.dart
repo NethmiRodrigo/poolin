@@ -3,12 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/otp_fields.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/screens/EditProfileScreen.dart';
+import 'package:mobile/screens/user/update-profile/EditProfileScreen.dart';
 import 'package:mobile/services/updateprofile_service.dart';
-// import 'package:mobile/screens/PersonalDetailsScreen.dart';
 import 'package:mobile/utils/widget_functions.dart';
-// import '../custom/OTPFields.dart';
-import '../services/register_service.dart';
 
 class EditPhoneNumberOTPScreen extends StatefulWidget {
   const EditPhoneNumberOTPScreen({Key? key}) : super(key: key);
@@ -92,14 +89,12 @@ class EditPhoneNumberOTPScreenState extends State<EditPhoneNumberOTPScreen> {
                         }
 
                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const EditProfileScreen()),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EditProfileScreen()),
+                        );
                       } else {}
                     }
-                    
                   },
                 ),
                 addVerticalSpace(16),
