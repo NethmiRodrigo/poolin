@@ -44,10 +44,10 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(184),
-              Text("Create a password", style: BlipFonts.title),
+              const Text("Create a password", style: BlipFonts.title),
               addVerticalSpace(16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 48),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
                   'Your new password should be different from your last one',
                   style: BlipFonts.label,

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/dashed_line.dart';
 import 'package:mobile/custom/outline_button.dart';
 import 'package:mobile/fonts.dart';
@@ -12,6 +15,9 @@ class RideOfferTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+        
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -77,7 +83,7 @@ class RideOfferTimeline extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Lionel Wendt Art Centre', style: BlipFonts.outline),
+                    Text(reqCubit.state.source.name, style: BlipFonts.outline),
                     Container(
                       padding:
                           const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -94,8 +100,8 @@ class RideOfferTimeline extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Text(
-                  "12:40 PM",
+                Text(
+                  Jiffy(reqCubit.state.startTime).format("h:mm a"),
                   style: BlipFonts.outline,
                 ),
               ],
@@ -124,7 +130,7 @@ class RideOfferTimeline extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Cinnamon Red',
+                    Text(reqCubit.state.destination.name,
                         style: BlipFonts.outline),
                     Container(
                       padding:

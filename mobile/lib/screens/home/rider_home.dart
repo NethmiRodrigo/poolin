@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 
 import 'package:mobile/custom/lists/close_friends_list.dart';
@@ -167,7 +166,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             top: 16,
                             bottom: 16,
                             left: 16,

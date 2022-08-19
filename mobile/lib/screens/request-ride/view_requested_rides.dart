@@ -62,7 +62,7 @@ class _RequestedTripsState extends State<RequestedTrips> {
                   ),
                   const Indicator(
                       icon: CupertinoIcons.minus,
-                      text: "45 mins",
+                      text: "30 mins",
                       color: BlipColors.grey),
                 ],
               ),
