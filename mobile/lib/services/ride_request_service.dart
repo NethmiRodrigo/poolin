@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/services/interceptor/dio_service.dart';
 
 
@@ -10,28 +10,19 @@ const _storage = FlutterSecureStorage();
 
 final dio = DioService.getService();
 
-Future<Response> postRequest(RideOffer rideOffer) async {
+Future<Response> postRequest(RideRequest rideRequest) async {
   String? email = await _storage.read(key: 'KEY_EMAIL');
   
   Map data = {
-    'src': {
-      'lat': rideOffer.source.lat,
-      'long': rideOffer.source.lang,
-      'name': rideOffer.source.name,
-    },
-    'dest': {
-      'lat': rideOffer.destination.lat,
-      'long': rideOffer.destination.lang,
-      'name': rideOffer.destination.name,
-    },
-    'email': email,
-    'ppkm': rideOffer.ppkm,
-    'distance': rideOffer.distance,
-    'seats': rideOffer.seatCount,
-    'startTime': rideOffer.startTime.toString(),
-    'endTime': rideOffer.startTime
-        .add(Duration(minutes: rideOffer.duration))
-        .toString(),
+    'src': rideRequest.source,
+    'dest': rideRequest.destination,
+    'distance': rideRequest.distance,
+    'startTime': rideRequest.startTime.toString(),
+    'window': rideRequest.window,
+    'offers': rideRequest.offers,
+    'price': rideRequest.price != 0 ? rideRequest.price : null,
+    'duration': rideRequest.duration,
+    'email': 'beth@email',
   };
 
   dio.options.baseUrl = baseURL;

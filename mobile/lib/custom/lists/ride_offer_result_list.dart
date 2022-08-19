@@ -33,7 +33,7 @@ class RideOfferResultList extends StatelessWidget {
       thumbVisibility: true,
       child: ListView.builder(
         itemBuilder: (ctx, index) {
-          return GestureDetector(
+          return GestureDetector( 
             onTap: () {
               Navigator.push(
                 context,
@@ -48,117 +48,113 @@ class RideOfferResultList extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Stack(
+                  child: Column(
                     children: [
-                      Column(
+                      Row(
                         children: [
-                          Row(
+                          CircleAvatar(
+                            radius: 20,
+                            foregroundImage: NetworkImage(
+                              offers[index].user.profilePicture,
+                            ),
+                          ),
+                          addHorizontalSpace(5.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 20,
-                                foregroundImage: NetworkImage(
-                                  offers[index].user.profilePicture,
-                                ),
+                              Text(
+                                offers[index].user.name,
+                                style: BlipFonts.outline,
                               ),
-                              addHorizontalSpace(5.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    Icons.star_rounded,
+                                    size: 10.0,
+                                    color: BlipColors.gold,
+                                  ),
+                                  addHorizontalSpace(8.0),
                                   Text(
-                                    offers[index].user.name,
-                                    style: BlipFonts.outline,
+                                    offers[index]
+                                        .user
+                                        .starRating
+                                        .toString(),
+                                    style: BlipFonts.tagline,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.star_rounded,
-                                        size: 10.0,
-                                        color: BlipColors.gold,
-                                      ),
-                                      addHorizontalSpace(8.0),
-                                      Text(
-                                        offers[index]
-                                            .user
-                                            .starRating
-                                            .toString(),
-                                        style: BlipFonts.tagline,
-                                      ),
-                                      addHorizontalSpace(8.0),
-                                      const Icon(
-                                        Icons.circle,
-                                        size: 4.0,
-                                      ),
-                                      addHorizontalSpace(8.0),
-                                      Text(
-                                        offers[index]
-                                            .user
-                                            .noOfRatings
-                                            .toString(),
-                                        style: BlipFonts.tagline,
-                                      )
-                                    ],
+                                  addHorizontalSpace(8.0),
+                                  const Icon(
+                                    Icons.circle,
+                                    size: 4.0,
                                   ),
+                                  addHorizontalSpace(8.0),
+                                  Text(
+                                    offers[index]
+                                        .user
+                                        .noOfRatings
+                                        .toString(),
+                                    style: BlipFonts.tagline,
+                                  )
                                 ],
                               ),
-                              const Spacer(),
-                              type == "view"
-                                  ? SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Checkbox(
-                                        checkColor: BlipColors.black,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          isChecked = value!;
-                                        },
-                                      ),
-                                    )
-                                  : IconButton(
-                                      icon: const Icon(
-                                        EvaIcons.trash2,
-                                        color: BlipColors.grey,
-                                        size: 20.0,
-                                      ),
-                                      onPressed: () {},
-                                    ),
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Icon(
-                                Icons.directions_car_filled_rounded,
-                                color: BlipColors.grey,
-                              ),
-                              addHorizontalSpace(5.0),
-                              Text(
-                                offers[index].model,
-                                style: BlipFonts.outline.merge(
-                                  const TextStyle(color: BlipColors.grey),
+                          const Spacer(),
+                          type == "view"
+                              ? SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Checkbox(
+                                    checkColor: BlipColors.black,
+                                    fillColor:
+                                        MaterialStateProperty.resolveWith(
+                                            getColor),
+                                    value: isChecked,
+                                    onChanged: (bool? value) {
+                                      isChecked = value!;
+                                    },
+                                  ),
+                                )
+                              : IconButton(
+                                  icon: const Icon(
+                                    EvaIcons.trash2,
+                                    color: BlipColors.grey,
+                                    size: 20.0,
+                                  ),
+                                  onPressed: () {},
                                 ),
-                              )
-                            ],
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(
+                            Icons.directions_car_filled_rounded,
+                            color: BlipColors.grey,
                           ),
-                          addVerticalSpace(8.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "Rs. ${offers[index].price}",
-                                style: BlipFonts.labelBold,
-                              ),
-                              addHorizontalSpace(8.0),
-                              const Icon(Icons.chevron_right_rounded)
-                            ],
+                          addHorizontalSpace(5.0),
+                          Text(
+                            offers[index].model,
+                            style: BlipFonts.outline.merge(
+                              const TextStyle(color: BlipColors.grey),
+                            ),
                           )
                         ],
                       ),
+                      addVerticalSpace(8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Rs. ${offers[index].price}",
+                            style: BlipFonts.labelBold,
+                          ),
+                          addHorizontalSpace(8.0),
+                          const Icon(Icons.chevron_right_rounded)
+                        ],
+                      )
                     ],
                   ),
                 )),

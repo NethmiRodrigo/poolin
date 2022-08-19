@@ -1,7 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
+import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/request-ride/view_requested_rides.dart';
 import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
+import 'package:mobile/services/ride_request_service.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -20,6 +26,7 @@ class RequestDetailsCard extends StatefulWidget {
 
 class _RequestDetailsCardState extends State<RequestDetailsCard> {
   bool isChecked = false;
+  bool isLoading = false;
 
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -33,10 +40,25 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
     return Colors.black;
   }
 
-  double _value = 250.0;
+  double _ridePrice = 250.0;
 
   @override
   Widget build(BuildContext context) {
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+
+    reqCubit.setPrice(_ridePrice);
+
+    Future<Response> handlePostRideRequest() async {
+      setState(() {
+        isLoading = true;
+      });
+
+      Response postResponse = await postRequest(reqCubit.state);
+
+      return postResponse;
+    }
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
@@ -46,16 +68,16 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
           children: [
             const Text(
               "Confirm your Ride Requests",
-              style: BlipFonts.title,
+              style: BlipFonts.heading,
             ),
             addVerticalSpace(20.0),
-            const Text(
-              "Sunday, 14th August",
+            Text(
+              "${Jiffy(reqCubit.state.startTime).MMMMEEEEd} ",
               style: BlipFonts.labelBold,
             ),
             addVerticalSpace(5.0),
-            const Text(
-              "12.40 PM +- 45 mins",
+            Text(
+              "${Jiffy(reqCubit.state.startTime).format("h:mm a")} +- 45 mins",
               style: BlipFonts.label,
             ),
             addVerticalSpace(20.0),
@@ -99,7 +121,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                   width: 20,
                   height: 20,
                   child: Checkbox(
-                    checkColor: BlipColors.white,
+                    checkColor: BlipColors.black,
                     fillColor: MaterialStateProperty.resolveWith(getColor),
                     value: isChecked,
                     onChanged: (bool? value) {
@@ -120,7 +142,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
             SfSlider(
               min: 100.0,
               max: 1000.0,
-              value: _value,
+              value: _ridePrice,
               interval: 10,
               enableTooltip: true,
               shouldAlwaysShowTooltip: true,
@@ -129,21 +151,31 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
               onChanged: isChecked
                   ? (dynamic value) {
                       setState(() {
-                        _value = value;
+                        _ridePrice = value;
+                        reqCubit.setPrice(_ridePrice);
                       });
                     }
                   : null,
             ),
             addVerticalSpace(20.0),
             WideButton(
-              text: "I'll depart at 12.40 PM in 24 hours",
-              onPressedAction: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) => const RequestedTrips()),
-                  ),
-                );
+              text:
+                  "I'll depart at ${Jiffy(reqCubit.state.startTime).format("h:mm a").split(" ").join('')} ${Jiffy(reqCubit.state.startTime).startOf(Units.HOUR).fromNow()}",
+              onPressedAction: () async {
+                Response response = await handlePostRideRequest();
+                if (response.statusCode == 200) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RequestConfirmation(),
+                    ),
+                  );
+                } else {
+                  print(response.data);
+                }
               },
             ),
           ],

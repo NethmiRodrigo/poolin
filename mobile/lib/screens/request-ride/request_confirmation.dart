@@ -40,13 +40,13 @@ class RequestConfirmation extends StatelessWidget {
                         width: size.width * 0.5),
                     addVerticalSpace(size.height * 0.05),
                     const Text(
-                      'Your request has been posted!\n We will let you know when once Yadeesha\n accepts your request',
+                      'Your request has been posted!\n We will let you know when once someone\n accepts your request',
                       style: BlipFonts.outlineBold,
                       textAlign: TextAlign.center,
                     ),
                     addVerticalSpace(size.height * 0.1),
                     WideButton(
-                      text: 'Back to Home',
+                      text: 'View my Requests',
                       onPressedAction: () {
                         Navigator.push(
                           context,

@@ -28,6 +28,8 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
   late GooglePlace googlePlace;
   Map<PolylineId, Polyline> polylines = {};
   Set<Marker> _markers = {};
+  BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
   late CameraPosition _initalPosition;
   String? apiKey = dotenv.env['MAPS_API_KEY'];
 
@@ -53,8 +55,27 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
 
   @override
   void initState() {
+    setCustomMarkers();
     googlePlace = GooglePlace(apiKey!);
     super.initState();
+  }
+
+  void setCustomMarkers() async {
+    // Create custom icons
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-black.png",
+    );
+
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/location-pin-orange.png",
+    );
+
+    setState(() {
+      destinationMarker = destinationIcon;
+      sourceMarker = startIcon;
+    });
   }
 
   _getPolyline() async {
@@ -69,12 +90,14 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
         position:
             LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
         draggable: false,
+        icon: sourceMarker,
       ),
       Marker(
         markerId: const MarkerId('destination'),
         position: LatLng(
             destinationLocation['latitude'], destinationLocation['longitude']),
         draggable: false,
+        icon: destinationMarker,
       ),
     };
     setState(() {
