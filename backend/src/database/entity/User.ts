@@ -7,12 +7,13 @@ import {
   Index,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   OneToMany,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
 import { Vehicle } from "./Vehicle";
+import { RideOffer } from "./RideOffer";
+import { RideRequest } from "./RideRequest";
 
 export enum Gender {
   MALE = "male",
@@ -66,6 +67,9 @@ export class User extends BaseEntity {
   @Exclude()
   profileImageUri: string;
 
+  @Column({ nullable: true })
+  bio: string;
+
   @Column()
   password: string;
 
@@ -99,6 +103,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.owner)
   vehicles!: Vehicle[];
+
+  @OneToMany(() => RideOffer, (offer) => offer.user)
+  offers: RideOffer[];
+
+  @OneToMany(() => RideRequest, (request) => request.user)
+  requests: RideRequest[];
 
   @CreateDateColumn()
   createdAt: Date;
