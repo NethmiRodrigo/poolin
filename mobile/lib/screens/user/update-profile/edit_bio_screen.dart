@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/screens/user/update-profile/EditProfileScreen.dart';
+import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
 import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 // import 'package:';

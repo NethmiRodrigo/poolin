@@ -67,9 +67,7 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
           onPrimary: Colors.white,
           textStyle: Theme.of(context).textTheme.bodyText1,
         ),
-        
-        child: Row(
-          children: [
+        child: Row(children: [
           // Center(),
           // Spacer(),
           const SizedBox(width: 16),

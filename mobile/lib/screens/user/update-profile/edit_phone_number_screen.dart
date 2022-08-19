@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/screens/user/update-profile/EditPhoneNumberOTPScreen.dart';
+import 'package:mobile/screens/user/update-profile/edit_phone_number_otp_screen.dart';
 import 'package:mobile/services/updateprofile_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 

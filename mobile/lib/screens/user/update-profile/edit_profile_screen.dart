@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:mobile/screens/user/update-profile/ChangePasswordScreen.dart';
-import 'package:mobile/screens/user/update-profile/EditBioScreen.dart';
-import 'package:mobile/screens/user/update-profile/EditFullNameScreen.dart';
-import 'package:mobile/screens/user/update-profile/EditPersonalDetailsScreen.dart';
-import 'package:mobile/screens/user/update-profile/UploadDocumentScreen.dart';
+import 'package:mobile/screens/user/update-profile/change_password_screen.dart';
+import 'package:mobile/screens/user/update-profile/edit_bio_screen.dart';
+import 'package:mobile/screens/user/update-profile/edit_full_name_screen.dart';
+import 'package:mobile/screens/user/update-profile/edit_personal_details_screen.dart';
+import 'package:mobile/screens/user/update-profile/upload_document.dart';
 import 'package:mobile/services/getuserlogindetails_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
