@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile/screens/current-ride/start_ride.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
+import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/splash.dart';
 
-import 'package:mobile/screens/rate_users/rate_driver_screen.dart';
-import 'package:mobile/screens/rate_users/rate_passengers_screen.dart';
-import 'package:mobile/screens/current-ride/track_driver.dart';
 import './theme.dart';
+
+import 'package:mobile/theme.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -33,11 +33,14 @@ class MyApp extends StatelessWidget {
         BlocProvider<ActiveRideCubit>(
           create: (context) => ActiveRideCubit(),
         ),
+        BlocProvider<CurrentUserCubit>(
+          create: (context) => CurrentUserCubit(),
+        ),
       ],
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: RatePassengersScreen(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

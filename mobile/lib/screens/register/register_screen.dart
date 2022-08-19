@@ -1,8 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
+// import 'package:http/http.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
@@ -42,6 +43,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -51,15 +53,15 @@ class RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              Align(
+              const Align(
                   alignment: Alignment.topLeft,
-                  child: Icon(
+                  child: const Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
                   )),
               addVerticalSpace(48),
               Image.asset('assets/images/logo.png', height: 24),
-              Text(
+              const Text(
                 'Sign up and \nstart pooling',
                 style: BlipFonts.display,
                 textAlign: TextAlign.left,
@@ -141,6 +143,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                           if (_formKey.currentState!.validate()) {
                             Response response = await register(
                                 _email.text, _pass.text, _confirmPass.text);
+                            await register(
+                                _email.text, _pass.text, _confirmPass.text);
 
                             if (response.statusCode == 200) {
                               await _storage.write(
@@ -166,11 +170,12 @@ class RegisterScreenState extends State<RegisterScreen> {
                         text: TextSpan(children: [
                           TextSpan(
                               text: 'Already have an account? ',
-                              style: BlipFonts.outline),
+                              style: BlipFonts.outline.merge(
+                                  const TextStyle(color: BlipColors.black))),
                           TextSpan(
                               text: 'Login',
                               style: BlipFonts.outlineBold.merge(
-                                TextStyle(color: BlipColors.orange),
+                                const TextStyle(color: BlipColors.orange),
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {

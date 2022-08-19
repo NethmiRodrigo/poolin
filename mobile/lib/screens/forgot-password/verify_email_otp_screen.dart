@@ -1,9 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/otp_fields.dart';
 import 'package:mobile/custom/wide_button.dart';
-import 'package:http/http.dart';
 import 'package:mobile/screens/forgot-password/reset_password_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
