@@ -1,14 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:mobile/custom/lists/pass_request_list.dart';
 import 'package:mobile/custom/lists/ride_request_list.dart';
 import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
+import 'package:mobile/models/active_ride_offer.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
+import 'package:mobile/services/ride_offer_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
@@ -24,7 +26,6 @@ class DriverHomeScreen extends StatefulWidget {
 }
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
-  final _storage = const FlutterSecureStorage();
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
   final Map<String, int> stat = {
@@ -90,14 +91,33 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       ),
     ),
   ];
-  bool isDriving = true; //driver is driving if he currently has a ride
+  bool isDriving = false; //driver is driving if he currently has a ride
+
+  @override
+  void initState() {
+    super.initState();
+    getOffer();
+  }
+
+  void getOffer() async {
+    Response response = await getActiveOffer();
+    if (response.data["offer"] != null) {
+      ActiveRideOffer rideOffer =
+          ActiveRideOffer.fromJson(response.data["offer"]);
+      DateTime? departureTime = rideOffer.departureTime;
+      int endTimeInSeconds = departureTime.millisecondsSinceEpoch;
+      setState(() {
+        endTime = endTimeInSeconds;
+        isDriving = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     const double padding = 16;
     final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-
     return Scaffold(
       body: SingleChildScrollView(
         padding: sidePadding,

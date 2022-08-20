@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { AppDataSource } from "../../data-source";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
@@ -50,20 +51,20 @@ export const getOfferDetails = async (req: Request, res: Response) => {
 };
 
 export const getActiveOffer = async (req: Request, res: Response) => {
-  const email = req.query.email;
-
-  const user = await User.findOne({ where: { email: email as string } });
+  const user: User = res.locals.user;
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
 
-  const offer = await RideOffer.createQueryBuilder("offer")
-    .leftJoinAndSelect("offer.user", "user")
-    .where("offer.status IN ('active','booked')")
-    .andWhere("user.email = :email", { email: email as string })
-    .select(["offer.id AS id"])
-    .getRawOne();
+  const rideRepository = AppDataSource.getRepository(RideOffer);
+
+  const offer: RideOffer = await rideRepository.findOne({
+    relations: { user: true },
+    where: { user: { email: user.email } },
+  });
+
+  delete offer.user;
 
   if (!offer) {
     return res.status(404).json({ error: "No active offer" });
