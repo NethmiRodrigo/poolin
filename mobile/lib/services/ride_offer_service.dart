@@ -49,18 +49,18 @@ Future<Response> getActiveOffer() async {
   return response;
 }
 
-Future<Response> getOfferRequests() async {
+Future<Response> getOfferRequests(int id) async {
   dio.options.baseUrl = baseURL;
 
-  final response = await dio.get('/get/offer/requests/1');
+  final response = await dio.get('/get/offer/requests/$id');
 
   return response;
 }
 
-Future<Response> getConfirmedRequests() async {
+Future<Response> getConfirmedRequests(int id) async {
   dio.options.baseUrl = baseURL;
 
-  final response = await dio.get('/get/offer/party/1');
+  final response = await dio.get('/get/offer/party/$id');
 
   return response;
 }

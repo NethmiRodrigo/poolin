@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/cubits/active_ride_cubit.dart';
 
 import 'package:mobile/custom/lists/pass_request_list.dart';
 import 'package:mobile/custom/lists/ride_request_list.dart';
@@ -104,6 +106,10 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     if (response.data["offer"] != null) {
       ActiveRideOffer rideOffer =
           ActiveRideOffer.fromJson(response.data["offer"]);
+      ActiveRideCubit activeRideCubit =
+          BlocProvider.of<ActiveRideCubit>(context);
+      activeRideCubit.setId(rideOffer.id);
+      activeRideCubit.setDepartureTime(rideOffer.departureTime);
       DateTime? departureTime = rideOffer.departureTime;
       int endTimeInSeconds = departureTime.millisecondsSinceEpoch;
       setState(() {

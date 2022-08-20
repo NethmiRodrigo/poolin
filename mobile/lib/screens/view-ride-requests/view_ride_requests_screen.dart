@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:jiffy/jiffy.dart';
 
 import 'package:mobile/colors.dart';
@@ -35,12 +35,8 @@ class ViewRideRequestsScreen extends StatefulWidget {
 }
 
 class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
-  var _total = 0;
+  late ActiveRideCubit offerCubit;
+  late CountdownTimerController controller;
   var isVisible = false;
   List<dynamic>? pendingRequests;
   List<dynamic>? confirmedRequests;
@@ -48,22 +44,28 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   @override
   void initState() {
     super.initState();
+    offerCubit = BlocProvider.of<ActiveRideCubit>(context);
+    controller = CountdownTimerController(
+        endTime: offerCubit.getDepartureTime().millisecondsSinceEpoch,
+        onEnd: () => {});
     getData();
   }
 
-  @override
-  void dispose() {
-    _email.dispose();
-    _pass.dispose();
-    _confirmPass.dispose();
-    super.dispose();
-  }
-
   getData() async {
-    final requestData = await getOfferRequests();
+    final requestData = await getOfferRequests(offerCubit.getId());
     pendingRequests = requestData.data['requests'];
-    final partyData = await getConfirmedRequests();
+    final partyData = await getConfirmedRequests(offerCubit.getId());
     confirmedRequests = partyData.data['requests'];
+    if (confirmedRequests != null) {
+      if ((confirmedRequests?.length)! > 0) {
+        var price = 0;
+        for (var request in confirmedRequests!) {
+          int requestPrice = int.parse(request['price']);
+          price = price + requestPrice;
+        }
+        offerCubit.setPrice(price);
+      }
+    }
 
     setState(() {
       isVisible = true;
@@ -75,8 +77,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    final ActiveRideCubit offerCubit =
-        BlocProvider.of<ActiveRideCubit>(context);
+    var today = DateTime.now();
 
     return BlocBuilder<ActiveRideCubit, ActiveRide>(
       builder: (context, state) {
@@ -151,10 +152,65 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                 border: Border.all(
                                   color: Colors.black, // red as border color
                                 )),
-                            child: Text(
-                              'Your ride begins in 19 hours and 45 minutes',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ))),
+                            child: CountdownTimer(
+                                controller: controller,
+                                widgetBuilder: (_, CurrentRemainingTime? time) {
+                                  if (time == null) {
+                                    return const Text(
+                                      'Trip in Progress',
+                                      style: BlipFonts.labelBold,
+                                    );
+                                  }
+                                  return RichText(
+                                    text: TextSpan(
+                                      text: 'Your ride begins in ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
+                                      children: [
+                                        TextSpan(
+                                          text: '${time.days}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              time.days! > 1 ? ' days' : ' day',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        TextSpan(
+                                          text: ' ${time.hours}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              time.hours! > 1 ? ' hrs' : ' hr',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        TextSpan(
+                                          text: ' ${time.min}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              time.min! > 1 ? ' mins' : ' min',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }))),
                     addVerticalSpace(40),
                     const Text(
                       'Requests to join',

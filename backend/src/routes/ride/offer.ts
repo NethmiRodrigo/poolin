@@ -118,6 +118,7 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
       "user.profileImageUri as avatar",
       "rideRequest.from AS pickup",
       "rideRequest.departureTime AS startTime",
+      "request.price AS price",
     ])
     .getRawMany();
 
