@@ -115,6 +115,7 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     .select([
       "user.firstname AS fname",
       "user.lastname AS lname",
+      "user.id as user_id",
       "user.profileImageUri as avatar",
       "rideRequest.from AS pickup",
       "rideRequest.departureTime AS startTime",

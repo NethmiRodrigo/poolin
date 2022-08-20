@@ -64,3 +64,11 @@ Future<Response> getConfirmedRequests(int id) async {
 
   return response;
 }
+
+Future<Response> getRequestDetails(int id) async {
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.get('/get/request/$id');
+
+  return response;
+}

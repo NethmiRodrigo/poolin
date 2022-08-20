@@ -1,15 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
+import 'package:mobile/services/user_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../colors.dart';
 
 class RiderProfileScreen extends StatefulWidget {
-  const RiderProfileScreen({super.key});
+  const RiderProfileScreen({super.key, required this.id});
+
+  final id;
 
   @override
   RiderProfileScreenState createState() {
@@ -18,6 +22,22 @@ class RiderProfileScreen extends StatefulWidget {
 }
 
 class RiderProfileScreenState extends State<RiderProfileScreen> {
+  Map<String, dynamic> userDetails = {};
+
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
+
+  void getUser() async {
+    Response response = await getUserDetails(widget.id);
+    setState(() {
+      userDetails = response.data;
+    });
+    print(userDetails);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -69,12 +89,12 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Column(
-                  children: const [
+                  children: [
                     Text(
-                      "Yadeesha",
+                      userDetails['firstname'] ?? "FirstName",
                       style: BlipFonts.title,
                     ),
-                    Text(
+                    const Text(
                       "Student",
                       style: BlipFonts.label,
                     ),
@@ -87,90 +107,84 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                 style: BlipFonts.title,
               ),
               addVerticalSpace(16),
-              const Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+              Text(
+                userDetails['bio'] ?? "This user does not have a bio yet",
                 style: BlipFonts.outline,
               ),
               addVerticalSpace(32),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     "Mutual friends",
                     style: BlipFonts.title,
                   ),
-                  const Text(
-                    "  (20)",
-                    style: BlipFonts.label,
-                  ),
-                  Spacer(),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      size: 15,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => const MutualFriendsScreen()),
+                  if (userDetails["mutuals"] != null)
+                    if (userDetails["mutuals"].length > 0)
+                      Text(
+                        " (${userDetails["mutuals"].length.toString()})",
+                        style: BlipFonts.label,
+                      ),
+                  const Spacer(),
+                  if (userDetails["mutuals"] != null)
+                    if (userDetails["mutuals"].length > 0)
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          size: 15,
                         ),
-                      );
-                    },
-                  ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) =>
+                                  const MutualFriendsScreen()),
+                            ),
+                          );
+                        },
+                      ),
                 ],
               ),
               addVerticalSpace(16),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Column(
-                    children: const [
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage: AssetImage('assets/images/user.jpg'),
+                  if (userDetails["mutuals"] != null)
+                    if (userDetails["mutuals"].length > 0)
+                      SizedBox(
+                        height: size.height * 0.12,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (ctx, index) {
+                            return Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Column(
+                                children: [
+                                  const CircleAvatar(
+                                    radius: 30.0,
+                                    backgroundImage:
+                                        AssetImage('assets/images/user.jpg'),
+                                  ),
+                                  Text(
+                                    userDetails["mutuals"][index]['firstname'],
+                                    style: BlipFonts.outline,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: userDetails["mutuals"].length < 4
+                              ? userDetails["mutuals"].length
+                              : 4,
+                        ),
                       ),
-                      Text(
-                        "John",
-                        style: BlipFonts.outline,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage: AssetImage('assets/images/user.jpg'),
-                      ),
-                      Text(
-                        "John",
-                        style: BlipFonts.outline,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage: AssetImage('assets/images/user.jpg'),
-                      ),
-                      Text(
-                        "John",
-                        style: BlipFonts.outline,
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundImage: AssetImage('assets/images/user.jpg'),
-                      ),
-                      Text(
-                        "John",
-                        style: BlipFonts.outline,
-                      ),
-                    ],
-                  ),
+                  if (userDetails["mutuals"] == null)
+                    const Text(
+                      "You have no friends in common",
+                      style: BlipFonts.outline,
+                    ),
                 ],
               ),
               addVerticalSpace(32),

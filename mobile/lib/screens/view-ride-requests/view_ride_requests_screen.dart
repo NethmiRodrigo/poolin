@@ -11,6 +11,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
 
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 
@@ -22,8 +23,6 @@ import '../../custom/indicator.dart';
 import '../../custom/outline_button.dart';
 import '../../custom/timeline.dart';
 import '../../services/ride_offer_service.dart';
-
-List<dynamic> selectedRequests = [];
 
 class ViewRideRequestsScreen extends StatefulWidget {
   const ViewRideRequestsScreen({super.key});
@@ -77,7 +76,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    var today = DateTime.now();
 
     return BlocBuilder<ActiveRideCubit, ActiveRide>(
       builder: (context, state) {
@@ -245,12 +243,21 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                       children: [
                                         Column(
                                           children: [
-                                            CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  pendingRequests![index]
-                                                          ['avatar'] ??
-                                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgc-n5tIsIl3mINsvtPHBB2vrDGu_VbDubeA&usqp=CAU"),
-                                            ),
+                                            if (pendingRequests![index]
+                                                    ['avatar'] !=
+                                                null)
+                                              CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                    pendingRequests![index]
+                                                        ['avatar']),
+                                              ),
+                                            if (pendingRequests![index]
+                                                    ['avatar'] ==
+                                                null)
+                                              const CircleAvatar(
+                                                backgroundImage: AssetImage(
+                                                    'assets/images/user.jpg'),
+                                              ),
                                             Text(
                                               pendingRequests![index]['fname'],
                                               style: Theme.of(context)
@@ -262,7 +269,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                                   ),
                                             ),
                                             Text(
-                                              '+ Rs. . ${pendingRequests![index]['price']} ',
+                                              '+ Rs. ${pendingRequests![index]['price']} ',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headlineLarge!
@@ -339,34 +346,52 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                       Timeline(
                         indicators: <Widget>[
                           for (var request in confirmedRequests!)
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(request['avatar'] ??
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgc-n5tIsIl3mINsvtPHBB2vrDGu_VbDubeA&usqp=CAU"),
-                            ),
+                            if (request['avatar'] != null)
+                              CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(request['avatar']),
+                              )
+                            else
+                              const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/user.jpg'),
+                              )
                         ],
                         children: <Widget>[
                           for (var request in confirmedRequests!)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(request['fname'] + " " + request['lname'],
-                                    style: BlipFonts.outline),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: BlipColors.lightBlue,
-                                    borderRadius: BorderRadius.circular(20),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RiderProfileScreen(
+                                        id: request["user_id"]),
                                   ),
-                                  child: Text(
-                                    ("gets on at ${request['pickup']} at ${Jiffy(request['starttime']).format("h:mm a").split(" ").join('')}")
-                                        .toUpperCase(),
-                                    style: BlipFonts.taglineBold.merge(
-                                        const TextStyle(
-                                            color: BlipColors.blue)),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      request['fname'] + " " + request['lname'],
+                                      style: BlipFonts.outline),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: BlipColors.lightBlue,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      ("gets on at ${request['pickup']} at ${Jiffy(request['starttime']).format("h:mm a").split(" ").join('')}")
+                                          .toUpperCase(),
+                                      style: BlipFonts.taglineBold.merge(
+                                          const TextStyle(
+                                              color: BlipColors.blue)),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           //
                         ],
@@ -415,13 +440,6 @@ class _CheckState extends State<Check> {
       fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
       onChanged: (bool? value) {
-        if (value == true) {
-          selectedRequests.add(widget.request);
-        }
-        if (value == false) {
-          selectedRequests.removeWhere(
-              (element) => element['requestid'] == widget.request['requestid']);
-        }
         setState(() {
           isChecked = value!;
         });
@@ -430,7 +448,6 @@ class _CheckState extends State<Check> {
         } else {
           offerCubit.decrementPrice((widget.price));
         }
-        print(widget.price);
       },
     );
   }

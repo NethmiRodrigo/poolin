@@ -72,37 +72,6 @@ export const getActiveRequest = async (req: Request, res: Response) => {
     .json({ success: "Ride Offer fetched successfully", request });
 };
 
-const findRequestById = async (requests) => {
-  let result = [];
-  let requestPromises = [];
-  requests.map((request_id) => {
-    requestPromises.push(
-      RideRequest.createQueryBuilder("request")
-        //join happens as property of parent
-        .leftJoinAndSelect("request.requestToOffers", "rto")
-        .where("request.id = :id", { id: +request_id })
-        .leftJoinAndSelect("request.user", "user")
-        .select([
-          "user.firstname AS fname",
-          "user.lastname AS lname",
-          "user.id AS id",
-          "user.profileImageUri as avatar",
-          "request.from AS pickup",
-          "request.to AS dropOff",
-          "request.departureTime AS startTime",
-          "request.updatedAt AS updatedAt",
-        ])
-        .getRawMany()
-    );
-  });
-  const requestValues = await Promise.all(requestPromises);
-  requestValues.map((request) => {
-    if (request) result.push(requestValues[0]);
-  });
-
-  return result;
-};
-
 export const getRequestDetails = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -120,8 +89,9 @@ export const getRequestDetails = async (req: Request, res: Response) => {
       "request.to AS dropOff",
       "request.departureTime AS startTime",
       "request.updatedAt AS updatedAt",
+      "rto.price AS price",
     ])
-    .getRawMany();
+    .getRawOne();
 
   return res
     .status(200)

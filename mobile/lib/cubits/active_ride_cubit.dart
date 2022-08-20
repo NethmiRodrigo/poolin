@@ -31,11 +31,15 @@ class ActiveRideCubit extends Cubit<ActiveRide> {
 
   int getId() => state.id;
 
+  int getPrice() => state.price;
+
   void setDepartureTime(DateTime dateTime) {
     emit(state.copyWith(departureTime: dateTime));
   }
 
   DateTime getDepartureTime() => state.departureTime ?? DateTime.now();
+
+  int getSeats() => state.seats;
 
   void decrementSeats() => emit(state.copyWith(seats: state.seats - 1));
 
