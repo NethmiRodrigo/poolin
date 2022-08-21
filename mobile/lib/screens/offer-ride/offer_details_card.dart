@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -227,8 +226,6 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
 
                   Response postResponse = await postOffer(offerCubit.state);
                   if (postResponse.statusCode == 200) {
-                    print("Success! " + postResponse.data);
-
                     // if (!mounted) {
                     //   return;
                     // }

@@ -235,8 +235,10 @@ class _StartRideState extends State<StartRide> {
                   addVerticalSpace(8),
                   RichText(
                     text: TextSpan(children: [
-                      const TextSpan(
-                          text: 'Any problems? ', style: BlipFonts.outline),
+                      TextSpan(
+                          text: 'Any problems? ',
+                          style: BlipFonts.outline
+                              .merge(const TextStyle(color: BlipColors.black))),
                       TextSpan(
                           text: 'Tell the riders',
                           style: BlipFonts.outlineBold
