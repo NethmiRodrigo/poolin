@@ -1,7 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/icons.dart';
 import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 

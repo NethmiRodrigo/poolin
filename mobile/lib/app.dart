@@ -1,12 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/screens/login/login_screen.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/screens/shared/ride/ride_history.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 

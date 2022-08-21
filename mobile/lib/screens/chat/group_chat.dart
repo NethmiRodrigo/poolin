@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -113,7 +114,20 @@ class _GroupChatState extends State<GroupChat> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(24),
+              addVerticalSpace(20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              addVerticalSpace(16),
               Text('Trip ID - $tripID', style: BlipFonts.heading),
               SizedBox(
                 height: size.height * 0.12,

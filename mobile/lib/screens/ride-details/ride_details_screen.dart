@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/custom/timeline.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/chat/group_chat.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 import '../../../colors.dart';
@@ -207,20 +208,29 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   )),
               addVerticalSpace(32),
               Row(
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "The Party",
                     style: BlipFonts.heading,
                   ),
-                  Spacer(),
-                  CircleAvatar(
-                      radius: 16.0,
-                      backgroundColor: BlipColors.black,
-                      child: Icon(
-                        EvaIcons.messageSquareOutline,
-                        color: BlipColors.white,
-                        size: 14.0,
-                      )),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GroupChat()),
+                      );
+                    },
+                    child: const CircleAvatar(
+                        radius: 16.0,
+                        backgroundColor: BlipColors.black,
+                        child: Icon(
+                          EvaIcons.messageSquareOutline,
+                          color: BlipColors.white,
+                          size: 14.0,
+                        )),
+                  ),
                 ],
               ),
               addVerticalSpace(16),

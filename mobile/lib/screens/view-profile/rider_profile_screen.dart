@@ -72,7 +72,9 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                   children: const [
                     CircleAvatar(
                       radius: 60.0,
-                      backgroundImage: AssetImage('assets/images/user.jpg'),
+                      backgroundImage: NetworkImage(
+                        'https://i.pravatar.cc/300?img=3',
+                      ),
                     ),
                     Positioned(
                       right: 10.0,

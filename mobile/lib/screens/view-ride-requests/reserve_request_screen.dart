@@ -11,6 +11,7 @@ import 'package:mobile/custom/backward_button.dart';
 
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
+import 'package:mobile/screens/view-ride-requests/accept_request_confirmation_screen.dart';
 import 'package:mobile/services/ride_offer_service.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
@@ -274,7 +275,16 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 ],
               ),
               addVerticalSpace(40),
-              WideButton(text: 'Reserve a Seat', onPressedAction: () {})
+              WideButton(
+                  text: 'Reserve a Seat',
+                  onPressedAction: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const AcceptRequestConfirmation()),
+                    );
+                  })
             ],
           ),
         ),

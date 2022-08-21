@@ -37,61 +37,51 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   };
   final List<PassengerRequest> _passRequests = [
     PassengerRequest(
-      id: '1',
-      rider: 'John Doe',
-      date: DateTime.now(),
-    ),
-    PassengerRequest(
-      id: '3',
-      rider: 'James Doe',
-      date: DateTime.now().subtract(const Duration(hours: 5)),
-    ),
-    PassengerRequest(
-      id: '3',
-      rider: 'James Doe',
-      date: DateTime.now().subtract(const Duration(hours: 5)),
-    ),
+        id: '1',
+        rider: 'Nethmi Pathirana',
+        date: DateTime.now(),
+        profilePicture: 'https://i.pravatar.cc/150?img=47'),
   ];
   final List<RideRequest> _rideRequests = [
     RideRequest(
-      id: '1',
-      rideID: '00001',
-      pickupLocation: 'University of Colombo',
-      dropoffLocation: 'Keells Super Dehiwala',
-      requestedOn: DateTime.now(),
-      driver: User(
-        firstName: 'Yadeesha',
-        lastName: 'Weerasinghe',
-        gender: 'female',
-        email: 'yadeesha@gmail.com',
-      ),
-    ),
+        id: '1',
+        rideID: '00001',
+        pickupLocation: 'University of Colombo',
+        dropoffLocation: 'Keells Super Dehiwala',
+        requestedOn: DateTime.now(),
+        driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com',
+        ),
+        profilePicture: "https://i.pravatar.cc/150?img=3"),
     RideRequest(
-      id: '2',
-      rideID: '00001',
-      pickupLocation: 'Faculty of Science',
-      dropoffLocation: 'Keells Super Dehiwala',
-      requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
-      driver: User(
-        firstName: 'Yadeesha',
-        lastName: 'Weerasinghe',
-        gender: 'female',
-        email: 'yadeesha@gmail.com',
-      ),
-    ),
+        id: '2',
+        rideID: '00001',
+        pickupLocation: 'Town Hall',
+        dropoffLocation: 'Mahabuthgamuwa Bus Stop',
+        requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
+        driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com',
+        ),
+        profilePicture: "https://i.pravatar.cc/150?img=3"),
     RideRequest(
-      id: '2',
-      rideID: '00001',
-      pickupLocation: 'Faculty of Science',
-      dropoffLocation: 'Keells Super Dehiwala',
-      requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
-      driver: User(
-        firstName: 'Yadeesha',
-        lastName: 'Weerasinghe',
-        gender: 'female',
-        email: 'yadeesha@gmail.com',
-      ),
-    ),
+        id: '2',
+        rideID: '00001',
+        pickupLocation: 'Gampaha Bus Stop',
+        dropoffLocation: 'Nugegoda',
+        requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
+        driver: User(
+          firstName: 'Yadeesha',
+          lastName: 'Weerasinghe',
+          gender: 'female',
+          email: 'yadeesha@gmail.com',
+        ),
+        profilePicture: "https://i.pravatar.cc/150?img=3"),
   ];
   bool isDriving = false; //driver is driving if he currently has a ride
 
@@ -221,8 +211,10 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
               ],
             ),
             addVerticalSpace(24),
-            const Text(
-              'Ride requests',
+            Text(
+              isDriving
+                  ? 'Ride requests for your offers'
+                  : 'Passenger Ride Requests',
               style: BlipFonts.title,
             ),
             Container(

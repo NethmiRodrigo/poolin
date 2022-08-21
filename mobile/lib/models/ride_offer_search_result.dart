@@ -1,13 +1,15 @@
 class User {
   String name;
-  String profilePicture = 'https://i.pravatar.cc/300';
+  String profilePicture;
   double starRating;
   int noOfRatings;
 
-  User(
-      {required this.name,
-      required this.starRating,
-      required this.noOfRatings});
+  User({
+    required this.name,
+    required this.starRating,
+    required this.noOfRatings,
+    this.profilePicture = 'https://i.pravatar.cc/300',
+  });
 }
 
 class RideOfferSearchResult {

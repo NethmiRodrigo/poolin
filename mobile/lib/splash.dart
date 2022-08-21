@@ -45,6 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (value) {
       setUser();
     }
+    print(value);
     setState(() {
       isLoggedIn = value;
     });
