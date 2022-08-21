@@ -37,15 +37,7 @@ class _RideHistoryState extends State<RideHistory> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          addVerticalSpace(size.height * 0.05),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Icon(
-              EvaIcons.arrowBackOutline,
-              color: Colors.black,
-            ),
-          ),
-          addVerticalSpace(size.height * 0.02),
+          addVerticalSpace(size.height * 0.07),
           const Text(
             'Ride History',
             style: BlipFonts.title,
