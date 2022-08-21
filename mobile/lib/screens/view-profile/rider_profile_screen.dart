@@ -35,7 +35,6 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
     setState(() {
       userDetails = response.data;
     });
-    print(userDetails);
   }
 
   @override
@@ -137,8 +136,9 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: ((context) =>
-                                  const MutualFriendsScreen()),
+                              builder: ((context) => MutualFriendsScreen(
+                                    friends: userDetails["mutuals"],
+                                  )),
                             ),
                           );
                         },
@@ -180,7 +180,8 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                               : 4,
                         ),
                       ),
-                  if (userDetails["mutuals"] == null)
+                  if (userDetails["mutuals"] == null ||
+                      userDetails["mutuals"].length == 0)
                     const Text(
                       "You have no friends in common",
                       style: BlipFonts.outline,
@@ -188,8 +189,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                 ],
               ),
               addVerticalSpace(32),
-              WideButton(
-                  text: 'Send friend request', onPressedAction: () async {}),
+              WideButton(text: 'Send friend request', onPressedAction: () {}),
             ],
           ),
         ),

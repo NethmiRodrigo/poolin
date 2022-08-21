@@ -11,6 +11,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/ride-details/ride_details_screen.dart';
 import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
 
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
@@ -134,7 +135,15 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                           ],
                         ),
                         OutlineButton(
-                            onPressedAction: () {},
+                            onPressedAction: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RideDetailsScreen(),
+                                ),
+                              );
+                            },
                             text: "View Ride Details",
                             color: BlipColors.black)
                       ],

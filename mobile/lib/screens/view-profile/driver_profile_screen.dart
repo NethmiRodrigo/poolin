@@ -168,7 +168,9 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MutualFriendsScreen(),
+                          builder: (context) => MutualFriendsScreen(
+                            friends: [],
+                          ),
                         ),
                       );
                     },
