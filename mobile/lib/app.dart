@@ -41,11 +41,6 @@ class _AppState extends State<App> {
         inactiveColorPrimary: BlipColors.black,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Ionicons.notifications),
-        activeColorPrimary: BlipColors.orange,
-        inactiveColorPrimary: BlipColors.black,
-      ),
-      PersistentBottomNavBarItem(
         icon: const Icon(FluentIcons.person_20_filled),
         activeColorPrimary: BlipColors.orange,
         inactiveColorPrimary: BlipColors.black,
@@ -57,7 +52,6 @@ class _AppState extends State<App> {
     return [
       const DriverHomeScreen(),
       const RideHistory(),
-      DestinationScreen(),
       const LoginScreen(),
     ];
   }
