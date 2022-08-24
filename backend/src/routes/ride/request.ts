@@ -81,12 +81,15 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     type: "Point",
     coordinates: [srcLat, srcLong],
   };
+
   const srcGeom = geojsonToWKT(start);
 
   const end = {
     type: "Point",
     coordinates: [destLat, destLong],
   };
+
+  console.log(end);
   const destGeom = geojsonToWKT(end);
 
   //STD_Within checks for points that are within a given distance of a given polyline.
@@ -107,23 +110,40 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     .andWhere("offer.status IN ('active')")
     .getRawMany();
 
-  //from the result set, we filter out offers that are not available at the time of the request
+  // from the result set, we filter out offers that are not available at the time of the request
 
-  const onTimeOffers = intersectingOffers.filter(async function (offer) {
+  const asyncOp = async function (offer) {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
     const duration = await getDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
       { lat: srcLat, long: srcLong }
     );
-    const pickupTime = addMinutes(offer.departureTime, duration);
+    const pickupTime: Date = addMinutes(offer.departureTime, duration);
 
-    return (
-      subMinutes(parseJSON(startTime as string), +window) <= pickupTime &&
-      pickupTime <= addMinutes(parseJSON(startTime as string), +window)
-    );
-  });
+    const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
+    const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
 
-  const offers = onTimeOffers;
+    console.log(minTime);
+
+    console.log(pickupTime);
+
+    console.log(maxTime);
+
+    console.log(minTime <= pickupTime && pickupTime <= maxTime);
+
+    return minTime <= pickupTime && pickupTime <= maxTime;
+  };
+
+  const filteredList = [];
+  for (let e of intersectingOffers) {
+    if (await asyncOp(e)) {
+      filteredList.push(e);
+    }
+  }
+
+  const offers = filteredList;
+
+  console.log(offers);
   return res.status(200).json({ success: "Received available offers", offers });
 };
 

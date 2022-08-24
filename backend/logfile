@@ -1,0 +1,20 @@
+2022-08-22 01:02:15.004 +0530 [5206] LOG:  starting PostgreSQL 14.1 on x86_64-apple-darwin21.1.0, compiled by Apple clang version 13.0.0 (clang-1300.0.29.3), 64-bit
+2022-08-22 01:02:15.005 +0530 [5206] LOG:  listening on IPv6 address "::1", port 5432
+2022-08-22 01:02:15.005 +0530 [5206] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-08-22 01:02:15.006 +0530 [5206] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-08-22 01:02:15.015 +0530 [5207] LOG:  database system was interrupted; last known up at 2022-08-11 23:02:02 +0530
+2022-08-22 01:02:15.137 +0530 [5207] LOG:  database system was not properly shut down; automatic recovery in progress
+2022-08-22 01:02:15.143 +0530 [5207] LOG:  redo starts at 0/255CB48
+2022-08-22 01:02:15.143 +0530 [5207] LOG:  invalid record length at 0/255CC30: wanted 24, got 0
+2022-08-22 01:02:15.143 +0530 [5207] LOG:  redo done at 0/255CBF8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2022-08-22 01:02:15.153 +0530 [5206] LOG:  database system is ready to accept connections
+2022-08-22 01:02:33.140 +0530 [5244] ERROR:  column "polyline" of relation "ride_offer" contains null values
+2022-08-22 01:02:33.140 +0530 [5244] STATEMENT:  ALTER TABLE "ride_offer" ADD "polyline" geometry(LineString) NOT NULL
+2022-08-22 01:03:53.559 +0530 [5255] ERROR:  update or delete on table "ride_offer" violates foreign key constraint "FK_95e7e07976d6bc2fe8481975d73" on table "request_to_offer"
+2022-08-22 01:03:53.559 +0530 [5255] DETAIL:  Key (id)=(13) is still referenced from table "request_to_offer".
+2022-08-22 01:03:53.559 +0530 [5255] STATEMENT:  DELETE FROM public.ride_offer
+		WHERE id=$1
+2022-08-22 02:05:12.849 +0530 [5206] LOG:  received smart shutdown request
+2022-08-22 02:05:12.851 +0530 [5206] LOG:  background worker "logical replication launcher" (PID 5213) exited with exit code 1
+2022-08-22 02:05:12.851 +0530 [5208] LOG:  shutting down
+2022-08-22 02:05:12.865 +0530 [5206] LOG:  database system is shut down
