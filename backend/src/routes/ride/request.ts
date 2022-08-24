@@ -123,14 +123,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
     const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
 
-    console.log(minTime);
-
-    console.log(pickupTime);
-
-    console.log(maxTime);
-
-    console.log(minTime <= pickupTime && pickupTime <= maxTime);
-
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
 
@@ -143,7 +135,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
   const offers = filteredList;
 
-  console.log(offers);
   return res.status(200).json({ success: "Received available offers", offers });
 };
 
