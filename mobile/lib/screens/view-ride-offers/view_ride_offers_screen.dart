@@ -70,6 +70,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideRequestCubit reqCubit =
@@ -162,112 +163,127 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                 color: BlipColors.grey,
               ),
             )
-          : Stack(
-              children: [
-                Padding(
-                  padding: sidePadding,
-                  child: Expanded(
-                    child: Column(
+          : Padding(
+              padding: sidePadding,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        showDatePicker();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
+                            style: BlipFonts.labelBold.merge(
+                                const TextStyle(color: BlipColors.black)),
+                            textAlign: TextAlign.start,
+                          ),
+                          const Icon(
+                            FluentIcons.edit_16_regular,
+                            color: BlipColors.orange,
+                            size: 14,
+                          )
+                        ],
+                      ),
+                    ),
+                    addVerticalSpace(10.0),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextButton(
-                          onPressed: () {
-                            showDatePicker();
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
-                                style: BlipFonts.labelBold.merge(
-                                    const TextStyle(color: BlipColors.black)),
-                                textAlign: TextAlign.start,
-                              ),
-                              const Icon(
-                                FluentIcons.edit_16_regular,
-                                color: BlipColors.orange,
-                                size: 14,
-                              )
-                            ],
+                        const Text(
+                          "From",
+                          style: BlipFonts.outline,
+                        ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Expanded(
+                          child: Text(
+                            sourceLocation['name'] ?? "Loading...",
+                            style: BlipFonts.label,
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.clip,
                           ),
                         ),
-                        addVerticalSpace(10.0),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "From",
-                              style: BlipFonts.outline,
-                            ),
-                            const Spacer(
-                              flex: 1,
-                            ),
-                            Expanded(
-                              child: Text(
-                                sourceLocation['name'] ?? "Loading...",
-                                style: BlipFonts.label,
-                                textAlign: TextAlign.end,
-                                overflow: TextOverflow.clip,
-                              ),
-                            ),
-                          ],
+                      ],
+                    ),
+                    addVerticalSpace(10.0),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "To",
+                          style: BlipFonts.outline,
                         ),
-                        addVerticalSpace(10.0),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "To",
-                              style: BlipFonts.outline,
-                            ),
-                            addHorizontalSpace(8.0),
-                            const Spacer(
-                              flex: 1,
-                            ),
-                            Expanded(
-                              child: Text(
-                                destinationLocation['name'] ?? "Loading...",
-                                style: BlipFonts.label,
-                                textAlign: TextAlign.end,
-                                overflow: TextOverflow.clip,
-                              ),
-                            ),
-                          ],
+                        addHorizontalSpace(8.0),
+                        const Spacer(
+                          flex: 1,
                         ),
-                        addVerticalSpace(20.0),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: const Text(
-                                "Browse through available rides",
-                                style: BlipFonts.heading,
-                              ),
-                            )
-                          ],
-                        ),
-                        addVerticalSpace(20.0),
                         Expanded(
-                          child: RideOfferResultList(_rideOffers, "view"),
+                          child: Text(
+                            destinationLocation['name'] ?? "Loading...",
+                            style: BlipFonts.label,
+                            textAlign: TextAlign.end,
+                            overflow: TextOverflow.clip,
+                          ),
                         ),
-                        addVerticalSpace(30.0),
-                        WideButton(
-                          onPressedAction: () {
-                            saveRequestDetails();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) =>
-                                    const RideRequestDetailsScreen()),
-                              ),
-                            );
-                          },
-                          text: "Proceed",
+                      ],
+                    ),
+                    addVerticalSpace(36),
+                    Row(
+                      children: const [
+                        Text(
+                          "Browse through available rides",
+                          style: BlipFonts.heading,
                         )
                       ],
                     ),
-                  ),
+                    addVerticalSpace(20.0),
+                    Expanded(
+                      child: _rideOffers.length > 1
+                          ? RideOfferResultList(_rideOffers, "view")
+                          : Container(
+                              width: size.width,
+                              color: BlipColors.lightGrey,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Column(
+                                  children: [
+                                    addVerticalSpace(20.0),
+                                    Image.asset(
+                                      'assets/images/waiting-at-stop.png',
+                                      height: size.height * 0.22,
+                                    ),
+                                    addVerticalSpace(20.0),
+                                    const Text(
+                                      "No rides available currently",
+                                      style: BlipFonts.label,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                    ),
+                    addVerticalSpace(16),
+                    WideButton(
+                      onPressedAction: () {
+                        saveRequestDetails();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) =>
+                                const RideRequestDetailsScreen()),
+                          ),
+                        );
+                      },
+                      text: "Proceed",
+                    )
+                  ],
                 ),
-              ],
+              ),
             ),
     );
   }
