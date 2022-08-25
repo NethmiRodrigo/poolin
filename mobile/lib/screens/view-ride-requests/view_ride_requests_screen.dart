@@ -1,20 +1,15 @@
 import 'dart:convert';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jiffy/jiffy.dart';
 
 import 'package:mobile/colors.dart';
-
 import 'package:mobile/fonts.dart';
+import 'package:mobile/utils/widget_functions.dart';
 
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
-
-import 'package:mobile/utils/widget_functions.dart';
 
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
@@ -37,8 +32,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
-  var _total = 0;
   var isVisible = false;
   List<dynamic>? pendingRequests;
   List<dynamic>? confirmedRequests;
@@ -83,7 +76,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
         return Scaffold(
           body: Visibility(
             visible: isVisible,
-            replacement: Center(child: CircularProgressIndicator()),
+            replacement: const Center(child: CircularProgressIndicator()),
             child: SizedBox(
               width: size.width,
               height: size.height,
@@ -93,17 +86,17 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     addVerticalSpace(44),
-                    BackwardButton(),
+                    const BackwardButton(),
                     addVerticalSpace(24),
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           'Your ride \nis trending!',
                           style: BlipFonts.displayBlack,
                           textAlign: TextAlign.left,
                         ),
                         addHorizontalSpace(100),
-                        Indicator(
+                        const Indicator(
                             icon: FluentIcons.eye_12_regular,
                             text: "500",
                             color: BlipColors.green)
@@ -119,10 +112,10 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                 style: Theme.of(context).textTheme.titleLarge),
                             Row(
                               children: [
-                                Text('Rs. ' + state.price.toString(),
+                                Text('Rs. ${state.price}',
                                     style: BlipFonts.title),
                                 addHorizontalSpace(8),
-                                Indicator(
+                                const Indicator(
                                     icon: EvaIcons.arrowUpward,
                                     text: "+ 500",
                                     color: BlipColors.green)
@@ -138,8 +131,9 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     ),
                     addVerticalSpace(24),
                     Align(
+                        alignment: Alignment.center,
                         child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
@@ -149,16 +143,15 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                             child: Text(
                               'Your ride begins in 19 hours and 45 minutes',
                               style: Theme.of(context).textTheme.labelMedium,
-                            )),
-                        alignment: Alignment.center),
+                            ))),
                     addVerticalSpace(40),
-                    Text(
+                    const Text(
                       'Requests to join',
                       style: BlipFonts.heading,
                       textAlign: TextAlign.left,
                     ),
                     addVerticalSpace(16),
-                    Container(
+                    SizedBox(
                       height: 125,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
@@ -168,9 +161,9 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                             children: [
                               (Container(
                                   width: 257,
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 16),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: BlipColors.orange,
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(
@@ -193,17 +186,15 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelLarge!
-                                                .merge(TextStyle(
+                                                .merge(const TextStyle(
                                                     color: Colors.white)),
                                           ),
                                           Text(
-                                            "+ Rs. " +
-                                                pendingRequests![index]
-                                                    ['price'],
+                                            "+ Rs. ${pendingRequests![index]['price']}",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineLarge!
-                                                .merge(TextStyle(
+                                                .merge(const TextStyle(
                                                     color: Colors.white)),
                                           ),
                                         ],
@@ -233,7 +224,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headlineSmall!
-                                                      .merge(TextStyle(
+                                                      .merge(const TextStyle(
                                                           color:
                                                               Colors.white))),
                                             ],
@@ -284,23 +275,16 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                 Text(request['fname'] + " " + request['lname'],
                                     style: BlipFonts.outline),
                                 Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 4, vertical: 2),
                                     decoration: BoxDecoration(
                                       color: BlipColors.lightBlue,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      ('gets on at ' +
-                                              request['pickup'] +
-                                              " at " +
-                                              Jiffy(request['starttime'])
-                                                  .format("h:mm a")
-                                                  .split(" ")
-                                                  .join(''))
-                                          .toUpperCase(),
+                                      ("gets on at ${request['pickup']} at ${Jiffy(request['starttime']).format("h:mm a").split(" ").join('')}").toUpperCase(),
                                       style: BlipFonts.taglineBold.merge(
-                                          TextStyle(color: BlipColors.blue)),
+                                          const TextStyle(color: BlipColors.blue)),
                                     )),
                               ],
                             ),
@@ -361,7 +345,6 @@ class _CheckState extends State<Check> {
         } else {
           offerCubit.decrementPrice((widget.price));
         }
-        print(widget.price);
       },
     );
   }

@@ -21,7 +21,7 @@ class TestData {
           email: 'yadeesha@gmail.com',
           stars: 4.5,
           totalRatings: 250,
-          VehicleNum: 'ABC0988',
+          vehicleNum: 'ABC0988',
           vehicleType: VehicleType.car));
 
   static RideOffer testRideOffer = RideOffer(

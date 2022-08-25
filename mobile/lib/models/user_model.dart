@@ -14,7 +14,7 @@ class User {
   double stars;
   int totalRatings;
   VehicleType vehicleType;
-  String VehicleNum;
+  String vehicleNum;
   String? profilePicURL;
   String? bio;
   String? occupation;
@@ -34,8 +34,8 @@ class User {
     required this.email,
     this.stars = 0.0,
     this.totalRatings = 0,
-    this.VehicleNum = '',
-    this.vehicleType = VehicleType.NA,
+    this.vehicleNum = '',
+    this.vehicleType = VehicleType.na,
     this.profilePicURL,
     this.bio,
     this.occupation,

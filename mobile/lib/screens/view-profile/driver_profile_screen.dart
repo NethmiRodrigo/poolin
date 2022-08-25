@@ -158,7 +158,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     "  (20)",
                     style: BlipFonts.label,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
                     icon: const Icon(
                       Icons.arrow_forward_ios_outlined,

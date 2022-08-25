@@ -36,7 +36,7 @@ class EmailSentScreenState extends State<EmailSentScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 addVerticalSpace(44),
-                Align(
+                const Align(
                     alignment: Alignment.topLeft,
                     child: Icon(
                       EvaIcons.arrowBackOutline,
@@ -45,8 +45,8 @@ class EmailSentScreenState extends State<EmailSentScreen> {
                 addVerticalSpace(48),
                 Image.asset('assets/images/otpsuccess.png', height: 177),
                 addVerticalSpace(16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 48),
                   child: Text(
                     'A verification code was \nsent to your email',
                     style: BlipFonts.label,
@@ -66,11 +66,11 @@ class EmailSentScreenState extends State<EmailSentScreen> {
                 addVerticalSpace(16),
                 RichText(
                   text: TextSpan(children: [
-                    TextSpan(text: 'Return to ', style: BlipFonts.outline),
+                    const TextSpan(text: 'Return to ', style: BlipFonts.outline),
                     TextSpan(
                         text: 'Sign in',
                         style: BlipFonts.outlineBold
-                            .merge(TextStyle(color: BlipColors.orange)),
+                            .merge(const TextStyle(color: BlipColors.orange)),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(

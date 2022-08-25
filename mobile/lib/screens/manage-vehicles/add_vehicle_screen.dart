@@ -1,12 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
-import '../../colors.dart';
 
 class AddVehicleScreen extends StatefulWidget {
   const AddVehicleScreen({super.key});
@@ -73,7 +70,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                       children: [
                         Expanded(
                           child: Column(children: [
-                            Align(
+                            const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "Vehicle Make",
@@ -86,7 +83,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                               controller: _make,
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     vertical: 10.0, horizontal: 16),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -111,7 +108,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                         ),
                         Expanded(
                           child: Column(children: [
-                            Align(
+                            const Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "Vehicle Model",
@@ -124,7 +121,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                               controller: _model,
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     vertical: 10.0, horizontal: 16),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -148,7 +145,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                     ),
                     addVerticalSpace(16),
                     Column(children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Year",
@@ -160,7 +157,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                         style: BlipFonts.label,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 16),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -181,7 +178,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                     ]),
                     addVerticalSpace(16),
                     Column(children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "License Plate Number",
@@ -194,7 +191,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                         controller: _plateno,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 16),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -215,7 +212,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                     ]),
                     addVerticalSpace(16),
                     Column(children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Vehicle Color",
@@ -228,7 +225,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                         controller: _color,
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 16),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),

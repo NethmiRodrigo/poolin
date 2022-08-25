@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +22,14 @@ class OfferDetailsCard extends StatefulWidget {
 }
 
 class OfferDetailsCardState extends State<OfferDetailsCard> {
-  DateTime startTime = DateTime.now().add(Duration(days: 1));
+  DateTime startTime = DateTime.now().add(const Duration(days: 1));
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
-    print(offerCubit.state.seatCount.toString());
+
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(30),
@@ -100,17 +99,15 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                             DatePicker.showDateTimePicker(
                                                 context,
                                                 showTitleActions: true,
-                                                minTime: DateTime.now()
-                                                    .add(Duration(days: 1)),
-                                                maxTime: DateTime.now()
-                                                    .add(Duration(days: 7)),
-                                                onChanged: (date) {
-                                              print('change $date');
-                                            }, onConfirm: (date) {
+                                                minTime: DateTime.now().add(
+                                                    const Duration(days: 1)),
+                                                maxTime: DateTime.now().add(
+                                                    const Duration(days: 7)),
+                                                onChanged: (date) {},
+                                                onConfirm: (date) {
                                               setState(() {
                                                 startTime = date;
                                               });
-                                              print('confirm $date');
                                             },
                                                 currentTime: startTime,
                                                 locale: LocaleType.en);
@@ -200,10 +197,8 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
             ),
             addVerticalSpace(32),
             WideButton(
-                text: "I'll arrive at " +
-                    Jiffy(startTime).format("h:mm a").split(" ").join('') +
-                    " " +
-                    Jiffy(startTime).startOf(Units.HOUR).fromNow(),
+                text:
+                    "I'll arrive at ${Jiffy(startTime).format("h:mm a").split(" ").join('')} ${Jiffy(startTime).startOf(Units.HOUR).fromNow()}",
                 onPressedAction: () async {
                   offerCubit.setStartTime(startTime);
                   Response response = await getDistanceAndTime(
@@ -211,24 +206,18 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                   // final res = json.decode(response.data);
                   final res = response.data;
                   if (response.statusCode == 200) {
-                    print(res["rows"][0]["elements"]);
+                    final distance = double.parse(res["rows"][0]["elements"][0]
+                            ["distance"]["text"]
+                        .split(' ')[0]);
+                    final duration = int.parse(res["rows"][0]["elements"][0]
+                            ["duration"]["text"]
+                        .split(' ')[0]);
+                    offerCubit.setDistance((distance * 1.60934));
+                    offerCubit.setDuration(duration);
                   }
-                  final distance = double.parse(res["rows"][0]["elements"][0]
-                          ["distance"]["text"]
-                      .split(' ')[0]);
-                  print(distance);
-                  final duration = int.parse(res["rows"][0]["elements"][0]
-                          ["duration"]["text"]
-                      .split(' ')[0]);
-                  print(duration);
-                  offerCubit.setDistance((distance * 1.60934));
-                  print("done");
-                  offerCubit.setDuration(duration);
 
                   Response postResponse = await postOffer(offerCubit.state);
                   if (postResponse.statusCode == 200) {
-                    print("Success! " + postResponse.data);
-
                     // if (!mounted) {
                     //   return;
                     // }

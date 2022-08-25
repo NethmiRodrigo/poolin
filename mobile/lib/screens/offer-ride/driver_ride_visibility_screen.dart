@@ -18,11 +18,11 @@ class DriverRideVisibilityScreen extends StatefulWidget {
 
 class _DriverRideVisibilityScreenState
     extends State<DriverRideVisibilityScreen> {
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
+  final RangeValues _currentRangeValues = const RangeValues(40, 80);
   List<bool> isSelected = [true, false];
 
-  double _currentSliderValue = 4;
-  SfRangeValues _values = SfRangeValues(40.0, 80.0);
+  final double _currentSliderValue = 4;
+  SfRangeValues _values = const SfRangeValues(40.0, 80.0);
   List<String> tags = [];
   List<String> options = [
     'FMF',
@@ -36,7 +36,6 @@ class _DriverRideVisibilityScreenState
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(

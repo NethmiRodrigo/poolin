@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 
 import 'package:mobile/custom/lists/close_friends_list.dart';
@@ -26,7 +25,6 @@ class RiderHomeScreen extends StatefulWidget {
 }
 
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
-  final _storage = const FlutterSecureStorage();
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
   late User currentUser = User(
@@ -172,7 +170,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                           alignment: Alignment.bottomRight,
                           child: IconButton(
                             icon: const Icon(
-                              BlipIcons.arrow_right,
+                              BlipIcons.arrowRight,
                               size: 20,
                               color: BlipColors.white,
                             ),

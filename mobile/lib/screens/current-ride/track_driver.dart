@@ -7,7 +7,7 @@ import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:location/location.dart';
 import 'package:mobile/screens/home/rider_home.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
@@ -58,7 +58,7 @@ class _TrackDriverState extends State<TrackDriver> {
   bool isDriverAvailable = false;
   bool driverArrived = false;
 
-  late IO.Socket socket;
+  late io.Socket socket;
 
   @override
   void initState() {
@@ -87,7 +87,7 @@ class _TrackDriverState extends State<TrackDriver> {
     String? socketServer = dotenv.env['SOCKET_SERVER'];
 
     try {
-      socket = IO.io(socketServer, <String, dynamic>{
+      socket = io.io(socketServer, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });

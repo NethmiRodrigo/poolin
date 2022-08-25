@@ -1,6 +1,3 @@
-//     final coordinate = coordinateFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 Coordinate coordinateFromJson(String str) =>

@@ -1,7 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:mobile/colors.dart';
@@ -33,13 +31,13 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 addVerticalSpace(96),
-                Text(
+                const Text(
                   "Your ride has been completed!",
                   style: BlipFonts.heading,
                   textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(96),
-                Text(
+                const Text(
                   "Rate your driver",
                   style: BlipFonts.labelBold,
                 ),
@@ -50,17 +48,15 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                   direction: Axis.horizontal,
                   allowHalfRating: true,
                   itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => Icon(
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
                     EvaIcons.star,
                     color: BlipColors.gold,
                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
+                  onRatingUpdate: (rating) {},
                 ),
                 addVerticalSpace(24),
-                Text(
+                const Text(
                   "Rate the passengers",
                   style: BlipFonts.labelBold,
                 ),
@@ -75,13 +71,13 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 16,
                                 backgroundImage:
                                     NetworkImage("https://i.pravatar.cc/800"),
                               ),
                               addHorizontalSpace(8),
-                              Text("Yadeesha \nWeerasinghe",
+                              const Text("Yadeesha \nWeerasinghe",
                                   style: BlipFonts.outline),
                             ],
                           ),
@@ -92,15 +88,13 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
                               color: BlipColors.gold,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                         ],
                       ),
@@ -114,13 +108,13 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 16,
                                 backgroundImage:
                                     NetworkImage("https://i.pravatar.cc/900"),
                               ),
                               addHorizontalSpace(8),
-                              Text("Yadeesha \nWeerasinghe",
+                              const Text("Yadeesha \nWeerasinghe",
                                   style: BlipFonts.outline),
                             ],
                           ),
@@ -131,15 +125,13 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
                               color: BlipColors.gold,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                         ],
                       ),
@@ -153,13 +145,13 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 16,
                                 backgroundImage:
                                     NetworkImage("https://i.pravatar.cc/700"),
                               ),
                               addHorizontalSpace(8),
-                              Text("Yadeesha \nWeerasinghe",
+                              const Text("Yadeesha \nWeerasinghe",
                                   style: BlipFonts.outline),
                             ],
                           ),
@@ -170,23 +162,21 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
                               color: BlipColors.gold,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Spacer(),
-                Text("Skip", style: BlipFonts.outlineBold),
+                const Spacer(),
+                const Text("Skip", style: BlipFonts.outlineBold),
                 addVerticalSpace(48),
               ],
             ),
