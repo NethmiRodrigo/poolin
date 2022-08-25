@@ -118,7 +118,6 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                 children: [
                                   Row(
                                     children: const [
-<<<<<<< HEAD
                                       Flexible(
                                         child: Text(
                                           'University of Colombo, School of Computing',
@@ -126,10 +125,6 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
-=======
-                                      Text('No.20, Borelasgamuwa',
-                                          style: BlipFonts.labelBold),
->>>>>>> add-offers-to-requests
                                       Spacer(),
                                       Text('12:28 PM',
                                           style: BlipFonts.outline),
@@ -151,27 +146,16 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-<<<<<<< HEAD
                                           Text('Lionel Wendt Art Theatre',
                                               style: BlipFonts.label),
                                           Text('Pick up Nethmi',
-=======
-                                          const Text('No.20, Borelasgamuwa',
-                                              style: BlipFonts.label),
-                                          const Text('Pick up Sarah',
->>>>>>> add-offers-to-requests
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-<<<<<<< HEAD
                                       Spacer(),
                                       Text('12:40 PM',
                                           style: BlipFonts.outline),
-=======
-                                      const Spacer(),
-                                      const Text('7:30 AM', style: BlipFonts.outline),
->>>>>>> add-offers-to-requests
                                     ],
                                   ),
                                 ],
@@ -192,27 +176,16 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-<<<<<<< HEAD
                                           Text('Cinnamon Red',
                                               style: BlipFonts.label),
                                           Text('Drop off Nethmi',
-=======
-                                          const Text('No.20, Thunmulla',
-                                              style: BlipFonts.label),
-                                          const Text('Drop off Sarah',
->>>>>>> add-offers-to-requests
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-<<<<<<< HEAD
                                       Spacer(),
                                       Text('12:50 PM',
                                           style: BlipFonts.outline),
-=======
-                                      const Spacer(),
-                                      const Text('7:30 AM', style: BlipFonts.outline),
->>>>>>> add-offers-to-requests
                                     ],
                                   ),
                                 ],
@@ -226,7 +199,6 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-<<<<<<< HEAD
                                     children: [
                                       Column(
                                         crossAxisAlignment:
@@ -241,12 +213,6 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                           addVerticalSpace(4),
                                         ],
                                       ),
-=======
-                                    children: const [
-                                      Text(
-                                          'University of Colombo\nSchool of Computing',
-                                          style: BlipFonts.labelBold),
->>>>>>> add-offers-to-requests
                                       Spacer(),
                                       Text('1:00 PM', style: BlipFonts.outline),
                                     ],
@@ -261,7 +227,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   )),
               addVerticalSpace(32),
               Row(
-                children: const [
+                children: [
                   Text(
                     "The Party",
                     style: BlipFonts.heading,
@@ -323,73 +289,11 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         Column(
                           children: const [
                             CircleAvatar(
-<<<<<<< HEAD
                               radius: 30,
                               backgroundColor: BlipColors.lightGrey,
                               foregroundImage: NetworkImage(
                                 "https://i.pravatar.cc/300?img=9",
                               ),
-=======
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        addHorizontalSpace(16),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        addHorizontalSpace(16),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        addHorizontalSpace(16),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        addHorizontalSpace(16),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
->>>>>>> add-offers-to-requests
                             ),
                             Text(
                               "Nethmi",

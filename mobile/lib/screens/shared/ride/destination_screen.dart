@@ -49,77 +49,6 @@ class DestinationScreenState extends State<DestinationScreen> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
-<<<<<<< HEAD
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: sidePadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              addVerticalSpace(size.height * 0.05),
-              Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: AnimatedToggleSwitch<bool>.dual(
-                  current: isRideAnOffer,
-                  first: false,
-                  second: true,
-                  dif: 5.0,
-                  borderColor: Colors.black,
-                  borderWidth: 1,
-                  height: 35,
-                  onChanged: (toggleValue) => [
-                    setState(() {
-                      isRideAnOffer = toggleValue;
-                      if (isRideAnOffer) {
-                        _rideType = RideType.offer;
-                      } else {
-                        _rideType = RideType.request;
-                      }
-                    })
-                  ],
-                  colorBuilder: (b) => b ? Colors.black : Colors.black,
-                  iconBuilder: (value) => value
-                      ? const Icon(Icons.drive_eta_rounded, color: Colors.white)
-                      : const Icon(Icons.airline_seat_recline_extra_rounded,
-                          color: Colors.white),
-                  textBuilder: (value) => value
-                      ? Center(
-                          child: Text(
-                          'Driver',
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ))
-                      : Center(
-                          child: Text(
-                          'Rider',
-                          style: Theme.of(context).textTheme.labelMedium,
-                        )),
-                ),
-              ),
-              Align(
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    isRideAnOffer
-                        ? 'assets/images/driver.png'
-                        : 'assets/images/rider.png',
-                    height: 272,
-                  )),
-              Text(
-                isRideAnOffer ? 'Where are you headed?' : 'Where are you going?',
-                style: BlipFonts.title,
-=======
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -133,7 +62,6 @@ class DestinationScreenState extends State<DestinationScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
->>>>>>> add-offers-to-requests
               ),
             ],
           ),
@@ -209,46 +137,6 @@ class DestinationScreenState extends State<DestinationScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-<<<<<<< HEAD
-                    Row(
-                      children: [
-                        const Icon(FluentIcons.location_16_filled),
-                        addHorizontalSpace(16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Ladies\' College',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            Text(
-                              '66 Sir Ernest de Silva Mawatha, Colombo 7',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    addVerticalSpace(16),
-                    Row(
-                      children: [
-                        const Icon(FluentIcons.location_16_filled),
-                        addHorizontalSpace(16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'University of Colombo',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            Text(
-                              '206/A, Reid Avenue, Colombo 07',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                          ],
-                        )
-                      ],
-=======
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -276,7 +164,6 @@ class DestinationScreenState extends State<DestinationScreen> {
                               },
                             )),
                       ),
->>>>>>> add-offers-to-requests
                     ),
                   ],
                 ),
