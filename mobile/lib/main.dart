@@ -8,8 +8,6 @@ import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/splash.dart';
 
-import './theme.dart';
-
 import 'package:mobile/theme.dart';
 
 Future<void> main() async {

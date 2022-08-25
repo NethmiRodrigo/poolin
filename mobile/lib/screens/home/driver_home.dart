@@ -87,7 +87,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       ),
     ),
   ];
-  bool isDriving = true; //driver is driving if he currently has a ride
+  bool isDriving = false; //driver is driving if he currently has a ride
 
   @override
   Widget build(BuildContext context) {
@@ -126,10 +126,13 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          'Offer a ride to someone and get paid',
-                          style: BlipFonts.labelBold
-                              .merge(const TextStyle(color: BlipColors.white)),
+                        SizedBox(
+                          width: size.width * 0.6,
+                          child: Text(
+                            'Offer a ride to someone and get paid',
+                            style: BlipFonts.labelBold
+                                .merge(const TextStyle(color: BlipColors.white)),
+                          ),
                         ),
                         Container(
                           alignment: Alignment.bottomRight,

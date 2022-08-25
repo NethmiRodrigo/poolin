@@ -30,6 +30,8 @@ class _RideCountDownState extends State<RideCountDown> {
     TextStyle whiteText = const TextStyle(color: BlipColors.white);
     final Size size = MediaQuery.of(context).size;
 
+    // final ActiveRideCubit activeRide = BlocProvider.of<ActiveRideCubit>(context);
+
     return CountdownTimer(
       controller: controller,
       widgetBuilder: (_, CurrentRemainingTime? time) {
@@ -46,7 +48,6 @@ class _RideCountDownState extends State<RideCountDown> {
             right: 16,
             top: 12,
           ),
-          // height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: BlipColors.orange,

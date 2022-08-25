@@ -100,7 +100,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
         lastName: 'Anderson',
         profilePicture: 'https://i.pravatar.cc/300?img=6'),
   ];
-  bool isRiding = true; //rider is riding if he currently has a ride
+  bool isRiding = false; //rider is riding if he currently has a ride
 
   @override
   void initState() {
@@ -161,10 +161,13 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          'See who else is travelling your way',
-                          style: BlipFonts.labelBold
-                              .merge(const TextStyle(color: BlipColors.white)),
+                        SizedBox(
+                          width: size.width * 0.6,
+                          child: Text(
+                            'See who else is travelling your way',
+                            style: BlipFonts.labelBold
+                                .merge(const TextStyle(color: BlipColors.white)),
+                          ),
                         ),
                         Container(
                           alignment: Alignment.bottomRight,
