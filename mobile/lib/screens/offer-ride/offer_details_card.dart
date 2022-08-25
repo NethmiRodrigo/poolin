@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import 'dart:convert';
 
+=======
+>>>>>>> add-offers-to-requests
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -26,14 +29,18 @@ class OfferDetailsCard extends StatefulWidget {
 
 class OfferDetailsCardState extends State<OfferDetailsCard> {
   DateTime startTime = DateTime.now().add(const Duration(days: 1));
+<<<<<<< HEAD
   TextEditingController _email = TextEditingController(text: "500");
 
+=======
+>>>>>>> add-offers-to-requests
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
+<<<<<<< HEAD
     bool isLoading = false;
 
     Future<Response> handleOfferCreate() async {
@@ -96,8 +103,38 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                   height: size.height * 0.5,
                   width: size.width,
                   child: Column(
+=======
+
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(30),
+        topRight: Radius.circular(30),
+      ),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        padding: sidePadding,
+        height: size.height * 0.5,
+        width: size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            addVerticalSpace(24),
+            const Text(
+              'Confirm your Offer',
+              style: BlipFonts.title,
+            ),
+            addVerticalSpace(40),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: [
+                  Row(
+>>>>>>> add-offers-to-requests
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+<<<<<<< HEAD
                       addVerticalSpace(size.height * 0.5 * 0.05),
                       const Text(
                         'Confirm your Offer',
@@ -125,6 +162,63 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                           width: 120,
                                           child: TextFormField(
                                             controller: _email,
+=======
+                      Column(
+                        children: [
+                          Column(
+                            children: [
+                              Text(("fare per rider".toUpperCase()),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
+                              addVerticalSpace(20),
+                              Row(
+                                children: [
+                                  Text("Rs. 5000",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge),
+                                  const Icon(
+                                    FluentIcons.edit_16_regular,
+                                    size: 14,
+                                    color: BlipColors.orange,
+                                  ),
+                                ],
+                              ),
+                              addVerticalSpace(16),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(("date and time".toUpperCase()),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall),
+                                      addVerticalSpace(20),
+                                      TextButton(
+                                          onPressed: () {
+                                            DatePicker.showDateTimePicker(
+                                                context,
+                                                showTitleActions: true,
+                                                minTime: DateTime.now().add(
+                                                    const Duration(days: 1)),
+                                                maxTime: DateTime.now().add(
+                                                    const Duration(days: 7)),
+                                                onChanged: (date) {},
+                                                onConfirm: (date) {
+                                              setState(() {
+                                                startTime = date;
+                                              });
+                                            },
+                                                currentTime: startTime,
+                                                locale: LocaleType.en);
+                                          },
+                                          child: Text(
+                                            Jiffy(startTime).yMMMd,
+>>>>>>> add-offers-to-requests
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelLarge,
@@ -290,6 +384,43 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                 ),
               ),
             ),
+<<<<<<< HEAD
+=======
+            addVerticalSpace(32),
+            WideButton(
+                text:
+                    "I'll arrive at ${Jiffy(startTime).format("h:mm a").split(" ").join('')} ${Jiffy(startTime).startOf(Units.HOUR).fromNow()}",
+                onPressedAction: () async {
+                  offerCubit.setStartTime(startTime);
+                  Response response = await getDistanceAndTime(
+                      offerCubit.state.source, offerCubit.state.destination);
+                  // final res = json.decode(response.data);
+                  final res = response.data;
+                  if (response.statusCode == 200) {
+                    final distance = double.parse(res["rows"][0]["elements"][0]
+                            ["distance"]["text"]
+                        .split(' ')[0]);
+                    final duration = int.parse(res["rows"][0]["elements"][0]
+                            ["duration"]["text"]
+                        .split(' ')[0]);
+                    offerCubit.setDistance((distance * 1.60934));
+                    offerCubit.setDuration(duration);
+                  }
+
+                  Response postResponse = await postOffer(offerCubit.state);
+                  if (postResponse.statusCode == 200) {
+                    // if (!mounted) {
+                    //   return;
+                    // }
+
+                  } else {
+                    print("Error! " + postResponse.data);
+                  }
+                })
+          ],
+        ),
+      ),
+>>>>>>> add-offers-to-requests
     );
   }
 }

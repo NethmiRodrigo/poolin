@@ -21,9 +21,14 @@ class TestData {
           email: 'yadeesha@gmail.com',
           stars: 4.5,
           totalRatings: 250,
+<<<<<<< HEAD
           VehicleNum: 'ABC0988',
           vehicleType: VehicleType.car),
       profilePicture: 'https://i.pravatar.cc/300?img=1');
+=======
+          vehicleNum: 'ABC0988',
+          vehicleType: VehicleType.car));
+>>>>>>> add-offers-to-requests
 
   static RideOffer testRideOffer = RideOffer(
       id: '00001',

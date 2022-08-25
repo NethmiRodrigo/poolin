@@ -5,12 +5,8 @@ import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
-import 'package:mobile/screens/request-ride/view_requested_rides.dart';
-import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
 import 'package:mobile/services/ride_request_service.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/utils/widget_functions.dart';

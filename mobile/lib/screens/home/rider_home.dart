@@ -184,7 +184,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                           alignment: Alignment.bottomRight,
                           child: IconButton(
                             icon: const Icon(
-                              BlipIcons.arrow_right,
+                              BlipIcons.arrowRight,
                               size: 20,
                               color: BlipColors.white,
                             ),

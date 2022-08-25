@@ -25,9 +25,9 @@ import '../../custom/outline_button.dart';
 import '../../fonts.dart';
 
 class ReserveRequestScreen extends StatefulWidget {
-  const ReserveRequestScreen({super.key, required this.request});
-
   final request;
+
+  const ReserveRequestScreen({super.key, required this.request});
 
   @override
   ReserveRequestScreenState createState() {
@@ -40,19 +40,17 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
-  double _value = 40.0;
 
-  static const LatLng _center = const LatLng(6.9271, 79.8612);
+  static const LatLng _center = LatLng(6.9271, 79.8612);
 
   final Set<Marker> _markers = {};
 
   LatLng _lastMapPosition = _center;
 
-  MapType _currentMapType = MapType.normal;
+  final MapType _currentMapType = MapType.normal;
 
   void _onCameraMove(CameraPosition position) {
     _lastMapPosition = position.target;
@@ -94,7 +92,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
             children: [
               addVerticalSpace(44),
               // Text(widget.request["fname"]),
-              BackwardButton(),
+              const BackwardButton(),
               addVerticalSpace(16),
               const Text(
                 'Reservation Request',
@@ -103,7 +101,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
               addVerticalSpace(32),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Container(
+                child: SizedBox(
                   height: 160,
                   child: GoogleMap(
                     onMapCreated: _onMapCreated,
@@ -131,9 +129,15 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 children: [
                   Column(
                     children: [
+<<<<<<< HEAD
                       Text("12.40 AM", style: BlipFonts.outlineBold),
                       addVerticalSpace(32),
                       Text("12.50 AM", style: BlipFonts.outlineBold),
+=======
+                      const Text("11.30 AM", style: BlipFonts.outlineBold),
+                      addVerticalSpace(32),
+                      const Text("12.30 AM", style: BlipFonts.outlineBold),
+>>>>>>> add-offers-to-requests
                     ],
                   ),
                   Column(
@@ -146,20 +150,33 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                       CustomPaint(
                           size: const Size(1, 18),
                           painter: DashedLineVerticalPainter()),
+<<<<<<< HEAD
                       const Icon(EvaIcons.arrowIosDownward,
                           color: BlipColors.orange),
+=======
+                      const Icon(EvaIcons.arrowIosDownward, color: BlipColors.orange),
+>>>>>>> add-offers-to-requests
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.request["start"],
+<<<<<<< HEAD
                           style: BlipFonts.labelBold.merge(
                               const TextStyle(color: BlipColors.orange))),
                       addVerticalSpace(24),
                       Text(widget.request["end"],
                           style: BlipFonts.labelBold.merge(
                               const TextStyle(color: BlipColors.orange))),
+=======
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.orange))),
+                      addVerticalSpace(24),
+                      Text(widget.request["end"],
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.orange))),
+>>>>>>> add-offers-to-requests
                     ],
                   )
                 ],
@@ -259,8 +276,12 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                                 size: 2,
                               ),
                               addHorizontalSpace(8),
+<<<<<<< HEAD
                               const Text("250 ratings",
                                   style: BlipFonts.tagline),
+=======
+                              const Text("250 ratings", style: BlipFonts.tagline),
+>>>>>>> add-offers-to-requests
                             ],
                           )
                         ],

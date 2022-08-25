@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'package:mobile/custom/lists/pass_request_list.dart';
 import 'package:mobile/custom/lists/ride_request_list.dart';
 import 'package:mobile/custom/toggle_to_driver.dart';
@@ -24,7 +22,6 @@ class DriverHomeScreen extends StatefulWidget {
 }
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
-  final _storage = const FlutterSecureStorage();
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
   final Map<String, int> stat = {
@@ -80,7 +77,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
         ),
         profilePicture: "https://i.pravatar.cc/150?img=3"),
   ];
-  bool isDriving = true; //driver is driving if he currently has a ride
+  bool isDriving = false; //driver is driving if he currently has a ride
 
   @override
   Widget build(BuildContext context) {
@@ -119,16 +116,19 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          'Offer a ride to someone and get paid',
-                          style: BlipFonts.labelBold
-                              .merge(const TextStyle(color: BlipColors.white)),
+                        SizedBox(
+                          width: size.width * 0.6,
+                          child: Text(
+                            'Offer a ride to someone and get paid',
+                            style: BlipFonts.labelBold
+                                .merge(const TextStyle(color: BlipColors.white)),
+                          ),
                         ),
                         Container(
                           alignment: Alignment.bottomRight,
                           child: IconButton(
                             icon: const Icon(
-                              BlipIcons.arrow_right,
+                              BlipIcons.arrowRight,
                               size: 20,
                               color: BlipColors.white,
                             ),
@@ -191,7 +191,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                   : 'Passenger Ride Requests',
               style: BlipFonts.title,
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.3,
               child: isDriving
                   ? PassengerRequestList(_passRequests)

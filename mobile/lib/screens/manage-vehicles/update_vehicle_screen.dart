@@ -4,8 +4,6 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-//import 'package:color_picker_field/color_picker_field.dart';
-
 
 var reports = [
   {'title': 'assets/images/car.png', 'content': 'Car'},
@@ -24,7 +22,6 @@ class UpdateVehicleScreen extends StatefulWidget {
 
 class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
   final controller = CarouselController();
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController _make = TextEditingController();
   final TextEditingController _model = TextEditingController();
 

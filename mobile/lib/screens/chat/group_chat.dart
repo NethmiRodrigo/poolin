@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
@@ -46,9 +46,9 @@ class _GroupChatState extends State<GroupChat> {
       profilePicURL: 'https://i.pravatar.cc/300?img=3',
     ),
   ];
-  TextEditingController _messageController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
   List<Message> messages = [];
-  late IO.Socket socket;
+  late io.Socket socket;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _GroupChatState extends State<GroupChat> {
     String? socketServer = dotenv.env['CHAT_SERVER'];
 
     try {
-      socket = IO.io(socketServer, <String, dynamic>{
+      socket = io.io(socketServer, <String, dynamic>{
         'transports': ['websocket'],
       });
 

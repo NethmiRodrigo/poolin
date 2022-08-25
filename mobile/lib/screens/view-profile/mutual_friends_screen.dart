@@ -1,7 +1,5 @@
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/custom/outline_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -75,18 +73,18 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
               ),
               addVerticalSpace(40),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 30.0,
                       backgroundImage: AssetImage('assets/images/user.jpg'),
                     ),
                     addHorizontalSpace(16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           "Nethmi Dilinika ",
                           style: BlipFonts.labelBold,
@@ -97,7 +95,7 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     OutlineButton(
                       text: "SEE PROFILE",
                       color: BlipColors.black,
@@ -108,18 +106,18 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
               ),
               addVerticalSpace(24),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 30.0,
                       backgroundImage: AssetImage('assets/images/user.jpg'),
                     ),
                     addHorizontalSpace(16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           "Nethmi Dilinika ",
                           style: BlipFonts.labelBold,
@@ -130,7 +128,7 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     OutlineButton(
                       text: "SEE PROFILE",
                       color: BlipColors.black,

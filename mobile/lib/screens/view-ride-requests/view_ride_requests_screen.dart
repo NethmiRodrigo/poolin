@@ -3,14 +3,19 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jiffy/jiffy.dart';
 
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
+<<<<<<< HEAD
 import 'package:mobile/screens/ride-details/ride_details_screen.dart';
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
+=======
+import 'package:mobile/utils/widget_functions.dart';
+
+import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
+>>>>>>> add-offers-to-requests
 
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
@@ -35,8 +40,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
-  var _total = 0;
   var isVisible = false;
   List<dynamic>? pendingRequests;
   List<dynamic>? confirmedRequests;
@@ -94,6 +97,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     addVerticalSpace(44),
                     const BackwardButton(),
                     addVerticalSpace(24),
+<<<<<<< HEAD
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
@@ -111,6 +115,21 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                               color: BlipColors.green)
                         ],
                       ),
+=======
+                    Row(
+                      children: [
+                        const Text(
+                          'Your ride \nis trending!',
+                          style: BlipFonts.displayBlack,
+                          textAlign: TextAlign.left,
+                        ),
+                        addHorizontalSpace(100),
+                        const Indicator(
+                            icon: FluentIcons.eye_12_regular,
+                            text: "500",
+                            color: BlipColors.green)
+                      ],
+>>>>>>> add-offers-to-requests
                     ),
                     addVerticalSpace(48),
                     Row(
@@ -168,6 +187,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                       textAlign: TextAlign.left,
                     ),
                     addVerticalSpace(16),
+<<<<<<< HEAD
                     if (pendingRequests?.length != null)
                       SizedBox(
                         height: 130,
@@ -203,6 +223,75 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                                   pendingRequests![index]
                                                       ['avatar'],
                                                 ),
+=======
+                    SizedBox(
+                      height: 125,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: pendingRequests?.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              (Container(
+                                  width: 257,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 16),
+                                  decoration: const BoxDecoration(
+                                    color: BlipColors.orange,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            20)), // red as border color
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  pendingRequests![index]
+                                                      ['avatar'])),
+                                          Text(
+                                            pendingRequests![index]['fname'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelLarge!
+                                                .merge(const TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                          Text(
+                                            "+ Rs. ${pendingRequests![index]['price']}",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineLarge!
+                                                .merge(const TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Check(
+                                                price: int.parse(
+                                                    (pendingRequests![index]
+                                                        ['price'])),
+                                                // onCheckedAction: () {
+                                                //   setState(() {
+                                                //     _total += int.parse(
+                                                //         (pendingRequests![index]
+                                                //             ['price']));
+                                                //   });
+                                                // },
+>>>>>>> add-offers-to-requests
                                               ),
                                             Text(
                                               pendingRequests![index]['fname'],
@@ -248,6 +337,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headlineSmall!
+<<<<<<< HEAD
                                                       .merge(
                                                         const TextStyle(
                                                             color:
@@ -261,6 +351,18 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
+=======
+                                                      .merge(const TextStyle(
+                                                          color:
+                                                              Colors.white))),
+                                            ],
+                                          ),
+                                          OutlineButton(
+                                              onPressedAction: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+>>>>>>> add-offers-to-requests
                                                       builder: (context) =>
                                                           ReserveRequestScreen(
                                                         request:
@@ -304,6 +406,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                 Text(request['fname'] + " " + request['lname'],
                                     style: BlipFonts.outline),
                                 Container(
+<<<<<<< HEAD
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 4, vertical: 2),
                                   decoration: BoxDecoration(
@@ -318,6 +421,19 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                                             color: BlipColors.blue)),
                                   ),
                                 ),
+=======
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: BlipColors.lightBlue,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      ("gets on at ${request['pickup']} at ${Jiffy(request['starttime']).format("h:mm a").split(" ").join('')}").toUpperCase(),
+                                      style: BlipFonts.taglineBold.merge(
+                                          const TextStyle(color: BlipColors.blue)),
+                                    )),
+>>>>>>> add-offers-to-requests
                               ],
                             ),
                           //
@@ -382,7 +498,6 @@ class _CheckState extends State<Check> {
         } else {
           offerCubit.decrementPrice((widget.price));
         }
-        print(widget.price);
       },
     );
   }

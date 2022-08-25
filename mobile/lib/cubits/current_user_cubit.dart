@@ -52,7 +52,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
       };
 
   void setVehicleNumber(String vehicleNumber) =>
-      emit(state.copyWith(VehicleNum: vehicleNumber));
+      emit(state.copyWith(vehicleNum: vehicleNumber));
 }
 
 class CurrentUser {
@@ -64,7 +64,7 @@ class CurrentUser {
   double stars;
   int totalRatings;
   VehicleType vehicleType;
-  String VehicleNum;
+  String vehicleNum;
   String? profilePicURL;
   String? bio;
   String? occupation;
@@ -86,7 +86,7 @@ class CurrentUser {
     required this.email,
     this.stars = 0.0,
     this.totalRatings = 0,
-    this.VehicleNum = '',
+    this.vehicleNum = '',
     this.vehicleType = VehicleType.na,
     this.profilePicURL,
     this.bio,
@@ -111,7 +111,7 @@ class CurrentUser {
     double? stars,
     int? totalRatings,
     VehicleType? vehicleType,
-    String? VehicleNum,
+    String? vehicleNum,
     String? profilePicURL,
     String? bio,
     String? occupation,
@@ -134,7 +134,7 @@ class CurrentUser {
       totalRatings: totalRatings ?? this.totalRatings,
       vehicleType: vehicleType ?? this.vehicleType,
       profilePicURL: profilePicURL ?? profilePicURL,
-      VehicleNum: VehicleNum ?? this.VehicleNum,
+      vehicleNum: vehicleNum ?? this.vehicleNum,
       bio: bio ?? bio,
       occupation: occupation ?? occupation,
       dateOfBirth: dateOfBirth ?? dateOfBirth,

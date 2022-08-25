@@ -22,7 +22,11 @@ class _DriverRideVisibilityScreenState
   List<bool> isSelected = [true, false];
 
   final double _currentSliderValue = 4;
+<<<<<<< HEAD
   SfRangeValues _values = SfRangeValues(40.0, 80.0);
+=======
+  SfRangeValues _values = const SfRangeValues(40.0, 80.0);
+>>>>>>> add-offers-to-requests
   List<String> tags = [];
   List<String> options = [
     'FMF',
@@ -36,7 +40,6 @@ class _DriverRideVisibilityScreenState
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(

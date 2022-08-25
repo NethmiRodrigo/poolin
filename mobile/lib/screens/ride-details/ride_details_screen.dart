@@ -23,6 +23,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       body: SizedBox(
@@ -52,7 +53,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                 style: BlipFonts.display,
               ),
               addVerticalSpace(16),
-              Text(
+              const Text(
                 "Your Trip",
                 style: BlipFonts.heading,
               ),
@@ -62,24 +63,24 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                     "Sunday, 14th August",
                     style: BlipFonts.label,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   TextButton(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: BlipColors.orange,
                       ),
                       child: Text(("12:28AM").toUpperCase(),
                           style: BlipFonts.outlineBold
-                              .merge(TextStyle(color: BlipColors.white))),
+                              .merge(const TextStyle(color: BlipColors.white))),
                     ),
                     onPressed: () {},
                   )
                 ],
               ),
               addVerticalSpace(12),
-              Container(
+              SizedBox(
                   height: 200,
                   child: Scrollbar(
                     thumbVisibility: true,
@@ -110,13 +111,14 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                             ),
                           ],
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
                                     children: const [
+<<<<<<< HEAD
                                       Flexible(
                                         child: Text(
                                           'University of Colombo, School of Computing',
@@ -124,6 +126,10 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
+=======
+                                      Text('No.20, Borelasgamuwa',
+                                          style: BlipFonts.labelBold),
+>>>>>>> add-offers-to-requests
                                       Spacer(),
                                       Text('12:28 PM',
                                           style: BlipFonts.outline),
@@ -132,7 +138,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                 ],
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -145,22 +151,33 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+<<<<<<< HEAD
                                           Text('Lionel Wendt Art Theatre',
                                               style: BlipFonts.label),
                                           Text('Pick up Nethmi',
+=======
+                                          const Text('No.20, Borelasgamuwa',
+                                              style: BlipFonts.label),
+                                          const Text('Pick up Sarah',
+>>>>>>> add-offers-to-requests
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
+<<<<<<< HEAD
                                       Spacer(),
                                       Text('12:40 PM',
                                           style: BlipFonts.outline),
+=======
+                                      const Spacer(),
+                                      const Text('7:30 AM', style: BlipFonts.outline),
+>>>>>>> add-offers-to-requests
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -175,22 +192,33 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
+<<<<<<< HEAD
                                           Text('Cinnamon Red',
                                               style: BlipFonts.label),
                                           Text('Drop off Nethmi',
+=======
+                                          const Text('No.20, Thunmulla',
+                                              style: BlipFonts.label),
+                                          const Text('Drop off Sarah',
+>>>>>>> add-offers-to-requests
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
+<<<<<<< HEAD
                                       Spacer(),
                                       Text('12:50 PM',
                                           style: BlipFonts.outline),
+=======
+                                      const Spacer(),
+                                      const Text('7:30 AM', style: BlipFonts.outline),
+>>>>>>> add-offers-to-requests
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -198,6 +226,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+<<<<<<< HEAD
                                     children: [
                                       Column(
                                         crossAxisAlignment:
@@ -212,6 +241,12 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                           addVerticalSpace(4),
                                         ],
                                       ),
+=======
+                                    children: const [
+                                      Text(
+                                          'University of Colombo\nSchool of Computing',
+                                          style: BlipFonts.labelBold),
+>>>>>>> add-offers-to-requests
                                       Spacer(),
                                       Text('1:00 PM', style: BlipFonts.outline),
                                     ],
@@ -226,7 +261,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   )),
               addVerticalSpace(32),
               Row(
-                children: [
+                children: const [
                   Text(
                     "The Party",
                     style: BlipFonts.heading,
@@ -257,7 +292,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       CircleAvatar(
                         radius: 40,
                         backgroundColor: BlipColors.lightGrey,
@@ -277,7 +312,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   ),
                   addHorizontalSpace(20),
                   addVerticalSpace(24),
-                  Container(
+                  SizedBox(
                     height: 100,
                     width: 220,
                     child: ListView(
@@ -286,13 +321,75 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                       shrinkWrap: true,
                       children: <Widget>[
                         Column(
-                          children: [
+                          children: const [
                             CircleAvatar(
+<<<<<<< HEAD
                               radius: 30,
                               backgroundColor: BlipColors.lightGrey,
                               foregroundImage: NetworkImage(
                                 "https://i.pravatar.cc/300?img=9",
                               ),
+=======
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
+                        ),
+                        addHorizontalSpace(16),
+                        Column(
+                          children: const [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
+                        ),
+                        addHorizontalSpace(16),
+                        Column(
+                          children: const [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
+                        ),
+                        addHorizontalSpace(16),
+                        Column(
+                          children: const [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+                            ),
+                            Text(
+                              "John",
+                              style: BlipFonts.outline,
+                            ),
+                          ],
+                        ),
+                        addHorizontalSpace(16),
+                        Column(
+                          children: const [
+                            CircleAvatar(
+                              radius: 30.0,
+                              backgroundImage:
+                                  AssetImage('assets/images/user.jpg'),
+>>>>>>> add-offers-to-requests
                             ),
                             Text(
                               "Nethmi",

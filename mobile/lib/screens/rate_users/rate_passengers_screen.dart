@@ -31,13 +31,13 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 addVerticalSpace(96),
-                Text(
+                const Text(
                   "Your ride has been completed!",
                   style: BlipFonts.heading,
                   textAlign: TextAlign.center,
                 ),
                 addVerticalSpace(96),
-                Text(
+                const Text(
                   "Rate the passengers",
                   style: BlipFonts.labelBold,
                 ),
@@ -52,13 +52,13 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 16,
                                 backgroundImage:
                                     NetworkImage("https://i.pravatar.cc/500"),
                               ),
                               addHorizontalSpace(8),
-                              Text("Yadeesha \nWeerasinghe",
+                              const Text("Yadeesha \nWeerasinghe",
                                   style: BlipFonts.outline),
                             ],
                           ),
@@ -69,15 +69,13 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
                               color: BlipColors.gold,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                         ],
                       ),
@@ -91,13 +89,13 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 16,
                                 backgroundImage:
                                     NetworkImage("https://i.pravatar.cc/300"),
                               ),
                               addHorizontalSpace(8),
-                              Text("Yadeesha \nWeerasinghe",
+                              const Text("Yadeesha \nWeerasinghe",
                                   style: BlipFonts.outline),
                             ],
                           ),
@@ -108,15 +106,13 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
                               color: BlipColors.gold,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                         ],
                       ),
@@ -130,13 +126,13 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 16,
                                 backgroundImage:
                                     NetworkImage("https://i.pravatar.cc/400"),
                               ),
                               addHorizontalSpace(8),
-                              Text("Yadeesha \nWeerasinghe",
+                              const Text("Yadeesha \nWeerasinghe",
                                   style: BlipFonts.outline),
                             ],
                           ),
@@ -147,23 +143,21 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
                               color: BlipColors.gold,
                             ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: (rating) {},
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Spacer(),
-                Text("Skip", style: BlipFonts.outlineBold),
+                const Spacer(),
+                const Text("Skip", style: BlipFonts.outlineBold),
                 addVerticalSpace(48),
               ],
             ),
