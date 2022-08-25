@@ -5,13 +5,16 @@ import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/view-ride-offers/timeline.dart';
 import 'package:mobile/screens/view-ride-offers/user_card.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class ViewRideOfferDetails extends StatefulWidget {
-  const ViewRideOfferDetails({Key? key}) : super(key: key);
+  final RideOfferSearchResult offer;
+
+  const ViewRideOfferDetails(this.offer, {Key? key}) : super(key: key);
 
   @override
   State<ViewRideOfferDetails> createState() => _ViewRideOfferDetailsState();
@@ -19,7 +22,7 @@ class ViewRideOfferDetails extends StatefulWidget {
 
 class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
   static const LatLng _center = LatLng(6.9271, 79.8612);
-  
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -83,8 +86,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                             "Rs. ${reqCubit.state.price}",
                             style: BlipFonts.heading,
                           ),
-                          // addHorizontalSpace(10.0),
-                          Spacer(),
+                          const Spacer(),
                           SizedBox(
                             width: size.width * 0.5,
                             child: WideButton(

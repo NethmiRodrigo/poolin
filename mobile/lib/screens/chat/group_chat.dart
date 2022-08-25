@@ -142,7 +142,7 @@ class _GroupChatState extends State<GroupChat> {
                             radius: 20,
                             backgroundColor: BlipColors.lightGrey,
                             foregroundImage: NetworkImage(
-                              participants[index].profilePicURL!,
+                              participants[index].profilePicURL,
                             ),
                           ),
                           addVerticalSpace(5),

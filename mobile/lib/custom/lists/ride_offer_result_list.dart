@@ -1,5 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/icons.dart';
+import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -33,12 +35,12 @@ class RideOfferResultList extends StatelessWidget {
       thumbVisibility: true,
       child: ListView.builder(
         itemBuilder: (ctx, index) {
-          return GestureDetector( 
+          return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => const ViewRideOfferDetails()),
+                  builder: ((context) => ViewRideOfferDetails(offers[index])),
                 ),
               );
             },
@@ -55,7 +57,7 @@ class RideOfferResultList extends StatelessWidget {
                           CircleAvatar(
                             radius: 20,
                             foregroundImage: NetworkImage(
-                              offers[index].user.profilePicture,
+                              offers[index].driver.profilePicURL,
                             ),
                           ),
                           addHorizontalSpace(5.0),
@@ -63,13 +65,12 @@ class RideOfferResultList extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                offers[index].user.name,
+                                '${offers[index].driver.firstName} ${offers[index].driver.lastName}',
                                 style: BlipFonts.outline,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const Icon(
                                     Icons.star_rounded,
@@ -78,10 +79,7 @@ class RideOfferResultList extends StatelessWidget {
                                   ),
                                   addHorizontalSpace(8.0),
                                   Text(
-                                    offers[index]
-                                        .user
-                                        .starRating
-                                        .toString(),
+                                    offers[index].driver.stars.toString(),
                                     style: BlipFonts.tagline,
                                   ),
                                   addHorizontalSpace(8.0),
@@ -92,8 +90,8 @@ class RideOfferResultList extends StatelessWidget {
                                   addHorizontalSpace(8.0),
                                   Text(
                                     offers[index]
-                                        .user
-                                        .noOfRatings
+                                        .driver
+                                        .totalRatings
                                         .toString(),
                                     style: BlipFonts.tagline,
                                   )
@@ -101,42 +99,32 @@ class RideOfferResultList extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const Spacer(),
-                          type == "view"
-                              ? SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: Checkbox(
-                                    checkColor: BlipColors.black,
-                                    fillColor:
-                                        MaterialStateProperty.resolveWith(
-                                            getColor),
-                                    value: isChecked,
-                                    onChanged: (bool? value) {
-                                      isChecked = value!;
-                                    },
-                                  ),
-                                )
-                              : IconButton(
-                                  icon: const Icon(
-                                    EvaIcons.trash2,
-                                    color: BlipColors.grey,
-                                    size: 20.0,
-                                  ),
-                                  onPressed: () {},
-                                ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Icon(
-                            Icons.directions_car_filled_rounded,
-                            color: BlipColors.grey,
-                          ),
-                          addHorizontalSpace(5.0),
+                          (offers[index].driver.vehicleType == VehicleType.bike)
+                              ? const Icon(
+                                  BlipIcons.bike,
+                                  color: BlipColors.grey,
+                                  size: 24.0,
+                                )
+                              : (offers[index].driver.vehicleType ==
+                                      VehicleType.van)
+                                  ? const Icon(
+                                      BlipIcons.car,
+                                      color: BlipColors.grey,
+                                      size: 24.0,
+                                    )
+                                  : const Icon(
+                                      BlipIcons.car,
+                                      color: BlipColors.grey,
+                                      size: 15.0,
+                                    ),
+                          addHorizontalSpace(10.0),
                           Text(
-                            offers[index].model,
+                            offers[index].driver.vehicleModel,
                             style: BlipFonts.outline.merge(
                               const TextStyle(color: BlipColors.grey),
                             ),
@@ -148,7 +136,7 @@ class RideOfferResultList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "Rs. ${offers[index].price}",
+                            "Rs. ${offers[index].pricePerKM}",
                             style: BlipFonts.labelBold,
                           ),
                           addHorizontalSpace(8.0),

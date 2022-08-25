@@ -15,7 +15,8 @@ class User {
   int totalRatings;
   VehicleType vehicleType;
   String vehicleNum;
-  String? profilePicURL;
+  String vehicleModel;
+  String profilePicURL;
   String? bio;
   String? occupation;
   DateTime? dateOfBirth;
@@ -36,7 +37,8 @@ class User {
     this.totalRatings = 0,
     this.vehicleNum = '',
     this.vehicleType = VehicleType.na,
-    this.profilePicURL,
+    this.vehicleModel = 'Unknown',
+    this.profilePicURL = '',
     this.bio,
     this.occupation,
     this.dateOfBirth,

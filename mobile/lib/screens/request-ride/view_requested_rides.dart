@@ -17,6 +17,7 @@ class RequestedTrips extends StatefulWidget {
 
 class _RequestedTripsState extends State<RequestedTrips> {
   final List<RideOfferSearchResult> _rideOffers = results;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
