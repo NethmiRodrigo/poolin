@@ -256,12 +256,8 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                                 size: 2,
                               ),
                               addHorizontalSpace(8),
-<<<<<<< HEAD
                               const Text("250 ratings",
                                   style: BlipFonts.tagline),
-=======
-                              const Text("250 ratings", style: BlipFonts.tagline),
->>>>>>> add-offers-to-requests
                             ],
                           )
                         ],

@@ -73,7 +73,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
             ),
             addVerticalSpace(5.0),
             Text(
-              "${Jiffy(reqCubit.state.startTime).format("h:mm a")} +- 45 mins",
+              "${Jiffy(reqCubit.state.startTime).format("h:mm a")} +- 30 mins",
               style: BlipFonts.label,
             ),
             addVerticalSpace(20.0),

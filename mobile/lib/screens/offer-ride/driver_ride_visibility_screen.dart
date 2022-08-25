@@ -22,14 +22,8 @@ class _DriverRideVisibilityScreenState
   List<bool> isSelected = [true, false];
 
   final double _currentSliderValue = 4;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> df0c4c4fab0d04e8d3ef6a7186da6002af143d38
   SfRangeValues _values = SfRangeValues(40.0, 80.0);
-=======
-  SfRangeValues _values = const SfRangeValues(40.0, 80.0);
->>>>>>> add-offers-to-requests
+
   List<String> tags = [];
   List<String> options = [
     'FMF',
