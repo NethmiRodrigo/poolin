@@ -11,7 +11,7 @@ export const getOSRMDuration = async (start, end) => {
 
   try {
     const response = await axios(config);
-    const duration = response.data.routes[0].distance / 60;
+    const duration = response.data.routes[0].duration / 60;
     return duration;
   } catch (error) {
     console.log(error);

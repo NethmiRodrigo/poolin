@@ -9,6 +9,7 @@ import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
 import { parseJSON, subMinutes, addMinutes } from "date-fns";
 import { getDuration } from "../../middleware/duration";
+import { getOSRMDuration } from "../../middleware/osrmduration";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { email, offers, src, dest, startTime, window, distance, price } =
@@ -114,15 +115,16 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
   const asyncOp = async function (offer) {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
-    const duration = await getDuration(
+    const duration = await getOSRMDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
       { lat: srcLat, long: srcLong }
     );
+    console.log(duration);
     const pickupTime: Date = addMinutes(offer.departureTime, duration);
 
     const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
     const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
-
+    console.log(pickupTime);
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
 
