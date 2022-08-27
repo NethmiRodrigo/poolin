@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/auth_cubit.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
+import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -48,6 +52,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    AuthStateCubit authState = BlocProvider.of<AuthStateCubit>(context);
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -150,7 +155,15 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               buildButton(
                   title: 'Log Out',
                   icon: FontAwesomeIcons.arrowRightFromBracket,
-                  onClicked: () => {},
+                  onClicked: () {
+                    logout();
+                    authState.setLoggedIn(false);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ));
+                  },
                   icon2: Icons.arrow_forward_ios),
             ],
           ),
