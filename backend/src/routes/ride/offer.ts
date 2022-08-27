@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { off } from "process";
 import { AppDataSource } from "../../data-source";
 
 /** Entities */
@@ -60,25 +59,16 @@ export const getActiveOffer = async (req: Request, res: Response) => {
 
   const rideRepository = AppDataSource.getRepository(RideOffer);
 
-  let offer: RideOffer;
-
   const response = await rideRepository.findOne({
-    relations: { user: true },
+    relations: { user: true, requestsToOffer: true },
     where: { user: { email: user.email } },
   });
-
-  if (response) {
-    delete response.user;
-    offer = response;
-  }
 
   if (!response) {
     return res.status(200).json({ error: "No active offer", offer: null });
   }
 
-  return res
-    .status(200)
-    .json({ success: "Ride Offer fetched successfully", offer });
+  return res.status(200).json({ offer: response });
 };
 
 export const getOfferRequests = async (req: Request, res: Response) => {

@@ -1,8 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/cubits/current_user_cubit.dart';
 
 import 'package:mobile/custom/lists/close_friends_list.dart';
 import 'package:mobile/custom/lists/ride_offer_list.dart';
@@ -13,7 +9,6 @@ import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
 import '../../colors.dart';
@@ -110,12 +105,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
-  }
-
-  Future<void> _getCurrentUser() async {
-    Response res = await getCurrentUser();
-    currentUser = User.fromJson(res.data);
   }
 
   @override
@@ -123,17 +112,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
     const double padding = 16;
     final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-
-    final CurrentUserCubit currentUserCubit =
-        BlocProvider.of<CurrentUserCubit>(context);
-
-    currentUserCubit.setFirstName(currentUser.firstName);
-    currentUserCubit.setLastName(currentUser.lastName);
-    currentUserCubit.setEmail(currentUser.email);
-    currentUserCubit.setGender(currentUser.gender);
-    currentUserCubit.setStars(currentUser.stars);
-    currentUserCubit.setProfilePic(currentUser.profilePicURL);
-    currentUserCubit.setIsVerified(currentUser.isVerified);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -167,7 +145,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             top: 16,
                             bottom: 16,
                             left: 16,
@@ -193,7 +171,9 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DestinationScreen(rideType: RideType.request,),
+                                    builder: (context) => DestinationScreen(
+                                      rideType: RideType.request,
+                                    ),
                                   ));
                             },
                           ),

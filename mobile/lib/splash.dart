@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/app.dart';
+import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/login/login_screen.dart';
@@ -18,6 +19,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool isLoggedIn = false;
+  CurrentUserCubit? userCubit;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -26,18 +29,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void setUser() async {
-    if (mounted) {
-      Response response = await getCurrentUser();
-      User loggedInUser = User.fromJson(response.data);
-      CurrentUserCubit userCubit = BlocProvider.of<CurrentUserCubit>(context);
-      userCubit.setFirstName(loggedInUser.firstName);
-      userCubit.setLastName(loggedInUser.lastName);
-      userCubit.setEmail(loggedInUser.email);
-      userCubit.setGender(loggedInUser.gender);
-      userCubit.setStars(loggedInUser.stars);
-      userCubit.setProfilePic(loggedInUser.profilePicURL);
-      userCubit.setIsVerified(loggedInUser.isVerified);
+    if (!mounted) {
+      return;
     }
+    Response response = await getCurrentUser();
+    User loggedInUser = User.fromJson(response.data);
+    userCubit?.setUser("1", loggedInUser.firstName, loggedInUser.lastName,
+        loggedInUser.gender, loggedInUser.email);
   }
 
   void setLoggedInState() async {
@@ -45,20 +43,27 @@ class _SplashScreenState extends State<SplashScreen> {
     if (value) {
       setUser();
     }
-    print(value);
     setState(() {
+      isLoading = false;
       isLoggedIn = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      splashTransition: SplashTransition.fadeTransition,
-      backgroundColor: const Color(0xffff8210),
-      splash: "assets/images/poolin.gif",
-      splashIconSize: 2500,
-      nextScreen: isLoggedIn ? const App() : const LoginScreen(),
-    );
+    userCubit = BlocProvider.of<CurrentUserCubit>(context);
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(
+              color: BlipColors.orange,
+            ),
+          )
+        : AnimatedSplashScreen(
+            splashTransition: SplashTransition.fadeTransition,
+            backgroundColor: const Color(0xffff8210),
+            splash: "assets/images/poolin.gif",
+            splashIconSize: 2500,
+            nextScreen: isLoggedIn ? const App() : const LoginScreen(),
+          );
   }
 }

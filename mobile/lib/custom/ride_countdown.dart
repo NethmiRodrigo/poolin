@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
 
 import 'package:mobile/colors.dart';
+import 'package:mobile/custom/cards/home_screen_card.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
@@ -34,10 +35,8 @@ class _RideCountDownState extends State<RideCountDown> {
       controller: controller,
       widgetBuilder: (_, CurrentRemainingTime? time) {
         if (time == null) {
-          return const Text(
-            'Trip in Progress',
-            style: BlipFonts.labelBold,
-          );
+          return HomeScreenCard(
+              text: 'Trip In Progress', route: const ViewRideRequestsScreen());
         }
         return Container(
           width: size.width,
