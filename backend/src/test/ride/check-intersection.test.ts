@@ -48,7 +48,7 @@ describe(API_URL, () => {
         ),
       },
 
-      departureTime: "2014-06-25T00:00:00.000Z",
+      departureTime: "2014-06-23T00:00:00.000Z",
       arrivalTime: "2014-06-25T00:00:00.000Z",
       pricePerKm: 7,
       seats: 6,
@@ -82,7 +82,7 @@ describe(API_URL, () => {
         ),
       },
 
-      departureTime: "2014-06-25T00:00:00.000Z",
+      departureTime: "2014-06-23T00:00:00.000Z",
       arrivalTime: "2014-06-25T00:00:00.000Z",
       pricePerKm: 7,
       seats: 6,
@@ -92,7 +92,7 @@ describe(API_URL, () => {
     await kandyOffer.save();
   });
 
-  it("Should return single response", async () => {
+  it("Should return single response as time and route intersect", async () => {
     const response = await request(app)
       .get(
         `${API_URL}?
@@ -100,20 +100,48 @@ describe(API_URL, () => {
         &srcLong=79.86056879490037
         &destLat=6.911133718778163
         &destLong=79.86466894132164
-        &startTime=2014-06-25T00:00:00.000Z
+        &startTime=2014-06-24T00:00:00.000Z
         &window=30`
       )
       .send();
     expect(response.statusCode).toEqual(200);
     expect(response.body).toHaveProperty("offers");
-    // expect(response.body.user.email).toEqual(testUser.email);
+    expect(response.body.offers.length).toEqual(1);
   });
 
-  //   it("Should throw error if user does not exist", async () => {
-  //     const response = await request(app).get(`${API_URL}/69`).send();
-  //     expect(response.statusCode).toEqual(404);
-  //     expect(response.body).toHaveProperty("error");
-  //   });
+  it("Should return empty result set if time doesn't fall inbetween", async () => {
+    const response = await request(app)
+      .get(
+        `${API_URL}?
+        srcLat=6.907045432926681
+        &srcLong=79.86056879490037
+        &destLat=6.911133718778163
+        &destLong=79.86466894132164
+        &startTime=2014-06-26T00:00:00.000Z
+        &window=30`
+      )
+      .send();
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveProperty("offers");
+    expect(response.body.offers.length).toEqual(0);
+  });
+
+  it("Should return empty result set if routes don't intersect", async () => {
+    const response = await request(app)
+      .get(
+        `${API_URL}?
+        srcLat=7.094144558796502
+        &srcLong=79.99441032930558
+        &destLat=7.222971536496868
+        &destLong=79.85151271660334
+        &startTime=2014-06-24T00:00:00.000Z
+        &window=30`
+      )
+      .send();
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveProperty("offers");
+    expect(response.body.offers.length).toEqual(0);
+  });
 
   afterAll(async () => {
     await connection.clearDatabase();
