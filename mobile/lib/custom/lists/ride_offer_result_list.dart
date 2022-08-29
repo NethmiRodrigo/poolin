@@ -1,5 +1,6 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
@@ -11,7 +12,6 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
 
 class RideOfferResultList extends StatelessWidget {
-  bool isChecked = false;
   final List<RideOfferSearchResult> offers;
   final String type;
 
@@ -27,10 +27,12 @@ class RideOfferResultList extends StatelessWidget {
     return Colors.black;
   }
 
-  RideOfferResultList(this.offers, this.type, {Key? key}) : super(key: key);
+  const RideOfferResultList(this.offers, this.type, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
     return Scrollbar(
       thumbVisibility: true,
       child: ListView.builder(
@@ -47,7 +49,22 @@ class RideOfferResultList extends StatelessWidget {
             child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
+                  side: (reqCubit.state.offerIDs.contains(offers[index].id))
+                      ? const BorderSide(
+                          color: BlipColors.orange,
+                          width: 1.0,
+                        )
+                      : const BorderSide(
+                          color: BlipColors.white,
+                          width: 1.0,
+                        ),
                 ),
+                color: (reqCubit.state.offerIDs.contains(offers[index].id))
+                    ? BlipColors.lightGrey
+                    : BlipColors.white,
+                elevation: (reqCubit.state.offerIDs.contains(offers[index].id))
+                    ? 0
+                    : 3,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

@@ -1,18 +1,17 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
-import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/view-ride-offers/timeline.dart';
 import 'package:mobile/screens/view-ride-offers/user_card.dart';
-import 'package:mobile/services/polyline_service.dart';
+import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -27,16 +26,19 @@ class ViewRideOfferDetails extends StatefulWidget {
 
 class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
   final Completer<GoogleMapController> _controller = Completer();
-  Map<PolylineId, Polyline> polylines = {};
   Set<Marker> _markers = {};
-  BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
-  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
-  late CameraPosition initalPosition;
+  BitmapDescriptor driverSourceMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor riderSourceMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor riderDestinationMarker = BitmapDescriptor.defaultMarker;
+
+  List<LatLng> driverCoords = [];
+  List<LatLng> riderCoords = [];
+  late GoogleMapPolyline googleMapPolyline;
 
   @override
   void initState() {
-    setCustomMarkers();
-    print(widget.offer.driver.firstName);
+    String? apiKey = dotenv.env['MAPS_API_KEY'];
+    googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
     super.initState();
   }
 
@@ -50,69 +52,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
             1),
       ),
     );
-    _getPolyline();
     _controller.complete(controller);
-  }
-
-  _getPolyline() async {
-    // Create markers
-    Set<Marker> markers = {
-      Marker(
-        markerId: const MarkerId('source'),
-        position: LatLng(
-          widget.offer.source.lat,
-          widget.offer.source.lang,
-        ),
-        draggable: false,
-        icon: sourceMarker,
-      ),
-      Marker(
-        markerId: const MarkerId('destination'),
-        position: LatLng(
-          widget.offer.destination.lat,
-          widget.offer.destination.lang,
-        ),
-        draggable: false,
-        icon: destinationMarker,
-      ),
-    };
-    setState(() {
-      _markers = markers;
-      initalPosition = CameraPosition(
-          target: LatLng(
-            widget.offer.source.lat,
-            widget.offer.source.lang,
-          ),
-          zoom: 20);
-    });
-
-    Map<PolylineId, Polyline> result = await getPolyline(
-      widget.offer.source.lat,
-      widget.offer.source.lang,
-      widget.offer.destination.lat,
-      widget.offer.destination.lang,
-    );
-    setState(() {
-      polylines = result;
-    });
-  }
-
-  void setCustomMarkers() async {
-    // Create custom icons
-    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration.empty,
-      "assets/images/source-pin-black.png",
-    );
-
-    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration.empty,
-      "assets/images/location-pin-orange.png",
-    );
-
-    setState(() {
-      destinationMarker = destinationIcon;
-      sourceMarker = startIcon;
-    });
   }
 
   @override
@@ -120,6 +60,105 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
     final Size size = MediaQuery.of(context).size;
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
+
+    void setCustomMarkers() async {
+      // Create custom icons
+      BitmapDescriptor startIconBlack = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty,
+        "assets/images/source-pin-black.png",
+      );
+
+      BitmapDescriptor startIconGrey = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty,
+        "assets/images/source-pin-grey.png",
+      );
+
+      BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration.empty,
+        "assets/images/location-pin-orange.png",
+      );
+
+      setState(() {
+        riderDestinationMarker = destinationIcon;
+        riderSourceMarker = startIconBlack;
+        driverSourceMarker = startIconGrey;
+      });
+
+      // Create markers
+      Set<Marker> markers = {
+        Marker(
+          markerId: const MarkerId('rider-source'),
+          position: LatLng(
+            reqCubit.state.source.lat,
+            reqCubit.state.source.lang,
+          ),
+          icon: riderSourceMarker,
+          infoWindow: const InfoWindow(title: 'You start here'),
+        ),
+        Marker(
+          markerId: const MarkerId('driver-source'),
+          position: LatLng(
+            widget.offer.source.lat,
+            widget.offer.source.lang,
+          ),
+          icon: driverSourceMarker,
+        ),
+        Marker(
+          markerId: const MarkerId('destination'),
+          position: LatLng(
+            reqCubit.state.destination.lat,
+            reqCubit.state.destination.lang,
+          ),
+          icon: riderDestinationMarker,
+          infoWindow: const InfoWindow(title: 'You finish here'),
+        ),
+      };
+      setState(() {
+        _markers = markers;
+      });
+    }
+    
+    setCustomMarkers();
+
+    void setDriverPath() async {
+      List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
+          origin: LatLng(
+            widget.offer.source.lat,
+            widget.offer.source.lang,
+          ),
+          destination: LatLng(
+            reqCubit.state.destination.lat,
+            reqCubit.state.destination.lang,
+          ),
+          mode: RouteMode.driving);
+      setState(() {
+        if (coords != null) {
+          driverCoords = coords;
+        }
+      });
+    }
+
+    setDriverPath();
+
+    void setRiderPath() async {
+      List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
+          origin: LatLng(
+            reqCubit.state.source.lat,
+            reqCubit.state.source.lang,
+          ),
+          destination: LatLng(
+            reqCubit.state.destination.lat,
+            reqCubit.state.destination.lang,
+          ),
+          mode: RouteMode.driving);
+      setState(() {
+        if (coords != null) {
+          riderCoords = coords;
+        }
+      });
+    }
+
+    setRiderPath();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -153,7 +192,22 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                   ),
                   mapType: MapType.normal,
                   markers: _markers,
-                  polylines: Set<Polyline>.of(polylines.values),
+                  polylines: {
+                    Polyline(
+                      polylineId: const PolylineId("driver-route"),
+                      color: BlipColors.black,
+                      points: driverCoords,
+                      width: 2,
+                      onTap: () {},
+                    ),
+                    Polyline(
+                      polylineId: const PolylineId("rider-route"),
+                      color: BlipColors.orange,
+                      points: riderCoords,
+                      width: 3,
+                      onTap: () {},
+                    ),
+                  },
                 ),
               );
             },
@@ -196,7 +250,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const RequestConfirmation()),
+                                          const ViewRideOffersScreen()),
                                 );
                               },
                               text: "Select Ride",
