@@ -46,8 +46,8 @@ List<RideOfferSearchResult> results = [
     startTime: DateTime.now().add(const Duration(days: 5, hours: 2)),
     driver: User(
         email: 'yadee@gmail.com',
-        firstName: 'Yadeesha',
-        lastName: 'Weerasinghe',
+        firstName: 'Nethmi',
+        lastName: 'Rodrigo',
         gender: 'female',
         stars: 4.5,
         totalRatings: 158,
@@ -95,8 +95,8 @@ List<RideOfferSearchResult> results = [
     startTime: DateTime.now().add(const Duration(days: 1)),
     driver: User(
       email: 'yadee@gmail.com',
-      firstName: 'Yadeesha',
-      lastName: 'Weerasinghe',
+      firstName: 'Nethmi',
+      lastName: 'Pathirana',
       gender: 'female',
       stars: 4.5,
       totalRatings: 158,

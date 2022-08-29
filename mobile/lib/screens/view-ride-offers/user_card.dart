@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/view-profile/driver_profile_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class UserCard extends StatelessWidget {
-  const UserCard({Key? key}) : super(key: key);
+  final User driver;
+  const UserCard(this.driver, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,10 @@ class UserCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 30,
                       foregroundImage: NetworkImage(
-                        'https://i.pravatar.cc/300?img=2',
+                        driver.profilePicURL,
                       ),
                     ),
                     addHorizontalSpace(8.0),
@@ -34,8 +36,8 @@ class UserCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Yadeesha Weerasinghe",
+                        Text(
+                          "${driver.firstName} ${driver.lastName}",
                           style: BlipFonts.label,
                         ),
                         Row(
@@ -48,7 +50,7 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.gold,
                             ),
                             addHorizontalSpace(8.0),
-                            const Text("5.0", style: BlipFonts.tagline),
+                            Text(driver.stars.toString(), style: BlipFonts.tagline),
                             addHorizontalSpace(8.0),
                             const Icon(
                               Icons.circle,
@@ -56,8 +58,8 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.grey,
                             ),
                             addHorizontalSpace(8.0),
-                            const Text(
-                              "250 Ratings",
+                            Text(
+                              "${driver.totalRatings} Ratings",
                               style: BlipFonts.tagline,
                             )
                           ],
@@ -69,7 +71,7 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.grey,
                             ),
                             addHorizontalSpace(5.0),
-                            const Text("Lexus Primio",
+                            Text(driver.vehicleModel,
                                 style: BlipFonts.outline),
                             addHorizontalSpace(70.0),
                             IconButton(
