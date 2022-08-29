@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
@@ -173,14 +174,16 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                       indent: 8.0,
                       endIndent: 8.0,
                     ),
-                    Expanded(child: RideOfferTimeline(widget.offer, reqCubit.state.source, reqCubit.state.destination)),
+                    Expanded(
+                        child: RideOfferTimeline(widget.offer,
+                            reqCubit.state.source, reqCubit.state.destination)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
                         children: [
                           addHorizontalSpace(8.0),
                           Text(
-                            "Rs. ${reqCubit.state.distance }",
+                            "Rs. ${reqCubit.state.distance}",
                             style: BlipFonts.heading,
                           ),
                           const Spacer(),
@@ -188,6 +191,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                             width: size.width * 0.5,
                             child: WideButton(
                               onPressedAction: () {
+                                reqCubit.addOffer(widget.offer.id);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/services/interceptor/dio_service.dart';
 
-
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
 const _storage = FlutterSecureStorage();
 
@@ -12,14 +11,14 @@ final dio = DioService.getService();
 
 Future<Response> postRequest(RideRequest rideRequest) async {
   String? email = await _storage.read(key: 'KEY_EMAIL');
-  
+
   Map data = {
     'src': rideRequest.source,
     'dest': rideRequest.destination,
     'distance': rideRequest.distance,
     'startTime': rideRequest.startTime.toString(),
     'window': rideRequest.window,
-    'offers': rideRequest.offers,
+    'offers': rideRequest.offerIDs,
     'price': rideRequest.price != 0 ? rideRequest.price : null,
     'duration': rideRequest.duration,
     'email': 'beth@email',
