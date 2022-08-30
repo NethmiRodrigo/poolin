@@ -7,7 +7,9 @@ import 'package:mobile/screens/home/driver_home.dart';
 import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
+
 import 'package:mobile/screens/user/profile/user_profile_screen.dart';
+
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class App extends StatefulWidget {
@@ -20,10 +22,14 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late PersistentTabController _controller;
 
+  late bool _hideNavBar;
+
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
+
+    _hideNavBar = false;
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -57,6 +63,7 @@ class _AppState extends State<App> {
       const RiderHomeScreen(),
       DestinationScreen(),
       const UserProfileScreen(),
+      const LoginScreen(),
     ];
   }
 
