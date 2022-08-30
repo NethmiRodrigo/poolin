@@ -90,7 +90,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     coordinates: [destLat, destLong],
   };
 
-  console.log(end);
   const destGeom = geojsonToWKT(end);
 
   //STD_Within checks for points that are within a given distance of a given polyline.
@@ -119,12 +118,18 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       { lat: departurePoint[0], long: departurePoint[1] },
       { lat: srcLat, long: srcLong }
     );
-    console.log(duration);
+
     const pickupTime: Date = addMinutes(offer.departureTime, duration);
 
     const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
     const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
+
+    console.log(offer.departureTime);
     console.log(pickupTime);
+    console.log(startTime);
+    console.log(minTime);
+    console.log(maxTime);
+
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
 

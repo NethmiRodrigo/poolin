@@ -10,9 +10,7 @@ export const getOSRMPolyline = async (start, end) => {
     url: `http://router.project-osrm.org/route/v1/driving/${startPoint};${endPoint}?overview=full`,
     headers: {},
   };
-  console.log(startPoint);
-  console.log(endPoint);
-  console.log(config);
+
   try {
     const response = await axios(config);
     const encodedString = response.data.routes[0].geometry;
