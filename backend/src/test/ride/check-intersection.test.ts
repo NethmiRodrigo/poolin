@@ -104,6 +104,18 @@ describe(API_URL, () => {
     expect(response.body.offers.length).toEqual(1);
   });
 
+  it("Should return empty result set as direction of request is reverse of offer", async () => {
+    console.log(await RideOffer.count());
+    const response = await request(app)
+      .get(
+        `${API_URL}?destLat=6.907045432926681&destLong=79.86056879490037&srcLat=6.911133718778163&srcLong=79.86466894132164&startTime=2014-06-25T00:00:00.000Z&window=30`
+      )
+      .send();
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveProperty("offers");
+    expect(response.body.offers.length).toEqual(0);
+  });
+
   it("Should return empty result set if time doesn't fall inbetween", async () => {
     const response = await request(app)
       .get(
