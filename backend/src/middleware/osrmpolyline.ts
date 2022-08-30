@@ -14,8 +14,13 @@ export const getOSRMPolyline = async (start, end) => {
   try {
     const response = await axios(config);
     const encodedString = response.data.routes[0].geometry;
+
     const results = polyline.decode(encodedString);
-    return results;
+
+    //take portion of route to account for points outside route
+    const trimmedResults = results.splice(20, results.length - 20);
+
+    return trimmedResults;
   } catch (error) {
     console.log(error);
   }

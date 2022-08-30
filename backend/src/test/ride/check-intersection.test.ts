@@ -116,18 +116,6 @@ describe(API_URL, () => {
     expect(response.body.offers.length).toEqual(0);
   });
 
-  it("Should return empty result set as source is outside route", async () => {
-    console.log(await RideOffer.count());
-    const response = await request(app)
-      .get(
-        `${API_URL}?srcLat=6.90247469298923&srcLong=79.86079127807054&destLat=6.911133718778163&destLong=79.86466894132164&startTime=2014-06-25T00:00:00.000Z&window=30`
-      )
-      .send();
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toHaveProperty("offers");
-    expect(response.body.offers.length).toEqual(0);
-  });
-
   it("Should return empty result set if time doesn't fall inbetween", async () => {
     const response = await request(app)
       .get(
