@@ -36,6 +36,8 @@ dependencies:
   pin_code_fields: ^7.4.0
   intl_phone_field: ^3.1.0
   http: ^0.13.4
+  table_calendar: ^3.0.6
+  syncfusion_flutter_datepicker: ^20.2.38
   flutter_secure_storage: ^5.0.2
   flutter_dotenv: ^5.0.2
   mapbox_search: ^3.0.1+2
@@ -61,6 +63,11 @@ dependencies:
   toggle_switch: ^2.0.1
   flutter_countdown_timer: ^4.1.0
   time_elapsed: ^0.2.6
+  image_picker: ^0.8.5+3
+  flutter_svg: ^1.1.3
+  font_awesome_flutter: ^10.1.0
+  carousel_slider: ^4.1.1
+  color_picker_field: ^1.1.1
   expandable: ^5.0.1
   socket_io_client: ^2.0.0
   google_map_polyline_new: ^0.3.0+2
@@ -68,7 +75,17 @@ dependencies:
   dio: ^4.0.6
   flutter_bloc: ^8.0.1
   jiffy: ^5.0.0
+  flutter_rating_bar: ^4.0.1
+  phosphor_flutter: ^1.4.0
+  bootstrap_icons: ^1.5.0
+  flutter_feather_icons: ^2.0.0+1
+  ionicons: ^0.1.2
   animated_splash_screen: ^1.3.0
+  dio_cookie_manager: ^2.0.0
+  path_provider: ^2.0.11
+  cookie_jar: ^3.0.1
+  shared_preferences: ^2.0.15
+  persistent_bottom_nav_bar: any
   # flutter_svg: any
 
 dev_dependencies:

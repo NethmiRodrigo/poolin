@@ -1,20 +1,30 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/models/coordinate_model.dart';
+import 'package:mobile/services/interceptor/dio_service.dart';
 
-import '../constants/constants.dart' as constants;
-import '../utils/helper_functions.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
-final _storage = const FlutterSecureStorage();
+const _storage = FlutterSecureStorage();
 
-Future<http.Response> postOffer(RideOffer rideOffer) async {
+final dio = DioService.getService();
+
+Future<Response> postRequest(RideOffer rideOffer) async {
+  String? email = await _storage.read(key: 'KEY_EMAIL');
+  
   Map data = {
-    'src': rideOffer.source,
-    'dest': rideOffer.destination,
+    'src': {
+      'lat': rideOffer.source.lat,
+      'long': rideOffer.source.lang,
+      'name': rideOffer.source.name,
+    },
+    'dest': {
+      'lat': rideOffer.destination.lat,
+      'long': rideOffer.destination.lang,
+      'name': rideOffer.destination.name,
+    },
+    'email': email,
     'ppkm': rideOffer.ppkm,
     'distance': rideOffer.distance,
     'seats': rideOffer.seatCount,
@@ -22,37 +32,27 @@ Future<http.Response> postOffer(RideOffer rideOffer) async {
     'endTime': rideOffer.startTime
         .add(Duration(minutes: rideOffer.duration))
         .toString(),
-    'userId': 1,
   };
 
-  String body = json.encode(data);
-  prettyPrintJson(body);
-  var url = Uri.parse('$baseURL/create-offer');
-  var response = await http.post(
-    url,
-    body: body,
-    headers: constants.header,
-  );
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.post('/post-requests', data: data);
 
   return response;
 }
 
-Future<http.Response> getActiveRequest() async {
-  var url = Uri.parse('$baseURL/get/offer/requests/1');
-  var response = await http.get(
-    url,
-    headers: constants.header,
-  );
+Future<Response> getActiveRequest() async {
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.get('/get/offer/requests/1');
 
   return response;
 }
 
-Future<http.Response> getOfferRequests() async {
-  var url = Uri.parse('$baseURL/get/offer/requests/1');
-  var response = await http.get(
-    url,
-    headers: constants.header,
-  );
+Future<Response> getOfferRequests() async {
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.get('/get/offer/requests/1');
 
   return response;
 }
