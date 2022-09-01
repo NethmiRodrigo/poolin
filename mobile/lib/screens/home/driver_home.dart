@@ -5,6 +5,7 @@ import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_request.dart';
+import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -106,7 +107,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                 ? RideCountDown(endTime)
                 : Container(
                     width: size.width,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(0),
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -116,12 +117,19 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(
-                          width: size.width * 0.6,
-                          child: Text(
-                            'Offer a ride to someone and get paid',
-                            style: BlipFonts.labelBold
-                                .merge(const TextStyle(color: BlipColors.white)),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            bottom: 16,
+                            left: 16,
+                          ),
+                          child: SizedBox(
+                            width: size.width * 0.7,
+                            child: Text(
+                              'Offer a ride to someone and get paid',
+                              style: BlipFonts.labelBold.merge(
+                                  const TextStyle(color: BlipColors.white)),
+                            ),
                           ),
                         ),
                         Container(
@@ -136,7 +144,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DestinationScreen(),
+                                    builder: (context) => DestinationScreen(
+                                      rideType: RideType.offer,
+                                    ),
                                   ));
                             },
                           ),
