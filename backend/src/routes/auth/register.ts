@@ -16,6 +16,7 @@ import {
 /** Entities */
 import { User } from "../../database/entity/User";
 import { TempUser, VerificationStatus } from "../../database/entity/TempUser";
+import { executeCypherQuery } from "../../service/neo-service";
 
 /**
  * API route to verify new user's credentials
@@ -195,12 +196,21 @@ export const verifyUserInfo = async (req: Request, res: Response) => {
   if (!registered) throw new AppError(401, {}, "Email not registered");
 
   // save user info in database
-  const user = await User.findOneBy({ email });
+  let user = await User.findOneBy({ email });
 
   user.firstname = firstName;
   user.lastname = lastName;
   user.gender = gender;
-  await user.save();
+  user = await user.save();
+
+  if (user) {
+    const statement =
+      'CREATE (a:User) SET a.user_id = $user_id, a.mobile = $mobile RETURN a.user_id + ", from node " + id(a)';
+
+    const params = { user_id: user.id, mobile: user.mobile };
+
+    await executeCypherQuery(statement, params);
+  }
 
   return res.status(200).json({ success: "User info saved" });
 };

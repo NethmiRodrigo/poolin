@@ -1,7 +1,6 @@
 import { Router } from "express";
 
-/** Middleware */
-import auth from "../../middleware/auth";
+
 
 /** Routes */
 import {
@@ -30,5 +29,6 @@ router.get("/request", getActiveRequest);
 router.post("/post-requests", postRideRequests);
 router.get("/get/request/:id", getRequestDetails);
 router.get("/get/matching-requests", getAvailableOffers);
+
 
 export default router;
