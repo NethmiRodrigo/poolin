@@ -19,6 +19,7 @@ List<RideOfferSearchResult> results = [
     ),
     startTime: DateTime.now().add(const Duration(days: 1)),
     driver: User(
+      id: '2',
       email: 'yadee@gmail.com',
       firstName: 'Yadeesha',
       lastName: 'Weerasinghe',

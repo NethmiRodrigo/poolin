@@ -79,6 +79,14 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   @Exclude()
+  stars: number;
+
+  @Column({ nullable: true })
+  @Exclude()
+  totalRatings: number;
+
+  @Column({ nullable: true })
+  @Exclude()
   dateOfBirth: Date;
 
   @Column({ nullable: true })

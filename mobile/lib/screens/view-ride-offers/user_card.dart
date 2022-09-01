@@ -50,7 +50,8 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.gold,
                             ),
                             addHorizontalSpace(8.0),
-                            Text(driver.stars.toString(), style: BlipFonts.tagline),
+                            Text(driver.stars.toString(),
+                                style: BlipFonts.tagline),
                             addHorizontalSpace(8.0),
                             const Icon(
                               Icons.circle,
@@ -71,8 +72,7 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.grey,
                             ),
                             addHorizontalSpace(5.0),
-                            Text(driver.vehicleModel,
-                                style: BlipFonts.outline),
+                            Text(driver.vehicleModel, style: BlipFonts.outline),
                             addHorizontalSpace(70.0),
                             IconButton(
                               alignment: Alignment.centerRight,
@@ -84,8 +84,8 @@ class UserCard extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const DriverProfileScreen()),
+                                      builder: (context) => DriverProfileScreen(
+                                          driver.id.toString())),
                                 );
                               },
                             )
