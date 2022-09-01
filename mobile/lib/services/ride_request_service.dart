@@ -9,10 +9,10 @@ const _storage = FlutterSecureStorage();
 
 final dio = DioService.getService();
 
-Future<Response> postRequest(RideRequest rideRequest) async {
-  String? email = await _storage.read(key: 'KEY_EMAIL');
+Future<Response> postRequest(RideRequest rideRequest, String userID) async {
 
   Map data = {
+    'userID': userID,
     'src': rideRequest.source,
     'dest': rideRequest.destination,
     'distance': rideRequest.distance,
@@ -21,7 +21,6 @@ Future<Response> postRequest(RideRequest rideRequest) async {
     'offers': rideRequest.offerIDs,
     'price': rideRequest.price != 0 ? rideRequest.price : null,
     'duration': rideRequest.duration,
-    'email': 'beth@email',
   };
 
   dio.options.baseUrl = baseURL;

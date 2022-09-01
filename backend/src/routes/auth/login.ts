@@ -58,6 +58,7 @@ export const logout = async (_: Request, res: Response) => {
 export const getLoggedInUser = async (_: Request, res: Response) => {
   const user: User = res.locals.user;
   delete user.password;
-  const friends = await findFriendsOfAUser(user.id.toFixed(1), 1);
-  return res.json({ ...user, friends });
+  // const friends = await findFriendsOfAUser(user.id.toFixed(1), 1);
+  // return res.json({ ...user, friends });
+  return res.json({ ...user });
 };

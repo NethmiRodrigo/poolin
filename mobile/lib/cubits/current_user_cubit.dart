@@ -10,6 +10,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
           gender: '',
           email: '',
         ));
+  
 
   void setId(String id) => emit(state.copyWith(id: id));
 

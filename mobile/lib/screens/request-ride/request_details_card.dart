@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
@@ -44,6 +45,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
   Widget build(BuildContext context) {
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
+    final CurrentUserCubit user = BlocProvider.of<CurrentUserCubit>(context);
 
     reqCubit.setPrice(_ridePrice);
 
@@ -52,7 +54,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
         isLoading = true;
       });
 
-      Response postResponse = await postRequest(reqCubit.state);
+      Response postResponse = await postRequest(reqCubit.state, user.state.id);
 
       return postResponse;
     }
@@ -169,6 +171,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                   setState(() {
                     isLoading = false;
                   });
+                  // ignore: use_build_context_synchronously
                   Navigator.push(
                     context,
                     MaterialPageRoute(

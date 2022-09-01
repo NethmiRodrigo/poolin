@@ -37,16 +37,13 @@ class AuthInterceptor extends Interceptor {
       return handler.next(options);
     }
 
-    options.headers.addAll({
-      'Content-Type': 'application/json',
-      'accept': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    });
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? cookie = prefs.getString('cookie');
 
     options.headers.addAll({
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Access-Control-Allow-Origin': '*',
       'cookie': "Token=$cookie",
     });
 

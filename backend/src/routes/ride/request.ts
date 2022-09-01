@@ -8,10 +8,10 @@ import { RequestToOffer } from "../../database/entity/RequestToOffer";
 import { AppDataSource } from "../../data-source";
 
 export const postRideRequests = async (req: Request, res: Response) => {
-  const { email, offers, src, dest, startTime, window, distance, price } =
+  const { userID, offers, src, dest, startTime, window, distance, price } =
     req.body;
 
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { id: userID } });
 
   const newRequest = new RideRequest({
     user: user,
