@@ -17,7 +17,7 @@ describe(API_URL, () => {
     connection = await new TestConnection().initialize();
     const password = await bcrypt.hash("password", 8);
     testUser = User.create({
-      email: "dulaj@email.com",
+      email: "dulaj@stu.ucsc.cmb.ac.lk",
       password,
     });
     await testUser.save();
@@ -93,7 +93,6 @@ describe(API_URL, () => {
   });
 
   it("Should return single response as time and route intersect", async () => {
-    console.log(await RideOffer.count());
     const response = await request(app)
       .get(
         `${API_URL}?srcLat=6.907045432926681&srcLong=79.86056879490037&destLat=6.911133718778163&destLong=79.86466894132164&startTime=2014-06-25T00:00:00.000Z&window=30`
@@ -105,7 +104,6 @@ describe(API_URL, () => {
   });
 
   it("Should return empty result set as direction of request is reverse of offer", async () => {
-    console.log(await RideOffer.count());
     const response = await request(app)
       .get(
         `${API_URL}?destLat=6.907045432926681&destLong=79.86056879490037&srcLat=6.911133718778163&srcLong=79.86466894132164&startTime=2014-06-25T00:00:00.000Z&window=30`

@@ -121,7 +121,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
   // from the result set, we filter out offers that are not available at the time of the request
 
-  const asyncOp = async function (offer) {
+  const asyncOp = async (offer) => {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
     const duration = await getOSRMDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
@@ -135,12 +135,15 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
-
   const filteredList = [];
-  for (let e of intersectingOffers) {
-    if (await asyncOp(e)) {
-      filteredList.push(e);
+  try {
+    for (let e of intersectingOffers) {
+      if (await asyncOp(e)) {
+        filteredList.push(e);
+      }
     }
+  } catch (err) {
+    return res.status(500).json({ error: "Error fetching offers" });
   }
 
   const offers = filteredList;

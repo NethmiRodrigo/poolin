@@ -5,7 +5,7 @@ import { geojsonToWKT } from "@terraformer/wkt";
 import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
-import { getPolyline } from "../../middleware/polyline";
+// import { getPolyline } from "../../middleware/polyline";
 import { getOSRMPolyline } from "../../middleware/osrmpolyline";
 
 export const postRideOffer = async (req: Request, res: Response) => {
@@ -29,7 +29,7 @@ export const postRideOffer = async (req: Request, res: Response) => {
     polyline: {
       type: "LineString",
 
-      coordinates: await getPolyline(src, dest),
+      coordinates: await getOSRMPolyline(src, dest),
     },
 
     departureTime: startTime,

@@ -1,3 +1,5 @@
+import { AppError } from "../util/error-handler";
+
 const axios = require("axios");
 const polyline = require("google-polyline");
 
@@ -7,18 +9,14 @@ export const getPolyline = async (start, end) => {
 
   const api_key = process.env.MAPS_API_KEY;
 
-  const config = {
-    method: "get",
-    url: `${process.env.DIRECTIONS_API_URL}?origin=${startPoint}&destination=${endPoint}&key=${api_key}`,
-    headers: {},
-  };
+  const url = `${process.env.DIRECTIONS_API_URL}?origin=${startPoint}&destination=${endPoint}&key=${api_key}`;
 
   try {
-    const response = await axios(config);
+    const response = await axios.get(url);
     const encodedString = response.data.routes[0].overview_polyline.points;
     const results = polyline.decode(encodedString);
     return results;
   } catch (error) {
-    console.log(error);
+    throw new AppError(401, {}, "Bad request");
   }
 };
