@@ -12,14 +12,13 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
+import 'package:mobile/services/ride_request_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/custom/lists/ride_offer_result_list.dart';
 import 'package:mobile/constants/search_offer_results.dart';
 
 class ViewRideOffersScreen extends StatefulWidget {
-  final Response availableOffers;
-  const ViewRideOffersScreen(this.availableOffers, {Key? key})
-      : super(key: key,);
+  const ViewRideOffersScreen({Key? key}) : super(key: key);
 
   @override
   State<ViewRideOffersScreen> createState() => _ViewRideOffersScreenState();
@@ -29,13 +28,6 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
   DateTime startTime = DateTime.now().add(const Duration(days: 1));
   bool isLoading = false;
 
-  final List<RideOfferSearchResult> _rideOffers = results;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -43,6 +35,36 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
+    // late List<RideOfferSearchResult> rideOffers;
+    final List<RideOfferSearchResult> rideOffers = results;
+
+    // void fetchRideOffers() async {
+    //   setState(() {
+    //     isLoading = true;
+    //   });
+
+    //   Response response = await getAvailableOffers(reqCubit.state);
+
+    //   if (response.statusCode == 200) {
+    //     response.data.forEach((offer) {
+    //       rideOffers.add(RideOfferSearchResult(
+    //         id: offer.id,
+    //         startTime: offer.startTime,
+    //         source: offer.source,
+    //         destination: offer.destination,
+    //         driver: offer.driver,
+    //       ));
+    //     });
+    //   } else {
+    //     // rideOffers = [];
+    //   }
+
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // }
+
+    // fetchRideOffers();
 
     Future<DateTime?> showDatePicker() {
       return DatePicker.showDateTimePicker(
@@ -170,8 +192,8 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                     ),
                     addVerticalSpace(20.0),
                     Expanded(
-                      child: _rideOffers.isNotEmpty
-                          ? RideOfferResultList(_rideOffers, "view")
+                      child: rideOffers.isNotEmpty
+                          ? RideOfferResultList(rideOffers, "view")
                           : Container(
                               width: size.width,
                               color: BlipColors.lightGrey,
@@ -196,6 +218,8 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                     ),
                     addVerticalSpace(16),
                     WideButton(
+                      isDisabled:
+                          reqCubit.state.offerIDs.isEmpty ? true : false,
                       onPressedAction: () {
                         Navigator.push(
                           context,
@@ -206,7 +230,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                         );
                       },
                       text: "Proceed",
-                    )
+                    ),
                   ],
                 ),
               ),

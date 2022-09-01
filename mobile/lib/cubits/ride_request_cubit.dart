@@ -25,6 +25,8 @@ class RideRequestCubit extends Cubit<RideRequest> {
   void setPrice(double price) => emit(state.copyWith(price: price));
 
   void addOffer(String offerID) => emit(state.copyWith(offerIDs: [...state.offerIDs, offerID]));
+
+  void removeOffer(String offerID) => emit(state.copyWith(offerIDs: state.offerIDs.where((id) => id != offerID).toList()));
 }
 
 //class for information

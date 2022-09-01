@@ -117,7 +117,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
         _markers = markers;
       });
     }
-    
+
     setCustomMarkers();
 
     void setDriverPath() async {
@@ -243,18 +243,32 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                           const Spacer(),
                           SizedBox(
                             width: size.width * 0.5,
-                            child: WideButton(
-                              onPressedAction: () {
-                                reqCubit.addOffer(widget.offer.id);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ViewRideOffersScreen()),
-                                );
-                              },
-                              text: "Select Ride",
-                            ),
+                            child: reqCubit.state.offerIDs
+                                    .contains(widget.offer.id)
+                                ? WideButton(
+                                    onPressedAction: () {
+                                      reqCubit.removeOffer(widget.offer.id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ViewRideOffersScreen()),
+                                      );
+                                    },
+                                    text: "Remove Ride",
+                                  )
+                                : WideButton(
+                                    onPressedAction: () {
+                                      reqCubit.addOffer(widget.offer.id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ViewRideOffersScreen()),
+                                      );
+                                    },
+                                    text: "Select Ride",
+                                  ),
                           ),
                         ],
                       ),

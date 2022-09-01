@@ -11,7 +11,6 @@ import 'package:mobile/models/coordinate_model.dart';
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/services/polyline_service.dart';
-import 'package:mobile/services/ride_request_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -285,29 +284,15 @@ class _MapScreenState extends State<MapScreen> {
                       onPressedAction: () async {
                         bool result = await saveDistanceDuration();
                         if (result) {
-                          if (rideType == "offer") {
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const RideOfferDetailsScreen(),
-                              ),
-                            );
-                          } else {
-                            Response response = await getAvailableOffers(reqCubit.state);
-
-                            if (response.statusCode == 200) {
-                              // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ViewRideOffersScreen(response),
-                              ),
-                            );
-                            }
-                          }
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => rideType == "offer"
+                                  ? const RideOfferDetailsScreen()
+                                  : const ViewRideOffersScreen(),
+                            ),
+                          );
                         }
                       },
                     ),

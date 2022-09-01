@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/colors.dart';

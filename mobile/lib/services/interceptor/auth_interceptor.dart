@@ -13,7 +13,7 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // endpoints that don't requre a token
+    // endpoints that don't require a token
     final listOfPaths = <String>[
       '/login',
       '/send-reset-password-email',
@@ -28,7 +28,7 @@ class AuthInterceptor extends Interceptor {
     ];
 
     if (listOfPaths.contains(options.path.toString())) {
-      // if the endpoint is matched the list skip adding the cookie
+      // if the endpoint matched the list, skip adding the cookie
       options.headers.addAll({
         'Content-Type': 'application/json',
         'accept': 'application/json',
@@ -47,7 +47,7 @@ class AuthInterceptor extends Interceptor {
     String? cookie = prefs.getString('cookie');
 
     options.headers.addAll({
-      'cookies': cookie,
+      'cookie': "Token=$cookie",
     });
 
     return handler.next(options);
