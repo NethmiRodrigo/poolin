@@ -46,3 +46,21 @@ Future<Response> getOfferRequests() async {
 
   return response;
 }
+
+Future<Response> getAvailableOffers(RideRequest rideRequest) async {
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.get(
+    '/get/matching-requests',
+    queryParameters: {
+      'srcLat': rideRequest.source.lat,
+      'srcLong': rideRequest.source.lang,
+      'destLat': rideRequest.destination.lat,
+      'destLong': rideRequest.destination.lang,
+      'startTime': rideRequest.startTime,
+      'window': rideRequest.window,
+    },
+  );
+
+  return response;
+}

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,9 @@ import 'package:mobile/custom/lists/ride_offer_result_list.dart';
 import 'package:mobile/constants/search_offer_results.dart';
 
 class ViewRideOffersScreen extends StatefulWidget {
-  const ViewRideOffersScreen({Key? key}) : super(key: key);
+  final Response availableOffers;
+  const ViewRideOffersScreen(this.availableOffers, {Key? key})
+      : super(key: key,);
 
   @override
   State<ViewRideOffersScreen> createState() => _ViewRideOffersScreenState();
