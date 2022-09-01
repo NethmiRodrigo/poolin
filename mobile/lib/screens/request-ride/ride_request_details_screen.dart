@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_place/google_place.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:mobile/colors.dart';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 
@@ -24,39 +22,15 @@ class RideRequestDetailsScreen extends StatefulWidget {
 
 class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
   final Completer<GoogleMapController> _controller = Completer();
-  final _storage = const FlutterSecureStorage();
-  late GooglePlace googlePlace;
   Map<PolylineId, Polyline> polylines = {};
-  Set<Marker> _markers = {};
   BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
-  late CameraPosition _initalPosition;
   String? apiKey = dotenv.env['MAPS_API_KEY'];
-
-  static const LatLng _center = LatLng(6.9271, 79.8612);
-
   final MapType _currentMapType = MapType.normal;
-
-  void _onCameraMove(CameraPosition position) {}
-
-  void _onMapCreated(GoogleMapController controller) {
-    Future.delayed(
-      const Duration(milliseconds: 200),
-      () => controller.animateCamera(
-        CameraUpdate.newLatLngBounds(
-            MapUtils.boundsFromLatLngList(
-                _markers.map((loc) => loc.position).toList()),
-            1),
-      ),
-    );
-    _getPolyline();
-    _controller.complete(controller);
-  }
 
   @override
   void initState() {
     setCustomMarkers();
-    googlePlace = GooglePlace(apiKey!);
     super.initState();
   }
 
@@ -78,48 +52,51 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
     });
   }
 
-  _getPolyline() async {
-    var sourceString = (await _storage.read(key: "SOURCE"));
-    var sourceLocation = jsonDecode(sourceString!);
-    var destinationString = (await _storage.read(key: "DESTINATION"));
-    var destinationLocation = jsonDecode(destinationString!);
-    //Set markers
+  @override
+  Widget build(BuildContext context) {
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+
     Set<Marker> markers = {
       Marker(
         markerId: const MarkerId('source'),
-        position:
-            LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
+        position: LatLng(
+          reqCubit.state.source.lat,
+          reqCubit.state.source.lang,
+        ),
         draggable: false,
+        infoWindow: InfoWindow(
+          title: "Start Location",
+          snippet: reqCubit.state.source.name,
+        ),
         icon: sourceMarker,
       ),
       Marker(
         markerId: const MarkerId('destination'),
         position: LatLng(
-            destinationLocation['latitude'], destinationLocation['longitude']),
+          reqCubit.state.destination.lat,
+          reqCubit.state.destination.lang,
+        ),
         draggable: false,
+        infoWindow: InfoWindow(
+          title: "End Location",
+          snippet: reqCubit.state.destination.name,
+        ),
         icon: destinationMarker,
       ),
     };
-    setState(() {
-      _markers = markers;
-      _initalPosition = CameraPosition(
-          target:
-              LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
-          zoom: 20);
-    });
 
-    var result = await getPolyline(
-        sourceLocation['latitude'],
-        sourceLocation['longitude'],
-        destinationLocation['latitude'],
-        destinationLocation['longitude']);
-    setState(() {
-      polylines = result;
-    });
-  }
+    _getPolyline() async {
+      var result = await getPolyline(
+          reqCubit.state.source.lat,
+          reqCubit.state.source.lang,
+          reqCubit.state.destination.lat,
+          reqCubit.state.destination.lang);
+      setState(() {
+        polylines = result;
+      });
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -142,15 +119,28 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
             return SizedBox(
               height: constraints.maxHeight / 2,
               child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: const CameraPosition(
-                  target: _center,
+                onMapCreated: (GoogleMapController controller) {
+                  Future.delayed(
+                    const Duration(milliseconds: 200),
+                    () => controller.animateCamera(
+                      CameraUpdate.newLatLngBounds(
+                          MapUtils.boundsFromLatLngList(
+                              markers.map((loc) => loc.position).toList()),
+                          1),
+                    ),
+                  );
+                  _getPolyline();
+                },
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                    reqCubit.state.source.lat,
+                    reqCubit.state.source.lang,
+                  ),
                   zoom: 14.0,
                 ),
                 mapType: _currentMapType,
-                markers: _markers,
+                markers: Set.from(markers),
                 polylines: Set<Polyline>.of(polylines.values),
-                onCameraMove: _onCameraMove,
               ),
             );
           }),
