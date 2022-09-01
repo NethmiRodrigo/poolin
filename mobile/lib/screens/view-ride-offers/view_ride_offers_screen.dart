@@ -225,7 +225,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                           context,
                           MaterialPageRoute(
                             builder: ((context) =>
-                                const RideRequestDetailsScreen()),
+                                RideRequestDetailsScreen(rideOffers)),
                           ),
                         );
                       },

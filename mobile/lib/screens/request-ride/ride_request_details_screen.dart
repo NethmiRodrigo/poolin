@@ -6,13 +6,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
+import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
 
 import 'package:mobile/screens/request-ride/request_details_card.dart';
 
 class RideRequestDetailsScreen extends StatefulWidget {
-  const RideRequestDetailsScreen({super.key});
+  final List<RideOfferSearchResult> rideOffers;
+  const RideRequestDetailsScreen(this.rideOffers, {super.key});
 
   @override
   RideRequestDetailsScreenState createState() {
@@ -149,7 +151,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
             minChildSize: 1 / 2,
             maxChildSize: 1 / 2,
             builder: (BuildContext context, ScrollController scrollController) {
-              return const RequestDetailsCard();
+              return RequestDetailsCard(widget.rideOffers);
             },
           ),
         ],

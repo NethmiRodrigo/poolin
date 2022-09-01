@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
+import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/services/ride_request_service.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -14,7 +15,8 @@ import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
 
 class RequestDetailsCard extends StatefulWidget {
-  const RequestDetailsCard({Key? key}) : super(key: key);
+  final List<RideOfferSearchResult> rideOffers;
+  const RequestDetailsCard(this.rideOffers, {Key? key}) : super(key: key);
 
   @override
   State<RequestDetailsCard> createState() => _RequestDetailsCardState();
@@ -31,9 +33,9 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
       MaterialState.focused,
     };
     if (states.any(interactiveStates.contains)) {
-      return Colors.black;
+      return BlipColors.black;
     }
-    return Colors.black;
+    return BlipColors.black;
   }
 
   double _ridePrice = 250.0;
@@ -86,24 +88,28 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: 1,
+                      itemCount: reqCubit.state.offerIDs.length > 4
+                          ? 4
+                          : reqCubit.state.offerIDs.length,
                       itemBuilder: (context, index) {
-                        return const Align(
+                        return Align(
                           widthFactor: 0.6,
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundImage:
-                                NetworkImage('https://i.pravatar.cc/300?img=1'),
+                            backgroundImage: NetworkImage(
+                                widget.rideOffers[index].driver.profilePicURL),
                           ),
                         );
                       },
                     ),
                   ),
-                  addHorizontalSpace(25.0),
-                  const Text(
-                    "",
-                    style: BlipFonts.labelBold,
-                  )
+                  const Spacer(),
+                  reqCubit.state.offerIDs.length > 4
+                      ? Text(
+                          "+${reqCubit.state.offerIDs.length - 4} requests",
+                          style: BlipFonts.labelBold,
+                        )
+                      : Container()
                 ],
               ),
             ),
