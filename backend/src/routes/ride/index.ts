@@ -1,7 +1,6 @@
 import { Router } from "express";
 
-/** Middleware */
-import auth from "../../middleware/auth";
+
 
 /** Routes */
 import {
@@ -13,6 +12,7 @@ import {
 } from "./offer";
 import {
   getActiveRequest,
+  getAvailableOffers,
   getRequestDetails,
   postRideRequests,
 } from "./request";
@@ -28,5 +28,7 @@ router.get("/get/offer/party/:id", getConfirmedRequests);
 router.get("/request", getActiveRequest);
 router.post("/post-requests", postRideRequests);
 router.get("/get/request/:id", getRequestDetails);
+router.get("/get/matching-requests", getAvailableOffers);
+
 
 export default router;

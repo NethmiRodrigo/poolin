@@ -43,6 +43,12 @@ export class RideOffer extends BaseEntity {
   @Column({ nullable: false })
   to: string;
 
+  @Column({
+    type: "geometry",
+    spatialFeatureType: "LineString",
+  })
+  polyline: Geometry;
+
   @Column({ nullable: false })
   departureTime: Date;
 
