@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { In } from "typeorm";
 import { AppDataSource } from "../../data-source";
 
 /** Entities */
@@ -61,7 +62,7 @@ export const getActiveOffer = async (req: Request, res: Response) => {
 
   const response = await rideRepository.findOne({
     relations: { user: true, requestsToOffer: true },
-    where: { user: { email: user.email } },
+    where: { user: { email: user.email }, status: In(["active", "booked"]) },
   });
 
   if (!response) {

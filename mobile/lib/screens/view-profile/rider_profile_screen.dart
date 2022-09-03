@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/custom/backward_button.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
@@ -43,6 +43,11 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: const BackwardButton(),
+      ),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -51,20 +56,6 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(32),
-              Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              addVerticalSpace(24),
               Align(
                 alignment: Alignment.topCenter,
                 child: Stack(

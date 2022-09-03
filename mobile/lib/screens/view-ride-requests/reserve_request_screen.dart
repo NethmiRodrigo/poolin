@@ -13,6 +13,7 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
 import 'package:mobile/screens/view-ride-requests/accept_request_confirmation_screen.dart';
 import 'package:mobile/services/ride_offer_service.dart';
+import 'package:mobile/services/ride_request_service.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -71,12 +72,18 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ActiveRideCubit offerCubit = BlocProvider.of<ActiveRideCubit>(context);
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     ActiveRideCubit activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: const BackwardButton(),
+      ),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -85,9 +92,6 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              addVerticalSpace(44),
-              const BackwardButton(),
-              addVerticalSpace(16),
               const Text(
                 'Reservation Request',
                 style: BlipFonts.title,
@@ -277,7 +281,9 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
               addVerticalSpace(40),
               WideButton(
                   text: 'Reserve a Seat',
-                  onPressedAction: () {
+                  onPressedAction: () async {
+                    Response postResponse = await acceptRequest(
+                        offerCubit.getId(), widget.request['requestid']);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

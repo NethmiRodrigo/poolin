@@ -37,54 +37,8 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     'total_earnings': 1500,
     'passengers': 22,
   };
-  final List<PassengerRequest> _passRequests = [
-    PassengerRequest(
-        id: '1',
-        rider: 'Nethmi Pathirana',
-        date: DateTime.now(),
-        profilePicture: 'https://i.pravatar.cc/150?img=47'),
-  ];
-  final List<RideRequest> _rideRequests = [
-    RideRequest(
-        id: '1',
-        rideID: '00001',
-        pickupLocation: 'University of Colombo',
-        dropoffLocation: 'Keells Super Dehiwala',
-        requestedOn: DateTime.now(),
-        driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com',
-        ),
-        profilePicture: "https://i.pravatar.cc/150?img=3"),
-    RideRequest(
-        id: '2',
-        rideID: '00001',
-        pickupLocation: 'Town Hall',
-        dropoffLocation: 'Mahabuthgamuwa Bus Stop',
-        requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
-        driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com',
-        ),
-        profilePicture: "https://i.pravatar.cc/150?img=3"),
-    RideRequest(
-        id: '2',
-        rideID: '00001',
-        pickupLocation: 'Gampaha Bus Stop',
-        dropoffLocation: 'Nugegoda',
-        requestedOn: DateTime.now().subtract(const Duration(hours: 5)),
-        driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com',
-        ),
-        profilePicture: "https://i.pravatar.cc/150?img=3"),
-  ];
+  List<PassengerRequest> _passRequests = [];
+  late List<dynamic> pendingRequests;
   bool isDriving = false; //driver is driving if he currently has a ride
   bool isLoading = true;
 
@@ -104,9 +58,26 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       activeRideCubit.setDepartureTime(rideOffer.departureTime);
       DateTime? departureTime = rideOffer.departureTime;
       int endTimeInSeconds = departureTime.millisecondsSinceEpoch;
+
+      final requestData = await getOfferRequests(rideOffer.id);
+      pendingRequests = requestData.data['requests'];
+      List<PassengerRequest> passengerRequests = [];
+
+      if (pendingRequests.isNotEmpty) {
+        for (var request in pendingRequests) {
+          passengerRequests.add(PassengerRequest(
+              id: request['requestid'].toString(),
+              rider: request['fname'],
+              date: DateTime.now(),
+              profilePicture:
+                  request['avatar'] ?? 'https://i.pravatar.cc/150?img=47'));
+        }
+      }
+
       setState(() {
         endTime = endTimeInSeconds;
         isDriving = true;
+        _passRequests = passengerRequests;
         isLoading = false;
       });
     } else {
@@ -191,17 +162,20 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ],
                   ),
                   addVerticalSpace(24),
-                  Text(
-                    isDriving
-                        ? 'Ride Requests for Your Offer'
-                        : 'Ride Requests',
-                    style: BlipFonts.title,
-                  ),
+                  if (isDriving)
+                    const Text(
+                      'Ride Requests',
+                      style: BlipFonts.title,
+                    ),
                   SizedBox(
                     height: size.height * 0.3,
                     child: isDriving
                         ? PassengerRequestList(_passRequests)
-                        : RideRequestList(_rideRequests),
+                        : HomeScreenCard(
+                            text: 'Post an offer for riders to see',
+                            route: DestinationScreen(
+                              rideType: RideType.offer,
+                            )),
                   ),
                 ],
               ),

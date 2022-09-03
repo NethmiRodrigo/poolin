@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/custom/backward_button.dart';
 import 'package:mobile/custom/timeline.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
@@ -25,6 +26,11 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: const BackwardButton(),
+      ),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -33,20 +39,6 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(40),
-              Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              addVerticalSpace(16),
               const Text(
                 "You're going to \nColombo!",
                 style: BlipFonts.display,

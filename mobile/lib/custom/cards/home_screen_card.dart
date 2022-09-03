@@ -4,10 +4,12 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/icons.dart';
 
 class HomeScreenCard extends StatelessWidget {
-  HomeScreenCard({Key? key, required this.text, required this.route})
+  HomeScreenCard(
+      {Key? key, required this.text, required this.route, this.hasIcon = false})
       : super(key: key);
   String text;
   Widget route;
+  bool hasIcon = false;
 
   @override
   Widget build(BuildContext context) {
