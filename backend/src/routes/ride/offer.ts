@@ -4,6 +4,8 @@ import { Request, Response } from "express";
 import { RideOffer } from "../../database/entity/RideOffer";
 import { User } from "../../database/entity/User";
 
+import { getOSRMPolyline } from "../../middleware/osrmpolyline";
+
 export const postRideOffer = async (req: Request, res: Response) => {
   const { email, src, dest, seats, ppkm, startTime, endTime, distance } =
     req.body;
@@ -22,6 +24,12 @@ export const postRideOffer = async (req: Request, res: Response) => {
       type: "Point",
       coordinates: [dest.lat, dest.long],
     },
+    polyline: {
+      type: "LineString",
+
+      coordinates: await getOSRMPolyline(src, dest),
+    },
+
     departureTime: startTime,
     arrivalTime: endTime,
     pricePerKm: ppkm,
@@ -30,6 +38,7 @@ export const postRideOffer = async (req: Request, res: Response) => {
   });
 
   await newOffer.save();
+
   return res.status(200).json({ success: "Ride Offer posted successfully" });
 };
 
