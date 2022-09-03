@@ -97,8 +97,10 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   //All points and lines need to have the SRID value of 4326.
 
   const intersectingOffers = await RideOffer.createQueryBuilder("offer")
+
+    .leftJoinAndSelect("offer.user", "user")
     .select([
-      "offer.id, offer.userId as driverID, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
+      "offer.id, offer.userId as driverID, user.firstname, user.email, user.lastname, user.gender, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
     ])
     .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: srcGeom,
@@ -149,7 +151,14 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   const offers = filteredList.map((offer) => {
     return {
       id: offer.id,
-      driverID: offer.driverid,
+      driver: {
+        id: offer.driverid,
+        email: offer.email,
+        firstname: offer.firstname,
+        lastname: offer.lastname,
+        gender: offer.gender,
+        profileImageUri: offer.profileimageuri,
+      },
       pricePerKm: offer.pricePerKm,
       startTime: offer.departureTime,
       source: {
