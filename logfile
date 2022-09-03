@@ -1,0 +1,83 @@
+2022-08-30 18:28:02.967 +0530 [1559] LOG:  starting PostgreSQL 14.1 on x86_64-apple-darwin21.1.0, compiled by Apple clang version 13.0.0 (clang-1300.0.29.3), 64-bit
+2022-08-30 18:28:02.969 +0530 [1559] LOG:  listening on IPv6 address "::1", port 5432
+2022-08-30 18:28:02.969 +0530 [1559] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-08-30 18:28:02.969 +0530 [1559] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-08-30 18:28:02.982 +0530 [1560] LOG:  database system was shut down at 2022-08-30 14:55:07 +0530
+2022-08-30 18:28:02.991 +0530 [1559] LOG:  database system is ready to accept connections
+2022-08-30 18:35:38.807 +0530 [2243] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 18:35:38.807 +0530 [2243] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 18:35:38.807 +0530 [2243] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 18:38:31.037 +0530 [2512] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 18:38:31.037 +0530 [2512] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 18:38:31.037 +0530 [2512] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 18:39:11.390 +0530 [2592] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 18:39:11.390 +0530 [2592] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 18:39:11.390 +0530 [2592] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 18:48:09.522 +0530 [3406] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 18:48:09.522 +0530 [3406] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 18:48:09.522 +0530 [3406] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:10:10.241 +0530 [4830] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:10:10.241 +0530 [4830] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:10:10.241 +0530 [4830] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:13:24.094 +0530 [5186] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:13:24.094 +0530 [5186] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:13:24.094 +0530 [5186] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:18:43.467 +0530 [5697] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:18:43.467 +0530 [5697] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:18:43.467 +0530 [5697] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:20:21.471 +0530 [5880] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:20:21.471 +0530 [5880] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:20:21.471 +0530 [5880] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:21:16.183 +0530 [5991] ERROR:  parse error - invalid geometry
+2022-08-30 19:21:16.183 +0530 [5991] HINT:  "...16372357350822, 79.8634998148826)" <-- parse error at position 65 within geometry
+2022-08-30 19:21:16.183 +0530 [5991] STATEMENT:  SELECT "offer"."id", "offer"."departureTime", ST_AsText("offer"."fromGeom") as from FROM "ride_offer" "offer" WHERE ST_DWithin("offer"."polyline",ST_GeomFromText($1,4326),0.002) AND ST_DWithin("offer"."polyline",ST_GeomFromText($2,4326),0.002) AND ST_LineLocatePoint("offer"."polyline",ST_GeomFromText($3,4326)) < ST_LineLocatePoint("offer"."polyline",ST_GeomFromText($4,4326)) AND "offer"."status" IN ('active')
+2022-08-30 19:21:19.601 +0530 [5998] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:21:19.601 +0530 [5998] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:21:19.601 +0530 [5998] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:21:46.713 +0530 [6051] ERROR:  parse error - invalid geometry
+2022-08-30 19:21:46.713 +0530 [6051] HINT:  "...16372357350822, 79.8634998148826)" <-- parse error at position 65 within geometry
+2022-08-30 19:21:46.713 +0530 [6051] STATEMENT:  SELECT "offer"."id", "offer"."departureTime", ST_AsText("offer"."fromGeom") as from FROM "ride_offer" "offer" WHERE ST_DWithin("offer"."polyline",ST_GeomFromText($1,4326),0.002) AND ST_DWithin("offer"."polyline",ST_GeomFromText($2,4326),0.002) AND ST_LineLocatePoint("offer"."polyline",ST_GeomFromText($3,4326)) < ST_LineLocatePoint("offer"."polyline",ST_GeomFromText($4,4326)) AND "offer"."status" IN ('active')
+2022-08-30 19:22:00.647 +0530 [6073] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:22:00.647 +0530 [6073] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:22:00.647 +0530 [6073] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:25:06.422 +0530 [6359] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:25:06.422 +0530 [6359] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:25:06.422 +0530 [6359] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:27:14.333 +0530 [6552] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:27:14.333 +0530 [6552] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:27:14.333 +0530 [6552] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:29:06.163 +0530 [6724] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:29:06.163 +0530 [6724] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:29:06.163 +0530 [6724] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:32:44.514 +0530 [7133] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:32:44.514 +0530 [7133] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:32:44.514 +0530 [7133] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:34:30.635 +0530 [7311] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:34:30.635 +0530 [7311] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:34:30.635 +0530 [7311] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:35:12.291 +0530 [7402] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:35:12.291 +0530 [7402] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:35:12.291 +0530 [7402] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:35:55.602 +0530 [7516] ERROR:  duplicate key value violates unique constraint "UQ_97672ac88f789774dd47f7c8be3"
+2022-08-30 19:35:55.602 +0530 [7516] DETAIL:  Key (email)=(test@email.com) already exists.
+2022-08-30 19:35:55.602 +0530 [7516] STATEMENT:  INSERT INTO "users"("email", "mobile", "firstname", "lastname", "gender", "profileImageUri", "bio", "password", "occupation", "dateOfBirth", "smsOTP", "smsOTPSentAt", "mobileVerified", "isVerified", "role", "createdAt", "updatedAt") VALUES ($1, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, $2, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT) RETURNING "id", "gender", "mobileVerified", "isVerified", "role", "createdAt", "updatedAt"
+2022-08-30 19:36:17.301 +0530 [7573] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:36:17.301 +0530 [7573] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:36:17.301 +0530 [7573] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:36:51.525 +0530 [7639] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:36:51.525 +0530 [7639] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:36:51.525 +0530 [7639] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:38:17.425 +0530 [7814] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:38:17.425 +0530 [7814] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:38:17.425 +0530 [7814] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:38:51.356 +0530 [7931] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:38:51.356 +0530 [7931] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:38:51.356 +0530 [7931] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:38:55.133 +0530 [7938] LOG:  could not receive data from client: Connection reset by peer
+2022-08-30 19:38:55.133 +0530 [7938] LOG:  unexpected EOF on client connection with an open transaction
+2022-08-30 19:40:00.348 +0530 [8094] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:40:00.348 +0530 [8094] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:40:00.348 +0530 [8094] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
+2022-08-30 19:40:59.395 +0530 [8225] ERROR:  invalid input value for enum users_gender_enum: "test"
+2022-08-30 19:40:59.395 +0530 [8225] CONTEXT:  unnamed portal parameter $1 = '...'
+2022-08-30 19:40:59.395 +0530 [8225] STATEMENT:  UPDATE "users" SET "gender" = $1, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" IN ($2) RETURNING "updatedAt"
