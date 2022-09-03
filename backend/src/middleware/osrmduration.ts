@@ -6,7 +6,7 @@ export const getOSRMDuration = async (start, end) => {
   const startPoint = [start.long, start.lat].join(",");
   const endPoint = [end.long, end.lat].join(",");
 
-  const url = `http://router.project-osrm.org/route/v1/driving/${startPoint};${endPoint}?overview=full`;
+  const url = `${process.env.OSRM_URL}/${startPoint};${endPoint}?overview=full`;
 
   try {
     const response = await axios.get(url);

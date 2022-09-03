@@ -8,7 +8,6 @@ import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
 import { parseJSON, subMinutes, addMinutes } from "date-fns";
-import { getDuration } from "../../middleware/duration";
 import { getOSRMDuration } from "../../middleware/osrmduration";
 
 export const postRideRequests = async (req: Request, res: Response) => {
@@ -136,19 +135,20 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
   const filteredList = [];
-  try {
-    for (let e of intersectingOffers) {
+
+  for (let e of intersectingOffers) {
+    try {
       if (await asyncOp(e)) {
         filteredList.push(e);
       }
+    } catch (err) {
+      return res.status(500).json({ error: "Error fetching offers" });
     }
-  } catch (err) {
-    return res.status(500).json({ error: "Error fetching offers" });
   }
 
-  const offers = filteredList;
-
-  return res.status(200).json({ success: "Received available offers", offers });
+  return res
+    .status(200)
+    .json({ success: "Received available offers", offers: filteredList });
 };
 
 export const getRequestDetails = async (req: Request, res: Response) => {

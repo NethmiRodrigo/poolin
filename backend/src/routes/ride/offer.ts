@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
-import { geojsonToWKT } from "@terraformer/wkt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
-import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
-// import { getPolyline } from "../../middleware/polyline";
+
 import { getOSRMPolyline } from "../../middleware/osrmpolyline";
 
 export const postRideOffer = async (req: Request, res: Response) => {
