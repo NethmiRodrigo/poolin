@@ -98,8 +98,9 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   //All points and lines need to have the SRID value of 4326.
 
   const intersectingOffers = await RideOffer.createQueryBuilder("offer")
+    .leftJoinAndSelect("offer.user", "driver")
     .select([
-      "offer.id, offer.departureTime, ST_AsText(offer.fromGeom) as from",
+      "offer.id, driver.id as userID, driver.firstname, offer.departureTime, offer.pricePerKm, offer.from as sourceName, offer.to as destinationName, ST_AsText(offer.fromGeom) as from",
     ])
     .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: srcGeom,
@@ -114,7 +115,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       {
         start: srcGeom,
         end: destGeom,
-      }
+      },
     )
     .andWhere("offer.status IN ('active')")
     .getRawMany();
@@ -125,7 +126,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
     const duration = await getOSRMDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
-      { lat: srcLat, long: srcLong }
+      { lat: srcLat, long: srcLong },
     );
 
     const pickupTime: Date = addMinutes(offer.departureTime, duration);
@@ -140,6 +141,8 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   for (let e of intersectingOffers) {
     try {
       if (await asyncOp(e)) {
+        console.log(e.driver);
+        // e.driver = JSON.parse(e.driver);
         filteredList.push(e);
       }
     } catch (err) {
@@ -196,7 +199,7 @@ export const acceptRequests = async (req: Request, res: Response) => {
             id: +offer,
           },
         },
-      })
+      }),
     );
   });
   const requestValues = await Promise.all(requestPromises);
