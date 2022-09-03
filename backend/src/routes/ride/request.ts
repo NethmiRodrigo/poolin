@@ -149,7 +149,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   const offers = filteredList.map((offer) => {
     return {
       id: offer.id,
-      driverID: offer.driverID,
+      driverID: offer.driverid,
       pricePerKm: offer.pricePerKm,
       startTime: offer.departureTime,
       source: {
