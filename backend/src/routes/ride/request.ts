@@ -198,9 +198,13 @@ export const acceptRequest = async (req: Request, res: Response) => {
     const offerObj: RideOffer = await RideOffer.findOne({
       where: { id: offer },
     });
-    if (offerObj.seats <= 0)
+
+    if (offerObj.seats <= 0) {
       throw new AppError(500, { error: "Seats are all full" });
+    }
+
     offerObj.seats = offerObj.seats - 1;
+    if (offerObj.seats == 0) offerObj.status = "booked";
     offerObj.save();
 
     const requestObject: RideRequest = await RideRequest.findOne({

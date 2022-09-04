@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/auth_cubit.dart';
+import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
 import 'package:mobile/services/auth_service.dart';
@@ -49,6 +50,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUserCubit currentUser = BlocProvider.of<CurrentUserCubit>(context);
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
@@ -107,7 +109,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  'Natalia shefnier',
+                  "${currentUser.getUser().firstName} ${currentUser.getUser().lastName}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!

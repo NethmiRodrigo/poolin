@@ -67,7 +67,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                         'https://i.pravatar.cc/300?img=3',
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       right: 10.0,
                       bottom: 0.0,
                       child: Icon(
