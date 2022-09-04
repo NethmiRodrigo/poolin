@@ -36,35 +36,23 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
     // late List<RideOfferSearchResult> rideOffers;
-    final List<RideOfferSearchResult> rideOffers = results;
+    List<RideOfferSearchResult> rideOffers = [];
 
-    // void fetchRideOffers() async {
-    //   setState(() {
-    //     isLoading = true;
-    //   });
+    void fetchRideOffers() async {
+      setState(() {
+        isLoading = true;
+      });
 
-    //   Response response = await getAvailableOffers(reqCubit.state);
+      List<RideOfferSearchResult> fetchedOffers =
+          await getAvailableOffers(reqCubit.state);
 
-    //   if (response.statusCode == 200) {
-    //     response.data.forEach((offer) {
-    //       rideOffers.add(RideOfferSearchResult(
-    //         id: offer.id,
-    //         startTime: offer.startTime,
-    //         source: offer.source,
-    //         destination: offer.destination,
-    //         driver: offer.driver,
-    //       ));
-    //     });
-    //   } else {
-    //     // rideOffers = [];
-    //   }
+      setState(() {
+        rideOffers = fetchedOffers;
+        isLoading = false;
+      });
+    }
 
-    //   setState(() {
-    //     isLoading = false;
-    //   });
-    // }
-
-    // fetchRideOffers();
+    fetchRideOffers();
 
     Future<DateTime?> showDatePicker() {
       return DatePicker.showDateTimePicker(

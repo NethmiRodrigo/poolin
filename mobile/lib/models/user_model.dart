@@ -35,7 +35,7 @@ class User {
     required this.email,
     this.stars = 0.0,
     this.totalRatings = 0,
-    this.vehicleNum = '',
+    this.vehicleNum = 'ABX 1233',
     this.vehicleType = VehicleType.na,
     this.vehicleModel = 'Unknown',
     this.profilePicURL = '',
