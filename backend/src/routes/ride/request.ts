@@ -100,8 +100,11 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
     .leftJoinAndSelect("offer.user", "user")
     .select([
-      "offer.id, offer.userId as driverID, user.firstname, user.email, user.lastname, user.gender, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
+      "offer.id, offer.userId as driverID, user.firstname, user.lastname,  user.isVerified, user.gender, user.stars, user.totalRatings, user.bio, user.occupation, user.vehicleType, user.vehicleModel, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
     ])
+    // .select([
+    //   "offer.id, offer.userId as driverID, user.firstname, user.lastname, user.isVerified, user.gender, user.stars, user.totalRatings, user.bio, user.occupation, user.vehicleType, user.vehicleModel, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
+    // ])
     .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: srcGeom,
     })
@@ -115,7 +118,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       {
         start: srcGeom,
         end: destGeom,
-      }
+      },
     )
     .andWhere("offer.status IN ('active')")
     .getRawMany();
@@ -126,7 +129,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
     const duration = await getOSRMDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
-      { lat: srcLat, long: srcLong }
+      { lat: srcLat, long: srcLong },
     );
 
     const pickupTime: Date = addMinutes(offer.departureTime, duration);
@@ -149,15 +152,22 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   }
 
   const offers = filteredList.map((offer) => {
+    console.log(offer);
     return {
       id: offer.id,
       driver: {
         id: offer.driverid,
-        email: offer.email,
         firstname: offer.firstname,
         lastname: offer.lastname,
+        isVerified: offer.isVerified,
         gender: offer.gender,
-        profileImageUri: offer.profileimageuri,
+        stars: offer.stars,
+        totalRatings: offer.totalRatings,
+        profileImageUri: offer.profileImageUri,
+        bio: offer.bio,
+        occupation: offer.occupation,
+        vehicleType: offer.vehicleType,
+        vehicleModel: offer.vehicleModel,
       },
       pricePerKm: offer.pricePerKm,
       startTime: offer.departureTime,
