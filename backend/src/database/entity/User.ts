@@ -8,6 +8,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  Double,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
@@ -24,6 +25,13 @@ export enum Gender {
 export enum Role {
   USER = "user",
   ADMIN = "admin",
+}
+
+export enum VehicleType {
+  NA = "na",
+  CAR = "car",
+  VAN = "van",
+  BIKE = "bike",
 }
 
 @Entity("users")
@@ -70,6 +78,12 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   bio: string;
 
+  @Column({ default: 0.0 })
+  stars: number;
+
+  @Column({ default: 0 })
+  totalRatings: number;
+
   @Column()
   password: string;
 
@@ -77,13 +91,17 @@ export class User extends BaseEntity {
   @Exclude()
   occupation: string;
 
-  @Column({ nullable: true })
-  @Exclude()
-  stars: number;
+  @Column({
+    nullable: true,
+    default: VehicleType.NA,
+    type: "enum",
+    enum: VehicleType,
+  })
+  vehicleType: VehicleType;
 
   @Column({ nullable: true })
   @Exclude()
-  totalRatings: number;
+  vehicleModel: string;
 
   @Column({ nullable: true })
   @Exclude()
