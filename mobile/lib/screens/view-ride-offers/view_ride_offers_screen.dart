@@ -39,20 +39,11 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
     List<RideOfferSearchResult> rideOffers = [];
 
     void fetchRideOffers() async {
-      setState(() {
-        isLoading = true;
-      });
-
       List<RideOfferSearchResult> fetchedOffers =
           await getAvailableOffers(reqCubit.state);
 
-      setState(() {
-        rideOffers = fetchedOffers;
-        isLoading = false;
-      });
+      rideOffers = fetchedOffers;
     }
-
-    fetchRideOffers();
 
     Future<DateTime?> showDatePicker() {
       return DatePicker.showDateTimePicker(
@@ -62,17 +53,17 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
         maxTime: DateTime.now().add(const Duration(days: 7)),
         onChanged: (date) {},
         onConfirm: (date) {
-          setState(
-            () {
-              startTime = date;
-              reqCubit.setStartTime(startTime);
-            },
-          );
+          startTime = date;
+          reqCubit.setStartTime(startTime);
+
+          fetchRideOffers();
         },
         currentTime: startTime,
         locale: LocaleType.en,
       );
     }
+
+    // showDatePicker();
 
     return Scaffold(
       appBar: AppBar(
@@ -102,125 +93,123 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
             )
           : Padding(
               padding: sidePadding,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        showDatePicker();
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
-                            style: BlipFonts.labelBold.merge(
-                                const TextStyle(color: BlipColors.black)),
-                            textAlign: TextAlign.start,
-                          ),
-                          const Icon(
-                            FluentIcons.edit_16_regular,
-                            color: BlipColors.orange,
-                            size: 14,
-                          )
-                        ],
-                      ),
-                    ),
-                    addVerticalSpace(10.0),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      showDatePicker();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "From",
-                          style: BlipFonts.outline,
-                        ),
-                        const Spacer(
-                          flex: 1,
-                        ),
-                        Expanded(
-                          child: Text(
-                            reqCubit.state.source.name,
-                            style: BlipFonts.label,
-                            textAlign: TextAlign.end,
-                            overflow: TextOverflow.clip,
-                          ),
-                        ),
-                      ],
-                    ),
-                    addVerticalSpace(10.0),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "To",
-                          style: BlipFonts.outline,
-                        ),
-                        addHorizontalSpace(8.0),
-                        const Spacer(
-                          flex: 1,
-                        ),
-                        Expanded(
-                          child: Text(
-                            reqCubit.state.destination.name,
-                            style: BlipFonts.label,
-                            textAlign: TextAlign.end,
-                            overflow: TextOverflow.clip,
-                          ),
-                        ),
-                      ],
-                    ),
-                    addVerticalSpace(36),
-                    Row(
-                      children: const [
                         Text(
-                          "Browse through available rides",
-                          style: BlipFonts.heading,
+                          '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
+                          style: BlipFonts.labelBold.merge(
+                              const TextStyle(color: BlipColors.black)),
+                          textAlign: TextAlign.start,
+                        ),
+                        const Icon(
+                          FluentIcons.edit_16_regular,
+                          color: BlipColors.orange,
+                          size: 14,
                         )
                       ],
                     ),
-                    addVerticalSpace(20.0),
-                    Expanded(
-                      child: rideOffers.isNotEmpty
-                          ? RideOfferResultList(rideOffers, "view")
-                          : Container(
-                              width: size.width,
-                              color: BlipColors.lightGrey,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: [
-                                    addVerticalSpace(20.0),
-                                    Image.asset(
-                                      'assets/images/waiting-at-stop.png',
-                                      height: size.height * 0.22,
-                                    ),
-                                    addVerticalSpace(20.0),
-                                    const Text(
-                                      "No rides available currently",
-                                      style: BlipFonts.label,
-                                    ),
-                                  ],
-                                ),
+                  ),
+                  addVerticalSpace(10.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "From",
+                        style: BlipFonts.outline,
+                      ),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: Text(
+                          reqCubit.state.source.name,
+                          style: BlipFonts.label,
+                          textAlign: TextAlign.end,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                  addVerticalSpace(10.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "To",
+                        style: BlipFonts.outline,
+                      ),
+                      addHorizontalSpace(8.0),
+                      const Spacer(
+                        flex: 1,
+                      ),
+                      Expanded(
+                        child: Text(
+                          reqCubit.state.destination.name,
+                          style: BlipFonts.label,
+                          textAlign: TextAlign.end,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                  addVerticalSpace(36),
+                  Row(
+                    children: const [
+                      Text(
+                        "Browse through available rides",
+                        style: BlipFonts.heading,
+                      )
+                    ],
+                  ),
+                  addVerticalSpace(20.0),
+                  Expanded(
+                    child: rideOffers.isNotEmpty
+                        ? RideOfferResultList(rideOffers, "view")
+                        : Container(
+                            width: size.width,
+                            color: BlipColors.lightGrey,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                children: [
+                                  addVerticalSpace(20.0),
+                                  Image.asset(
+                                    'assets/images/waiting-at-stop.png',
+                                    height: size.height * 0.22,
+                                  ),
+                                  addVerticalSpace(20.0),
+                                  const Text(
+                                    "No rides available currently",
+                                    style: BlipFonts.label,
+                                  ),
+                                ],
                               ),
                             ),
-                    ),
-                    addVerticalSpace(16),
-                    WideButton(
-                      isDisabled:
-                          reqCubit.state.offerIDs.isEmpty ? true : false,
-                      onPressedAction: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: ((context) =>
-                                RideRequestDetailsScreen(rideOffers)),
                           ),
-                        );
-                      },
-                      text: "Proceed",
-                    ),
-                  ],
-                ),
+                  ),
+                  addVerticalSpace(16),
+                  WideButton(
+                    isDisabled:
+                        reqCubit.state.offerIDs.isEmpty ? true : false,
+                    onPressedAction: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) =>
+                              RideRequestDetailsScreen(rideOffers)),
+                        ),
+                      );
+                    },
+                    text: "Proceed",
+                  ),
+                ],
               ),
             ),
     );

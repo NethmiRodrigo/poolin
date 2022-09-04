@@ -68,7 +68,7 @@ Future<List<RideOfferSearchResult>> getAvailableOffers(
   );
 
   if (response.statusCode == 200) {
-    response.data.offers.forEach((offer) {
+    response.data['offers'].forEach((offer) {
       rideOffers.add(RideOfferSearchResult(
         id: offer.id,
         startTime: offer.startTime,

@@ -56,7 +56,7 @@ class User {
         lastName: json["lastname"],
         gender: json["gender"],
         email: json["email"],
-        profilePicURL: json["profileImageUri"],
+        profilePicURL: json["profileImageUri"] == null ? '' : json["profileImageUri"],
         bio: json["bio"],
         occupation: json["occupation"],
         dateOfBirth: json["dateOfBirth"] != null
@@ -77,7 +77,7 @@ class User {
             : null,
         stars: json["stars"] != null ? double.parse(json["stars"]) : 0.0,
         totalRatings:
-            json["totalRatings"] != null ? int.parse(json["totalRatings"]) : 0,
+            json["totalRatings"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
