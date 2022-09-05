@@ -27,6 +27,7 @@ class ViewRideOffersScreen extends StatefulWidget {
 class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
   DateTime startTime = DateTime.now().add(const Duration(days: 1));
   bool isLoading = false;
+  List<RideOfferSearchResult> rideOffers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +36,14 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
-    // late List<RideOfferSearchResult> rideOffers;
-    List<RideOfferSearchResult> rideOffers = [];
 
     void fetchRideOffers() async {
       List<RideOfferSearchResult> fetchedOffers =
           await getAvailableOffers(reqCubit.state);
-
-      rideOffers = fetchedOffers;
+      print(fetchedOffers);
     }
+
+    fetchRideOffers();
 
     Future<DateTime?> showDatePicker() {
       return DatePicker.showDateTimePicker(
@@ -53,17 +53,14 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
         maxTime: DateTime.now().add(const Duration(days: 7)),
         onChanged: (date) {},
         onConfirm: (date) {
-          startTime = date;
-          reqCubit.setStartTime(startTime);
-
+          reqCubit.setStartTime(date);
+          setState(() {});
           fetchRideOffers();
         },
         currentTime: startTime,
         locale: LocaleType.en,
       );
     }
-
-    // showDatePicker();
 
     return Scaffold(
       appBar: AppBar(
@@ -102,8 +99,8 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                       children: [
                         Text(
                           '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
-                          style: BlipFonts.labelBold.merge(
-                              const TextStyle(color: BlipColors.black)),
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.black)),
                           textAlign: TextAlign.start,
                         ),
                         const Icon(
@@ -194,8 +191,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                   ),
                   addVerticalSpace(16),
                   WideButton(
-                    isDisabled:
-                        reqCubit.state.offerIDs.isEmpty ? true : false,
+                    isDisabled: reqCubit.state.offerIDs.isEmpty ? true : false,
                     onPressedAction: () {
                       Navigator.push(
                         context,

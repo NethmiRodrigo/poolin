@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/custom/lists/close_friends_list.dart';
 import 'package:mobile/custom/lists/ride_offer_list.dart';
@@ -9,11 +8,9 @@ import 'package:mobile/models/friend.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
 import '../../colors.dart';
-import '../../models/user_model.dart';
 
 class RiderHomeScreen extends StatefulWidget {
   const RiderHomeScreen({Key? key}) : super(key: key);
@@ -25,12 +22,6 @@ class RiderHomeScreen extends StatefulWidget {
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
-  late User currentUser = User(
-    firstName: '',
-    lastName: '',
-    email: '',
-    gender: '',
-  );
 
   final List<RideOffer> _rideOffers = [
     RideOffer(
@@ -102,17 +93,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
         profilePicture: 'https://i.pravatar.cc/300?img=6'),
   ];
   bool isRiding = false; //rider is riding if he currently has a ride
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentUser();
-  }
-
-  Future<void> _getCurrentUser() async {
-    Response res = await getCurrentUser();
-    currentUser = User.fromJson(res.data);
-  }
 
   @override
   Widget build(BuildContext context) {

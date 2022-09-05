@@ -116,24 +116,32 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       {
         start: srcGeom,
         end: destGeom,
-      },
+      }
     )
     .andWhere("offer.status IN ('active')")
     .getRawMany();
 
   // from the result set, we filter out offers that are not available at the time of the request
 
+  const reqStartTime = parseJSON(startTime as string);
+
+  console.log("Start time received: ", startTime);
+  console.log("Start time converted: ", reqStartTime);
+
   const asyncOp = async (offer) => {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
     const duration = await getOSRMDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
-      { lat: srcLat, long: srcLong },
+      { lat: srcLat, long: srcLong }
     );
 
     const pickupTime: Date = addMinutes(offer.departureTime, duration);
 
-    const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
-    const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
+    const minTime: Date = subMinutes(reqStartTime, +window);
+    const maxTime: Date = addMinutes(reqStartTime, +window);
+
+    // const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
+    // const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
 
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
@@ -142,8 +150,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   for (let e of intersectingOffers) {
     try {
       if (await asyncOp(e)) {
-        console.log(e.driver);
-        // e.driver = JSON.parse(e.driver);
         filteredList.push(e);
       }
     } catch (err) {
@@ -152,7 +158,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   }
 
   const offers = filteredList.map((offer) => {
-    console.log(offer);
     return {
       id: offer.id,
       driver: {
@@ -231,7 +236,7 @@ export const acceptRequests = async (req: Request, res: Response) => {
             id: +offer,
           },
         },
-      }),
+      })
     );
   });
   const requestValues = await Promise.all(requestPromises);
