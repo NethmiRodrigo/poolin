@@ -9,7 +9,7 @@ import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/coordinate_model.dart';
 
 import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:mobile/screens/request-ride/enter_trip_details.dart';
+import 'package:mobile/screens/request-ride/confirm_trip_details.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/services/polyline_service.dart';
 import 'package:mobile/utils/map_utils.dart';
@@ -291,7 +291,7 @@ class _MapScreenState extends State<MapScreen> {
                             MaterialPageRoute(
                               builder: (context) => rideType == "offer"
                                   ? const RideOfferDetailsScreen()
-                                  : const EnterTripDetailsScreen(),
+                                  : const ConfirmTripDetailsScreen(),
                             ),
                           );
                         }

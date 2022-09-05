@@ -1,4 +1,3 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -10,17 +9,17 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
-class EnterTripDetailsScreen extends StatefulWidget {
-  const EnterTripDetailsScreen({Key? key}) : super(key: key);
+class ConfirmTripDetailsScreen extends StatefulWidget {
+  const ConfirmTripDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  State<EnterTripDetailsScreen> createState() => _EnterTripDetailsScreenState();
+  State<ConfirmTripDetailsScreen> createState() =>
+      _ConfirmTripDetailsScreenState();
 }
 
-class _EnterTripDetailsScreenState extends State<EnterTripDetailsScreen> {
+class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideRequestCubit reqCubit =
@@ -66,7 +65,7 @@ class _EnterTripDetailsScreenState extends State<EnterTripDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Enter trip details",
+              "Confirm trip details",
               style: BlipFonts.heading,
             ),
             addVerticalSpace(16),

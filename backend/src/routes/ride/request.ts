@@ -77,6 +77,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 };
 
 export const getAvailableOffers = async (req: Request, res: Response) => {
+  console.log(req.query);
   const { srcLat, srcLong, destLat, destLong, startTime, window } = req.query;
   const start = {
     type: "Point",
@@ -134,6 +135,8 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
     const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
     const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
+    console.log('Received time', startTime);
+    console.log('Converted time (-30mins)', minTime);
 
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
@@ -142,8 +145,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   for (let e of intersectingOffers) {
     try {
       if (await asyncOp(e)) {
-        console.log(e.driver);
-        // e.driver = JSON.parse(e.driver);
         filteredList.push(e);
       }
     } catch (err) {
@@ -152,7 +153,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   }
 
   const offers = filteredList.map((offer) => {
-    console.log(offer);
     return {
       id: offer.id,
       driver: {
