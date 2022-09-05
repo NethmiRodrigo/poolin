@@ -6,7 +6,6 @@ class RideRequestCubit extends Cubit<RideRequest> {
       : super(RideRequest(
             source: Coordinate(),
             destination: Coordinate(),
-            startTime: DateTime.now(),
             window: 30));
 
   void setSource(Coordinate source) => emit(state.copyWith(source: source));
@@ -33,7 +32,7 @@ class RideRequestCubit extends Cubit<RideRequest> {
 class RideRequest {
   Coordinate source;
   Coordinate destination;
-  DateTime startTime;
+  DateTime? startTime;
   List<String> offerIDs;
   int window;
   int duration;
@@ -43,7 +42,7 @@ class RideRequest {
 //set defaults for constructor
   RideRequest({
     required this.source,
-    required this.startTime,
+    this.startTime,
     required this.destination,
     this.window = 30,
     this.offerIDs = const [],

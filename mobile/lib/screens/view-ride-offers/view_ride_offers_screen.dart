@@ -86,8 +86,6 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
                 color: BlipColors.grey,
               ),
             )
