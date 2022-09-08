@@ -6,8 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/screens/current-ride/driver_nav.dart';
-import 'package:mobile/screens/current-ride/start_ride.dart';
 import 'package:mobile/splash.dart';
 
 import './theme.dart';
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const DriverNav(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

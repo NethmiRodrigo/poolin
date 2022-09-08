@@ -16,7 +16,6 @@ app.route("/").get((req, res) => {
 io.on("connection", (socket) => {
   // on event change, emit position to all clients
   socket.on("position-change", (data) => {
-    console.log(data);
     io.emit("position-change", data);
   });
 
