@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:jiffy/jiffy.dart';
 
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/fonts.dart';
 
@@ -15,7 +15,6 @@ import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/services/ride_request_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/custom/lists/ride_offer_result_list.dart';
-import 'package:mobile/constants/search_offer_results.dart';
 
 class ViewRideOffersScreen extends StatefulWidget {
   const ViewRideOffersScreen({Key? key}) : super(key: key);
@@ -25,9 +24,7 @@ class ViewRideOffersScreen extends StatefulWidget {
 }
 
 class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
-  DateTime startTime = DateTime.now().add(const Duration(days: 1));
   bool isLoading = false;
-  List<RideOfferSearchResult> rideOffers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +33,25 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
+    final MatchingOffersCubit matchingOffersCubit =
+        BlocProvider.of<MatchingOffersCubit>(context);
 
     void fetchRideOffers() async {
-      List<RideOfferSearchResult> fetchedOffers =
-          await getAvailableOffers(reqCubit.state);
-      print(fetchedOffers);
-    }
+      setState(() {
+        isLoading = true;
+      });
 
-    fetchRideOffers();
+      List<MatchedOffer> fetchedOffers =
+          await getAvailableOffers(reqCubit.state);
+
+      for (var offer in fetchedOffers) {
+        matchingOffersCubit.addOffer(offer);
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
 
     Future<DateTime?> showDatePicker() {
       return DatePicker.showDateTimePicker(
@@ -54,10 +62,10 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
         onChanged: (date) {},
         onConfirm: (date) {
           reqCubit.setStartTime(date);
-          setState(() {});
+          // setState(() {});
           fetchRideOffers();
         },
-        currentTime: startTime,
+        currentTime: reqCubit.state.startTime,
         locale: LocaleType.en,
       );
     }
@@ -98,7 +106,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${Jiffy(startTime).yMMMd} ${Jiffy(startTime).format("h:mm a")} ',
+                          '${Jiffy(reqCubit.state.startTime).yMMMd} ${Jiffy(reqCubit.state.startTime).format("h:mm a")} ',
                           style: BlipFonts.labelBold
                               .merge(const TextStyle(color: BlipColors.black)),
                           textAlign: TextAlign.start,
@@ -165,8 +173,8 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                   ),
                   addVerticalSpace(20.0),
                   Expanded(
-                    child: rideOffers.isNotEmpty
-                        ? RideOfferResultList(rideOffers, "view")
+                    child: matchingOffersCubit.state.offers.isNotEmpty
+                        ? const RideOfferResultList("view")
                         : Container(
                             width: size.width,
                             color: BlipColors.lightGrey,
@@ -197,7 +205,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                         context,
                         MaterialPageRoute(
                           builder: ((context) =>
-                              RideRequestDetailsScreen(rideOffers)),
+                              const RideRequestDetailsScreen()),
                         ),
                       );
                     },

@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
@@ -16,9 +17,9 @@ import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class ViewRideOfferDetails extends StatefulWidget {
-  final RideOfferSearchResult offer;
+  final int offerIndex;
 
-  const ViewRideOfferDetails(this.offer, {Key? key}) : super(key: key);
+  const ViewRideOfferDetails(this.offerIndex, {Key? key}) : super(key: key);
 
   @override
   State<ViewRideOfferDetails> createState() => _ViewRideOfferDetailsState();
@@ -60,6 +61,9 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
     final Size size = MediaQuery.of(context).size;
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
+    final MatchingOffersCubit matchingOffersCubit =
+        BlocProvider.of<MatchingOffersCubit>(context);
+    final MatchedOffer offer = matchingOffersCubit.state.offers[widget.offerIndex];
 
     void setCustomMarkers() async {
       // Create custom icons
@@ -98,8 +102,8 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
         Marker(
           markerId: const MarkerId('driver-source'),
           position: LatLng(
-            widget.offer.source.lat,
-            widget.offer.source.lang,
+            offer.source.lat,
+            offer.source.lang,
           ),
           icon: driverSourceMarker,
         ),
@@ -123,8 +127,8 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
     void setDriverPath() async {
       List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
           origin: LatLng(
-            widget.offer.source.lat,
-            widget.offer.source.lang,
+           offer.source.lat,
+            offer.source.lang,
           ),
           destination: LatLng(
             reqCubit.state.destination.lat,
@@ -185,8 +189,8 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
-                      widget.offer.source.lat,
-                      widget.offer.source.lang,
+                      offer.source.lat,
+                      offer.source.lang,
                     ),
                     zoom: 14.0,
                   ),
@@ -220,14 +224,14 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                 child: Column(
                   children: [
-                    UserCard(widget.offer.driver),
+                    UserCard(offer.driver),
                     const Divider(
                       color: BlipColors.grey,
                       indent: 8.0,
                       endIndent: 8.0,
                     ),
                     Expanded(
-                        child: RideOfferTimeline(widget.offer,
+                        child: RideOfferTimeline(offer,
                             reqCubit.state.source, reqCubit.state.destination)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -242,27 +246,27 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                           SizedBox(
                             width: size.width * 0.5,
                             child: reqCubit.state.offerIDs
-                                    .contains(widget.offer.id)
+                                    .contains(offer.id)
                                 ? WideButton(
                                     onPressedAction: () {
-                                      reqCubit.removeOffer(widget.offer.id);
+                                      reqCubit.removeOffer(offer.id);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const ViewRideOffersScreen()),
+                                                ViewRideOffersScreen()),
                                       );
                                     },
                                     text: "Remove Ride",
                                   )
                                 : WideButton(
                                     onPressedAction: () {
-                                      reqCubit.addOffer(widget.offer.id);
+                                      reqCubit.addOffer(offer.id);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const ViewRideOffersScreen()),
+                                                ViewRideOffersScreen()),
                                       );
                                     },
                                     text: "Select Ride",

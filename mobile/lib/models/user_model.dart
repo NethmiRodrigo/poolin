@@ -10,7 +10,7 @@ class User {
   String firstName;
   String lastName;
   String gender;
-  String email;
+  String? email;
   double stars;
   int totalRatings;
   VehicleType vehicleType;
@@ -31,14 +31,14 @@ class User {
     this.id,
     required this.firstName,
     required this.lastName,
-    required this.gender,
-    required this.email,
+    this.gender = 'unknown',
+    this.email,
     this.stars = 0.0,
     this.totalRatings = 0,
     this.vehicleNum = 'ABX 1233',
     this.vehicleType = VehicleType.na,
     this.vehicleModel = 'Unknown',
-    this.profilePicURL = '',
+    this.profilePicURL = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg',
     this.bio,
     this.occupation,
     this.dateOfBirth,
@@ -56,7 +56,7 @@ class User {
         lastName: json["lastname"],
         gender: json["gender"],
         email: json["email"],
-        profilePicURL: json["profileImageUri"] == null ? '' : json["profileImageUri"],
+        profilePicURL: json["profileImageUri"] ?? 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg',
         bio: json["bio"],
         occupation: json["occupation"],
         dateOfBirth: json["dateOfBirth"] != null
@@ -68,7 +68,7 @@ class User {
             : null,
         mobileVerified: json["mobileVerified"],
         isVerified: json["mobileVerified"] == 'true',
-        role: json["role"],
+        role: json["role"] ?? 'user',
         createdAt: json["createdAt"] != null
             ? DateTime.parse(json["createdAt"])
             : null,
@@ -76,8 +76,15 @@ class User {
             ? DateTime.parse(json["updatedAt"])
             : null,
         stars: json["stars"] != null ? double.parse(json["stars"]) : 0.0,
-        totalRatings:
-            json["totalRatings"] ?? 0,
+        totalRatings: json["totalRatings"] ?? 0,
+        vehicleType: json['vehicleType'] == 'na'
+            ? VehicleType.na
+            : json['vehicleType'] == 'car'
+                ? VehicleType.car
+                : json['vehicleType'] == 'van'
+                    ? VehicleType.van
+                    : VehicleType.bike,
+        vehicleModel: json['vehicleModel'] ?? 'Unknown',
       );
 
   Map<String, dynamic> toJson() => {

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
+import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
@@ -16,8 +17,7 @@ import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/fonts.dart';
 
 class RequestDetailsCard extends StatefulWidget {
-  final List<RideOfferSearchResult> rideOffers;
-  const RequestDetailsCard(this.rideOffers, {Key? key}) : super(key: key);
+  const RequestDetailsCard({Key? key}) : super(key: key);
 
   @override
   State<RequestDetailsCard> createState() => _RequestDetailsCardState();
@@ -46,6 +46,8 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
     final CurrentUserCubit user = BlocProvider.of<CurrentUserCubit>(context);
+    final MatchingOffersCubit matchingOffersCubit =
+        BlocProvider.of<MatchingOffersCubit>(context);
 
     reqCubit.setPrice(_ridePrice);
 
@@ -106,8 +108,9 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                                 widthFactor: 0.6,
                                 child: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: NetworkImage(widget
-                                      .rideOffers[index].driver.profilePicURL),
+                                  backgroundImage: NetworkImage(
+                                      matchingOffersCubit.state.offers[index]
+                                          .driver.profilePicURL),
                                 ),
                               );
                             },

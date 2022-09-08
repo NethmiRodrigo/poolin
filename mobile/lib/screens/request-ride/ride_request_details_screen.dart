@@ -13,8 +13,7 @@ import 'package:mobile/utils/map_utils.dart';
 import 'package:mobile/screens/request-ride/request_details_card.dart';
 
 class RideRequestDetailsScreen extends StatefulWidget {
-  final List<RideOfferSearchResult> rideOffers;
-  const RideRequestDetailsScreen(this.rideOffers, {super.key});
+  const RideRequestDetailsScreen({super.key});
 
   @override
   RideRequestDetailsScreenState createState() {
@@ -151,7 +150,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
             minChildSize: 1 / 2,
             maxChildSize: 1 / 2,
             builder: (BuildContext context, ScrollController scrollController) {
-              return RequestDetailsCard(widget.rideOffers);
+              return RequestDetailsCard();
             },
           ),
         ],

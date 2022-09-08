@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/coordinate_model.dart';
 import 'package:mobile/models/ride_offer_search_result.dart';
@@ -49,11 +50,11 @@ Future<Response> getOfferRequests() async {
   return response;
 }
 
-Future<List<RideOfferSearchResult>> getAvailableOffers(
+Future<List<MatchedOffer>> getAvailableOffers(
     RideRequest rideRequest) async {
   dio.options.baseUrl = baseURL;
 
-  List<RideOfferSearchResult> rideOffers = [];
+  List<MatchedOffer> rideOffers = [];
 
   final response = await dio.get(
     '/get/matching-requests',
@@ -67,44 +68,23 @@ Future<List<RideOfferSearchResult>> getAvailableOffers(
     },
   );
 
-  print(response.data);
   if (response.statusCode == 200 && response.data['offers'].isNotEmpty) {
     response.data['offers'].forEach((offer) {
-      rideOffers.add(RideOfferSearchResult(
-        id: offer.id,
-        startTime: offer.startTime,
-        pricePerKM: offer.pricePerKm,
+      rideOffers.add(MatchedOffer(
+        id: offer['id'],
+        startTime: DateTime.parse(offer['startTime']),
+        pricePerKM: offer['pricePerKm'].toDouble(),
         source: Coordinate(
-          lat: offer.source.coordinates[0],
-          lang: offer.source.coordinates[1],
-          name: offer.source.name,
+          lat: offer['source']['coordinates'][0],
+          lang: offer['source']['coordinates'][1],
+          name: offer['source']['name'],
         ),
         destination: Coordinate(
-          lat: offer.destination.coordinates[0],
-          lang: offer.destination.coordinates[1],
-          name: offer.destination.name,
+          lat: offer['destination']['coordinates'][0],
+          lang: offer['destination']['coordinates'][1],
+          name: offer['destination']['name'],
         ),
-        driver: User(
-          id: offer.driver.id,
-          firstName: offer.driver.firstname,
-          lastName: offer.driver.lastname,
-          isVerified: offer.driver.isVerified,
-          gender: offer.driver.gender,
-          email: offer.driver.email,
-          stars: offer.driver.stars,
-          totalRatings: offer.driver.totalRatings,
-          profilePicURL: offer.driver.profileImageUri,
-          bio: offer.driver.bio,
-          occupation: offer.driver.occupation,
-          vehicleType: offer.driver.vehicleType == 'na'
-              ? VehicleType.na
-              : offer.driver.vehicleType == 'car'
-                  ? VehicleType.car
-                  : offer.driver.vehicleType == 'van'
-                      ? VehicleType.van
-                      : VehicleType.bike,
-          vehicleModel: offer.driver.vehicleModel,
-        ),
+        driver: User.fromJson(offer['driver']),
       ));
     });
   }

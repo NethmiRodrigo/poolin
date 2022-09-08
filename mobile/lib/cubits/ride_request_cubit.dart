@@ -23,9 +23,9 @@ class RideRequestCubit extends Cubit<RideRequest> {
   void setDuration(int duration) => emit(state.copyWith(duration: duration));
   void setPrice(double price) => emit(state.copyWith(price: price));
 
-  void addOffer(String offerID) => emit(state.copyWith(offerIDs: [...state.offerIDs, offerID]));
+  void addOffer(int offerID) => emit(state.copyWith(offerIDs: [...state.offerIDs, offerID]));
 
-  void removeOffer(String offerID) => emit(state.copyWith(offerIDs: state.offerIDs.where((id) => id != offerID).toList()));
+  void removeOffer(int offerID) => emit(state.copyWith(offerIDs: state.offerIDs.where((id) => id != offerID).toList()));
 }
 
 //class for information
@@ -33,7 +33,7 @@ class RideRequest {
   Coordinate source;
   Coordinate destination;
   DateTime? startTime;
-  List<String> offerIDs;
+  List<int> offerIDs;
   int window;
   int duration;
   double distance;
@@ -59,7 +59,7 @@ class RideRequest {
       DateTime? startTime,
       int? window,
       int? duration,
-      List<String>? offerIDs,
+      List<int>? offerIDs,
       double? price,
       DateTime? endTime}) {
     return RideRequest(

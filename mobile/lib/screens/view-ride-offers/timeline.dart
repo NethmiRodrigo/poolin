@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/dashed_line.dart';
 import 'package:mobile/custom/outline_button.dart';
@@ -15,7 +16,7 @@ import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideOfferTimeline extends StatefulWidget {
-  final RideOfferSearchResult offer;
+  final MatchedOffer offer;
   final Coordinate mySource;
   final Coordinate myDestination;
   const RideOfferTimeline(this.offer, this.mySource, this.myDestination,

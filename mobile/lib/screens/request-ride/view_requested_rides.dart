@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
-import 'package:mobile/constants/search_offer_results.dart';
 import 'package:mobile/custom/indicator.dart';
 import 'package:mobile/custom/lists/ride_offer_result_list.dart';
 import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RequestedTrips extends StatefulWidget {
@@ -16,7 +14,6 @@ class RequestedTrips extends StatefulWidget {
 }
 
 class _RequestedTripsState extends State<RequestedTrips> {
-  final List<RideOfferSearchResult> _rideOffers = results;
   
   @override
   Widget build(BuildContext context) {
@@ -68,8 +65,8 @@ class _RequestedTripsState extends State<RequestedTrips> {
                 ],
               ),
               addVerticalSpace(10.0),
-              Expanded(
-                child: RideOfferResultList(_rideOffers, "requested"),
+              const Expanded(
+                child: RideOfferResultList("requested"),
               ),
             ],
           ),
