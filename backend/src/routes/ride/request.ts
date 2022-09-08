@@ -77,7 +77,6 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 };
 
 export const getAvailableOffers = async (req: Request, res: Response) => {
-  console.log(req.query);
   const { srcLat, srcLong, destLat, destLong, startTime, window } = req.query;
   const start = {
     type: "Point",
@@ -124,10 +123,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
   // from the result set, we filter out offers that are not available at the time of the request
 
-  const reqStartTime = parseJSON(startTime as string);
-
-  console.log("Start time received: ", startTime);
-  console.log("Start time converted: ", reqStartTime);
+  const reqStartTime = Date.parse(startTime as string);
 
   const asyncOp = async (offer) => {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
@@ -140,9 +136,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
     const minTime: Date = subMinutes(reqStartTime, +window);
     const maxTime: Date = addMinutes(reqStartTime, +window);
-
-    // const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
-    // const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
 
     return minTime <= pickupTime && pickupTime <= maxTime;
   };

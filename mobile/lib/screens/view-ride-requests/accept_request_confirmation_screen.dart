@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/screens/home/rider_home.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class AcceptRequestConfirmation extends StatelessWidget {

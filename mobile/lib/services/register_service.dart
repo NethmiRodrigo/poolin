@@ -22,7 +22,6 @@ Future<Response> register(
   dio.options.baseUrl = baseURL;
 
   final response = await dio.post('/verify-credentials', data: data);
-  print(response.data);
 
   return response;
 }
@@ -53,8 +52,6 @@ Future<Response> submitPhoneNumber(String number, String email) async {
   dio.options.baseUrl = baseURL;
 
   final response = await dio.post('/verify-mobile-num', data: data);
-
-  print(response.data);
 
   return response;
 }

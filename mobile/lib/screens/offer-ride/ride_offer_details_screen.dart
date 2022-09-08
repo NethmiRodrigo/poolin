@@ -23,7 +23,6 @@ class RideOfferDetailsScreen extends StatefulWidget {
 }
 
 class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
-  late CameraPosition _initalPosition;
   final _storage = const FlutterSecureStorage();
   final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
@@ -101,10 +100,6 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
     };
     setState(() {
       _markers = markers;
-      _initalPosition = CameraPosition(
-          target:
-              LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
-          zoom: 20);
     });
 
     var result = await getPolyline(

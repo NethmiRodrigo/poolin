@@ -10,7 +10,6 @@ import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/fonts.dart';
 
 import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/services/ride_request_service.dart';
 import 'package:mobile/utils/widget_functions.dart';

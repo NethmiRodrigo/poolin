@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/custom/backward_button.dart';
 
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
-import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/screens/view-ride-requests/accept_request_confirmation_screen.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
@@ -129,9 +127,9 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 children: [
                   Column(
                     children: [
-                      Text("12.40 AM", style: BlipFonts.outlineBold),
+                      const Text("12.40 AM", style: BlipFonts.outlineBold),
                       addVerticalSpace(32),
-                      Text("12.50 AM", style: BlipFonts.outlineBold),
+                      const Text("12.50 AM", style: BlipFonts.outlineBold),
                     ],
                   ),
                   Column(

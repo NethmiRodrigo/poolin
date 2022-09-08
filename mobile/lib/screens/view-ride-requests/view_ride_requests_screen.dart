@@ -10,9 +10,7 @@ import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/ride-details/ride_details_screen.dart';
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/utils/widget_functions.dart';
 
-import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
@@ -59,7 +57,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     final requestData = await getOfferRequests();
     final pendingRequestsJson = json.decode(requestData.data);
     pendingRequests = (pendingRequestsJson['requests']);
-    print(pendingRequests);
     final partyData = await getConfirmedRequests();
 
     confirmedRequests = json.decode(partyData.data)['requests'];
@@ -74,8 +71,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    final ActiveRideCubit offerCubit =
-        BlocProvider.of<ActiveRideCubit>(context);
 
     return BlocBuilder<ActiveRideCubit, ActiveRide>(
       builder: (context, state) {

@@ -153,9 +153,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      driver.stars == null
-                                          ? '0'
-                                          : driver.stars.toString(),
+                                      driver.stars.toString(),
                                       style: BlipFonts.labelBold,
                                     ),
                                     const Text(
@@ -177,9 +175,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      driver.totalRatings == null
-                                          ? '0'
-                                          : driver.totalRatings.toString(),
+                                      driver.totalRatings.toString(),
                                       style: BlipFonts.labelBold,
                                     ),
                                     const Text(

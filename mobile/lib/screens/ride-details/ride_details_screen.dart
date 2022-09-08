@@ -48,7 +48,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                 ),
               ),
               addVerticalSpace(16),
-              Text(
+              const Text(
                 "You're going to \n Town Hall!",
                 style: BlipFonts.display,
               ),
@@ -59,7 +59,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "Sunday, 14th August",
                     style: BlipFonts.label,
                   ),
@@ -146,15 +146,15 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text('Lionel Wendt Art Theatre',
+                                          const Text('Lionel Wendt Art Theatre',
                                               style: BlipFonts.label),
-                                          Text('Pick up Nethmi',
+                                          const Text('Pick up Nethmi',
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-                                      Spacer(),
-                                      Text('12:40 PM',
+                                      const Spacer(),
+                                      const Text('12:40 PM',
                                           style: BlipFonts.outline),
                                     ],
                                   ),
@@ -176,15 +176,15 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Text('Cinnamon Red',
+                                          const Text('Cinnamon Red',
                                               style: BlipFonts.label),
-                                          Text('Drop off Nethmi',
+                                          const Text('Drop off Nethmi',
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-                                      Spacer(),
-                                      Text('12:50 PM',
+                                      const Spacer(),
+                                      const Text('12:50 PM',
                                           style: BlipFonts.outline),
                                     ],
                                   ),
@@ -206,15 +206,15 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Text('Town Hall',
+                                          const Text('Town Hall',
                                               style: BlipFonts.label),
-                                          Text('End of Journey',
+                                          const Text('End of Journey',
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-                                      Spacer(),
-                                      Text('1:00 PM', style: BlipFonts.outline),
+                                      const Spacer(),
+                                      const Text('1:00 PM', style: BlipFonts.outline),
                                     ],
                                   ),
                                 ],
@@ -228,11 +228,11 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
               addVerticalSpace(32),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "The Party",
                     style: BlipFonts.heading,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -241,7 +241,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                             builder: (context) => const GroupChat()),
                       );
                     },
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       radius: 16.0,
                       backgroundColor: BlipColors.black,
                       child: Icon(

@@ -9,7 +9,6 @@ import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/view-ride-offers/timeline.dart';
 import 'package:mobile/screens/view-ride-offers/user_card.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
@@ -63,7 +62,8 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
         BlocProvider.of<RideRequestCubit>(context);
     final MatchingOffersCubit matchingOffersCubit =
         BlocProvider.of<MatchingOffersCubit>(context);
-    final MatchedOffer offer = matchingOffersCubit.state.offers[widget.offerIndex];
+    final MatchedOffer offer =
+        matchingOffersCubit.state.offers[widget.offerIndex];
 
     void setCustomMarkers() async {
       // Create custom icons
@@ -127,7 +127,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
     void setDriverPath() async {
       List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
           origin: LatLng(
-           offer.source.lat,
+            offer.source.lat,
             offer.source.lang,
           ),
           destination: LatLng(
@@ -175,7 +175,11 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
             child: Icon(Icons.arrow_back, color: BlipColors.black),
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ViewRideOffersScreen()),
+            );
           },
         ),
       ),
@@ -231,8 +235,8 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                       endIndent: 8.0,
                     ),
                     Expanded(
-                        child: RideOfferTimeline(offer,
-                            reqCubit.state.source, reqCubit.state.destination)),
+                        child: RideOfferTimeline(offer, reqCubit.state.source,
+                            reqCubit.state.destination)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
@@ -245,8 +249,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                           const Spacer(),
                           SizedBox(
                             width: size.width * 0.5,
-                            child: reqCubit.state.offerIDs
-                                    .contains(offer.id)
+                            child: reqCubit.state.offerIDs.contains(offer.id)
                                 ? WideButton(
                                     onPressedAction: () {
                                       reqCubit.removeOffer(offer.id);
@@ -254,7 +257,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ViewRideOffersScreen()),
+                                                const ViewRideOffersScreen()),
                                       );
                                     },
                                     text: "Remove Ride",
@@ -266,7 +269,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ViewRideOffersScreen()),
+                                                const ViewRideOffersScreen()),
                                       );
                                     },
                                     text: "Select Ride",

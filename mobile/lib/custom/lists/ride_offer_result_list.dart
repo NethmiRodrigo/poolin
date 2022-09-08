@@ -10,8 +10,6 @@ import 'package:mobile/utils/widget_functions.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
 
-import 'package:mobile/models/ride_offer_search_result.dart';
-
 class RideOfferResultList extends StatelessWidget {
   final String type;
 

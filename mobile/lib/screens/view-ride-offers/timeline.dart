@@ -12,7 +12,6 @@ import 'package:mobile/custom/outline_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideOfferTimeline extends StatefulWidget {

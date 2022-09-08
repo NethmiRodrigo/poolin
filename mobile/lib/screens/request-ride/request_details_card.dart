@@ -6,7 +6,6 @@ import 'package:mobile/colors.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/services/ride_request_service.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';

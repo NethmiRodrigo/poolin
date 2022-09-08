@@ -7,7 +7,6 @@ import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/services/ride_request_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -171,7 +170,7 @@ class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ViewRideOffersScreen()),
+                              builder: (context) => const ViewRideOffersScreen()),
                         );
                       }
                     },

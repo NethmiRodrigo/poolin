@@ -1,16 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/ride_offer_search_result.dart';
 import 'package:mobile/models/user_model.dart';
-import 'package:mobile/models/vehicle_type.dart';
 import 'package:mobile/services/interceptor/dio_service.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
-const _storage = FlutterSecureStorage();
 
 final dio = DioService.getService();
 
