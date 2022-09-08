@@ -22,20 +22,7 @@ class RequestConfirmation extends StatelessWidget {
                 padding: sidePadding,
                 child: Column(
                   children: [
-                    addVerticalSpace(size.height * 0.05),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: const Icon(
-                          EvaIcons.arrowBackOutline,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    addVerticalSpace(size.height * 0.12),
+                    addVerticalSpace(size.height * 0.2),
                     Image.asset('assets/images/confirmation-tick.png',
                         width: size.width * 0.5),
                     addVerticalSpace(size.height * 0.05),
@@ -46,7 +33,7 @@ class RequestConfirmation extends StatelessWidget {
                     ),
                     addVerticalSpace(size.height * 0.1),
                     WideButton(
-                      text: 'View my Requests',
+                      text: 'Back to home',
                       onPressedAction: () {
                         Navigator.push(
                           context,

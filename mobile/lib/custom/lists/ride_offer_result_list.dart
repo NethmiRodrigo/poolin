@@ -74,6 +74,7 @@ class RideOfferResultList extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 20,
+                            backgroundColor: BlipColors.lightGrey,
                             foregroundImage: NetworkImage(
                               matchingOffersCubit.state.offers[index].driver.profilePicURL,
                             ),

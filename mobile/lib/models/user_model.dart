@@ -6,7 +6,7 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
-  String? id;
+  int id;
   String firstName;
   String lastName;
   String gender;
@@ -28,7 +28,7 @@ class User {
   DateTime? createdAt;
   DateTime? updatedAt;
   User({
-    this.id,
+    this.id = 0,
     required this.firstName,
     required this.lastName,
     this.gender = 'unknown',
@@ -38,7 +38,8 @@ class User {
     this.vehicleNum = 'ABX 1233',
     this.vehicleType = VehicleType.na,
     this.vehicleModel = 'Unknown',
-    this.profilePicURL = 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg',
+    this.profilePicURL =
+        'https://www.freeiconspng.com/uploads/profile-icon-9.png',
     this.bio,
     this.occupation,
     this.dateOfBirth,
@@ -52,11 +53,13 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json["id"],
         firstName: json["firstname"],
         lastName: json["lastname"],
         gender: json["gender"],
         email: json["email"],
-        profilePicURL: json["profileImageUri"] ?? 'https://img.favpng.com/8/0/5/computer-icons-user-profile-avatar-png-favpng-6jJk1WU2YkTBLjFs4ZwueE8Ub.jpg',
+        profilePicURL: json["profileImageUri"] ??
+            'https://www.freeiconspng.com/uploads/profile-icon-9.png',
         bio: json["bio"],
         occupation: json["occupation"],
         dateOfBirth: json["dateOfBirth"] != null

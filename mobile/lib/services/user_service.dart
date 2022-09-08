@@ -6,7 +6,7 @@ final baseURL = '${dotenv.env['API_URL']}/api/user';
 
 final dio = DioService.getService();
 
-Future<Response> getUser(String id) async {
+Future<Response> getUser(int id) async {
   dio.options.baseUrl = baseURL;
 
   final response = await dio.get('/get/$id');

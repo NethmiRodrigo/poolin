@@ -1,5 +1,5 @@
 class Message {
-  String senderID;
+  int senderID;
   String msg;
   Message({
     required this.senderID,

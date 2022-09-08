@@ -7,6 +7,8 @@ class MatchingOffersCubit extends Cubit<MatchingOffersList> {
       : super(MatchingOffersList(offers: []));
 
       void addOffer(MatchedOffer offer) => emit(state.copyWith(offers: [...state.offers, offer]));
+
+      void clearOffers() => emit(MatchingOffersList(offers: []));
 }
 
 class MatchingOffersList {

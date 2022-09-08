@@ -228,7 +228,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                 child: Column(
                   children: [
-                    UserCard(offer.driver),
+                    UserCard(offer.driver, offer.id),
                     const Divider(
                       color: BlipColors.grey,
                       indent: 8.0,

@@ -38,6 +38,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
     void fetchRideOffers() async {
       setState(() {
         isLoading = true;
+        matchingOffersCubit.clearOffers();
       });
 
       List<MatchedOffer> fetchedOffers =
@@ -61,7 +62,6 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
         onChanged: (date) {},
         onConfirm: (date) {
           reqCubit.setStartTime(date);
-          // setState(() {});
           fetchRideOffers();
         },
         currentTime: reqCubit.state.startTime,
@@ -210,6 +210,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
                     },
                     text: "Proceed",
                   ),
+                  addVerticalSpace(16),
                 ],
               ),
             ),

@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
+import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/services/user_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -12,8 +15,9 @@ import 'package:mobile/utils/widget_functions.dart';
 import '../../../colors.dart';
 
 class DriverProfileScreen extends StatefulWidget {
-  final String driverId;
-  const DriverProfileScreen(this.driverId, {super.key});
+  final int driverId;
+  final int offerId;
+  const DriverProfileScreen(this.driverId, this.offerId, {super.key});
 
   @override
   DriverProfileScreenState createState() {
@@ -46,6 +50,9 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -98,6 +105,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                         children: [
                           CircleAvatar(
                             radius: 60.0,
+                            backgroundColor: BlipColors.lightGrey,
                             backgroundImage: NetworkImage(
                               driver.profilePicURL,
                             ),
@@ -290,11 +298,12 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                     WideButton(
                       text: 'Request to join the ride',
                       onPressedAction: () {
+                        reqCubit.addOffer(widget.offerId);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const RequestConfirmation()),
+                                  const ViewRideOffersScreen()),
                         );
                       },
                     ),

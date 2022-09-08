@@ -107,7 +107,8 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                                 widthFactor: 0.6,
                                 child: CircleAvatar(
                                   radius: 30,
-                                  backgroundImage: NetworkImage(
+                                  backgroundColor: BlipColors.lightGrey,
+                                  foregroundImage: NetworkImage(
                                       matchingOffersCubit.state.offers[index]
                                           .driver.profilePicURL),
                                 ),

@@ -20,7 +20,7 @@ class GroupChat extends StatefulWidget {
 class _GroupChatState extends State<GroupChat> {
   final int tripID = 845136993;
   final User currentUser = User(
-    id: '002',
+    id: 002,
     firstName: 'Yadeesha',
     lastName: 'Weerasinghe',
     gender: 'female',
@@ -30,7 +30,7 @@ class _GroupChatState extends State<GroupChat> {
 
   final List<User> participants = [
     User(
-      id: '001',
+      id: 001,
       firstName: 'Nethmi (You)',
       lastName: 'Pathirana',
       gender: 'female',
@@ -38,7 +38,7 @@ class _GroupChatState extends State<GroupChat> {
       profilePicURL: 'https://i.pravatar.cc/300?img=9',
     ),
     User(
-      id: '002',
+      id: 005,
       firstName: 'Yadeesha',
       lastName: 'Weerasinghe',
       gender: 'female',
@@ -85,7 +85,7 @@ class _GroupChatState extends State<GroupChat> {
     }
   }
 
-  void sendMessage(String senderID, String msg) {
+  void sendMessage(int senderID, String msg) {
     Message newMessage = Message(senderID: senderID, msg: msg);
 
     try {
@@ -210,7 +210,7 @@ class _GroupChatState extends State<GroupChat> {
                                 onPressed: () {
                                   String msg = _messageController.text;
                                   if (msg.isNotEmpty) {
-                                    sendMessage(currentUser.id!, msg);
+                                    sendMessage(currentUser.id, msg);
                                     _messageController.clear();
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();

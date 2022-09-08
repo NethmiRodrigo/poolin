@@ -7,10 +7,13 @@ import 'package:mobile/utils/widget_functions.dart';
 
 class UserCard extends StatelessWidget {
   final User driver;
-  const UserCard(this.driver, {Key? key}) : super(key: key);
+  final int offerId;
+  const UserCard(this.driver, this.offerId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Card(
       color: BlipColors.lightGrey,
       shape: RoundedRectangleBorder(
@@ -27,14 +30,14 @@ class UserCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 30,
+                      backgroundColor: BlipColors.white,
                       foregroundImage: NetworkImage(
                         driver.profilePicURL,
                       ),
                     ),
-                    addHorizontalSpace(8.0),
+                    addHorizontalSpace(size.width * 0.05),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           "${driver.firstName} ${driver.lastName}",
@@ -42,7 +45,6 @@ class UserCard extends StatelessWidget {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const Icon(
                               Icons.star_rounded,
@@ -74,39 +76,32 @@ class UserCard extends StatelessWidget {
                             addHorizontalSpace(5.0),
                             Text(driver.vehicleModel, style: BlipFonts.outline),
                             addHorizontalSpace(70.0),
-                            IconButton(
-                              alignment: Alignment.centerRight,
-                              icon: const Icon(
-                                Icons.chevron_right,
-                                color: BlipColors.grey,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DriverProfileScreen(
-                                          driver.id.toString())),
-                                );
-                              },
-                            )
                           ],
                         )
                       ],
                     ),
                   ],
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     IconButton(
-                //       icon: Icon(
-                //         Icons.chevron_right,
-                //         color: BlipColors.grey,
-                //       ),
-                //       onPressed: () {},
-                //     )
-                //   ],
-                // )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      alignment: Alignment.centerRight,
+                      icon: const Icon(
+                        Icons.chevron_right,
+                        color: BlipColors.grey,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DriverProfileScreen(driver.id, offerId)),
+                        );
+                      },
+                    )
+                  ],
+                )
               ],
             )
           ],

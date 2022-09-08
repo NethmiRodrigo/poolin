@@ -101,7 +101,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
     .leftJoinAndSelect("offer.user", "user")
     .select([
-      "offer.id, offer.userId as driverID, user.firstname, user.lastname,  user.isVerified, user.gender, user.email, user.stars, user.totalRatings, user.bio, user.occupation, user.vehicleType, user.vehicleModel, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
+      "offer.id, offer.userId as driverID, user.firstname, user.lastname,  user.isVerified, user.gender, user.email, user.stars, user.totalRatings, user.vehicleType, user.vehicleModel, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
     ])
     .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: srcGeom,
@@ -164,8 +164,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
         stars: offer.stars,
         totalRatings: offer.totalRatings,
         profileImageUri: offer.profileImageUri,
-        bio: offer.bio,
-        occupation: offer.occupation,
         vehicleType: offer.vehicleType,
         vehicleModel: offer.vehicleModel,
       },
