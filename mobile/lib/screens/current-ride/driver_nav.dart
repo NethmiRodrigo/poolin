@@ -112,7 +112,7 @@ class _DriverNavState extends State<DriverNav> {
   }
 
   Future<void> initSocket() async {
-    String? socketServer = dotenv.env['SOCKET_SERVER'];
+    String? socketServer = dotenv.env['LOCATION_SERVER'];
 
     try {
       socket = IO.io(socketServer, <String, dynamic>{
