@@ -43,7 +43,7 @@ class _GroupChatState extends State<GroupChat> {
         email: 'azma@gamil.com',
         profilePicURL: 'https://i.pravatar.cc/300?img=47'),
   ];
-  TextEditingController _messageController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
   List<Message> messages = [];
   late IO.Socket socket;
 
