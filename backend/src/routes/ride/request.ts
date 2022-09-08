@@ -77,6 +77,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 };
 
 export const getAvailableOffers = async (req: Request, res: Response) => {
+  console.log(req.query);
   const { srcLat, srcLong, destLat, destLong, startTime, window } = req.query;
   const start = {
     type: "Point",
