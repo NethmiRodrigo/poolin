@@ -41,13 +41,13 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(160),
-              Text(
+              const Text(
                 "Forgot Password?",
                 style: BlipFonts.title,
               ),
               addVerticalSpace(16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 48),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
                   'Enter the email address you \nused when you joined and \nwe’ll send you the instructions \nto reset your password',
                   style: BlipFonts.label,
@@ -102,11 +102,12 @@ class ForogtPasswordScreenState extends State<ForgotPasswordScreen> {
                     addVerticalSpace(16),
                     RichText(
                       text: TextSpan(children: [
-                        TextSpan(text: 'Return to ', style: BlipFonts.outline),
+                        const TextSpan(
+                            text: 'Return to ', style: BlipFonts.outline),
                         TextSpan(
                             text: 'Sign in',
-                            style: BlipFonts.outlineBold
-                                .merge(TextStyle(color: BlipColors.orange)),
+                            style: BlipFonts.outlineBold.merge(
+                                const TextStyle(color: BlipColors.orange)),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.push(

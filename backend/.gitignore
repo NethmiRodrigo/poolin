@@ -5,3 +5,5 @@ build/
 tmp/
 temp/
 .env
+logfile
+.DS_Store

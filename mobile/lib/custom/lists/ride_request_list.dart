@@ -26,7 +26,7 @@ class RideRequestList extends StatelessWidget {
             leading: CircleAvatar(
               radius: 20,
               foregroundImage: NetworkImage(
-                requests[index].profilePicture,
+                "https://i.pravatar.cc/150?img=$index",
               ),
             ),
             title: Column(

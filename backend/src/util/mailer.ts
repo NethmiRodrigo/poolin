@@ -9,7 +9,7 @@ dotenv.config();
 const config: SMTPTransport.Options = {
   host: process.env.EMAIL_HOST,
   port: parseInt(<string>process.env.EMAIL_PORT),
-  secure: false,
+  secure: true,
   auth: {
     user: `${process.env.EMAIL_USER}`,
     pass: `${process.env.EMAIL_PASS}`,
@@ -62,8 +62,10 @@ export const sendPlainMail = async (mailOptions: MailOptions): Promise<any> => {
   let result: any;
   return new Promise((resolve, reject) => {
     mailer.sendMail(mailOptions, (err: Error, info: any) => {
-      if (err) reject(err);
-      else {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
         result = info;
         resolve(result);
       }

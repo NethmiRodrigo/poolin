@@ -1,8 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:poolin/cubits/current_user_cubit.dart';
 
 import 'package:poolin/custom/lists/close_friends_list.dart';
 import 'package:poolin/custom/lists/ride_offer_list.dart';
@@ -11,8 +7,8 @@ import 'package:poolin/custom/toggle_to_driver.dart';
 import 'package:poolin/custom/ride_countdown.dart';
 import 'package:poolin/models/friend.dart';
 import 'package:poolin/models/ride_offer.dart';
+import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
-import 'package:poolin/services/auth_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:poolin/fonts.dart';
 import '../../colors.dart';
@@ -26,7 +22,6 @@ class RiderHomeScreen extends StatefulWidget {
 }
 
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
-  final _storage = const FlutterSecureStorage();
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
   late User currentUser = User(
@@ -44,6 +39,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now(),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      profilePicture: 'https://i.pravatar.cc/300?img=1',
     ),
     RideOffer(
       id: '2',
@@ -52,14 +48,16 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      profilePicture: 'https://i.pravatar.cc/300?img=4',
     ),
     RideOffer(
       id: '3',
-      startLocation: 'Negambo town',
-      destination: 'Baththaramulla',
+      startLocation: 'Piliyandala',
+      destination: 'Nugegoda Bus stand',
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
+      profilePicture: 'https://i.pravatar.cc/300?img=3',
     ),
     RideOffer(
       id: '4',
@@ -73,19 +71,19 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   final List<Friend> _friends = [
     Friend(
         id: '1',
-        firstName: 'John',
+        firstName: 'Dulaj',
         lastName: 'Doe',
         profilePicture: 'https://i.pravatar.cc/300?img=4'),
     Friend(
         id: '2',
-        firstName: 'James',
+        firstName: 'Induwara',
         lastName: 'Anderson',
         profilePicture: 'https://i.pravatar.cc/300?img=3'),
     Friend(
         id: '3',
-        firstName: 'Yadeesha',
+        firstName: 'Sarah',
         lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=2'),
+        profilePicture: 'https://i.pravatar.cc/300?img=22'),
     Friend(
         id: '4',
         firstName: 'Nethmi',
@@ -102,17 +100,11 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
         lastName: 'Anderson',
         profilePicture: 'https://i.pravatar.cc/300?img=6'),
   ];
-  bool isRiding = true; //rider is riding if he currently has a ride
+  bool isRiding = false; //rider is riding if he currently has a ride
 
   @override
   void initState() {
     super.initState();
-    _getCurrentUser();
-  }
-
-  Future<void> _getCurrentUser() async {
-    Response res = await getCurrentUser();
-    currentUser = User.fromJson(res.data);
   }
 
   @override
@@ -120,17 +112,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
     const double padding = 16;
     final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-
-    final CurrentUserCubit currentUserCubit =
-        BlocProvider.of<CurrentUserCubit>(context);
-
-    currentUserCubit.setFirstName(currentUser.firstName);
-    currentUserCubit.setLastName(currentUser.lastName);
-    currentUserCubit.setEmail(currentUser.email);
-    currentUserCubit.setGender(currentUser.gender);
-    currentUserCubit.setStars(currentUser.stars);
-    currentUserCubit.setProfilePic(currentUser.profilePicURL);
-    currentUserCubit.setIsVerified(currentUser.isVerified);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -153,7 +134,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                 ? RideCountDown(endTime)
                 : Container(
                     width: size.width,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(0),
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -163,10 +144,20 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          'See who else is travelling your way',
-                          style: BlipFonts.labelBold
-                              .merge(const TextStyle(color: BlipColors.white)),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            bottom: 16,
+                            left: 16,
+                          ),
+                          child: SizedBox(
+                            width: size.width * 0.7,
+                            child: Text(
+                              'See who else is travelling your way',
+                              style: BlipFonts.labelBold.merge(
+                                  const TextStyle(color: BlipColors.white)),
+                            ),
+                          ),
                         ),
                         Container(
                           alignment: Alignment.bottomRight,
@@ -180,7 +171,9 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DestinationScreen(),
+                                    builder: (context) => DestinationScreen(
+                                      rideType: RideType.request,
+                                    ),
                                   ));
                             },
                           ),

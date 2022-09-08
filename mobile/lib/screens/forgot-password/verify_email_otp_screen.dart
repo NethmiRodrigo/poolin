@@ -41,7 +41,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 addVerticalSpace(44),
-                Align(
+                const Align(
                     alignment: Alignment.topLeft,
                     child: Icon(
                       EvaIcons.arrowBackOutline,
@@ -49,12 +49,12 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     )),
                 addVerticalSpace(48),
                 Image.asset('assets/images/otp.png', height: 206),
-                Text(
+                const Text(
                   "Verify it's you",
                   style: BlipFonts.title,
                 ),
                 addVerticalSpace(16),
-                Text(
+                const Text(
                   'We sent a one-time code \nto your email to confirm',
                   style: BlipFonts.label,
                   textAlign: TextAlign.center,
@@ -102,13 +102,13 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
                   alignment: Alignment.topLeft,
                   child: RichText(
                     text: TextSpan(children: [
-                      TextSpan(
+                      const TextSpan(
                           text: "Didn't receive a code? ",
                           style: BlipFonts.outline),
                       TextSpan(
                           text: 'Try Again',
                           style: BlipFonts.outlineBold
-                              .merge(TextStyle(color: BlipColors.orange)),
+                              .merge(const TextStyle(color: BlipColors.orange)),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
                               String? email =

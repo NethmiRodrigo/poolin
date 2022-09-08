@@ -21,9 +21,8 @@ class PassengerRequestList extends StatelessWidget {
             onTap: () {},
             leading: CircleAvatar(
               radius: 20,
-              foregroundImage: NetworkImage(
-                requests[index].profilePicture,
-              ),
+              foregroundImage:
+                  NetworkImage("https://i.pravatar.cc/150?img=$index"),
             ),
             title: Text(
               requests[index].rider,

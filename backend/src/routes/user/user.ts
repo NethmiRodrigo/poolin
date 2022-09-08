@@ -134,11 +134,13 @@ export const getUser = async (req: Request, res: Response) => {
     user.id.toFixed(1)
   );
 
+  delete user.password;
+
   const result = {
     ...user,
     friends,
     mutuals,
-    friend_level: friend_level > 0 && mutuals.length > 0 ? friend_level : 0,
+    friend_level: friend_level,
   };
 
   return res.status(200).json(result);

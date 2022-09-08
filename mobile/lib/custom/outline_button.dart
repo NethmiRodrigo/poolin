@@ -16,7 +16,7 @@ class OutlineButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(

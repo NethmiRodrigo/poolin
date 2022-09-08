@@ -122,7 +122,7 @@ class RideRequestDetailsScreenState extends State<RideRequestDetailsScreen> {
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: const CameraPosition(
                   target: _center,
-                  zoom: 12.0,
+                  zoom: 14.0,
                 ),
                 mapType: _currentMapType,
                 markers: _markers,

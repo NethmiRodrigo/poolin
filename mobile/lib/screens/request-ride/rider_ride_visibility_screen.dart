@@ -1,11 +1,8 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../custom/outline_button.dart';
 import '../../utils/widget_functions.dart';
@@ -39,9 +36,8 @@ class RiderRideVisibilityScreen extends StatefulWidget {
 }
 
 class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
   List<bool> isSelected = [true, false];
-  static List<Faculty> _Faculties = [
+  static final List<Faculty> _faculties = [
     Faculty(id: 1, name: "UCSC"),
     Faculty(id: 2, name: "FMF"),
     Faculty(id: 3, name: "FOL"),
@@ -50,7 +46,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
   ];
   List<Faculty> _selectedFaculties = [];
 
-  static List<Vehicle> _Vehicles = [
+  static final List<Vehicle> _vehicles = [
     Vehicle(id: 1, name: "Car"),
     Vehicle(id: 2, name: "Van"),
     Vehicle(id: 3, name: "Bike"),
@@ -60,7 +56,6 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(
@@ -70,7 +65,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
           child: Column(
             children: [
               addVerticalSpace(44),
-              Align(
+              const Align(
                   alignment: Alignment.topLeft,
                   child: Icon(
                     EvaIcons.arrowBackOutline,
@@ -78,7 +73,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                   )),
               addVerticalSpace(16),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text('Ride Visibility', style: BlipFonts.title),
+                const Text('Ride Visibility', style: BlipFonts.title),
                 OutlineButton(
                   onPressedAction: () {},
                   color: BlipColors.black,
@@ -86,7 +81,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                 )
               ]),
               addVerticalSpace(48),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Contact level",
@@ -108,7 +103,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                 },
               ),
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Price Range",
@@ -116,7 +111,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                 ),
               ),
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Gender",
@@ -163,7 +158,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                 ),
               ),
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Faculty",
@@ -172,14 +167,14 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
               ),
               MultiSelectDialogField(
                 items:
-                    _Faculties.map((e) => MultiSelectItem(e, e.name)).toList(),
+                    _faculties.map((e) => MultiSelectItem(e, e.name)).toList(),
                 listType: MultiSelectListType.CHIP,
                 onConfirm: (List<Faculty> values) {
                   _selectedFaculties = values;
                 },
               ),
               addVerticalSpace(32),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Vehicle type",
@@ -187,9 +182,9 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
                 ),
               ),
               MultiSelectDialogField(
-                title: Text(""),
+                title: const Text(""),
                 items:
-                    _Vehicles.map((e) => MultiSelectItem(e, e.name)).toList(),
+                    _vehicles.map((e) => MultiSelectItem(e, e.name)).toList(),
                 listType: MultiSelectListType.CHIP,
                 onConfirm: (List<Vehicle> values) {
                   _selectedVehicles = values;

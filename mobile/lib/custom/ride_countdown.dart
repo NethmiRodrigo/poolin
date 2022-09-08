@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
 
 import 'package:poolin/colors.dart';
+import 'package:poolin/custom/cards/home_screen_card.dart';
 import 'package:poolin/icons.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/view-ride-requests/view_ride_requests_screen.dart';
@@ -9,7 +10,7 @@ import 'package:poolin/screens/view-ride-requests/view_ride_requests_screen.dart
 class RideCountDown extends StatefulWidget {
   final int endTime;
 
-  RideCountDown(this.endTime);
+  const RideCountDown(this.endTime, {Key? key}) : super(key: key);
 
   @override
   State<RideCountDown> createState() => _RideCountDownState();
@@ -34,10 +35,8 @@ class _RideCountDownState extends State<RideCountDown> {
       controller: controller,
       widgetBuilder: (_, CurrentRemainingTime? time) {
         if (time == null) {
-          return const Text(
-            'Trip in Progress',
-            style: BlipFonts.labelBold,
-          );
+          return HomeScreenCard(
+              text: 'Trip In Progress', route: const ViewRideRequestsScreen());
         }
         return Container(
           width: size.width,
@@ -102,7 +101,8 @@ class _RideCountDownState extends State<RideCountDown> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ViewRideRequestsScreen(),
+                            builder: (context) =>
+                                const ViewRideRequestsScreen(),
                           ));
                     },
                   ),

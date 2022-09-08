@@ -11,6 +11,20 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
           email: '',
         ));
 
+  void setUser(String id, String firstName, String lastName, String gender,
+          String email) =>
+      {
+        emit(state.copyWith(
+            isInitialized: true,
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            gender: gender,
+            email: email))
+      };
+
+  CurrentUser getUser() => state;
+
   void setId(String id) => emit(state.copyWith(id: id));
 
   void setFirstName(String firstName) =>
@@ -56,6 +70,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
 }
 
 class CurrentUser {
+  bool isInitialized = false;
   String id;
   String firstName;
   String lastName;
@@ -84,6 +99,7 @@ class CurrentUser {
     required this.lastName,
     required this.gender,
     required this.email,
+    this.isInitialized = true,
     this.stars = 0.0,
     this.totalRatings = 0,
     this.VehicleNum = '',
@@ -123,8 +139,10 @@ class CurrentUser {
     String? role,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isInitialized,
   }) {
     return CurrentUser(
+      isInitialized: true,
       id: id ?? this.id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,

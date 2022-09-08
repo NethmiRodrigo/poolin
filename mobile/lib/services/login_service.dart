@@ -26,8 +26,6 @@ Future<Response> login(String email, pass) async {
 
     if (!result) {
       print('Could not save cookie');
-    } else {
-      print('Cookie saved');
     }
   }
 

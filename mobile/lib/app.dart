@@ -1,12 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/auth_cubit.dart';
 import 'package:poolin/screens/home/driver_home.dart';
-import 'package:poolin/screens/home/rider_home.dart';
-import 'package:poolin/screens/login/login_screen.dart';
-import 'package:poolin/screens/shared/ride/destination_screen.dart';
+import 'package:poolin/screens/shared/ride/ride_history.dart';
+import 'package:poolin/screens/user/profile/user_profile_screen.dart';
+import 'package:poolin/services/interceptor/is_loggedin.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class App extends StatefulWidget {
@@ -18,13 +19,22 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late PersistentTabController _controller;
-  late bool _hideNavBar;
+  bool _hideNavBar = false;
 
   @override
   void initState() {
     super.initState();
+    checkLoggedIn();
     _controller = PersistentTabController(initialIndex: 0);
-    _hideNavBar = false;
+  }
+
+  checkLoggedIn() async {
+    bool value = await isUserLoggedIn();
+    if (!value) {
+      setState(() {
+        _hideNavBar = true;
+      });
+    }
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -40,11 +50,6 @@ class _AppState extends State<App> {
         inactiveColorPrimary: BlipColors.black,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Ionicons.notifications),
-        activeColorPrimary: BlipColors.orange,
-        inactiveColorPrimary: BlipColors.black,
-      ),
-      PersistentBottomNavBarItem(
         icon: const Icon(FluentIcons.person_20_filled),
         activeColorPrimary: BlipColors.orange,
         inactiveColorPrimary: BlipColors.black,
@@ -55,17 +60,24 @@ class _AppState extends State<App> {
   List<Widget> _buildScreens() {
     return [
       const DriverHomeScreen(),
-      const RiderHomeScreen(),
-      DestinationScreen(),
-      const LoginScreen(),
+      const RideHistory(),
+      const UserProfileScreen(),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PersistentTabView(
+    return BlocConsumer<AuthStateCubit, AuthState>(
+      listener: (context, state) {
+        if (!state.isLoggedIn) {
+          setState(() {
+            _hideNavBar = true;
+          });
+        }
+      },
+      builder: (context, state) => PersistentTabView(
         context,
+        hideNavigationBar: _hideNavBar,
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
@@ -90,7 +102,7 @@ class _AppState extends State<App> {
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
-        navBarStyle: NavBarStyle.style1,
+        navBarStyle: NavBarStyle.style6,
       ),
     );
   }

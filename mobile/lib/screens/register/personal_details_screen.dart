@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/home/driver_home.dart';
 import 'package:poolin/services/register_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
@@ -156,8 +157,12 @@ class PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                             if (!mounted) {
                               return;
                             }
-                            //replace this with navigation to home page
-
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DriverHomeScreen()),
+                            );
                           } else {}
                         }
                       },

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:poolin/services/interceptor/dio_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/auth';
 
@@ -16,4 +17,9 @@ Future<Response> getCurrentUser() async {
   } else {
     throw Exception('Failed to get current user');
   }
+}
+
+void logout() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('cookie');
 }

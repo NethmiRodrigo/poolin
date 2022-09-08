@@ -12,7 +12,6 @@ class CloseFriendsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    const double padding = 16;
 
     return SizedBox(
       height: size.height * 0.12,

@@ -21,6 +21,7 @@
    },
    "dependencies": {
       "@aws-sdk/client-s3": "^3.131.0",
+      "@terraformer/wkt": "^2.1.2",
       "@types/bcrypt": "^5.0.0",
       "@types/cookie": "^0.5.1",
       "@types/cookie-parser": "^1.4.3",
@@ -39,10 +40,12 @@
       "cookie": "^0.5.0",
       "cookie-parser": "^1.4.6",
       "cors": "^2.8.5",
+      "date-fns": "^2.29.1",
       "dotenv": "^16.0.1",
       "express": "^4.18.1",
       "express-async-errors": "^3.1.1",
       "geojson": "^0.5.0",
+      "google-polyline": "^1.0.3",
       "jsonwebtoken": "^8.5.1",
       "multer": "^1.4.5-lts.1",
       "multer-s3": "^3.0.1",
@@ -51,7 +54,9 @@
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
       "typeorm": "0.3.7",
-      "uuidv4": "^6.2.13"
+      "uuidv4": "^6.2.13",
+      "wkt": "^0.1.1",
+      "wkx": "^0.5.0"
    },
    "scripts": {
       "start": "nodemon --exec ts-node src/server.ts",

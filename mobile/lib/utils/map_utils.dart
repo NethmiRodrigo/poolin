@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapUtils {
@@ -19,5 +18,4 @@ class MapUtils {
         northeast: LatLng(x1! + 0.015, y1! + 0.015),
         southwest: LatLng(x0! - 0.015, y0! - 0.015));
   }
-    
 }

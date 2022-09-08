@@ -25,6 +25,7 @@ class RideOfferList extends StatelessWidget {
             onTap: () {},
             leading: CircleAvatar(
               radius: 20,
+              backgroundColor: BlipColors.lightGrey,
               foregroundImage: NetworkImage(
                 offers[index].profilePicture,
               ),

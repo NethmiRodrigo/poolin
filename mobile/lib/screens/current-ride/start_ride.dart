@@ -35,8 +35,8 @@ class _StartRideState extends State<StartRide> {
     gender: 'female',
   );
 
-  final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
-  final LatLng destination = const LatLng(6.9037311247468995, 79.8611484867312);
+  final LatLng startPoint = const LatLng(6.9063474012458, 79.86057108194697);
+  final LatLng destination = const LatLng(6.916662437771989, 79.86387932108144);
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
 
@@ -235,8 +235,10 @@ class _StartRideState extends State<StartRide> {
                   addVerticalSpace(8),
                   RichText(
                     text: TextSpan(children: [
-                      const TextSpan(
-                          text: 'Any problems? ', style: BlipFonts.outline),
+                      TextSpan(
+                          text: 'Any problems? ',
+                          style: BlipFonts.outline
+                              .merge(const TextStyle(color: BlipColors.black))),
                       TextSpan(
                           text: 'Tell the riders',
                           style: BlipFonts.outlineBold

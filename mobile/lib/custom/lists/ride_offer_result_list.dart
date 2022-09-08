@@ -1,7 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:poolin/icons.dart';
 import 'package:poolin/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:poolin/utils/widget_functions.dart';
 

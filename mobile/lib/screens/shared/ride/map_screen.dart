@@ -35,7 +35,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   final _storage = const FlutterSecureStorage();
-  String rideType = RideType.offer.name;
+  String rideType = RideType.request.name;
   late CameraPosition _initalPosition;
   Map<PolylineId, Polyline> polylines = {};
 
@@ -125,7 +125,7 @@ class _MapScreenState extends State<MapScreen> {
         lang: widget.destinationPosition!.geometry!.location!.lng!,
         name: widget.destinationPosition!.name!));
 
-    Set<Marker> _markers = {
+    Set<Marker> markers = {
       Marker(
         markerId: const MarkerId('source'),
         position: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
@@ -166,7 +166,7 @@ class _MapScreenState extends State<MapScreen> {
               height: constraints.maxHeight / 2 * 1,
               child: GoogleMap(
                 initialCameraPosition: _initalPosition,
-                markers: Set.from(_markers),
+                markers: Set.from(markers),
                 polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: (GoogleMapController controller) {
                   Future.delayed(
@@ -174,7 +174,7 @@ class _MapScreenState extends State<MapScreen> {
                     () => controller.animateCamera(
                       CameraUpdate.newLatLngBounds(
                           MapUtils.boundsFromLatLngList(
-                              _markers.map((loc) => loc.position).toList()),
+                              markers.map((loc) => loc.position).toList()),
                           1),
                     ),
                   );

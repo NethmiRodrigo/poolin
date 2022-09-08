@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/request-ride/request_confirmation.dart';
 import 'package:poolin/screens/view-ride-offers/timeline.dart';
 import 'package:poolin/screens/view-ride-offers/user_card.dart';
 import 'package:poolin/utils/widget_functions.dart';
@@ -73,13 +74,20 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                         children: [
                           addHorizontalSpace(8.0),
                           const Text(
-                            "Rs. 350",
+                            "Rs. 250",
                             style: BlipFonts.title,
                           ),
                           addHorizontalSpace(10.0),
                           Expanded(
                             child: WideButton(
-                              onPressedAction: () {},
+                              onPressedAction: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RequestConfirmation()),
+                                );
+                              },
                               text: "Select Ride",
                             ),
                           ),

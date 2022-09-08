@@ -55,7 +55,7 @@ class RegisterScreenState extends State<RegisterScreen> {
               addVerticalSpace(44),
               const Align(
                   alignment: Alignment.topLeft,
-                  child: const Icon(
+                  child: Icon(
                     EvaIcons.arrowBackOutline,
                     color: Colors.black,
                   )),

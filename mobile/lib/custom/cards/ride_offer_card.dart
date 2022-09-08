@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 import 'package:poolin/colors.dart';
@@ -7,15 +8,12 @@ import 'package:poolin/custom/role_tag.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/icons.dart';
 import 'package:poolin/models/ride_offer.dart';
-import 'package:poolin/models/ride_request.dart';
-import 'package:poolin/models/user_model.dart';
-import 'package:poolin/models/vehicle_type.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 class RideOfferCard extends StatelessWidget {
   final RideOffer rideOffer;
 
-  RideOfferCard(this.rideOffer, {Key? key}) : super(key: key);
+  const RideOfferCard(this.rideOffer, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

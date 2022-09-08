@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/view-profile/driver_profile_screen.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 class UserCard extends StatelessWidget {
@@ -25,7 +26,7 @@ class UserCard extends StatelessWidget {
                     const CircleAvatar(
                       radius: 30,
                       foregroundImage: NetworkImage(
-                        'https://i.pravatar.cc/300',
+                        'https://i.pravatar.cc/300?img=2',
                       ),
                     ),
                     addHorizontalSpace(8.0),
@@ -56,16 +57,11 @@ class UserCard extends StatelessWidget {
                             ),
                             addHorizontalSpace(8.0),
                             const Text(
-                              "25 Ratings",
+                              "250 Ratings",
                               style: BlipFonts.tagline,
                             )
                           ],
                         ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Column(
-                      children: [
                         Row(
                           children: [
                             const Icon(
@@ -73,22 +69,42 @@ class UserCard extends StatelessWidget {
                               color: BlipColors.grey,
                             ),
                             addHorizontalSpace(5.0),
-                            const Text("Nissan Sedan", style: BlipFonts.outline)
+                            const Text("Lexus Primio",
+                                style: BlipFonts.outline),
+                            addHorizontalSpace(70.0),
+                            IconButton(
+                              alignment: Alignment.centerRight,
+                              icon: const Icon(
+                                Icons.chevron_right,
+                                color: BlipColors.grey,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DriverProfileScreen()),
+                                );
+                              },
+                            )
                           ],
-                        ),
+                        )
                       ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Icon(
-                      Icons.chevron_right,
-                      color: BlipColors.grey,
-                    )
-                  ],
-                )
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     IconButton(
+                //       icon: Icon(
+                //         Icons.chevron_right,
+                //         color: BlipColors.grey,
+                //       ),
+                //       onPressed: () {},
+                //     )
+                //   ],
+                // )
               ],
             )
           ],

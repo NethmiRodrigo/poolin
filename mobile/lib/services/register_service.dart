@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:poolin/models/user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:poolin/services/interceptor/dio_service.dart';
+import 'package:poolin/services/interceptor/save_cookie.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/auth';
 
@@ -21,7 +22,6 @@ Future<Response> register(
   dio.options.baseUrl = baseURL;
 
   final response = await dio.post('/verify-credentials', data: data);
-  print(response.data);
 
   return response;
 }
@@ -43,6 +43,17 @@ Future<Response> checkSMSOTP(String otp, String mobile, String email) async {
 
   final response = await dio.post('/verify-sms-otp', data: data);
 
+  final cookies = response.headers.map['set-cookie'];
+  if (cookies!.isNotEmpty) {
+    final authToken = cookies[0].split(';')[0].split('=')[1];
+
+    bool result = await saveCookie(authToken);
+
+    if (!result) {
+      print('Could not save cookie');
+    }
+  }
+
   return response;
 }
 
@@ -52,8 +63,6 @@ Future<Response> submitPhoneNumber(String number, String email) async {
   dio.options.baseUrl = baseURL;
 
   final response = await dio.post('/verify-mobile-num', data: data);
-
-  print(response.data);
 
   return response;
 }
