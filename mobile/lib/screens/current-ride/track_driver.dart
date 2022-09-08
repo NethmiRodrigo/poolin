@@ -84,7 +84,7 @@ class _TrackDriverState extends State<TrackDriver> {
   }
 
   Future<void> initSocket() async {
-    String? socketServer = dotenv.env['SOCKET_SERVER'];
+    String? socketServer = dotenv.env['LOCATION_SERVER'];
 
     try {
       socket = io.io(socketServer, <String, dynamic>{
