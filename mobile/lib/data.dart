@@ -22,7 +22,8 @@ class TestData {
           stars: 4.5,
           totalRatings: 250,
           VehicleNum: 'ABC0988',
-          vehicleType: VehicleType.car));
+          vehicleType: VehicleType.car),
+      profilePicture: 'https://i.pravatar.cc/300?img=1');
 
   static RideOffer testRideOffer = RideOffer(
       id: '00001',
@@ -35,45 +36,47 @@ class TestData {
       totalEarnings: 2500,
       requests: [
         RideRequest(
-          id: '1',
-          rideID: '00001',
-          pickupLocation: 'No 27, Suwarapola, Piliyandala',
-          dropoffLocation: 'University of Colombo School of Computing',
-          pickupTime: DateTime.now().add(const Duration(hours: 3, minutes: 15)),
-          dropoffTime:
-              DateTime.now().add(const Duration(hours: 3, minutes: 45)),
-          totalDistance: 10,
-          rideFare: 1500,
-          requestedOn: DateTime.now().subtract(const Duration(hours: 1)),
-          driver: User(
-            firstName: 'Yadeesha',
-            lastName: 'Weerasinghe',
-            gender: 'female',
-            email: 'yadeesha@gmail.com',
-            stars: 4.2,
-            totalRatings: 250,
-          ),
-        ),
+            id: '1',
+            rideID: '00001',
+            pickupLocation: 'No 27, Suwarapola, Piliyandala',
+            dropoffLocation: 'University of Colombo School of Computing',
+            pickupTime:
+                DateTime.now().add(const Duration(hours: 3, minutes: 15)),
+            dropoffTime:
+                DateTime.now().add(const Duration(hours: 3, minutes: 45)),
+            totalDistance: 10,
+            rideFare: 1500,
+            requestedOn: DateTime.now().subtract(const Duration(hours: 1)),
+            driver: User(
+              firstName: 'Yadeesha',
+              lastName: 'Weerasinghe',
+              gender: 'female',
+              email: 'yadeesha@gmail.com',
+              stars: 4.2,
+              totalRatings: 250,
+            ),
+            profilePicture: 'https://i.pravatar.cc/300?img=1'),
         RideRequest(
-          id: '1',
-          rideID: '00001',
-          pickupLocation: 'No 27, Suwarapola, Piliyandala',
-          dropoffLocation: 'University of Colombo School of Computing',
-          pickupTime: DateTime.now().add(const Duration(hours: 3, minutes: 15)),
-          dropoffTime:
-              DateTime.now().add(const Duration(hours: 3, minutes: 45)),
-          totalDistance: 10,
-          rideFare: 1500,
-          requestedOn: DateTime.now().subtract(const Duration(hours: 1)),
-          driver: User(
-            firstName: 'Nethmi',
-            lastName: 'pathirana',
-            gender: 'female',
-            email: 'yadeesha@gmail.com',
-            stars: 4.5,
-            totalRatings: 250,
-          ),
-        ),
+            id: '1',
+            rideID: '00001',
+            pickupLocation: 'No 27, Suwarapola, Piliyandala',
+            dropoffLocation: 'University of Colombo School of Computing',
+            pickupTime:
+                DateTime.now().add(const Duration(hours: 3, minutes: 15)),
+            dropoffTime:
+                DateTime.now().add(const Duration(hours: 3, minutes: 45)),
+            totalDistance: 10,
+            rideFare: 1500,
+            requestedOn: DateTime.now().subtract(const Duration(hours: 1)),
+            driver: User(
+              firstName: 'Nethmi',
+              lastName: 'pathirana',
+              gender: 'female',
+              email: 'yadeesha@gmail.com',
+              stars: 4.5,
+              totalRatings: 250,
+            ),
+            profilePicture: 'https://i.pravatar.cc/300?img=1'),
       ]);
 
   static List<RideRequest> testRideRequestsList = [

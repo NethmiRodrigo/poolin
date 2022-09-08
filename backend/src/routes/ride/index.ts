@@ -1,7 +1,5 @@
 import { Router } from "express";
 
-
-
 /** Routes */
 import {
   getActiveOffer,
@@ -11,6 +9,7 @@ import {
   postRideOffer,
 } from "./offer";
 import {
+  acceptRequest,
   getActiveRequest,
   getAvailableOffers,
   getRequestDetails,
@@ -28,7 +27,7 @@ router.get("/get/offer/party/:id", getConfirmedRequests);
 router.get("/request", getActiveRequest);
 router.post("/post-requests", postRideRequests);
 router.get("/get/request/:id", getRequestDetails);
+router.post("/request/accept", acceptRequest);
 router.get("/get/matching-requests", getAvailableOffers);
-
 
 export default router;

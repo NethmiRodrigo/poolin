@@ -1,4 +1,3 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/lists/cancelled_rides_list.dart';
@@ -37,15 +36,7 @@ class _RideHistoryState extends State<RideHistory> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          addVerticalSpace(size.height * 0.05),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Icon(
-              EvaIcons.arrowBackOutline,
-              color: Colors.black,
-            ),
-          ),
-          addVerticalSpace(size.height * 0.02),
+          addVerticalSpace(size.height * 0.07),
           const Text(
             'Ride History',
             style: BlipFonts.title,

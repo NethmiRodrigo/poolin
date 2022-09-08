@@ -1,8 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/custom/backward_button.dart';
 import 'package:mobile/custom/timeline.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/chat/group_chat.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 import '../../../colors.dart';
@@ -24,6 +26,11 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: const BackwardButton(),
+      ),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -32,53 +39,39 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(24),
-              Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              addVerticalSpace(16),
-              Text(
+              const Text(
                 "You're going to \nColombo!",
                 style: BlipFonts.display,
               ),
               addVerticalSpace(16),
-              Text(
+              const Text(
                 "Your Trip",
                 style: BlipFonts.heading,
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "Monday, 23rd June",
                     style: BlipFonts.label,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   TextButton(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 6),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: BlipColors.orange,
                       ),
                       child: Text(("7:30AM").toUpperCase(),
                           style: BlipFonts.outlineBold
-                              .merge(TextStyle(color: BlipColors.white))),
+                              .merge(const TextStyle(color: BlipColors.white))),
                     ),
                     onPressed: () {},
                   )
                 ],
               ),
-              addVerticalSpace(12),
-              Container(
+              SizedBox(
                   height: 200,
                   child: Scrollbar(
                     thumbVisibility: true,
@@ -109,13 +102,13 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                             ),
                           ],
                           children: <Widget>[
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
-                                    children: [
+                                    children: const [
                                       Text('No.20, Borelasgamuwa',
                                           style: BlipFonts.labelBold),
                                       Spacer(),
@@ -125,7 +118,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                 ],
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -138,21 +131,22 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text('No.20, Borelasgamuwa',
+                                          const Text('No.20, Borelasgamuwa',
                                               style: BlipFonts.label),
-                                          Text('Pick up Sarah',
+                                          const Text('Pick up Sarah',
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-                                      Spacer(),
-                                      Text('7:30 AM', style: BlipFonts.outline),
+                                      const Spacer(),
+                                      const Text('7:30 AM',
+                                          style: BlipFonts.outline),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -165,21 +159,22 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text('No.20, Thunmulla',
+                                          const Text('No.20, Thunmulla',
                                               style: BlipFonts.label),
-                                          Text('Drop off Sarah',
+                                          const Text('Drop off Sarah',
                                               style: BlipFonts.outline),
                                           addVerticalSpace(4),
                                         ],
                                       ),
-                                      Spacer(),
-                                      Text('7:30 AM', style: BlipFonts.outline),
+                                      const Spacer(),
+                                      const Text('7:30 AM',
+                                          style: BlipFonts.outline),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               height: 60,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -187,7 +182,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
+                                    children: const [
                                       Text(
                                           'University of Colombo\nSchool of Computing',
                                           style: BlipFonts.labelBold),
@@ -206,19 +201,28 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
               addVerticalSpace(32),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "The Party",
                     style: BlipFonts.heading,
                   ),
-                  Spacer(),
-                  CircleAvatar(
-                      radius: 16.0,
-                      backgroundColor: BlipColors.black,
-                      child: Icon(
-                        EvaIcons.messageSquareOutline,
-                        color: BlipColors.white,
-                        size: 14.0,
-                      )),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GroupChat()),
+                      );
+                    },
+                    child: const CircleAvatar(
+                        radius: 16.0,
+                        backgroundColor: BlipColors.black,
+                        child: Icon(
+                          EvaIcons.messageSquareOutline,
+                          color: BlipColors.white,
+                          size: 14.0,
+                        )),
+                  ),
                 ],
               ),
               addVerticalSpace(16),
@@ -226,7 +230,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       CircleAvatar(
                         radius: 40.0,
                         backgroundImage: AssetImage('assets/images/user.jpg'),
@@ -243,7 +247,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   ),
                   addHorizontalSpace(20),
                   addVerticalSpace(24),
-                  Container(
+                  SizedBox(
                     height: 100,
                     width: 220,
                     child: ListView(
@@ -252,7 +256,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                       shrinkWrap: true,
                       children: <Widget>[
                         Column(
-                          children: [
+                          children: const [
                             CircleAvatar(
                               radius: 30.0,
                               backgroundImage:
@@ -266,7 +270,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         ),
                         addHorizontalSpace(16),
                         Column(
-                          children: [
+                          children: const [
                             CircleAvatar(
                               radius: 30.0,
                               backgroundImage:
@@ -280,7 +284,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         ),
                         addHorizontalSpace(16),
                         Column(
-                          children: [
+                          children: const [
                             CircleAvatar(
                               radius: 30.0,
                               backgroundImage:
@@ -294,7 +298,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         ),
                         addHorizontalSpace(16),
                         Column(
-                          children: [
+                          children: const [
                             CircleAvatar(
                               radius: 30.0,
                               backgroundImage:
@@ -308,7 +312,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                         ),
                         addHorizontalSpace(16),
                         Column(
-                          children: [
+                          children: const [
                             CircleAvatar(
                               radius: 30.0,
                               backgroundImage:

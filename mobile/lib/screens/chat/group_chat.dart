@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -20,7 +21,7 @@ class GroupChat extends StatefulWidget {
 class _GroupChatState extends State<GroupChat> {
   final int tripID = 845136993;
   final User currentUser = User(
-      id: '002',
+      id: 1,
       firstName: 'Yadeesha',
       lastName: 'Weerasinghe',
       gender: 'female',
@@ -29,14 +30,14 @@ class _GroupChatState extends State<GroupChat> {
 
   final List<User> participants = [
     User(
-        id: '001',
+        id: 2,
         firstName: 'Nethmi',
         lastName: 'Pathirana',
         gender: 'female',
         email: 'neth@gamil.com',
         profilePicURL: 'https://i.pravatar.cc/300?img=9'),
     User(
-        id: '003',
+        id: 3,
         firstName: 'Azma',
         lastName: 'Imtiaz',
         gender: 'female',
@@ -113,7 +114,20 @@ class _GroupChatState extends State<GroupChat> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(24),
+              addVerticalSpace(20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              addVerticalSpace(16),
               Text('Trip ID - $tripID', style: BlipFonts.heading),
               SizedBox(
                 height: size.height * 0.12,
@@ -197,7 +211,8 @@ class _GroupChatState extends State<GroupChat> {
                                 onPressed: () {
                                   String msg = _messageController.text;
                                   if (msg.isNotEmpty) {
-                                    sendMessage(currentUser.id!, msg);
+                                    sendMessage(
+                                        currentUser.id!.toString(), msg);
                                     _messageController.clear();
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile/services/interceptor/dio_service.dart';
-
+import 'package:mobile/services/interceptor/save_cookie.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/auth';
 
@@ -43,6 +43,19 @@ Future<Response> checkSMSOTP(String otp, String mobile, String email) async {
   dio.options.baseUrl = baseURL;
 
   final response = await dio.post('/verify-sms-otp', data: data);
+
+  final cookies = response.headers.map['set-cookie'];
+  if (cookies!.isNotEmpty) {
+    final authToken = cookies[0].split(';')[0].split('=')[1];
+
+    bool result = await saveCookie(authToken);
+
+    if (!result) {
+      print('Could not save cookie');
+    } else {
+      print('Cookie saved');
+    }
+  }
 
   return response;
 }

@@ -13,7 +13,7 @@ class RideOffer {
   RideType type = RideType.offer;
   String startLocation;
   String destination;
-  String profilePicture = 'https://i.pravatar.cc/300';
+  String profilePicture;
   double totalDistance;
   double perKmPrice;
   double totalEarnings;
@@ -31,6 +31,7 @@ class RideOffer {
     required this.estimatedArrivalTime,
     List<RideRequest>? requests,
     this.totalDistance = 0.0,
+    this.profilePicture  = 'https://i.pravatar.cc/300',
     this.perKmPrice = 0.0,
     this.totalEarnings = 0.0,
   }) : requests = requests ?? [];

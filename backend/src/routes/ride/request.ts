@@ -7,6 +7,8 @@ import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
+import { AppDataSource } from "../../data-source";
+import { AppError } from "../../util/error-handler";
 import { parseJSON, subMinutes, addMinutes } from "date-fns";
 import { getOSRMDuration } from "../../middleware/osrmduration";
 
@@ -47,7 +49,7 @@ export const postRideRequests = async (req: Request, res: Response) => {
     await requestToOffer.save();
   });
 
-  return res.status(200).json({ success: "Ride Offer posted successfully" });
+  return res.status(200).json({ success: "Ride Requests posted successfully" });
 };
 
 export const getActiveRequest = async (req: Request, res: Response) => {
@@ -188,7 +190,7 @@ export const getRequestDetails = async (req: Request, res: Response) => {
 
   const request = await RideRequest.createQueryBuilder("request")
     //join happens as property of parent
-    .leftJoinAndSelect("offer.requestsToOffer", "rto")
+    .leftJoinAndSelect("request.requestToOffers", "rto")
     .where("request.id = :id", { id: +id })
     .leftJoinAndSelect("request.user", "user")
     .select([
@@ -198,12 +200,51 @@ export const getRequestDetails = async (req: Request, res: Response) => {
       "user.profileImageUri as avatar",
       "request.from AS pickup",
       "request.to AS dropOff",
-      "request.startTime AS startTime",
+      "request.departureTime AS startTime",
       "request.updatedAt AS updatedAt",
+      "rto.price AS price",
     ])
-    .getRawMany();
+    .getRawOne();
 
   return res
     .status(200)
     .json({ success: "Ride Request fetched successfully", request });
+};
+
+export const acceptRequest = async (req: Request, res: Response) => {
+  const { request, offer } = req.body;
+
+  const requestRepository = AppDataSource.getRepository(RequestToOffer);
+
+  const response = await requestRepository.findOne({
+    relations: { request: true, offer: true },
+    where: { request: { id: request }, offer: { id: offer } },
+  });
+
+  if (!response) throw new AppError(500, { error: "Could not find request" });
+
+  if (response) {
+    response.isAccepted = true;
+    await response.save();
+
+    const offerObj: RideOffer = await RideOffer.findOne({
+      where: { id: offer },
+    });
+
+    if (offerObj.seats <= 0) {
+      throw new AppError(500, { error: "Seats are all full" });
+    }
+
+    offerObj.seats = offerObj.seats - 1;
+    if (offerObj.seats == 0) offerObj.status = "booked";
+    offerObj.save();
+
+    const requestObject: RideRequest = await RideRequest.findOne({
+      where: { id: request },
+    });
+    requestObject.status = "confirmed";
+    await requestObject.save();
+  }
+
+  return res.status(200).json({ message: "Request accepted successfully" });
 };

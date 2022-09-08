@@ -4,17 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/app.dart';
-// import 'package:http/http.dart';
+import 'package:mobile/cubits/auth_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
-import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/screens/home/rider_home.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:convert';
 
 import '../../colors.dart';
 import '../../fonts.dart';
@@ -40,6 +37,7 @@ class LoginScreenState extends State<LoginScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    AuthStateCubit authState = BlocProvider.of<AuthStateCubit>(context);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -52,12 +50,6 @@ class LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: const Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
               addVerticalSpace(48),
               Image.asset('assets/images/logo.png', height: 24),
               const Text(
@@ -136,12 +128,11 @@ class LoginScreenState extends State<LoginScreen> {
                               if (!mounted) {
                                 return;
                               }
-
+                              authState.setLoggedIn(true);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const App()),
-                                // const DriverHomeScreen()),
                               );
                             } else {}
                           }

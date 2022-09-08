@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobile/fonts.dart';
@@ -57,9 +58,18 @@ class DestinationScreenState extends State<DestinationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(EvaIcons.arrowBackOutline, color: Colors.black)),
+              Align(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
               Align(
                 alignment: Alignment.topRight,
                 child: AnimatedToggleSwitch<bool>.dual(
@@ -167,11 +177,13 @@ class DestinationScreenState extends State<DestinationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'University of Colombo',
+
+                              'Ladies\' College',
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
+
                             Text(
-                              '206/A, Reid Avenue, Colombo 07',
+                              '66 Sir Ernest de Silva Mawatha, Colombo 7',
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ],
