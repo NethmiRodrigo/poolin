@@ -1,14 +1,19 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/custom/backward_button.dart';
 
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
 import 'package:mobile/screens/view-ride-requests/accept_request_confirmation_screen.dart';
+import 'package:mobile/services/ride_offer_service.dart';
+import 'package:mobile/services/ride_request_service.dart';
 
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -34,25 +39,14 @@ class ReserveRequestScreen extends StatefulWidget {
 }
 
 class ReserveRequestScreenState extends State<ReserveRequestScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _pass = TextEditingController();
-  final TextEditingController _confirmPass = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
+  Map<String, dynamic> requestDetails = {};
 
   static const LatLng _center = LatLng(6.9271, 79.8612);
 
   final Set<Marker> _markers = {};
-
-  LatLng _lastMapPosition = _center;
-
-  final MapType _currentMapType = MapType.normal;
-
-  void _onCameraMove(CameraPosition position) {
-    _lastMapPosition = position.target;
-  }
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -62,24 +56,34 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
   void initState() {
     String? apiKey = dotenv.env['MAPS_API_KEY'];
     googlePlace = GooglePlace(apiKey!);
+    getRequest();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _email.dispose();
-    _pass.dispose();
-    _confirmPass.dispose();
-    super.dispose();
+  void getRequest() async {
+    var id = widget.request["requestid"];
+    Response response = await getRequestDetails(id);
+    if (response.data['request'] != null) {
+      setState(() {
+        requestDetails = response.data['request'];
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    ActiveRideCubit offerCubit = BlocProvider.of<ActiveRideCubit>(context);
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    ActiveRideCubit activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: const BackwardButton(),
+      ),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -88,10 +92,6 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              addVerticalSpace(44),
-              // Text(widget.request["fname"]),
-              const BackwardButton(),
-              addVerticalSpace(16),
               const Text(
                 'Reservation Request',
                 style: BlipFonts.title,
@@ -107,9 +107,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                       target: _center,
                       zoom: 12.0,
                     ),
-                    mapType: _currentMapType,
                     markers: _markers,
-                    onCameraMove: _onCameraMove,
                   ),
                 ),
               ),
@@ -117,7 +115,8 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  Jiffy(widget.request["date"]).format("EEEE, do MMMM, yyyy"),
+                  Jiffy(requestDetails['starttime'])
+                      .format("EEEE, do MMMM, yyyy"),
                   style: BlipFonts.outline,
                 ),
               ),
@@ -127,9 +126,10 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 children: [
                   Column(
                     children: [
-                      const Text("12.40 AM", style: BlipFonts.outlineBold),
+                      Text(Jiffy(requestDetails['starttime']).format("hh:mm a"),
+                          style: BlipFonts.outlineBold),
                       addVerticalSpace(32),
-                      const Text("12.50 AM", style: BlipFonts.outlineBold),
+                      const Text("12.30 AM", style: BlipFonts.outlineBold),
                     ],
                   ),
                   Column(
@@ -174,14 +174,14 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                         addVerticalSpace(16),
                         Row(
                           children: [
-                            const Text(
-                              "Rs. 5500",
+                            Text(
+                              'Rs. ${activeRideCubit.getPrice().toString()}',
                               style: BlipFonts.labelBold,
                             ),
                             addHorizontalSpace(8),
                             Indicator(
                                 icon: Icons.arrow_upward,
-                                text: "+ Rs. " + widget.request["price"],
+                                text: '+ Rs. ${requestDetails["price"]}',
                                 color: BlipColors.green),
                           ],
                         ),
@@ -196,8 +196,8 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                         addVerticalSpace(16),
                         Row(
                           children: [
-                            const Text(
-                              "0",
+                            Text(
+                              activeRideCubit.getSeats().toString(),
                               style: BlipFonts.labelBold,
                             ),
                             addHorizontalSpace(8),
@@ -267,7 +267,9 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RiderProfileScreen()),
+                          builder: (context) =>
+                              RiderProfileScreen(id: requestDetails['id']),
+                        ),
                       );
                     },
                     text: "See Profile",
@@ -278,7 +280,9 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
               addVerticalSpace(40),
               WideButton(
                   text: 'Reserve a Seat',
-                  onPressedAction: () {
+                  onPressedAction: () async {
+                    Response postResponse = await acceptRequest(
+                        offerCubit.getId(), widget.request['requestid']);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { In } from "typeorm";
+import { AppDataSource } from "../../data-source";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
@@ -59,28 +61,24 @@ export const getOfferDetails = async (req: Request, res: Response) => {
 };
 
 export const getActiveOffer = async (req: Request, res: Response) => {
-  const email = req.query.email;
-
-  const user = await User.findOne({ where: { email: email as string } });
+  const user: User = res.locals.user;
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
 
-  const offer = await RideOffer.createQueryBuilder("offer")
-    .leftJoinAndSelect("offer.user", "user")
-    .where("offer.status IN ('active','booked')")
-    .andWhere("user.email = :email", { email: email as string })
-    .select(["offer.id AS id"])
-    .getRawOne();
+  const rideRepository = AppDataSource.getRepository(RideOffer);
 
-  if (!offer) {
-    return res.status(404).json({ error: "No active offer" });
+  const response = await rideRepository.findOne({
+    relations: { user: true, requestsToOffer: true },
+    where: { user: { email: user.email }, status: In(["active", "booked"]) },
+  });
+
+  if (!response) {
+    return res.status(200).json({ error: "No active offer", offer: null });
   }
 
-  return res
-    .status(200)
-    .json({ success: "Ride Offer fetched successfully", offer });
+  return res.status(200).json({ offer: response });
 };
 
 export const getOfferRequests = async (req: Request, res: Response) => {
@@ -123,9 +121,11 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     .select([
       "user.firstname AS fname",
       "user.lastname AS lname",
+      "user.id as user_id",
       "user.profileImageUri as avatar",
       "rideRequest.from AS pickup",
       "rideRequest.departureTime AS startTime",
+      "request.price AS price",
     ])
     .getRawMany();
 

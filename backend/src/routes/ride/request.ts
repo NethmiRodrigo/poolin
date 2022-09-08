@@ -7,9 +7,10 @@ import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
-import { parseJSON, subMinutes, addMinutes } from "date-fns";
+import { subMinutes, addMinutes } from "date-fns";
 import { getOSRMDuration } from "../../middleware/osrmduration";
 import { AppDataSource } from "../../data-source";
+import { AppError } from "../../util/error-handler";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { userID, offers, src, dest, startTime, window, distance, price } =
@@ -201,42 +202,49 @@ export const getRequestDetails = async (req: Request, res: Response) => {
       "request.to AS dropOff",
       "request.departureTime AS startTime",
       "request.updatedAt AS updatedAt",
+      "rto.price AS price",
     ])
-    .getRawMany();
+    .getRawOne();
 
   return res
     .status(200)
     .json({ success: "Ride Request fetched successfully", request });
 };
 
-export const acceptRequests = async (req: Request, res: Response) => {
-  const { requests, offer } = req.body;
+export const acceptRequest = async (req: Request, res: Response) => {
+  const { request, offer } = req.body;
 
   const requestRepository = AppDataSource.getRepository(RequestToOffer);
 
-  let result = [];
-  let requestPromises = [];
-  requests.map((request_id) => {
-    requestPromises.push(
-      requestRepository.find({
-        relations: { request: true, offer: true },
-        where: {
-          request: {
-            id: +request_id,
-          },
-          offer: {
-            id: +offer,
-          },
-        },
-      })
-    );
-  });
-  const requestValues = await Promise.all(requestPromises);
-  requestValues.map((request: RideRequest) => {
-    if (request) console.log(request.requestToOffers);
+  const response = await requestRepository.findOne({
+    relations: { request: true, offer: true },
+    where: { request: { id: request }, offer: { id: offer } },
   });
 
-  console.log("result", requestValues);
+  if (!response) throw new AppError(500, { error: "Could not find request" });
 
-  return res.status(200).json(result);
+  if (response) {
+    response.isAccepted = true;
+    await response.save();
+
+    const offerObj: RideOffer = await RideOffer.findOne({
+      where: { id: offer },
+    });
+
+    if (offerObj.seats <= 0) {
+      throw new AppError(500, { error: "Seats are all full" });
+    }
+
+    offerObj.seats = offerObj.seats - 1;
+    if (offerObj.seats == 0) offerObj.status = "booked";
+    offerObj.save();
+
+    const requestObject: RideRequest = await RideRequest.findOne({
+      where: { id: request },
+    });
+    requestObject.status = "confirmed";
+    await requestObject.save();
+  }
+
+  return res.status(200).json({ message: "Request accepted successfully" });
 };

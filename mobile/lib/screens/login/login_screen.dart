@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/app.dart';
+import 'package:mobile/cubits/auth_cubit.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
 import 'package:mobile/services/login_service.dart';
@@ -33,6 +35,7 @@ class LoginScreenState extends State<LoginScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    AuthStateCubit authState = BlocProvider.of<AuthStateCubit>(context);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -45,13 +48,6 @@ class LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
-              addVerticalSpace(48),
               Image.asset('assets/images/logo.png', height: 24),
               const Text(
                 "Let's sign \nyou back in",
@@ -129,12 +125,11 @@ class LoginScreenState extends State<LoginScreen> {
                               if (!mounted) {
                                 return;
                               }
-
+                              authState.setLoggedIn(true);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const App()),
-                                // const DriverHomeScreen()),
                               );
                             } else {}
                           }

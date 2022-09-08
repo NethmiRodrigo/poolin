@@ -158,7 +158,9 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DestinationScreen(rideType: RideType.request,),
+                                    builder: (context) => DestinationScreen(
+                                      rideType: RideType.request,
+                                    ),
                                   ));
                             },
                           ),

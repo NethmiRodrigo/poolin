@@ -1,7 +1,12 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/custom/lists/cancelled_rides_list.dart';
+import 'package:mobile/custom/lists/completed_rides_list.dart';
+import 'package:mobile/custom/lists/upcoming_rides_list.dart';
+import 'package:mobile/data.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/models/ride_offer.dart';
+import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideHistory extends StatefulWidget {
@@ -12,12 +17,12 @@ class RideHistory extends StatefulWidget {
 }
 
 class _RideHistoryState extends State<RideHistory> {
-  // final RideRequest sampleRideRequest = TestData.testRideRequest;
-  // final RideOffer sampleRideOffer = TestData.testRideOffer;
+  final RideRequest sampleRideRequest = TestData.testRideRequest;
+  final RideOffer sampleRideOffer = TestData.testRideOffer;
 
-  // final List<RideRequest> sampleRideRequestsList =
-  //     TestData.testRideRequestsList;
-  // final List<RideOffer> sampleRideOffersList = TestData.testRideOffersList;
+  final List<RideRequest> sampleRideRequestsList =
+      TestData.testRideRequestsList;
+  final List<RideOffer> sampleRideOffersList = TestData.testRideOffersList;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +36,7 @@ class _RideHistoryState extends State<RideHistory> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          addVerticalSpace(size.height * 0.05),
-          const Align(
-            alignment: Alignment.topLeft,
-            child: Icon(
-              EvaIcons.arrowBackOutline,
-              color: Colors.black,
-            ),
-          ),
-          addVerticalSpace(size.height * 0.02),
+          addVerticalSpace(size.height * 0.07),
           const Text(
             'Ride History',
             style: BlipFonts.title,
@@ -69,11 +66,11 @@ class _RideHistoryState extends State<RideHistory> {
                               BorderSide(color: BlipColors.black, width: 1.0))),
                   child: TabBarView(
                     children: [
-                      // UpcomingRidesList(sampleRideRequest, sampleRideOffer),
-                      // CompletedRidesList(
-                      //     sampleRideRequestsList, sampleRideOffersList),
-                      // CancelledRidesList(
-                      //     sampleRideRequestsList, sampleRideOffersList),
+                      UpcomingRidesList(sampleRideRequest, sampleRideOffer),
+                      CompletedRidesList(
+                          sampleRideRequestsList, sampleRideOffersList),
+                      CancelledRidesList(
+                          sampleRideRequestsList, sampleRideOffersList),
                     ],
                   ),
                 ),

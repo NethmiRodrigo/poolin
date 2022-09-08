@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/auth_cubit.dart';
+import 'package:mobile/cubits/current_user_cubit.dart';
+import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
+import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -45,9 +50,11 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUserCubit currentUser = BlocProvider.of<CurrentUserCubit>(context);
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    AuthStateCubit authState = BlocProvider.of<AuthStateCubit>(context);
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -102,7 +109,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  'Natalia shefnier',
+                  "${currentUser.getUser().firstName} ${currentUser.getUser().lastName}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!
@@ -124,19 +131,13 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                   icon2: Icons.arrow_forward_ios),
               addVerticalSpace(16),
               buildButton(
-                  title: 'Ride History',
-                  icon: FontAwesomeIcons.clockRotateLeft,
-                  onClicked: () => {},
-                  icon2: Icons.arrow_forward_ios),
-              addVerticalSpace(16),
-              buildButton(
                   title: 'Close Friends',
                   icon: FontAwesomeIcons.userGroup,
                   onClicked: () => {},
                   icon2: Icons.arrow_forward_ios),
               addVerticalSpace(16),
               buildButton(
-                  title: 'Friend Request',
+                  title: 'Friend Requests',
                   icon: FontAwesomeIcons.userPlus,
                   onClicked: () => {},
                   icon2: Icons.arrow_forward_ios),
@@ -156,7 +157,15 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               buildButton(
                   title: 'Log Out',
                   icon: FontAwesomeIcons.arrowRightFromBracket,
-                  onClicked: () => {},
+                  onClicked: () {
+                    logout();
+                    authState.setLoggedIn(false);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ));
+                  },
                   icon2: Icons.arrow_forward_ios),
             ],
           ),

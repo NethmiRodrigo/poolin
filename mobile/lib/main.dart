@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
+import 'package:mobile/cubits/auth_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<MatchingOffersCubit>(
           create: (context) => MatchingOffersCubit(),
+        ),
+        BlocProvider<AuthStateCubit>(
+          create: (context) => AuthStateCubit(),
         ),
       ],
       child: MaterialApp(

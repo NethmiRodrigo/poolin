@@ -87,3 +87,13 @@ Future<List<MatchedOffer>> getAvailableOffers(
 
   return rideOffers;
 }
+
+Future<Response> acceptRequest(offerId, requestId) async {
+  dio.options.baseUrl = baseURL;
+
+  Map data = {'offer': offerId, 'request': requestId};
+
+  final response = await dio.post('/request/accept', data: data);
+
+  return response;
+}

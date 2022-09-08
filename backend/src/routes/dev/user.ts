@@ -13,9 +13,13 @@ export const createUser = async (req: Request, res: Response) => {
   user = await user.save();
 
   const statement =
-    'CREATE (a:User) SET a.user_id = $user_id, a.mobile = $mobile RETURN a.user_id + ", from node " + id(a)';
+    'CREATE (a:User) SET a.user_id = $user_id, a.mobile = $mobile, a.name = $name RETURN a.user_id + ", from node " + id(a)';
 
-  const params = { user_id: user.id, mobile };
+  const params = {
+    user_id: user.id,
+    mobile,
+    name: `${user.firstname} ${user.lastname}`,
+  };
 
   const result = await executeCypherQuery(statement, params);
 

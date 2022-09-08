@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -263,27 +262,49 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                           ],
                         ),
                       ),
-                      addVerticalSpace(size.height * 0.5 * 0.05),
+                      addVerticalSpace(32),
                       WideButton(
-                        text:
-                            "I'll arrive at ${Jiffy(startTime).format("h:mm a").split(" ").join('')} ${Jiffy(startTime).startOf(Units.HOUR).fromNow()}",
-                        onPressedAction: () async {
-                          // Response postResponse = await handleOfferCreate();
-                          // if (postResponse.statusCode == 200) {
-                          //   setState(() {
-                          //     isLoading = false;
-                          //   });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const OfferConfirmation()),
-                          );
-                          // } else {
-                          //   print("Error! " + postResponse.data);
-                          // }
-                        },
-                      )
+                          text:
+                              "I'll arrive at ${Jiffy(startTime).format("h:mm a").split(" ").join('')} ${Jiffy(startTime).startOf(Units.HOUR).fromNow()}",
+                          onPressedAction: () async {
+                            offerCubit.setStartTime(startTime);
+                            Response response = await getDistanceAndTime(
+                                offerCubit.state.source,
+                                offerCubit.state.destination);
+                            // final res = json.decode(response.data);
+                            final res = response.data;
+                            if (response.statusCode == 200) {
+                              print(res["rows"][0]["elements"]);
+                            }
+                            final distance = double.parse(res["rows"][0]
+                                    ["elements"][0]["distance"]["text"]
+                                .split(' ')[0]);
+                            print(distance);
+                            final duration = int.parse(res["rows"][0]
+                                    ["elements"][0]["duration"]["text"]
+                                .split(' ')[0]);
+                            print(duration);
+                            offerCubit.setDistance((distance * 1.60934));
+                            print("done");
+                            offerCubit.setDuration(duration);
+
+                            Response postResponse =
+                                await postOffer(offerCubit.state);
+                            if (postResponse.statusCode == 200) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const OfferConfirmation()),
+                              );
+                              // if (!mounted) {
+                              //   return;
+                              // }
+
+                            } else {
+                              print("Error! " + postResponse.data);
+                            }
+                          })
                     ],
                   ),
                 ),

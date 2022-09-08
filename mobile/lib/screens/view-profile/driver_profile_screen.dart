@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/models/user_model.dart';
-import 'package:mobile/screens/request-ride/request_confirmation.dart';
 import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
 import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
 import 'package:mobile/services/user_service.dart';
@@ -36,7 +35,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
   }
 
   void fetchProfileinfo() async {
-    Response response = await getUser(widget.driverId);
+    Response response = await getUserDetails(widget.driverId);
     if (response.statusCode == 200) {
       setState(() {
         driver = User.fromJson(response.data);
@@ -228,7 +227,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const MutualFriendsScreen(),
+                                    MutualFriendsScreen(friends: const [],),
                               ),
                             );
                           },

@@ -50,9 +50,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const Icon(
-                        Icons.close,
-                        color: Colors.black,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
                       ),
                       addHorizontalSpace(16),
                       Text(
