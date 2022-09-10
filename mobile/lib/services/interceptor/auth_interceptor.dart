@@ -44,7 +44,7 @@ class AuthInterceptor extends Interceptor {
       'Content-Type': 'application/json',
       'accept': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'cookies': cookie,
+      'cookie': 'Token=$cookie',
     });
 
     return handler.next(options);
