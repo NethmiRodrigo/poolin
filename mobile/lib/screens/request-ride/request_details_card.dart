@@ -44,7 +44,6 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
   Widget build(BuildContext context) {
     final RideRequestCubit reqCubit =
         BlocProvider.of<RideRequestCubit>(context);
-    final CurrentUserCubit user = BlocProvider.of<CurrentUserCubit>(context);
     final MatchingOffersCubit matchingOffersCubit =
         BlocProvider.of<MatchingOffersCubit>(context);
 
@@ -55,7 +54,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
         isLoading = true;
       });
 
-      Response postResponse = await postRequest(reqCubit.state, user.state.id);
+      Response postResponse = await postRequest(reqCubit.state);
 
       return postResponse;
     }

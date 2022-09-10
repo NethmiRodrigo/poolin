@@ -10,9 +10,8 @@ final baseURL = '${dotenv.env['API_URL']}/api/ride';
 
 final dio = DioService.getService();
 
-Future<Response> postRequest(RideRequest rideRequest, String userID) async {
+Future<Response> postRequest(RideRequest rideRequest) async {
   Map data = {
-    'userID': userID,
     'src': rideRequest.source,
     'dest': rideRequest.destination,
     'distance': rideRequest.distance,

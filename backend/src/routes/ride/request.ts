@@ -13,14 +13,12 @@ import { AppDataSource } from "../../data-source";
 import { AppError } from "../../util/error-handler";
 
 export const postRideRequests = async (req: Request, res: Response) => {
-  const { userID, offers, src, dest, startTime, window, distance, price } =
-    req.body;
+  const { offers, src, dest, startTime, window, distance, price } = req.body;
 
-  const user = await User.findOne({ where: { id: userID } });
+  const user: User = res.locals.user;
 
   const newRequest = new RideRequest({
     user: user,
-
     from: src.name,
     fromGeom: {
       type: "Point",
