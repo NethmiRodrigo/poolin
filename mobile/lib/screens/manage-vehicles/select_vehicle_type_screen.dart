@@ -8,8 +8,9 @@ import 'package:mobile/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../colors.dart';
+import 'add_vehicle_screen.dart';
 
-var reports = [
+var selectVehicle = [
   {'title': 'assets/images/car.png', 'content': 'Car'},
   {'title': 'assets/images/van.png', 'content': 'Van'},
   {'title': 'assets/images/bike.png', 'content': 'Bike'},
@@ -26,6 +27,7 @@ class SelectVehicleTypeScreen extends StatefulWidget {
 
 class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
   final controller = CarouselController();
+  int selectedVehicleIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +67,14 @@ class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
                         CarouselSlider(
                           carouselController: controller,
                           options: CarouselOptions(viewportFraction: 1),
-                          items: reports
+                          items: selectVehicle
                               .asMap()
                               .map(
                                 (i, report) {
+                                  // setState(() {
+                                  //   selectedVehicleIndex = i;
+                                  //   print(selectVehicle[selectedVehicleIndex]);
+                                  // });
                                   return MapEntry(
                                     i,
                                     Builder(
@@ -116,6 +122,7 @@ class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
                             onPressed: () {
                               // Use the controller to change the current page
                               controller.nextPage();
+                              print(controller.toString());
                             },
                             icon: const Icon(Icons.arrow_forward_ios),
                           ),
@@ -128,7 +135,12 @@ class SelectVehicleTypeScreenState extends State<SelectVehicleTypeScreen> {
               addVerticalSpace(44),
               WideButton(
                 text: 'Proceed',
-                onPressedAction: () async {},
+                onPressedAction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddVehicleScreen()),
+                  );
+                },
               ),
             ],
           ),
