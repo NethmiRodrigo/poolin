@@ -24,6 +24,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(

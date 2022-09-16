@@ -11,7 +11,6 @@ import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/screens/forgot-password/forgot_password_screen.dart';
 import 'package:mobile/services/login_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../colors.dart';
 import '../../fonts.dart';
@@ -30,7 +29,6 @@ class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _pass = TextEditingController();
-  final _storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +48,6 @@ class LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
-              addVerticalSpace(48),
               Image.asset('assets/images/logo.png', height: 24),
               const Text(
                 "Let's sign \nyou back in",

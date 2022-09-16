@@ -153,7 +153,7 @@ class RideOfferCard extends StatelessWidget {
                         spacing: 5.0,
                         children: [
                           const Icon(
-                            BlipIcons.double_location_pin,
+                            BlipIcons.doubleLocationPin,
                             color: BlipColors.black,
                             size: 14.0,
                           ),

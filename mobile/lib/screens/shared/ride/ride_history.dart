@@ -3,10 +3,10 @@ import 'package:mobile/colors.dart';
 import 'package:mobile/custom/lists/cancelled_rides_list.dart';
 import 'package:mobile/custom/lists/completed_rides_list.dart';
 import 'package:mobile/custom/lists/upcoming_rides_list.dart';
+import 'package:mobile/data.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/models/ride_offer.dart';
 import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/data.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
 class RideHistory extends StatefulWidget {
