@@ -71,7 +71,7 @@ export class RideOffer extends BaseEntity {
 
   @Column({
     type: "enum",
-    enum: ["active", "completed", "cancelled", "booked"],
+    enum: ["completed", "cancelled", "booked"],
     default: "booked",
   })
   status: Status;

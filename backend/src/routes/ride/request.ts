@@ -117,7 +117,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
         end: destGeom,
       }
     )
-    .andWhere("offer.status IN ('active')")
+    .andWhere("offer.status IN ('booked')")
     .getRawMany();
 
   // from the result set, we filter out offers that are not available at the time of the request
