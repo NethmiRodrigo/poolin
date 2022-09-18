@@ -5,14 +5,11 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/custom/cards/home_screen_card.dart';
 
 import 'package:mobile/custom/lists/pass_request_list.dart';
-import 'package:mobile/custom/lists/ride_request_list.dart';
 import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
 import 'package:mobile/models/active_ride_offer.dart';
 import 'package:mobile/models/passenger_request.dart';
-import 'package:mobile/models/ride_request.dart';
 import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';
 import 'package:mobile/services/ride_offer_service.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -169,13 +166,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ),
                   SizedBox(
                     height: size.height * 0.3,
-                    child: isDriving
-                        ? PassengerRequestList(_passRequests)
-                        : HomeScreenCard(
-                            text: 'Post an offer for riders to see',
-                            route: DestinationScreen(
-                              rideType: RideType.offer,
-                            )),
+                    child: PassengerRequestList(_passRequests),
                   ),
                 ],
               ),

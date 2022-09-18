@@ -71,7 +71,7 @@ export const getActiveOffer = async (req: Request, res: Response) => {
 
   const response = await rideRepository.findOne({
     relations: { user: true, requestsToOffer: true },
-    where: { user: { email: user.email }, status: In(["active", "booked"]) },
+    where: { user: { email: user.email }, status: In(["active"]) },
   });
 
   if (!response) {
