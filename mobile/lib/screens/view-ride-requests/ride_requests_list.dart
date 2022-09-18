@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/outline_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 
@@ -48,7 +49,7 @@ class RideRequestsList extends StatelessWidget {
                       ),
                       Text(
                         '+ Rs. ${pendingRequests[index]['price']} ',
-                        style: Theme.of(context).textTheme.headlineLarge!.merge(
+                        style: BlipFonts.labelBold.merge(
                               const TextStyle(color: Colors.white),
                             ),
                       ),

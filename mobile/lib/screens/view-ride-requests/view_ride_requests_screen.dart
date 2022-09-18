@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +10,7 @@ import 'package:mobile/screens/view-ride-requests/confirmed_requests_list.dart';
 import 'package:mobile/screens/view-ride-requests/countdown_label.dart';
 
 import 'package:mobile/screens/view-ride-requests/ride_requests_list.dart';
-
 import 'package:mobile/utils/widget_functions.dart';
-
 
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
@@ -50,7 +46,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
 
   getData() async {
     final requestData = await getOfferRequests(offerCubit.getId());
-    inspect(requestData.data);
     pendingRequests = requestData.data['requests'];
     final partyData = await getConfirmedRequests(offerCubit.getId());
     confirmedRequests = partyData.data['requests'];
@@ -105,7 +100,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                             style: BlipFonts.displayBlack,
                             textAlign: TextAlign.left,
                           ),
-                          // Spacer(),
                           Indicator(
                               icon: FluentIcons.eye_12_regular,
                               text: "500",

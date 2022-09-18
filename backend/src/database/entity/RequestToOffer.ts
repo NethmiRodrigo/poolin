@@ -1,14 +1,10 @@
-import { Geometry } from "geojson";
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   BaseEntity,
-  Index,
   CreateDateColumn,
   UpdateDateColumn,
-  Double,
-  OneToMany,
   ManyToOne,
 } from "typeorm";
 import { RideOffer } from "./RideOffer";
@@ -23,7 +19,7 @@ export class RequestToOffer extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("decimal", { nullable: false })
+  @Column({ type: "decimal", precision: 7, scale: 2, nullable: false })
   price: number;
 
   @Column({ nullable: false, default: false })
