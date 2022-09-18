@@ -1,15 +1,13 @@
-import 'dart:convert';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'dart:developer';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 
 import 'package:mobile/colors.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/screens/ride-details/ride_details_screen.dart';
-import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
 import 'package:mobile/screens/view-ride-requests/confirmed_requests_list.dart';
 import 'package:mobile/screens/view-ride-requests/countdown_label.dart';
 
@@ -52,6 +50,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
 
   getData() async {
     final requestData = await getOfferRequests(offerCubit.getId());
+    inspect(requestData.data);
     pendingRequests = requestData.data['requests'];
     final partyData = await getConfirmedRequests(offerCubit.getId());
     confirmedRequests = partyData.data['requests'];

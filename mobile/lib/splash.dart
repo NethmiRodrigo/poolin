@@ -8,7 +8,6 @@ import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/services/interceptor/is_loggedin.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
