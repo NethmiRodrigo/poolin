@@ -13,8 +13,9 @@ class CountDownLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     ActiveRideCubit offerCubit = BlocProvider.of<ActiveRideCubit>(context);
     CountdownTimerController controller = CountdownTimerController(
-        endTime: offerCubit.getDepartureTime().millisecondsSinceEpoch,
-        onEnd: () => {});
+      endTime: offerCubit.getDepartureTime().millisecondsSinceEpoch,
+      onEnd: () => {},
+    );
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
@@ -38,27 +39,27 @@ class CountDownLabel extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelMedium,
                 children: [
                   TextSpan(
-                    text: '${time.days}',
+                    text: '${time.days ?? 0}',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   TextSpan(
-                    text: time.days! > 1 ? ' days' : ' day',
+                    text: (time.days == null || time.days! > 1) ? ' days' : ' day',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   TextSpan(
-                    text: ' ${time.hours}',
+                    text: ' ${time.hours ?? 0}',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   TextSpan(
-                    text: time.hours! > 1 ? ' hrs' : ' hr',
+                    text: (time.hours == null || time.hours! > 1) ? ' hrs' : ' hr',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   TextSpan(
-                    text: ' ${time.min}',
+                    text: ' ${time.min ?? 0}',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   TextSpan(
-                    text: time.min! > 1 ? ' mins' : ' min',
+                    text: (time.min == null || time.min! > 1) ? ' mins' : ' min',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],

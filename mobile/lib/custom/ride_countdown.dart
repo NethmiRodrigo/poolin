@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/index.dart';
 
 import 'package:mobile/colors.dart';
+import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/custom/cards/home_screen_card.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
@@ -34,6 +38,7 @@ class _RideCountDownState extends State<RideCountDown> {
     return CountdownTimer(
       controller: controller,
       widgetBuilder: (_, CurrentRemainingTime? time) {
+        print('*********************$time');
         if (time == null) {
           return HomeScreenCard(
               text: 'Trip In Progress', route: const ViewRideRequestsScreen());
@@ -55,27 +60,27 @@ class _RideCountDownState extends State<RideCountDown> {
             children: [
               RichText(
                 text: TextSpan(
-                  text: '${time.days}',
+                  text: '${time.days ?? 0}',
                   style: BlipFonts.display.merge(whiteText),
                   children: [
                     TextSpan(
-                      text: time.days! > 1 ? ' days' : ' day',
+                      text: (time.days == null || time.days! > 1) ? ' days' : ' day',
                       style: BlipFonts.labelBold,
                     ),
                     TextSpan(
-                      text: ' ${time.hours}',
+                      text: ' ${time.hours ?? 0}',
                       style: BlipFonts.display,
                     ),
                     TextSpan(
-                      text: time.hours! > 1 ? ' hrs' : ' hr',
+                      text: (time.hours == null || time.hours! > 1) ? ' hrs' : ' hr',
                       style: BlipFonts.labelBold,
                     ),
                     TextSpan(
-                      text: ' ${time.min}',
+                      text: ' ${time.min ?? 0}',
                       style: BlipFonts.display,
                     ),
                     TextSpan(
-                      text: time.min! > 1 ? ' mins' : ' min',
+                      text: (time.min == null || time.min! > 1) ? ' mins' : ' min',
                       style: BlipFonts.labelBold,
                     ),
                   ],
@@ -100,7 +105,8 @@ class _RideCountDownState extends State<RideCountDown> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ViewRideRequestsScreen(),
+                            builder: (context) =>
+                                const ViewRideRequestsScreen(),
                           ));
                     },
                   ),
