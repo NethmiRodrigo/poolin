@@ -7,7 +7,6 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/auth_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/screens/manage-vehicles/add_vehicle_screen.dart';
 import 'package:mobile/splash.dart';
 
 import './theme.dart';
