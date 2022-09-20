@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:mobile/custom/backward_button.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
@@ -58,6 +59,11 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: const BackwardButton(),
+        ),
         body: SingleChildScrollView(
           child: SizedBox(
             width: size.width,
@@ -67,16 +73,6 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  addVerticalSpace(12),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: Icon(
-                          EvaIcons.arrowBackOutline,
-                          color: Colors.black,
-                        ),
-                        onPressed: () async {},
-                      )),
                   addVerticalSpace(12),
                   const Text(
                     'Enter vehicle information',
@@ -133,9 +129,7 @@ class AddVehicleScreenState extends State<AddVehicleScreen> {
                                 ),
                               ]),
                             ),
-                            const SizedBox(
-                              width: 5,
-                            ),
+                            addHorizontalSpace(5),
                             Expanded(
                               child: Column(children: [
                                 Align(
