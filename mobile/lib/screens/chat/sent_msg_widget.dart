@@ -29,7 +29,7 @@ class SentMessage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('You', style: BlipFonts.outlineBold),
+                const Text('You', style: BlipFonts.outlineBold),
                 addVerticalSpace(8),
                 Text(message, style: BlipFonts.outline),
               ],

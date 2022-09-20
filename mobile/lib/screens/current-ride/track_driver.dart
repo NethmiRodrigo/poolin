@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:location/location.dart';
+import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/screens/home/rider_home.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
@@ -29,12 +31,6 @@ class _TrackDriverState extends State<TrackDriver> {
   int rideArrivalTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(minutes: 15).inMilliseconds;
   late CountdownTimerController timerController;
-  final User currentUser = User(
-    firstName: 'Nethmi',
-    lastName: 'Doe',
-    email: 'nethmi@gmail.com',
-    gender: 'female',
-  );
 
   final LatLng pickupLoc = const LatLng(6.907684923079973, 79.86036268870303);
   final LatLng startPoint = const LatLng(6.9063474012458, 79.86057108194697);
@@ -58,7 +54,7 @@ class _TrackDriverState extends State<TrackDriver> {
   bool isDriverAvailable = false;
   bool driverArrived = false;
 
-  late IO.Socket socket;
+  late io.Socket socket;
 
   @override
   void initState() {
@@ -87,7 +83,7 @@ class _TrackDriverState extends State<TrackDriver> {
     String? socketServer = dotenv.env['LOCATION_SERVER'];
 
     try {
-      socket = IO.io(socketServer, <String, dynamic>{
+      socket = io.io(socketServer, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });
@@ -107,7 +103,7 @@ class _TrackDriverState extends State<TrackDriver> {
           controller
               .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: driverLoc,
-            zoom: 12,
+            zoom: 16,
           )));
         });
       });
@@ -204,6 +200,8 @@ class _TrackDriverState extends State<TrackDriver> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    final CurrentUserCubit currentUser =
+        BlocProvider.of<CurrentUserCubit>(context);
 
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
@@ -228,7 +226,7 @@ class _TrackDriverState extends State<TrackDriver> {
                           textAlign: TextAlign.center,
                         )
                       : Text(
-                          'Hey ${currentUser.firstName}!\nYour ride will be here in',
+                          'Hey ${currentUser.state.firstName}!\nYour ride will be here in',
                           style: BlipFonts.title,
                           textAlign: TextAlign.center,
                         ),
@@ -260,7 +258,7 @@ class _TrackDriverState extends State<TrackDriver> {
                       myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: pickupLoc,
-                        zoom: 13.0,
+                        zoom: 15.0,
                       ),
                       mapType: _currentMapType,
                       onMapCreated: _onMapCreated,

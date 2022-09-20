@@ -6,16 +6,17 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
-  int? id;
+  int id;
   String firstName;
   String lastName;
   String gender;
-  String email;
+  String? email;
   double stars;
   int totalRatings;
   VehicleType vehicleType;
-  String VehicleNum;
-  String? profilePicURL;
+  String vehicleNum;
+  String vehicleModel;
+  String profilePicURL;
   String? bio;
   String? occupation;
   DateTime? dateOfBirth;
@@ -27,16 +28,18 @@ class User {
   DateTime? createdAt;
   DateTime? updatedAt;
   User({
-    this.id,
+    this.id = 0,
     required this.firstName,
     required this.lastName,
-    required this.gender,
-    required this.email,
+    this.gender = 'unknown',
+    this.email,
     this.stars = 0.0,
     this.totalRatings = 0,
-    this.VehicleNum = '',
-    this.vehicleType = VehicleType.NA,
-    this.profilePicURL,
+    this.vehicleNum = 'ABX 1233',
+    this.vehicleType = VehicleType.na,
+    this.vehicleModel = 'Unknown',
+    this.profilePicURL =
+        'https://www.freeiconspng.com/uploads/profile-icon-9.png',
     this.bio,
     this.occupation,
     this.dateOfBirth,
@@ -55,7 +58,8 @@ class User {
         lastName: json["lastname"],
         gender: json["gender"],
         email: json["email"],
-        profilePicURL: json["profileImageUri"],
+        profilePicURL: json["profileImageUri"] ??
+            'https://www.freeiconspng.com/uploads/profile-icon-9.png',
         bio: json["bio"],
         occupation: json["occupation"],
         dateOfBirth: json["dateOfBirth"] != null
@@ -67,7 +71,7 @@ class User {
             : null,
         mobileVerified: json["mobileVerified"],
         isVerified: json["mobileVerified"] == 'true',
-        role: json["role"],
+        role: json["role"] ?? 'user',
         createdAt: json["createdAt"] != null
             ? DateTime.parse(json["createdAt"])
             : null,
@@ -75,8 +79,15 @@ class User {
             ? DateTime.parse(json["updatedAt"])
             : null,
         stars: json["stars"] != null ? double.parse(json["stars"]) : 0.0,
-        totalRatings:
-            json["totalRatings"] != null ? int.parse(json["totalRatings"]) : 0,
+        totalRatings: json["totalRatings"] ?? 0,
+        vehicleType: json['vehicleType'] == 'na'
+            ? VehicleType.na
+            : json['vehicleType'] == 'car'
+                ? VehicleType.car
+                : json['vehicleType'] == 'van'
+                    ? VehicleType.van
+                    : VehicleType.bike,
+        vehicleModel: json['vehicleModel'] ?? 'Unknown',
       );
 
   Map<String, dynamic> toJson() => {

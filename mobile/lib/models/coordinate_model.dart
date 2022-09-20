@@ -1,5 +1,3 @@
-//     final coordinate = coordinateFromJson(jsonString);
-
 import 'dart:convert';
 
 Coordinate coordinateFromJson(String str) =>

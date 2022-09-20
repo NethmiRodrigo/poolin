@@ -10,7 +10,7 @@ import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart
 class RideCountDown extends StatefulWidget {
   final int endTime;
 
-  RideCountDown(this.endTime);
+  const RideCountDown(this.endTime, {Key? key}) : super(key: key);
 
   @override
   State<RideCountDown> createState() => _RideCountDownState();
@@ -45,7 +45,6 @@ class _RideCountDownState extends State<RideCountDown> {
             right: 16,
             top: 12,
           ),
-          // height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: BlipColors.orange,
@@ -93,7 +92,7 @@ class _RideCountDownState extends State<RideCountDown> {
                   ),
                   IconButton(
                     icon: const Icon(
-                      BlipIcons.arrow_right,
+                      BlipIcons.arrowRight,
                       size: 20,
                       color: BlipColors.white,
                     ),
@@ -101,8 +100,7 @@ class _RideCountDownState extends State<RideCountDown> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const ViewRideRequestsScreen(),
+                            builder: (context) => const ViewRideRequestsScreen(),
                           ));
                     },
                   ),

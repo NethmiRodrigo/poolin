@@ -1,1 +1,1 @@
-enum VehicleType { NA, car, van, bike }
+enum VehicleType { na, car, van, bike }

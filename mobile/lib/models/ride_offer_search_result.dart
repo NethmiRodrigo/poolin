@@ -1,26 +1,24 @@
-class User {
-  String name;
-  String profilePicture;
-  double starRating;
-  int noOfRatings;
-
-  User({
-    required this.name,
-    required this.starRating,
-    required this.noOfRatings,
-    this.profilePicture = 'https://i.pravatar.cc/300',
-  });
-}
+import 'package:mobile/models/coordinate_model.dart';
+import 'package:mobile/models/user_model.dart';
 
 class RideOfferSearchResult {
   String id;
-  User user;
-  double price;
-  String model;
+  User driver;
+  int availableSeats;
+  double pricePerKM;
+  double distance;
+  DateTime startTime;
+  Coordinate source;
+  Coordinate destination;
 
-  RideOfferSearchResult(
-      {required this.id,
-      required this.price,
-      required this.user,
-      required this.model});
+  RideOfferSearchResult({
+    required this.id,
+    this.availableSeats = 1,
+    this.pricePerKM = 250.0,
+    this.distance = 0.0,
+    required this.startTime,
+    required this.source,
+    required this.destination,
+    required this.driver,
+  });
 }
