@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +69,6 @@ class _SplashScreenState extends State<SplashScreen> {
       activeRideCubit.setSource(rideOffer.source);
       activeRideCubit.setDestination(rideOffer.destination);
       activeRideCubit.setDepartureTime(rideOffer.departureTime);
-      inspect(activeRideCubit.state);
     }
   }
 

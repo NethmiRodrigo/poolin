@@ -38,9 +38,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   void initState() {
     super.initState();
     activeRideOffer = BlocProvider.of<ActiveRideCubit>(context);
-    controller = CountdownTimerController(
-        endTime: activeRideOffer.getDepartureTime().millisecondsSinceEpoch,
-        onEnd: () => {});
     getData();
   }
 
@@ -154,8 +151,19 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     if (pendingRequests?.length != null)
                       SizedBox(
                         height: 130,
-                        child:
-                            RideRequestsList(pendingRequests: pendingRequests!),
+                        child: pendingRequests!.isEmpty
+                            ? Container(
+                              color: BlipColors.lightGrey,
+                              child: const Center(
+                                  child: Text(
+                                      'No pending requests at the moment',
+                                      style: BlipFonts.outline,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                ),
+                            )
+                            : RideRequestsList(
+                                pendingRequests: pendingRequests!),
                       ),
                     addVerticalSpace(24),
                     const Text(

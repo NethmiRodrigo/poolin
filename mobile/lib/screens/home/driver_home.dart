@@ -41,7 +41,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
     super.initState();
     getOfferDetails();
-    endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
   }
 
   void getOfferDetails() async {
@@ -65,6 +64,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       setState(() {
         isDriving = true;
         _passRequests = passengerRequests;
+        endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
         isLoading = false;
       });
     } else {
@@ -80,6 +80,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+
     return Scaffold(
       body: isLoading
           ? const Center(
@@ -98,7 +99,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     child: ToggleToDriver(false),
                   ),
                   addVerticalSpace(16),
-                  isDriving
+                  activeRideCubit.state.id != null
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
                           text: 'Offer a ride and get paid',
@@ -149,7 +150,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ],
                   ),
                   addVerticalSpace(24),
-                  if (isDriving)
+                  if (activeRideCubit.state.id != null)
                     const Text(
                       'Ride Requests',
                       style: BlipFonts.title,

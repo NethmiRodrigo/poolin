@@ -104,17 +104,22 @@ class _RideCountDownState extends State<RideCountDown> {
                       color: BlipColors.white,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              // Show final ride details screen if there's less than 2hrs for the ride
-                              // (time.hours == null || time.hours! < 2)
-                              //     ? const ViewRideRequestsScreen()
-                              //     : const FinalRideDetailsScreen(),
-                              const FinalRideDetailsScreen()
-                        ),
-                      );
+                      // Show final ride details screen if there's less than 2hrs for the ride
+                      (time.days == null && time.hours! < 2)
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const FinalRideDetailsScreen(),
+                              ),
+                            )
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ViewRideRequestsScreen(),
+                              ),
+                            );
                     },
                   ),
                 ],
