@@ -6,6 +6,7 @@ import 'package:mobile/app.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/models/active_ride_offer.dart';
+import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/auth_service.dart';
@@ -64,6 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
       ActiveRideOffer rideOffer =
           ActiveRideOffer.fromJson(response.data["offer"]);
       activeRideCubit.setId(rideOffer.id);
+      activeRideCubit.setType(RideType.offer);
       activeRideCubit.setDepartureTime(rideOffer.departureTime);
     }
   }

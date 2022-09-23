@@ -1,26 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/models/ride_type_model.dart';
 
 class ActiveRide {
-  var today = DateTime.now();
+  int? id;
+  RideType? type;
   int seats;
-  int price;
-  int id;
+  double price;
   late DateTime? departureTime;
 
   ActiveRide({
-    this.id = 1,
+    this.id,
+    this.type,
     this.seats = 5,
     this.price = 0,
     DateTime? departTime,
   }) : departureTime = departTime;
 
-  ActiveRide copyWith(
-      {int? seats, int? price, int? id, DateTime? departureTime}) {
+  ActiveRide copyWith({
+    int? id,
+    RideType? type,
+    int? seats,
+    double? price,
+    DateTime? departureTime,
+  }) {
     return ActiveRide(
-        seats: seats ?? this.seats,
-        price: price ?? this.price,
-        id: id ?? this.id,
-        departTime: departureTime ?? this.departureTime);
+      id: id ?? this.id,
+      type: type ?? this.type,
+      seats: seats ?? this.seats,
+      price: price ?? this.price,
+      departTime: departureTime ?? this.departureTime,
+    );
   }
 }
 
@@ -29,9 +38,11 @@ class ActiveRideCubit extends Cubit<ActiveRide> {
 
   void setId(int id) => emit(state.copyWith(id: id));
 
-  int getId() => state.id;
+  void setType(RideType type) => emit(state.copyWith(type: type));
 
-  int getPrice() => state.price;
+  int? getId() => state.id;
+
+  double getPrice() => state.price;
 
   void setDepartureTime(DateTime dateTime) {
     emit(state.copyWith(departureTime: dateTime));
@@ -49,5 +60,5 @@ class ActiveRideCubit extends Cubit<ActiveRide> {
   void decrementPrice(int price) =>
       emit(state.copyWith(price: state.price -= price));
 
-  void setPrice(int price) => emit(state.copyWith(price: price));
+  void setPrice(double price) => emit(state.copyWith(price: price));
 }
