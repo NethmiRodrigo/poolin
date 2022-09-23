@@ -55,7 +55,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
       emit(state.copyWith(totalRatings: totalRatings));
 
   void setVehicleType(String vehicleType) => {
-        if (vehicleType == null)
+        if (vehicleType == 'na')
           {emit(state.copyWith(vehicleType: VehicleType.na))}
         else if (vehicleType == 'Bike')
           {emit(state.copyWith(vehicleType: VehicleType.bike))}

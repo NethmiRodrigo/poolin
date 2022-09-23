@@ -16,7 +16,6 @@ import 'dart:async';
 import 'package:mobile/colors.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
-import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/current-ride/driver_nav.dart';
 import 'package:mobile/utils/widget_functions.dart';
 

@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/index.dart';
 
 import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/custom/cards/home_screen_card.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
@@ -116,7 +112,7 @@ class _RideCountDownState extends State<RideCountDown> {
                               // (time.hours == null || time.hours! < 2)
                               //     ? const ViewRideRequestsScreen()
                               //     : const FinalRideDetailsScreen(),
-                              const ViewRideRequestsScreen()
+                              const FinalRideDetailsScreen()
                         ),
                       );
                     },

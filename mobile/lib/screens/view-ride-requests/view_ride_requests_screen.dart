@@ -28,7 +28,7 @@ class ViewRideRequestsScreen extends StatefulWidget {
 }
 
 class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
-  late ActiveRideCubit offerCubit;
+  late ActiveRideCubit activeRideOffer;
   late CountdownTimerController controller;
   var isVisible = false;
   List<dynamic>? pendingRequests;
@@ -37,26 +37,27 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   @override
   void initState() {
     super.initState();
-    offerCubit = BlocProvider.of<ActiveRideCubit>(context);
+    activeRideOffer = BlocProvider.of<ActiveRideCubit>(context);
     controller = CountdownTimerController(
-        endTime: offerCubit.getDepartureTime().millisecondsSinceEpoch,
+        endTime: activeRideOffer.getDepartureTime().millisecondsSinceEpoch,
         onEnd: () => {});
     getData();
   }
 
   getData() async {
-    final requestData = await getOfferRequests(offerCubit.getId());
+    int offerID = activeRideOffer.state.id!;
+    final requestData = await getOfferRequests(offerID);
     pendingRequests = requestData.data['requests'];
-    final partyData = await getConfirmedRequests(offerCubit.getId());
+    final partyData = await getConfirmedRequests(offerID);
     confirmedRequests = partyData.data['requests'];
     if (confirmedRequests != null) {
       if ((confirmedRequests?.length)! > 0) {
-        var price = 0;
+        double price = 0;
         for (var request in confirmedRequests!) {
-          int requestPrice = int.parse(request['price']);
+          double requestPrice = double.parse(request['price']);
           price = price + requestPrice;
         }
-        offerCubit.setPrice(price);
+        activeRideOffer.setPrice(price);
       }
     }
 

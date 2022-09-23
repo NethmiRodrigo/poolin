@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/matching_rides_cubit.dart';
 import 'package:mobile/cubits/ride_request_cubit.dart';
 import 'package:mobile/screens/request-ride/request_confirmation.dart';

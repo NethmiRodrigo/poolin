@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
@@ -7,7 +6,6 @@ import 'package:mobile/custom/cards/home_screen_card.dart';
 import 'package:mobile/custom/lists/pass_request_list.dart';
 import 'package:mobile/custom/toggle_to_driver.dart';
 import 'package:mobile/custom/ride_countdown.dart';
-import 'package:mobile/models/active_ride_offer.dart';
 import 'package:mobile/models/passenger_request.dart';
 import 'package:mobile/models/ride_type_model.dart';
 import 'package:mobile/screens/shared/ride/destination_screen.dart';

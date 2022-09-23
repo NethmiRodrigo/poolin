@@ -4,13 +4,17 @@ import 'package:mobile/models/ride_type_model.dart';
 class ActiveRide {
   int? id;
   RideType? type;
+  String source;
+  String destination;
   int seats;
   double price;
   late DateTime? departureTime;
 
   ActiveRide({
-    this.id,
-    this.type,
+    required this.id,
+    required this.type,
+    required this.source,
+    required this.destination,
     this.seats = 5,
     this.price = 0,
     DateTime? departTime,
@@ -19,6 +23,8 @@ class ActiveRide {
   ActiveRide copyWith({
     int? id,
     RideType? type,
+    String? source,
+    String? destination,
     int? seats,
     double? price,
     DateTime? departureTime,
@@ -26,6 +32,8 @@ class ActiveRide {
     return ActiveRide(
       id: id ?? this.id,
       type: type ?? this.type,
+      source: source ?? this.source,
+      destination: destination ?? this.destination,
       seats: seats ?? this.seats,
       price: price ?? this.price,
       departTime: departureTime ?? this.departureTime,
@@ -34,11 +42,22 @@ class ActiveRide {
 }
 
 class ActiveRideCubit extends Cubit<ActiveRide> {
-  ActiveRideCubit() : super(ActiveRide());
+  ActiveRideCubit()
+      : super(ActiveRide(
+          id: null,
+          type: null,
+          source: '',
+          destination: '',
+        ));
 
   void setId(int id) => emit(state.copyWith(id: id));
 
   void setType(RideType type) => emit(state.copyWith(type: type));
+
+  void setSource(String source) => emit(state.copyWith(source: source));
+
+  void setDestination(String destination) =>
+      emit(state.copyWith(destination: destination));
 
   int? getId() => state.id;
 
