@@ -136,9 +136,7 @@ class _StartRideState extends State<StartRide> {
       body: (currentLocation == null || _coordinates == null)
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : SingleChildScrollView(

@@ -90,7 +90,7 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : Padding(

@@ -9,6 +9,7 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/custom/cards/home_screen_card.dart';
 import 'package:mobile/icons.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/current-ride/final_ride_details.dart';
 import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 class RideCountDown extends StatefulWidget {
@@ -38,7 +39,6 @@ class _RideCountDownState extends State<RideCountDown> {
     return CountdownTimer(
       controller: controller,
       widgetBuilder: (_, CurrentRemainingTime? time) {
-        print('*********************$time');
         if (time == null) {
           return HomeScreenCard(
               text: 'Trip In Progress', route: const ViewRideRequestsScreen());
@@ -64,7 +64,9 @@ class _RideCountDownState extends State<RideCountDown> {
                   style: BlipFonts.display.merge(whiteText),
                   children: [
                     TextSpan(
-                      text: (time.days == null || time.days! > 1) ? ' days' : ' day',
+                      text: (time.days == null || time.days! > 1)
+                          ? ' days'
+                          : ' day',
                       style: BlipFonts.labelBold,
                     ),
                     TextSpan(
@@ -72,7 +74,9 @@ class _RideCountDownState extends State<RideCountDown> {
                       style: BlipFonts.display,
                     ),
                     TextSpan(
-                      text: (time.hours == null || time.hours! > 1) ? ' hrs' : ' hr',
+                      text: (time.hours == null || time.hours! > 1)
+                          ? ' hrs'
+                          : ' hr',
                       style: BlipFonts.labelBold,
                     ),
                     TextSpan(
@@ -80,7 +84,9 @@ class _RideCountDownState extends State<RideCountDown> {
                       style: BlipFonts.display,
                     ),
                     TextSpan(
-                      text: (time.min == null || time.min! > 1) ? ' mins' : ' min',
+                      text: (time.min == null || time.min! > 1)
+                          ? ' mins'
+                          : ' min',
                       style: BlipFonts.labelBold,
                     ),
                   ],
@@ -103,11 +109,16 @@ class _RideCountDownState extends State<RideCountDown> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const ViewRideRequestsScreen(),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              // Show final ride details screen if there's less than 2hrs for the ride
+                              // (time.hours == null || time.hours! < 2)
+                              //     ? const ViewRideRequestsScreen()
+                              //     : const FinalRideDetailsScreen(),
+                              const ViewRideRequestsScreen()
+                        ),
+                      );
                     },
                   ),
                 ],

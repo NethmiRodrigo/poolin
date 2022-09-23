@@ -63,9 +63,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
       child: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : Padding(

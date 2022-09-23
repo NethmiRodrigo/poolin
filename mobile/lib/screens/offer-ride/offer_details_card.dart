@@ -75,9 +75,7 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : ClipRRect(

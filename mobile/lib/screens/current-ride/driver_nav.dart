@@ -143,9 +143,7 @@ class _DriverNavState extends State<DriverNav> {
       body: (currentLocation == null || _coordinates == null)
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : Container(
