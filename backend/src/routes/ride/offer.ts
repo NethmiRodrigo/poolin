@@ -78,6 +78,9 @@ export const getActiveOffer = async (req: Request, res: Response) => {
     return res.status(200).json({ error: "No active offer", offer: null });
   }
 
+  delete response.polyline;
+  delete response.user;
+
   return res.status(200).json({ offer: response });
 };
 

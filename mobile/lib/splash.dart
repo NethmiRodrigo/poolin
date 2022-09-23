@@ -3,11 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/app.dart';
+import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
+import 'package:mobile/models/active_ride_offer.dart';
 import 'package:mobile/models/user_model.dart';
 import 'package:mobile/screens/login/login_screen.dart';
 import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/services/interceptor/is_loggedin.dart';
+import 'package:mobile/services/ride_offer_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late ActiveRideCubit activeRideCubit;
   bool isLoggedIn = false;
   CurrentUserCubit? userCubit;
   bool isLoading = true;
@@ -24,7 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
     setLoggedInState();
+    getActiveRide();
   }
 
   void setUser() async {
@@ -33,8 +39,12 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     Response response = await getCurrentUser();
     User loggedInUser = User.fromJson(response.data);
-    userCubit?.setUser("1", loggedInUser.firstName, loggedInUser.lastName,
-        loggedInUser.gender, loggedInUser.email.toString());
+    userCubit?.setUser(
+        loggedInUser.id,
+        loggedInUser.firstName,
+        loggedInUser.lastName,
+        loggedInUser.gender,
+        loggedInUser.email.toString());
   }
 
   void setLoggedInState() async {
@@ -48,6 +58,16 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  void getActiveRide() async {
+    Response response = await getActiveOffer();
+    if (response.data["offer"] != null) {
+      ActiveRideOffer rideOffer =
+          ActiveRideOffer.fromJson(response.data["offer"]);
+      activeRideCubit.setId(rideOffer.id);
+      activeRideCubit.setDepartureTime(rideOffer.departureTime);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final CurrentUserCubit userCubit =
@@ -56,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
     void setUser() async {
       Response response = await getCurrentUser();
       if (response.statusCode == 200) {
-        userCubit.setId(response.data['id'].toString());
+        userCubit.setId(response.data['id']);
         userCubit.setFirstName(response.data['firstname']);
         userCubit.setLastName(response.data['lastname']);
         userCubit.setEmail(response.data['email']);

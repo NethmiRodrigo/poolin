@@ -26,8 +26,7 @@ class DriverHomeScreen extends StatefulWidget {
 }
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
-  int endTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+  late int endTime;
   late ActiveRideCubit activeRideCubit;
   final Map<String, int> stat = {
     'rides': 18,
@@ -43,20 +42,14 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   void initState() {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
     super.initState();
-    getOffer();
+    getOfferDetails();
+    endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
   }
 
-  void getOffer() async {
-    Response response = await getActiveOffer();
-    if (response.data["offer"] != null) {
-      ActiveRideOffer rideOffer =
-          ActiveRideOffer.fromJson(response.data["offer"]);
-      activeRideCubit.setId(rideOffer.id);
-      activeRideCubit.setDepartureTime(rideOffer.departureTime);
-      DateTime? departureTime = rideOffer.departureTime;
-      int endTimeInSeconds = departureTime.millisecondsSinceEpoch;
-
-      final requestData = await getOfferRequests(rideOffer.id);
+  void getOfferDetails() async {
+    if (activeRideCubit.state.id != null) {
+      int offerID = activeRideCubit.state.id!;
+      final requestData = await getOfferRequests(offerID);
       pendingRequests = requestData.data['requests'];
       List<PassengerRequest> passengerRequests = [];
 
@@ -72,7 +65,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       }
 
       setState(() {
-        endTime = endTimeInSeconds;
         isDriving = true;
         _passRequests = passengerRequests;
         isLoading = false;
