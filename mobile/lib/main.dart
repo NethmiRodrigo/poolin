@@ -7,6 +7,8 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/screens/notification/view_notification.dart';
+import 'package:mobile/screens/offer-ride/driver_ride_visibility_screen.dart';
+import 'package:mobile/screens/request-ride/rider_ride_visibility_screen.dart';
 import 'package:mobile/splash.dart';
 
 import './theme.dart';
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const viewnotiScreen(),
+        home: const RiderRideVisibilityScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

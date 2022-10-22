@@ -79,59 +79,83 @@ class viewnotiScreenState extends State<viewnotiScreen> {
                       itemCount: 400,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) => Container(
-                        height: 72,
+                        height: 76,
                         width: 72,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(8),
-                        child: Column(   
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                          Row(
+                        child: Column(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              
-                              Icon(
-                                Icons.notifications,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                size: 48,
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.notifications,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    size: 48,
+                                  ),
+                                  SizedBox(
+                                    width: 16,
+                                  ),
+                                  ///////////////////////
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Payment successful',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .merge(const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                      Text(
+                                        'Parking booking at Portley was ..',
+                                        // textAlign: TextAlign.left,
+                                        // style: TextStyle(
+                                        //   color: Color.fromARGB(255, 0, 0, 0),
+                                        // ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .merge(const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14)),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        '05-09-2022',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .merge(const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10)),
+                                      ),
+                                    ],
+                                  ),
+
+                                  Spacer(),
+                                  Text(
+                                    '12:00 am',
+                                    style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .merge(const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10)),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 16,),
-                              ///////////////////////
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [ 
-                                Text(
-                                'Payment successful',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
+                              // addHorizontalSpace(10),
+                              SizedBox(
+                                width: 16,
                               ),
-                                Text(
-                                'Parking booking at Portley was ..',
-                                // textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                ),
-                              ),
-                              ],
-                              ),
-                              
-                              Spacer(),
-                              Text(
-                            '12:00 am',
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                           
-                              
-                            ],
-                          ),
-                          // addHorizontalSpace(10),
-                          SizedBox(width: 16,),
-                          
-                         
-                        ]),
+                            ]),
                         color: Color.fromARGB(255, 243, 243, 243),
                       ),
                     ),
@@ -167,12 +191,12 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //           width: 72,
               //           margin: EdgeInsets.all(10),
               //           padding: EdgeInsets.all(8),
-              //           child: Column(   
+              //           child: Column(
               //             // crossAxisAlignment: CrossAxisAlignment.start,
               //             children: [
               //             Row(
               //               children: [
-                              
+
               //                 Icon(
               //                   Icons.notifications,
               //                   color: Color.fromARGB(255, 0, 0, 0),
@@ -182,7 +206,7 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //                 ///////////////////////
               //                 Column(
               //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [ 
+              //                   children: [
               //                   Text(
               //                   'Parking booking canceled',
               //                   style: TextStyle(
@@ -198,7 +222,7 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //                   ),
               //                 ),
               //                 ],),
-                              
+
               //                 Spacer(),
               //                 Text(
               //               '12:00 am',
@@ -206,13 +230,12 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //                 fontSize: 10,
               //               ),
               //             ),
-                              
+
               //               ],
               //             ),
               //             // addHorizontalSpace(10),
               //             SizedBox(width: 16,),
-                          
-                         
+
               //           ]),
               //           color: Color.fromARGB(255, 243, 243, 243),
               //         ),
@@ -249,12 +272,12 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //           width: 72,
               //           margin: EdgeInsets.all(10),
               //           padding: EdgeInsets.all(8),
-              //           child: Column(   
+              //           child: Column(
               //             // crossAxisAlignment: CrossAxisAlignment.start,
               //             children: [
               //             Row(
               //               children: [
-                              
+
               //                 Icon(
               //                   Icons.notifications,
               //                   color: Color.fromARGB(255, 0, 0, 0),
@@ -264,7 +287,7 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //                 ///////////////////////
               //                 Column(
               //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [ 
+              //                   children: [
               //                   Text(
               //                   'Verification successful',
               //                   style: TextStyle(
@@ -280,7 +303,7 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //                   ),
               //                 ),
               //                 ],),
-                              
+
               //                 Spacer(),
               //                 Text(
               //               '12:00 am',
@@ -288,13 +311,12 @@ class viewnotiScreenState extends State<viewnotiScreen> {
               //                 fontSize: 10,
               //               ),
               //             ),
-                              
+
               //               ],
               //             ),
               //             // addHorizontalSpace(10),
               //             SizedBox(width: 16,),
-                          
-                         
+
               //           ]),
               //           color: Color.fromARGB(255, 243, 243, 243),
               //         ),
@@ -308,8 +330,4 @@ class viewnotiScreenState extends State<viewnotiScreen> {
       ),
     );
   }
-
-  
-
-  
 }
