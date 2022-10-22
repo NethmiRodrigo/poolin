@@ -85,9 +85,7 @@ class EditPhoneNumberScreenState extends State<EditPhoneNumberScreen> {
                               vertical: 10, horizontal: 16),
                         ),
                         initialCountryCode: 'LK',
-                        onChanged: (phone) {
-                          print(phone.completeNumber);
-                        },
+                        onChanged: (phone) {},
                       ),
                       addVerticalSpace(20),
                       WideButton(

@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +25,7 @@ class OfferDetailsCard extends StatefulWidget {
 class OfferDetailsCardState extends State<OfferDetailsCard> {
   DateTime startTime = DateTime.now().add(const Duration(days: 1));
   TextEditingController _email = TextEditingController(text: "500");
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -57,6 +58,18 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
       return postResponse;
     }
 
+    Future<DateTime?> showDatePicker() {
+      return DatePicker.showDateTimePicker(context,
+          showTitleActions: true,
+          minTime: DateTime.now().add(const Duration(days: 1)),
+          maxTime: DateTime.now().add(const Duration(days: 7)),
+          onChanged: (date) {}, onConfirm: (date) {
+        setState(() {
+          startTime = date;
+        });
+      }, currentTime: startTime, locale: LocaleType.en);
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: isLoading
@@ -83,12 +96,12 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      addVerticalSpace(24),
+                      addVerticalSpace(size.height * 0.5 * 0.05),
                       const Text(
                         'Confirm your Offer',
                         style: BlipFonts.title,
                       ),
-                      addVerticalSpace(40),
+                      addVerticalSpace(size.height * 0.5 * 0.03),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Column(
@@ -152,38 +165,16 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                                                         .headlineSmall),
                                                 addVerticalSpace(20),
                                                 TextButton(
-                                                    onPressed: () {
-                                                      DatePicker.showDateTimePicker(
-                                                          context,
-                                                          showTitleActions:
-                                                              true,
-                                                          minTime: DateTime
-                                                                  .now()
-                                                              .add(
-                                                                  const Duration(
-                                                                      days: 1)),
-                                                          maxTime: DateTime
-                                                                  .now()
-                                                              .add(
-                                                                  const Duration(
-                                                                      days: 7)),
-                                                          onChanged: (date) {},
-                                                          onConfirm: (date) {
-                                                        setState(() {
-                                                          startTime = date;
-                                                        });
-                                                      },
-                                                          currentTime:
-                                                              startTime,
-                                                          locale:
-                                                              LocaleType.en);
-                                                    },
-                                                    child: Text(
-                                                      Jiffy(startTime).yMMMd,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .labelLarge,
-                                                    ))
+                                                  onPressed: () {
+                                                    showDatePicker();
+                                                  },
+                                                  child: Text(
+                                                    Jiffy(startTime).yMMMd,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ],

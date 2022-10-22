@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
 import 'package:mobile/screens/user/update-profile/change_password_screen.dart';
 import 'package:mobile/screens/user/update-profile/edit_bio_screen.dart';
 import 'package:mobile/screens/user/update-profile/edit_full_name_screen.dart';

@@ -7,20 +7,18 @@ import { RideOffer } from "../../database/entity/RideOffer";
 import { RideRequest } from "../../database/entity/RideRequest";
 import { User } from "../../database/entity/User";
 import { RequestToOffer } from "../../database/entity/RequestToOffer";
+import { subMinutes, addMinutes } from "date-fns";
+import { getOSRMDuration } from "../../middleware/osrmduration";
 import { AppDataSource } from "../../data-source";
 import { AppError } from "../../util/error-handler";
-import { parseJSON, subMinutes, addMinutes } from "date-fns";
-import { getOSRMDuration } from "../../middleware/osrmduration";
 
 export const postRideRequests = async (req: Request, res: Response) => {
-  const { email, offers, src, dest, startTime, window, distance, price } =
-    req.body;
+  const { offers, src, dest, startTime, window, distance, price } = req.body;
 
-  const user = await User.findOne({ where: { email } });
+  const user: User = res.locals.user;
 
   const newRequest = new RideRequest({
     user: user,
-
     from: src.name,
     fromGeom: {
       type: "Point",
@@ -102,7 +100,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 
     .leftJoinAndSelect("offer.user", "user")
     .select([
-      "offer.id, offer.userId as driverID, user.firstname, user.lastname,  user.isVerified, user.gender, user.stars, user.totalRatings, user.bio, user.occupation, user.vehicleType, user.vehicleModel, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
+      "offer.id, offer.userId as driverID, user.firstname, user.lastname,  user.isVerified, user.gender, user.email, user.stars, user.totalRatings, user.vehicleType, user.vehicleModel, user.profileImageUri, offer.pricePerKm, offer.departureTime, ST_AsText(offer.fromGeom) as from, offer.from as fromName, ST_AsText(offer.toGeom) as to, offer.to as toName",
     ])
     .where("ST_DWithin(offer.polyline,ST_GeomFromText(:point,4326),0.002)", {
       point: srcGeom,
@@ -117,24 +115,26 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       {
         start: srcGeom,
         end: destGeom,
-      },
+      }
     )
     .andWhere("offer.status IN ('active')")
     .getRawMany();
 
   // from the result set, we filter out offers that are not available at the time of the request
 
+  const reqStartTime = Date.parse(startTime as string);
+
   const asyncOp = async (offer) => {
     const departurePoint = wktToGeoJSON(offer.from).coordinates;
     const duration = await getOSRMDuration(
       { lat: departurePoint[0], long: departurePoint[1] },
-      { lat: srcLat, long: srcLong },
+      { lat: srcLat, long: srcLong }
     );
 
     const pickupTime: Date = addMinutes(offer.departureTime, duration);
 
-    const minTime: Date = subMinutes(parseJSON(startTime as string), +window);
-    const maxTime: Date = addMinutes(parseJSON(startTime as string), +window);
+    const minTime: Date = subMinutes(reqStartTime, +window);
+    const maxTime: Date = addMinutes(reqStartTime, +window);
 
     return minTime <= pickupTime && pickupTime <= maxTime;
   };
@@ -151,7 +151,6 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
   }
 
   const offers = filteredList.map((offer) => {
-    console.log(offer);
     return {
       id: offer.id,
       driver: {
@@ -160,11 +159,10 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
         lastname: offer.lastname,
         isVerified: offer.isVerified,
         gender: offer.gender,
+        email: offer.email,
         stars: offer.stars,
         totalRatings: offer.totalRatings,
         profileImageUri: offer.profileImageUri,
-        bio: offer.bio,
-        occupation: offer.occupation,
         vehicleType: offer.vehicleType,
         vehicleModel: offer.vehicleModel,
       },

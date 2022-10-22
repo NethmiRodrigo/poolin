@@ -55,3 +55,6 @@ app.*.map.json
 
 # Cloud Services
 android/app/google-services.json
+
+android/app/src/main/AndroidManifest.xml
+web/index.html

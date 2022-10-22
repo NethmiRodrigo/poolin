@@ -5,25 +5,26 @@ import 'package:mobile/models/vehicle_type.dart';
 
 class TestData {
   static RideRequest testRideRequest = RideRequest(
-      id: '1',
-      rideID: '00001',
-      pickupLocation: 'University of Colombo School of Computing',
-      dropoffLocation: 'Fort Railway station',
-      pickupTime: DateTime.now().add(const Duration(hours: 3, minutes: 15)),
-      dropoffTime: DateTime.now().add(const Duration(hours: 3, minutes: 45)),
-      totalDistance: 10,
-      rideFare: 1500,
-      requestedOn: DateTime.now().subtract(const Duration(hours: 1)),
-      driver: User(
-          firstName: 'Yadeesha',
-          lastName: 'Weerasinghe',
-          gender: 'female',
-          email: 'yadeesha@gmail.com',
-          stars: 4.5,
-          totalRatings: 250,
-          VehicleNum: 'ABC0988',
-          vehicleType: VehicleType.car),
-      profilePicture: 'https://i.pravatar.cc/300?img=1');
+    id: '1',
+    rideID: '00001',
+    pickupLocation: 'University of Colombo School of Computing',
+    dropoffLocation: 'Fort Railway station',
+    pickupTime: DateTime.now().add(const Duration(hours: 3, minutes: 15)),
+    dropoffTime: DateTime.now().add(const Duration(hours: 3, minutes: 45)),
+    totalDistance: 10,
+    rideFare: 1500,
+    requestedOn: DateTime.now().subtract(const Duration(hours: 1)),
+    driver: User(
+        firstName: 'Yadeesha',
+        lastName: 'Weerasinghe',
+        gender: 'female',
+        email: 'yadeesha@gmail.com',
+        stars: 4.5,
+        totalRatings: 250,
+        vehicleNum: 'ABC0988',
+        vehicleType: VehicleType.car),
+    profilePicture: '',
+  );
 
   static RideOffer testRideOffer = RideOffer(
       id: '00001',
