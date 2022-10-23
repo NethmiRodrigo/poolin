@@ -32,15 +32,12 @@ class RideRequestsList extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      if (pendingRequests[index]['avatar'] != null)
-                        CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(pendingRequests[index]['avatar']),
-                        ),
-                      if (pendingRequests[index]['avatar'] == null)
-                        const CircleAvatar(
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
+                      CircleAvatar(
+                        backgroundColor: BlipColors.lightGrey,
+                        foregroundImage: NetworkImage(pendingRequests[index]
+                                ['avatar'] ??
+                            'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
+                      ),
                       Text(
                         pendingRequests[index]['fname'],
                         style: Theme.of(context).textTheme.labelLarge!.merge(
@@ -50,8 +47,8 @@ class RideRequestsList extends StatelessWidget {
                       Text(
                         '+ Rs. ${pendingRequests[index]['price']} ',
                         style: BlipFonts.labelBold.merge(
-                              const TextStyle(color: Colors.white),
-                            ),
+                          const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

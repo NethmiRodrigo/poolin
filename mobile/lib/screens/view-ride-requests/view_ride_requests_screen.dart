@@ -32,7 +32,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
   late CountdownTimerController controller;
   var isVisible = false;
   List<dynamic>? pendingRequests;
-  List<dynamic>? confirmedRequests;
+  List<RideParticipant> confirmedRequests = [];
 
   @override
   void initState() {
@@ -45,17 +45,13 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
     int offerID = activeRideOffer.state.id!;
     final requestData = await getOfferRequests(offerID);
     pendingRequests = requestData.data['requests'];
-    final partyData = await getConfirmedRequests(offerID);
-    confirmedRequests = partyData.data['requests'];
-    if (confirmedRequests != null) {
-      if ((confirmedRequests?.length)! > 0) {
-        double price = 0;
-        for (var request in confirmedRequests!) {
-          double requestPrice = request['price'];
-          price = price + requestPrice;
-        }
-        activeRideOffer.setPrice(price);
+    confirmedRequests = await getConfirmedRequests(offerID);
+    if (confirmedRequests.isNotEmpty) {
+      double price = 0;
+      for (var req in confirmedRequests) {
+        price = price + req.price;
       }
+      activeRideOffer.setPrice(price);
     }
 
     setState(() {
@@ -173,7 +169,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     ),
                     if (confirmedRequests != null)
                       ConfirmedRequestsList(
-                          confirmedRequests: confirmedRequests!)
+                          confirmedRequests: confirmedRequests)
                   ],
                 ),
               ),
