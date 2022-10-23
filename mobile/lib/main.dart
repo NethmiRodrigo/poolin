@@ -10,6 +10,7 @@ import 'package:poolin/cubits/matching_rides_cubit.dart';
 
 import 'package:poolin/cubits/ride_offer_cubit.dart';
 import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/screens/user/profile/user_profile_screen.dart';
 import 'package:poolin/splash.dart';
 import 'package:poolin/theme.dart';
 
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const SplashScreen(),
+        home: const UserProfileScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

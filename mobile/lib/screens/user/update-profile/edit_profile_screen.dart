@@ -279,7 +279,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ],
                           ),
-                          addVerticalSpace(32),
+                          addVerticalSpace(4),
                           Row(
                             children: [
                               TextButton(
@@ -303,7 +303,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                             ],
                           ),
-                          addVerticalSpace(32),
+                          addVerticalSpace(4),
                           Row(
                             children: [
                               TextButton(
