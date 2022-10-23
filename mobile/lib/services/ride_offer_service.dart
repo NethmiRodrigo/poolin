@@ -74,16 +74,17 @@ Future<List<RideParticipant>> getConfirmedRequests(int id) async {
           role: RideRole.rider,
           firstname: req['firstname'],
           lastname: req['lastname'],
-          price: req['price'],
+          price: double.parse(req['price']),
+          pickupTime: DateTime.parse(req['pickupTime']),
           pickupLocation: Coordinate(
             name: req['pickup']['name'],
             lat: req['pickup']['coordinates'][0],
-            lang: req['pickup']['coordinates'][1],
+            lang: req['pickup']['coordinates'][0],
           ),
           dropoffLocation: Coordinate(
             name: req['dropoff']['name'],
             lat: req['dropoff']['coordinates'][0],
-            lang: req['dropoff']['coordinates'][1],
+            lang: req['dropoff']['coordinates'][0],
           ),
           avatar:
               req['avatar'] ?? 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',

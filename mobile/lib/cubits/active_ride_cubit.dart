@@ -54,6 +54,7 @@ class RideParticipant {
   String lastname;
   String avatar;
   double price;
+  DateTime pickupTime;
   Coordinate pickupLocation;
   Coordinate dropoffLocation;
 
@@ -64,6 +65,7 @@ class RideParticipant {
     required this.lastname,
     this.avatar = 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
     required this.price,
+    required this.pickupTime,
     required this.pickupLocation,
     required this.dropoffLocation,
   });

@@ -127,7 +127,6 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
       "user.lastname AS lastname",
       "user.id AS user_id",
       "user.profileImageUri AS avatar",
-      "rideRequest.from AS pickup",
       "rideRequest.departureTime AS pickupTime",
       "ST_AsText(rideRequest.fromGeom) AS from",
       "rideRequest.from AS fromName",
@@ -137,6 +136,8 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     ])
     .getRawMany();
 
+  console.log(fetchedRequests);
+
   let requests = [];
   requests = fetchedRequests.map((req) => {
     return {
@@ -144,8 +145,8 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
       firstname: req.firstname,
       lastname: req.lastname,
       avatar: req.avatar,
-      pickupTime: req.pickupTime,
-      price: parseFloat(req.price),
+      pickupTime: req.pickuptime,
+      price: parseFloat(req.price).toFixed(2),
       pickup: {
         name: req.fromname,
         coordinates: wktToGeoJSON(req.from).coordinates,
@@ -157,7 +158,9 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     };
   });
 
+  console.log(requests[0]);
+
   return res
     .status(200)
-    .json({ success: "Confirmed Requests  fetched successfully", requests });
+    .json({ success: "Confirmed Requests fetched successfully", requests });
 };

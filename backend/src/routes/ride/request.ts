@@ -178,6 +178,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       },
     };
   });
+
   return res
     .status(200)
     .json({ success: "Received available offers", offers: offers });

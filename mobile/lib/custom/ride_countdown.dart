@@ -105,21 +105,27 @@ class _RideCountDownState extends State<RideCountDown> {
                     ),
                     onPressed: () {
                       // Show final ride details screen if there's less than 2hrs for the ride
-                      (time.days == null && time.hours! < 2)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const FinalRideDetailsScreen(),
-                              ),
-                            )
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ViewRideRequestsScreen(),
-                              ),
-                            );
+                      // (time.days == null && time.hours! < 2)
+                      //     ? Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               const FinalRideDetailsScreen(),
+                      //         ),
+                      //       )
+                      //     : Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) =>
+                      //               const ViewRideRequestsScreen(),
+                      //         ),
+                      //       );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FinalRideDetailsScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],

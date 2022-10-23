@@ -17,7 +17,7 @@ class ConfirmedRequestsList extends StatelessWidget {
         for (var request in confirmedRequests)
           CircleAvatar(
             backgroundColor: BlipColors.lightGrey,
-            foregroundImage: NetworkImage(request['avatar'] ??
+            foregroundImage: NetworkImage(request.avatar ??
                 'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
           )
       ],
@@ -36,7 +36,7 @@ class ConfirmedRequestsList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(request['firstname'] + " " + request['lastname'],
+                Text(request.firstname+ " " + request.lastname,
                     style: BlipFonts.outline),
                 Container(
                   padding:
@@ -46,7 +46,7 @@ class ConfirmedRequestsList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    ("gets on at ${request['pickup']['name']} at ${Jiffy(request['pickupTime']).format("h:mm a").split(" ").join('')}")
+                    ("gets on at ${request.pickupLocation.name} at ${Jiffy(request.pickupTime).format("h:mm a").split(" ").join('')}")
                         .toUpperCase(),
                     style: BlipFonts.taglineBold
                         .merge(const TextStyle(color: BlipColors.blue)),
