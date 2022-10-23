@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:poolin/models/ride_request.dart';
 import 'package:poolin/models/ride_type_model.dart';
 

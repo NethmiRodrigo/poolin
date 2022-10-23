@@ -3,10 +3,10 @@ import 'package:poolin/colors.dart';
 import 'package:poolin/custom/lists/cancelled_rides_list.dart';
 import 'package:poolin/custom/lists/completed_rides_list.dart';
 import 'package:poolin/custom/lists/upcoming_rides_list.dart';
+import 'package:poolin/data.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/models/ride_offer.dart';
 import 'package:poolin/models/ride_request.dart';
-import 'package:poolin/data.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 class RideHistory extends StatefulWidget {

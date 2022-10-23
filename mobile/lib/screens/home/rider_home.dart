@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:poolin/custom/lists/close_friends_list.dart';
 import 'package:poolin/custom/lists/ride_offer_list.dart';
 import 'package:poolin/icons.dart';
@@ -12,7 +11,6 @@ import 'package:poolin/screens/shared/ride/destination_screen.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:poolin/fonts.dart';
 import '../../colors.dart';
-import '../../models/user_model.dart';
 
 class RiderHomeScreen extends StatefulWidget {
   const RiderHomeScreen({Key? key}) : super(key: key);
@@ -24,12 +22,6 @@ class RiderHomeScreen extends StatefulWidget {
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
-  late User currentUser = User(
-    firstName: '',
-    lastName: '',
-    email: '',
-    gender: '',
-  );
 
   final List<RideOffer> _rideOffers = [
     RideOffer(
@@ -103,11 +95,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   bool isRiding = false; //rider is riding if he currently has a ride
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     const double padding = 16;
     final Size size = MediaQuery.of(context).size;
@@ -163,7 +150,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                           alignment: Alignment.bottomRight,
                           child: IconButton(
                             icon: const Icon(
-                              BlipIcons.arrow_right,
+                              BlipIcons.arrowRight,
                               size: 20,
                               color: BlipColors.white,
                             ),

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poolin/colors.dart';
-import 'package:poolin/constants/search_offer_results.dart';
 import 'package:poolin/custom/indicator.dart';
 import 'package:poolin/custom/lists/ride_offer_result_list.dart';
 import 'package:poolin/fonts.dart';
-import 'package:poolin/models/ride_offer_search_result.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 class RequestedTrips extends StatefulWidget {
@@ -16,7 +14,6 @@ class RequestedTrips extends StatefulWidget {
 }
 
 class _RequestedTripsState extends State<RequestedTrips> {
-  final List<RideOfferSearchResult> _rideOffers = results;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,13 +59,13 @@ class _RequestedTripsState extends State<RequestedTrips> {
                   ),
                   const Indicator(
                       icon: CupertinoIcons.minus,
-                      text: "45 mins",
+                      text: "30 mins",
                       color: BlipColors.grey),
                 ],
               ),
               addVerticalSpace(10.0),
-              Expanded(
-                child: RideOfferResultList(_rideOffers, "requested"),
+              const Expanded(
+                child: RideOfferResultList("requested"),
               ),
             ],
           ),

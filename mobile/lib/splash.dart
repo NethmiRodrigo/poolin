@@ -3,13 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poolin/app.dart';
-import 'package:poolin/colors.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/models/user_model.dart';
 import 'package:poolin/screens/login/login_screen.dart';
 import 'package:poolin/services/auth_service.dart';
 import 'package:poolin/services/interceptor/is_loggedin.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -36,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Response response = await getCurrentUser();
     User loggedInUser = User.fromJson(response.data);
     userCubit?.setUser("1", loggedInUser.firstName, loggedInUser.lastName,
-        loggedInUser.gender, loggedInUser.email);
+        loggedInUser.gender, loggedInUser.email.toString());
   }
 
   void setLoggedInState() async {
@@ -52,20 +50,33 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    userCubit = BlocProvider.of<CurrentUserCubit>(context);
-    return isLoading
-        ? const Center(
-            child: CircularProgressIndicator(
-              color: BlipColors.orange,
-            ),
-          )
-        : AnimatedSplashScreen(
-            splashTransition: SplashTransition.fadeTransition,
-            pageTransitionType: PageTransitionType.fade,
-            backgroundColor: const Color(0xffff8210),
-            splash: "assets/images/poolin.gif",
-            splashIconSize: 2500,
-            nextScreen: isLoggedIn ? const App() : const LoginScreen(),
-          );
+    final CurrentUserCubit userCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
+
+    void setUser() async {
+      Response response = await getCurrentUser();
+      if (response.statusCode == 200) {
+        userCubit.setId(response.data['id'].toString());
+        userCubit.setFirstName(response.data['firstname']);
+        userCubit.setLastName(response.data['lastname']);
+        userCubit.setEmail(response.data['email']);
+        userCubit.setGender(response.data['gender']);
+        if (response.data['profileImageUri'] != null) {
+          userCubit.setProfilePic(response.data['profileImageUri']);
+        }
+      }
+    }
+
+    if (isLoggedIn) {
+      setUser();
+    }
+
+    return AnimatedSplashScreen(
+      splashTransition: SplashTransition.fadeTransition,
+      backgroundColor: const Color(0xffff8210),
+      splash: "assets/images/poolin.gif",
+      splashIconSize: 2500,
+      nextScreen: isLoggedIn ? const App() : const LoginScreen(),
+    );
   }
 }

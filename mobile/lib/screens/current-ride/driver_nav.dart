@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:location/location.dart';
 
 import 'package:poolin/colors.dart';
@@ -32,7 +32,7 @@ class _DriverNavState extends State<DriverNav> {
   BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
 
-  late IO.Socket socket;
+  late io.Socket socket;
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class _DriverNavState extends State<DriverNav> {
     String? socketServer = dotenv.env['LOCATION_SERVER'];
 
     try {
-      socket = IO.io(socketServer, <String, dynamic>{
+      socket = io.io(socketServer, <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': true,
       });

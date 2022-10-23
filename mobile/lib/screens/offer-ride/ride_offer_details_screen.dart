@@ -23,11 +23,12 @@ class RideOfferDetailsScreen extends StatefulWidget {
 }
 
 class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
-  late CameraPosition _initalPosition;
   final _storage = const FlutterSecureStorage();
   final Completer<GoogleMapController> _controller = Completer();
   late GooglePlace googlePlace;
   Set<Marker> _markers = {};
+  BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
   final MapType _currentMapType = MapType.normal;
 
   Map<PolylineId, Polyline> polylines = {};
@@ -51,9 +52,28 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
 
   @override
   void initState() {
+    setCustomMarkers();
     googlePlace = GooglePlace(apiKey!);
     _getPolyline();
     super.initState();
+  }
+
+  void setCustomMarkers() async {
+    // Create custom icons
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-black.png",
+    );
+
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/location-pin-orange.png",
+    );
+
+    setState(() {
+      destinationMarker = destinationIcon;
+      sourceMarker = startIcon;
+    });
   }
 
   _getPolyline() async {
@@ -68,20 +88,18 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
         position:
             LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
         draggable: false,
+        icon: sourceMarker,
       ),
       Marker(
         markerId: const MarkerId('destination'),
         position: LatLng(
             destinationLocation['latitude'], destinationLocation['longitude']),
         draggable: false,
+        icon: destinationMarker,
       ),
     };
     setState(() {
       _markers = markers;
-      _initalPosition = CameraPosition(
-          target:
-              LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
-          zoom: 20);
     });
 
     var result = await getPolyline(

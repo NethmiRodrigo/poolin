@@ -4,6 +4,6 @@ node_modules/
 build/
 tmp/
 temp/
-.env
 logfile
 .DS_Store
+.env

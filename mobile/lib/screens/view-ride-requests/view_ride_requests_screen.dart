@@ -1,11 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 
 import 'package:poolin/colors.dart';
-
 import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/ride-details/ride_details_screen.dart';
 import 'package:poolin/screens/view-ride-requests/confirmed_requests_list.dart';

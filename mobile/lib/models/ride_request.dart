@@ -36,8 +36,8 @@ class RideRequest {
     this.rideFare = 0.00,
     DateTime? pickupTime,
     DateTime? dropoffTime,
-  })  : this.pickupTime = pickupTime ?? DateTime.now(),
-        this.dropoffTime = dropoffTime ?? DateTime.now();
+  })  : pickupTime = pickupTime ?? DateTime.now(),
+        dropoffTime = dropoffTime ?? DateTime.now();
 
   factory RideRequest.fromJson(Map<String, dynamic> json) => RideRequest(
       id: json["id"],

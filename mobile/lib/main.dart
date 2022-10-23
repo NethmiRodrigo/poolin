@@ -6,11 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/auth_cubit.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+
 import 'package:poolin/cubits/ride_offer_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
 import 'package:poolin/splash.dart';
-
-import './theme.dart';
-
 import 'package:poolin/theme.dart';
 
 Future<void> main() async {
@@ -34,8 +34,14 @@ class MyApp extends StatelessWidget {
         BlocProvider<ActiveRideCubit>(
           create: (context) => ActiveRideCubit(),
         ),
+        BlocProvider<RideRequestCubit>(
+          create: (context) => RideRequestCubit(),
+        ),
         BlocProvider<CurrentUserCubit>(
           create: (context) => CurrentUserCubit(),
+        ),
+        BlocProvider<MatchingOffersCubit>(
+          create: (context) => MatchingOffersCubit(),
         ),
         BlocProvider<AuthStateCubit>(
           create: (context) => AuthStateCubit(),

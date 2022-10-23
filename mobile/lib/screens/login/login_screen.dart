@@ -46,7 +46,7 @@ class LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(48),
+              addVerticalSpace(44),
               Image.asset('assets/images/logo.png', height: 24),
               const Text(
                 "Let's sign \nyou back in",

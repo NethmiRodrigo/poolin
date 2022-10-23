@@ -36,28 +36,30 @@ class RiderRideVisibilityScreen extends StatefulWidget {
 }
 
 class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
+  final RangeValues currentRangeValues = const RangeValues(40, 80);
   List<bool> isSelected = [true, false];
-  static final List<Faculty> _faculties = [
+  static final List<Faculty> faculties = [
     Faculty(id: 1, name: "UCSC"),
     Faculty(id: 2, name: "FMF"),
     Faculty(id: 3, name: "FOL"),
     Faculty(id: 4, name: "FOM"),
     Faculty(id: 5, name: "FOA"),
   ];
-  List<Faculty> _selectedFaculties = [];
+  List<Faculty> selectedFaculties = [];
 
-  static final List<Vehicle> _vehicles = [
+  static final List<Vehicle> vehicles = [
     Vehicle(id: 1, name: "Car"),
     Vehicle(id: 2, name: "Van"),
     Vehicle(id: 3, name: "Bike"),
   ];
-  List<Vehicle> _selectedVehicles = [];
+  List<Vehicle> selectedVehicles = [];
   double _currentSliderValue = 1;
 
   @override
   Widget build(BuildContext context) {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -167,10 +169,10 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
               ),
               MultiSelectDialogField(
                 items:
-                    _faculties.map((e) => MultiSelectItem(e, e.name)).toList(),
+                    faculties.map((e) => MultiSelectItem(e, e.name)).toList(),
                 listType: MultiSelectListType.CHIP,
                 onConfirm: (List<Faculty> values) {
-                  _selectedFaculties = values;
+                  selectedFaculties = values;
                 },
               ),
               addVerticalSpace(32),
@@ -183,11 +185,10 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
               ),
               MultiSelectDialogField(
                 title: const Text(""),
-                items:
-                    _vehicles.map((e) => MultiSelectItem(e, e.name)).toList(),
+                items: vehicles.map((e) => MultiSelectItem(e, e.name)).toList(),
                 listType: MultiSelectListType.CHIP,
                 onConfirm: (List<Vehicle> values) {
-                  _selectedVehicles = values;
+                  selectedVehicles = values;
                 },
               ),
             ],

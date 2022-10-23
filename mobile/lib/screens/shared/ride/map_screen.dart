@@ -1,15 +1,15 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
 import 'package:poolin/models/coordinate_model.dart';
 
 import 'package:poolin/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:poolin/screens/view-ride-offers/view_ride_offers_screen.dart';
+import 'package:poolin/screens/request-ride/confirm_trip_details.dart';
 import 'package:poolin/services/polyline_service.dart';
 import 'package:poolin/utils/map_utils.dart';
 import 'package:poolin/utils/widget_functions.dart';
@@ -41,14 +41,19 @@ class _MapScreenState extends State<MapScreen> {
 
   String? apiKey = dotenv.env['MAPS_API_KEY'];
 
+  BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
+
   @override
   void initState() {
     __loadRideType();
-    __saveLocations();
+    setCustomMarkers();
 
     _initalPosition = CameraPosition(
-        target: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
-            widget.sourcePosition!.geometry!.location!.lng!),
+        target: LatLng(
+          widget.sourcePosition!.geometry!.location!.lat!,
+          widget.sourcePosition!.geometry!.location!.lng!,
+        ),
         zoom: 20);
     super.initState();
   }
@@ -60,19 +65,22 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  __saveLocations() async {
-    Map source = {
-      "latitude": widget.sourcePosition!.geometry!.location!.lat,
-      "longitude": widget.sourcePosition!.geometry!.location!.lng,
-      "name": widget.sourcePosition!.name
-    };
-    Map destination = {
-      "latitude": widget.destinationPosition!.geometry!.location!.lat,
-      "longitude": widget.destinationPosition!.geometry!.location!.lng,
-      "name": widget.destinationPosition!.name,
-    };
-    await _storage.write(key: "SOURCE", value: jsonEncode(source));
-    await _storage.write(key: "DESTINATION", value: jsonEncode(destination));
+  void setCustomMarkers() async {
+    // Create custom icons
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-black.png",
+    );
+
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/location-pin-orange.png",
+    );
+
+    setState(() {
+      destinationMarker = destinationIcon;
+      sourceMarker = startIcon;
+    });
   }
 
   _getPolyline() async {
@@ -116,31 +124,94 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
-    offerCubit.setSource(Coordinate(
-        lat: widget.sourcePosition!.geometry!.location!.lat!,
-        lang: widget.sourcePosition!.geometry!.location!.lng!,
-        name: widget.sourcePosition!.name!));
-    offerCubit.setDestination(Coordinate(
-        lat: widget.destinationPosition!.geometry!.location!.lat!,
-        lang: widget.destinationPosition!.geometry!.location!.lng!,
-        name: widget.destinationPosition!.name!));
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+
+    if (rideType == "offer") {
+      offerCubit.setSource(Coordinate(
+          lat: widget.sourcePosition!.geometry!.location!.lat!,
+          lang: widget.sourcePosition!.geometry!.location!.lng!,
+          name: widget.sourcePosition!.name!));
+      offerCubit.setDestination(Coordinate(
+          lat: widget.destinationPosition!.geometry!.location!.lat!,
+          lang: widget.destinationPosition!.geometry!.location!.lng!,
+          name: widget.destinationPosition!.name!));
+    } else {
+      reqCubit.setSource(Coordinate(
+          lat: widget.sourcePosition!.geometry!.location!.lat!,
+          lang: widget.sourcePosition!.geometry!.location!.lng!,
+          name: widget.sourcePosition!.name!));
+      reqCubit.setDestination(Coordinate(
+          lat: widget.destinationPosition!.geometry!.location!.lat!,
+          lang: widget.destinationPosition!.geometry!.location!.lng!,
+          name: widget.destinationPosition!.name!));
+    }
+
+    Future<bool> saveDistanceDuration() async {
+      Dio dio = Dio();
+
+      String? apiURL = dotenv.env['DISTANCE_MATRIX_API_URL'];
+
+      try {
+        Response response;
+
+        if (rideType == "offer") {
+          response = await dio.get(
+              "$apiURL?origins=${offerCubit.state.source.lat}%2C${offerCubit.state.source.lang}&destinations=${offerCubit.state.destination.lat}%2C${offerCubit.state.destination.lang}&key=$apiKey&mode=driving");
+        } else {
+          response = await dio.get(
+              "$apiURL?origins=${reqCubit.state.source.lat}%2C${reqCubit.state.source.lang}&destinations=${reqCubit.state.destination.lat}%2C${reqCubit.state.destination.lang}&key=$apiKey&mode=driving");
+        }
+
+        if (response.data["rows"][0]["elements"][0]["status"] == "OK") {
+          int durationInSeconds =
+              response.data["rows"][0]["elements"][0]["duration"]["value"];
+          int distanceInMeters =
+              response.data["rows"][0]["elements"][0]['distance']["value"];
+
+          setState(() {
+            if (rideType == "offer") {
+              offerCubit.setDuration(durationInSeconds ~/ 60);
+              offerCubit.setDistance(distanceInMeters / 1000);
+            } else {
+              reqCubit.setDistance(distanceInMeters / 1000);
+              reqCubit.setDuration(durationInSeconds ~/ 60);
+            }
+          });
+          return true;
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+      return false;
+    }
 
     Set<Marker> markers = {
       Marker(
         markerId: const MarkerId('source'),
-        position: LatLng(widget.sourcePosition!.geometry!.location!.lat!,
-            widget.sourcePosition!.geometry!.location!.lng!),
+        position: LatLng(
+          widget.sourcePosition!.geometry!.location!.lat!,
+          widget.sourcePosition!.geometry!.location!.lng!,
+        ),
         draggable: false,
         infoWindow: InfoWindow(
-            title: "Start Location", snippet: widget.sourcePosition!.name!),
+          title: "Start Location",
+          snippet: widget.sourcePosition!.name!,
+        ),
+        icon: sourceMarker,
       ),
       Marker(
         markerId: const MarkerId('destination'),
-        position: LatLng(widget.destinationPosition!.geometry!.location!.lat!,
-            widget.destinationPosition!.geometry!.location!.lng!),
+        position: LatLng(
+          widget.destinationPosition!.geometry!.location!.lat!,
+          widget.destinationPosition!.geometry!.location!.lng!,
+        ),
         draggable: false,
         infoWindow: InfoWindow(
-            title: "End Location", snippet: widget.destinationPosition!.name!),
+          title: "End Location",
+          snippet: widget.destinationPosition!.name!,
+        ),
+        icon: destinationMarker,
       ),
     };
 
@@ -210,14 +281,19 @@ class _MapScreenState extends State<MapScreen> {
                       text: rideType == "offer"
                           ? 'Post an offer'
                           : "Look for ride offers",
-                      onPressedAction: () {
-                        Navigator.push(
+                      onPressedAction: () async {
+                        bool result = await saveDistanceDuration();
+                        if (result) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => rideType == "offer"
                                   ? const RideOfferDetailsScreen()
-                                  : const ViewRideOffersScreen(),
-                            ));
+                                  : const ConfirmTripDetailsScreen(),
+                            ),
+                          );
+                        }
                       },
                     ),
                   ],

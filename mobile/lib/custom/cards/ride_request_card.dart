@@ -141,7 +141,7 @@ class RideRequestCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            rideRequest.driver.VehicleNum,
+                            rideRequest.driver.vehicleNum,
                             style: BlipFonts.labelBold,
                           ),
                           Text(
@@ -160,7 +160,7 @@ class RideRequestCard extends StatelessWidget {
                         spacing: 5.0,
                         children: [
                           const Icon(
-                            BlipIcons.double_location_pin,
+                            BlipIcons.doubleLocationPin,
                             color: BlipColors.black,
                             size: 14.0,
                           ),

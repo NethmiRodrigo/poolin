@@ -4,7 +4,6 @@ import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-//import 'package:color_picker_field/color_picker_field.dart';
 
 var reports = [
   {'title': 'assets/images/car.png', 'content': 'Car'},

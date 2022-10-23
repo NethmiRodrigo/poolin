@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
@@ -11,9 +12,9 @@ import 'dart:ui' as ui;
 import 'dart:typed_data';
 
 import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/fonts.dart';
-import 'package:poolin/models/user_model.dart';
 import 'package:poolin/screens/current-ride/driver_nav.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
@@ -28,12 +29,6 @@ class _StartRideState extends State<StartRide> {
   int rideStartTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(minutes: 15).inMilliseconds;
   late CountdownTimerController timerController;
-  final User currentUser = User(
-    firstName: 'Yadeesha',
-    lastName: 'Doe',
-    email: 'yadeesha@gmail.com',
-    gender: 'female',
-  );
 
   final LatLng startPoint = const LatLng(6.9063474012458, 79.86057108194697);
   final LatLng destination = const LatLng(6.916662437771989, 79.86387932108144);
@@ -134,6 +129,8 @@ class _StartRideState extends State<StartRide> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    final CurrentUserCubit currentUser =
+        BlocProvider.of<CurrentUserCubit>(context);
 
     return Scaffold(
       body: (currentLocation == null || _coordinates == null)
@@ -164,7 +161,7 @@ class _StartRideState extends State<StartRide> {
                       return Column(
                         children: [
                           Text(
-                            'Hey ${currentUser.firstName}!\nYour ride starts in,',
+                            'Hey ${currentUser.state.firstName}!\nYour ride starts in,',
                             style: BlipFonts.title,
                             textAlign: TextAlign.center,
                           ),

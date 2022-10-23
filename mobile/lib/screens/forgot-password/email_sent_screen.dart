@@ -47,7 +47,7 @@ class EmailSentScreenState extends State<EmailSentScreen> {
                 addVerticalSpace(16),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 48),
-                  child: const Text(
+                  child: Text(
                     'A verification code was \nsent to your email',
                     style: BlipFonts.label,
                     textAlign: TextAlign.center,

@@ -78,7 +78,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   bio: string;
 
-  @Column({ default: 0.0 })
+  @Column({ type: "decimal", precision: 2, scale: 1, default: 0 })
   stars: number;
 
   @Column({ default: 0 })

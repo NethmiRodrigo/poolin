@@ -1,36 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:poolin/cubits/ride_offer_cubit.dart';
+
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/models/user_model.dart';
 import 'package:poolin/services/interceptor/dio_service.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
-const _storage = FlutterSecureStorage();
 
 final dio = DioService.getService();
 
-Future<Response> postRequest(RideOffer rideOffer) async {
-  String? email = await _storage.read(key: 'KEY_EMAIL');
-
+Future<Response> postRequest(RideRequest rideRequest) async {
   Map data = {
-    'src': {
-      'lat': rideOffer.source.lat,
-      'long': rideOffer.source.lang,
-      'name': rideOffer.source.name,
-    },
-    'dest': {
-      'lat': rideOffer.destination.lat,
-      'long': rideOffer.destination.lang,
-      'name': rideOffer.destination.name,
-    },
-    'email': email,
-    'ppkm': rideOffer.ppkm,
-    'distance': rideOffer.distance,
-    'seats': rideOffer.seatCount,
-    'startTime': rideOffer.startTime.toString(),
-    'endTime': rideOffer.startTime
-        .add(Duration(minutes: rideOffer.duration))
-        .toString(),
+    'src': rideRequest.source,
+    'dest': rideRequest.destination,
+    'distance': rideRequest.distance,
+    'startTime': rideRequest.startTime.toString(),
+    'window': rideRequest.window,
+    'offers': rideRequest.offerIDs,
+    'price': rideRequest.price != 0 ? rideRequest.price : null,
+    'duration': rideRequest.duration,
   };
 
   dio.options.baseUrl = baseURL;
@@ -54,6 +44,47 @@ Future<Response> getOfferRequests() async {
   final response = await dio.get('/get/offer/requests/1');
 
   return response;
+}
+
+Future<List<MatchedOffer>> getAvailableOffers(RideRequest rideRequest) async {
+  dio.options.baseUrl = baseURL;
+
+  List<MatchedOffer> rideOffers = [];
+
+  final response = await dio.get(
+    '/get/matching-requests',
+    queryParameters: {
+      'srcLat': rideRequest.source.lat,
+      'srcLong': rideRequest.source.lang,
+      'destLat': rideRequest.destination.lat,
+      'destLong': rideRequest.destination.lang,
+      'startTime': rideRequest.startTime,
+      'window': rideRequest.window,
+    },
+  );
+
+  if (response.statusCode == 200 && response.data['offers'].isNotEmpty) {
+    response.data['offers'].forEach((offer) {
+      rideOffers.add(MatchedOffer(
+        id: offer['id'],
+        startTime: DateTime.parse(offer['startTime']),
+        pricePerKM: offer['pricePerKm'].toDouble(),
+        source: Coordinate(
+          lat: offer['source']['coordinates'][0],
+          lang: offer['source']['coordinates'][1],
+          name: offer['source']['name'],
+        ),
+        destination: Coordinate(
+          lat: offer['destination']['coordinates'][0],
+          lang: offer['destination']['coordinates'][1],
+          name: offer['destination']['name'],
+        ),
+        driver: User.fromJson(offer['driver']),
+      ));
+    });
+  }
+
+  return rideOffers;
 }
 
 Future<Response> acceptRequest(offerId, requestId) async {

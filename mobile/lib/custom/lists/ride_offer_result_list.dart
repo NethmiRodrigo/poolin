@@ -1,16 +1,16 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/models/vehicle_type.dart';
 import 'package:poolin/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
 
-import 'package:poolin/models/ride_offer_search_result.dart';
-
 class RideOfferResultList extends StatelessWidget {
-  bool isChecked = false;
-  final List<RideOfferSearchResult> offers;
   final String type;
 
   Color getColor(Set<MaterialState> states) {
@@ -25,10 +25,15 @@ class RideOfferResultList extends StatelessWidget {
     return Colors.black;
   }
 
-  RideOfferResultList(this.offers, this.type, {Key? key}) : super(key: key);
+  const RideOfferResultList(this.type, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final RideRequestCubit reqCubit =
+        BlocProvider.of<RideRequestCubit>(context);
+    final MatchingOffersCubit matchingOffersCubit =
+        BlocProvider.of<MatchingOffersCubit>(context);
+
     return Scrollbar(
       thumbVisibility: true,
       child: ListView.builder(
@@ -38,133 +43,140 @@ class RideOfferResultList extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => const ViewRideOfferDetails()),
+                  builder: ((context) => ViewRideOfferDetails(index)),
                 ),
               );
             },
             child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
+                  side: (reqCubit.state.offerIDs
+                          .contains(matchingOffersCubit.state.offers[index].id))
+                      ? const BorderSide(
+                          color: BlipColors.orange,
+                          width: 1.0,
+                        )
+                      : const BorderSide(
+                          color: BlipColors.white,
+                          width: 1.0,
+                        ),
                 ),
+                color: (reqCubit.state.offerIDs
+                        .contains(matchingOffersCubit.state.offers[index].id))
+                    ? BlipColors.lightGrey
+                    : BlipColors.white,
+                elevation: (reqCubit.state.offerIDs
+                        .contains(matchingOffersCubit.state.offers[index].id))
+                    ? 0
+                    : 3,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Stack(
+                  child: Column(
                     children: [
-                      Column(
+                      Row(
                         children: [
-                          Row(
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: BlipColors.lightGrey,
+                            foregroundImage: NetworkImage(
+                              matchingOffersCubit
+                                  .state.offers[index].driver.profilePicURL,
+                            ),
+                          ),
+                          addHorizontalSpace(5.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 20,
-                                foregroundImage: NetworkImage(
-                                  offers[index].user.profilePicture,
-                                ),
+                              Text(
+                                '${matchingOffersCubit.state.offers[index].driver.firstName} ${matchingOffersCubit.state.offers[index].driver.lastName}',
+                                style: BlipFonts.outline,
                               ),
-                              addHorizontalSpace(5.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  const Icon(
+                                    Icons.star_rounded,
+                                    size: 10.0,
+                                    color: BlipColors.gold,
+                                  ),
+                                  addHorizontalSpace(8.0),
                                   Text(
-                                    offers[index].user.name,
-                                    style: BlipFonts.outline,
+                                    matchingOffersCubit
+                                        .state.offers[index].driver.stars
+                                        .toString(),
+                                    style: BlipFonts.tagline,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.star_rounded,
-                                        size: 10.0,
-                                        color: BlipColors.gold,
-                                      ),
-                                      addHorizontalSpace(8.0),
-                                      Text(
-                                        offers[index]
-                                            .user
-                                            .starRating
-                                            .toString(),
-                                        style: BlipFonts.tagline,
-                                      ),
-                                      addHorizontalSpace(8.0),
-                                      const Icon(
-                                        Icons.circle,
-                                        size: 4.0,
-                                      ),
-                                      addHorizontalSpace(8.0),
-                                      Text(
-                                        offers[index]
-                                            .user
-                                            .noOfRatings
-                                            .toString(),
-                                        style: BlipFonts.tagline,
-                                      )
-                                    ],
+                                  addHorizontalSpace(8.0),
+                                  const Icon(
+                                    Icons.circle,
+                                    size: 4.0,
                                   ),
+                                  addHorizontalSpace(8.0),
+                                  Text(
+                                    matchingOffersCubit
+                                        .state.offers[index].driver.totalRatings
+                                        .toString(),
+                                    style: BlipFonts.tagline,
+                                  )
                                 ],
                               ),
-                              const Spacer(),
-                              type == "view"
-                                  ? SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Checkbox(
-                                        checkColor: BlipColors.black,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          isChecked = value!;
-                                        },
-                                      ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          (matchingOffersCubit
+                                      .state.offers[index].driver.vehicleType ==
+                                  VehicleType.bike)
+                              ? const Icon(
+                                  BlipIcons.bike,
+                                  color: BlipColors.grey,
+                                  size: 24.0,
+                                )
+                              : (matchingOffersCubit.state.offers[index].driver
+                                          .vehicleType ==
+                                      VehicleType.van)
+                                  ? const Icon(
+                                      BlipIcons.car,
+                                      color: BlipColors.grey,
+                                      size: 24.0,
                                     )
-                                  : IconButton(
-                                      icon: const Icon(
-                                        EvaIcons.trash2,
-                                        color: BlipColors.grey,
-                                        size: 20.0,
-                                      ),
-                                      onPressed: () {},
+                                  : const Icon(
+                                      BlipIcons.car,
+                                      color: BlipColors.grey,
+                                      size: 15.0,
                                     ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Icon(
-                                Icons.directions_car_filled_rounded,
-                                color: BlipColors.grey,
-                              ),
-                              addHorizontalSpace(5.0),
-                              Text(
-                                offers[index].model,
-                                style: BlipFonts.outline.merge(
-                                  const TextStyle(color: BlipColors.grey),
-                                ),
-                              )
-                            ],
-                          ),
-                          addVerticalSpace(8.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                "Rs. ${offers[index].price}",
-                                style: BlipFonts.labelBold,
-                              ),
-                              addHorizontalSpace(8.0),
-                              const Icon(Icons.chevron_right_rounded)
-                            ],
+                          addHorizontalSpace(10.0),
+                          Text(
+                            matchingOffersCubit
+                                .state.offers[index].driver.vehicleModel,
+                            style: BlipFonts.outline.merge(
+                              const TextStyle(color: BlipColors.grey),
+                            ),
                           )
                         ],
                       ),
+                      addVerticalSpace(8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Rs. ${matchingOffersCubit.state.offers[index].pricePerKM}",
+                            style: BlipFonts.labelBold,
+                          ),
+                          addHorizontalSpace(8.0),
+                          const Icon(Icons.chevron_right_rounded)
+                        ],
+                      )
                     ],
                   ),
                 )),
           );
         },
-        itemCount: offers.length,
+        itemCount: matchingOffersCubit.state.offers.length,
       ),
     );
   }

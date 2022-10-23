@@ -28,9 +28,9 @@ import '../../custom/outline_button.dart';
 import '../../fonts.dart';
 
 class ReserveRequestScreen extends StatefulWidget {
-  const ReserveRequestScreen({super.key, required this.request});
-
   final request;
+
+  const ReserveRequestScreen({super.key, required this.request});
 
   @override
   ReserveRequestScreenState createState() {
@@ -142,20 +142,19 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                       CustomPaint(
                           size: const Size(1, 18),
                           painter: DashedLineVerticalPainter()),
-                      const Icon(EvaIcons.arrowIosDownward,
-                          color: BlipColors.orange),
+                      const Icon(EvaIcons.arrowIosDownward, color: BlipColors.orange),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(widget.request["start"],
-                          style: BlipFonts.labelBold.merge(
-                              const TextStyle(color: BlipColors.orange))),
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.orange))),
                       addVerticalSpace(24),
                       Text(widget.request["end"],
-                          style: BlipFonts.labelBold.merge(
-                              const TextStyle(color: BlipColors.orange))),
+                          style: BlipFonts.labelBold
+                              .merge(const TextStyle(color: BlipColors.orange))),
                     ],
                   )
                 ],
