@@ -42,7 +42,7 @@ export const postRideRequests = async (req: Request, res: Response) => {
     const requestToOffer = new RequestToOffer({
       request: newRequest,
       offer: rideOffer,
-      price: price ? price : rideOffer.pricePerKm * distance,
+      price: price ? price * newRequest.distance : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
   });
