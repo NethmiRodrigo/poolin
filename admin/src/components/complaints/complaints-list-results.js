@@ -5,8 +5,10 @@ import { format } from 'date-fns';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -87,10 +89,45 @@ export const ComplaintsListResults = ({ customers, ...rest }) => {
                 <TableCell>
                   Ride ID
                 </TableCell>
+                <TableCell>
+                </TableCell>
+                <TableCell>
+                </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
+                <TableRow>
+                  <TableCell>
+                    23
+                  </TableCell>
+                  <TableCell>
+                    25
+                  </TableCell>
+                  <TableCell>
+                    26
+                  </TableCell>
+                  <TableCell>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </TableCell>
+                  <TableCell>
+                    12.00 PM
+                  </TableCell>
+                  <TableCell>
+                    34
+                  </TableCell>
+                  <TableCell>
+                    <Button>
+                        somethng 
+                    </Button>
+
+                
+                  </TableCell>
+                </TableRow>
+              
+            </TableBody>
+
+            {/* <TableBody>
               {customers.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
@@ -139,7 +176,7 @@ export const ComplaintsListResults = ({ customers, ...rest }) => {
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
+            </TableBody> */}
 
           </Table>
         </Box>
