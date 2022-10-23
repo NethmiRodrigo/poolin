@@ -42,7 +42,7 @@ const Login = () => {
   useEffect(() => {
     const cookie = localStorage.getItem("Cookie");
     if (cookie) router.push("/");
-  });
+  }, []);
 
   return (
     <>

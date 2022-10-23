@@ -26,7 +26,7 @@ const App = (props) => {
     const cookie = localStorage.getItem("Cookie");
     if (!cookie) router.push("/login");
     if (cookie) axios.defaults.headers.common["cookie"] = cookie;
-  });
+  }, []);
 
   return (
     <CacheProvider value={emotionCache}>
