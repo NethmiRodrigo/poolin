@@ -6,6 +6,7 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 import { login } from "src/services/auth.service";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Login = () => {
   const router = useRouter();
@@ -36,6 +37,11 @@ const Login = () => {
         console.error(error);
       }
     },
+  });
+
+  useEffect(() => {
+    const cookie = localStorage.getItem("Cookie");
+    if (cookie) router.push("/");
   });
 
   return (
