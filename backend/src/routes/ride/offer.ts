@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { In } from "typeorm";
+import { Double, In } from "typeorm";
 import { AppDataSource } from "../../data-source";
+import { wktToGeoJSON } from "@terraformer/wkt";
 
 /** Entities */
 import { RideOffer } from "../../database/entity/RideOffer";
@@ -113,7 +114,7 @@ export const getOfferRequests = async (req: Request, res: Response) => {
 export const getConfirmedRequests = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const requests = await RideOffer.createQueryBuilder("offer")
+  const fetchedRequests = await RideOffer.createQueryBuilder("offer")
     //join happens as property of parent
     .leftJoinAndSelect("offer.requestsToOffer", "request")
     .where("offer.id = :id", { id: +id })
@@ -122,15 +123,39 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     .where("rideRequest.status = 'confirmed'")
     .leftJoinAndSelect("rideRequest.user", "user")
     .select([
-      "user.firstname AS fname",
-      "user.lastname AS lname",
-      "user.id as user_id",
-      "user.profileImageUri as avatar",
+      "user.firstname AS firstname",
+      "user.lastname AS lastname",
+      "user.id AS user_id",
+      "user.profileImageUri AS avatar",
       "rideRequest.from AS pickup",
-      "rideRequest.departureTime AS startTime",
+      "rideRequest.departureTime AS pickupTime",
+      "ST_AsText(rideRequest.fromGeom) AS from",
+      "rideRequest.from AS fromName",
+      "ST_AsText(rideRequest.toGeom) AS to",
+      "rideRequest.to AS toName",
       "request.price AS price",
     ])
     .getRawMany();
+
+  let requests = [];
+  requests = fetchedRequests.map((req) => {
+    return {
+      user_id: req.user_id,
+      firstname: req.firstname,
+      lastname: req.lastname,
+      avatar: req.avatar,
+      pickupTime: req.pickupTime,
+      price: parseFloat(req.price),
+      pickup: {
+        name: req.fromname,
+        coordinates: wktToGeoJSON(req.from).coordinates,
+      },
+      dropoff: {
+        name: req.toname,
+        coordinates: wktToGeoJSON(req.to).coordinates,
+      },
+    };
+  });
 
   return res
     .status(200)

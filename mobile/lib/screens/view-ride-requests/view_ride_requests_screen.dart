@@ -51,7 +51,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
       if ((confirmedRequests?.length)! > 0) {
         double price = 0;
         for (var request in confirmedRequests!) {
-          double requestPrice = double.parse(request['price']);
+          double requestPrice = request['price'];
           price = price + requestPrice;
         }
         activeRideOffer.setPrice(price);

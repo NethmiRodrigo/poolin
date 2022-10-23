@@ -30,7 +30,6 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
   late ActiveRideCubit activeRideCubit;
   late CountdownTimerController controller;
   bool isLoading = false;
-  List<dynamic>? confirmedRequests;
 
   @override
   void initState() {
@@ -47,19 +46,15 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
 
   getRideDetails() async {
     int offerID = activeRideCubit.state.id!;
+    final List<RideParticipant> partyData = await getConfirmedRequests(offerID);
+    activeRideCubit.setParty(partyData);
 
-    final partyData = await getConfirmedRequests(offerID);
-    confirmedRequests = partyData.data['requests'];
-
-    if (confirmedRequests != null) {
-      if ((confirmedRequests?.length)! > 0) {
-        double price = 0;
-        for (var request in confirmedRequests!) {
-          double requestPrice = double.parse(request['price']);
-          price = price + requestPrice;
-        }
-        activeRideCubit.setPrice(price);
+    if (activeRideCubit.state.partyData.isNotEmpty) {
+      double price = 0;
+      for (var req in activeRideCubit.state.partyData) {
+        price = price + req.price;
       }
+      activeRideCubit.setPrice(price);
     }
   }
 
@@ -176,9 +171,9 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                           )
                         ],
                       ),
-                      if (confirmedRequests != null)
+                      if (activeRideCubit.state.partyData.isNotEmpty)
                         ConfirmedRequestsList(
-                          confirmedRequests: confirmedRequests!,
+                          confirmedRequests: activeRideCubit.state.partyData,
                         ),
                       const Spacer(),
                       CountdownTimer(
@@ -209,8 +204,15 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                               addVerticalSpace(12),
                               WideButton(
                                 text: 'Start ride now',
-                                onPressedAction: () {},
-                                isDisabled: true,
+                                onPressedAction: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const StartRide()),
+                                  );
+                                },
+                                isDisabled: false,
                               )
                             ],
                           );

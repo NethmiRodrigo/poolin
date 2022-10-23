@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/models/coordinate_model.dart';
+import 'package:mobile/models/ride_role_type.dart';
 import 'package:mobile/models/ride_type_model.dart';
 
 class ActiveRide {
@@ -9,6 +11,7 @@ class ActiveRide {
   int seats;
   double price;
   late DateTime? departureTime;
+  List<RideParticipant> partyData;
 
   ActiveRide({
     required this.id,
@@ -17,6 +20,7 @@ class ActiveRide {
     required this.destination,
     this.seats = 5,
     this.price = 0,
+    this.partyData = const [],
     DateTime? departTime,
   }) : departureTime = departTime;
 
@@ -28,6 +32,7 @@ class ActiveRide {
     int? seats,
     double? price,
     DateTime? departureTime,
+    List<RideParticipant>? partyData,
   }) {
     return ActiveRide(
       id: id ?? this.id,
@@ -37,8 +42,31 @@ class ActiveRide {
       seats: seats ?? this.seats,
       price: price ?? this.price,
       departTime: departureTime ?? this.departureTime,
+      partyData: partyData ?? this.partyData,
     );
   }
+}
+
+class RideParticipant {
+  int id;
+  RideRole role;
+  String firstname;
+  String lastname;
+  String avatar;
+  double price;
+  Coordinate pickupLocation;
+  Coordinate dropoffLocation;
+
+  RideParticipant({
+    required this.id,
+    required this.role,
+    required this.firstname,
+    required this.lastname,
+    this.avatar = 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
+    required this.price,
+    required this.pickupLocation,
+    required this.dropoffLocation,
+  });
 }
 
 class ActiveRideCubit extends Cubit<ActiveRide> {
@@ -80,4 +108,7 @@ class ActiveRideCubit extends Cubit<ActiveRide> {
       emit(state.copyWith(price: state.price -= price));
 
   void setPrice(double price) => emit(state.copyWith(price: price));
+
+  void setParty(List<RideParticipant> party) =>
+      emit(state.copyWith(partyData: party));
 }
