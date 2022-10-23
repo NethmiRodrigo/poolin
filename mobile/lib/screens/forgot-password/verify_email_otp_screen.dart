@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/otp_fields.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/screens/forgot-password/reset_password_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/otp_fields.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/screens/forgot-password/reset_password_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/services/reset_password_service.dart';
+import 'package:poolin/services/reset_password_service.dart';
 
 import '../../colors.dart';
 import '../../fonts.dart';

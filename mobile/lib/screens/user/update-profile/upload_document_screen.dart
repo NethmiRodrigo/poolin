@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
   const UploadDocumentScreen({Key? key}) : super(key: key);

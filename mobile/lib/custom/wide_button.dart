@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 
 class WideButton extends StatelessWidget {
   final String text;

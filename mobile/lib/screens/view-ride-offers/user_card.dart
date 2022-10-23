@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/screens/view-profile/driver_profile_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/screens/view-profile/driver_profile_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class UserCard extends StatelessWidget {
   final User driver;

@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/matching_rides_cubit.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/custom/dashed_line.dart';
-import 'package:mobile/custom/outline_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/utils/widget_functions.dart';
+
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/custom/dashed_line.dart';
+import 'package:poolin/custom/outline_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class RideOfferTimeline extends StatefulWidget {
   final MatchedOffer offer;

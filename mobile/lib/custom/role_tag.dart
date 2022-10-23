@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/icons.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/icons.dart';
 
 class UserRoleTag {
   static Widget driver = Wrap(

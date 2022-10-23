@@ -1,4 +1,4 @@
-package com.example.mobile
+package com.poolin.poolin
 
 import io.flutter.embedding.android.FlutterActivity
 

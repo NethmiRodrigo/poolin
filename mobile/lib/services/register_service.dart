@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:mobile/models/user_model.dart';
+import 'package:poolin/models/user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/services/interceptor/dio_service.dart';
-import 'package:mobile/services/interceptor/save_cookie.dart';
+import 'package:poolin/services/interceptor/dio_service.dart';
+import 'package:poolin/services/interceptor/save_cookie.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/auth';
 
@@ -51,8 +51,6 @@ Future<Response> checkSMSOTP(String otp, String mobile, String email) async {
 
     if (!result) {
       print('Could not save cookie');
-    } else {
-      print('Cookie saved');
     }
   }
 

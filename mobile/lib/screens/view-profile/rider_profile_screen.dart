@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/backward_button.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
-import 'package:mobile/services/user_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/backward_button.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/view-profile/mutual_friends_screen.dart';
+import 'package:poolin/services/user_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../colors.dart';
@@ -67,7 +67,7 @@ class RiderProfileScreenState extends State<RiderProfileScreen> {
                         'https://i.pravatar.cc/300?img=3',
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       right: 10.0,
                       bottom: 0.0,
                       child: Icon(

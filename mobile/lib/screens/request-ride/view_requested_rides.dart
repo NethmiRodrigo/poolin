@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/indicator.dart';
-import 'package:mobile/custom/lists/ride_offer_result_list.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/indicator.dart';
+import 'package:poolin/custom/lists/ride_offer_result_list.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class RequestedTrips extends StatefulWidget {
   const RequestedTrips({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class RequestedTrips extends StatefulWidget {
 }
 
 class _RequestedTripsState extends State<RequestedTrips> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,9 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/outline_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/outline_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/view-profile/rider_profile_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import '../../../colors.dart';
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 
@@ -21,7 +21,6 @@ class MutualFriendsScreen extends StatefulWidget {
 class MutualFriendsScreenState extends State<MutualFriendsScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.friends);
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);

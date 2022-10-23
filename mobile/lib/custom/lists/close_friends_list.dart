@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/models/friend.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/models/friend.dart';
 
-import 'package:mobile/fonts.dart';
+import 'package:poolin/fonts.dart';
 
 class CloseFriendsList extends StatelessWidget {
   final List<Friend> friends;
@@ -30,7 +30,10 @@ class CloseFriendsList extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(friends[index].firstName, style: BlipFonts.outlineBold,),
+                Text(
+                  friends[index].firstName,
+                  style: BlipFonts.outlineBold,
+                ),
               ],
             ),
           );

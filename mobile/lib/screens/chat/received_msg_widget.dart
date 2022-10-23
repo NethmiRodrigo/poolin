@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class ReceivedMessage extends StatelessWidget {
   final String sender;

@@ -2,8 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 
 import '../../utils/widget_functions.dart';
 
@@ -88,7 +88,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                             itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
@@ -125,7 +126,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                             itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,
@@ -162,7 +164,8 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             allowHalfRating: true,
                             itemCount: 5,
                             itemSize: 16,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                             itemBuilder: (context, _) => const Icon(
                               EvaIcons.star,
                               size: 8,

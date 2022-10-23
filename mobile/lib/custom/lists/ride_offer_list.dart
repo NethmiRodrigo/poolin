@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
-import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/models/ride_offer.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 
 class RideOfferList extends StatelessWidget {
   final List<RideOffer> offers;
