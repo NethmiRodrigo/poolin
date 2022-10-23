@@ -25,7 +25,7 @@ const items = [
   {
     href: "/customers",
     icon: <UsersIcon fontSize="small" />,
-    title: "Customers",
+    title: "Users",
   },
   {
     href: "/products",
