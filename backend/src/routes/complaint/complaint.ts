@@ -11,11 +11,11 @@ export const reportUser = async (req: Request, res: Response) => {
     throw new AppError(401, { complaint: "Complaint cannot be empty" });
   if (isEmpty(complaintFor))
     throw new AppError(401, {
-      complaintFor: "Complaint party for cannot be empty",
+      complaintFor: "Complainee cannot be empty",
     });
   if (isEmpty(complaintBy))
     throw new AppError(401, {
-      complaintBy: "Complaint party by cannot be empty",
+      complaintBy: "Complainer cannot be empty",
     });
 
   if (isEmpty(tripId))
