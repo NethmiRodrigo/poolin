@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const RideVisibilityScreen(),
+        home: const RiderRideVisibilityScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

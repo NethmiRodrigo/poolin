@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="76ca9b65-90ec-4b8c-9254-21a276139ff9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/mobile/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile/lib/screens/user/update-profile/edit_profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/mobile/lib/screens/user/update-profile/edit_profile_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
