@@ -1,13 +1,14 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/role_tag.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/role_tag.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/models/ride_offer.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class RideOfferCard extends StatelessWidget {
   final RideOffer rideOffer;

@@ -2,16 +2,17 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/app.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
-import 'package:mobile/cubits/current_user_cubit.dart';
-import 'package:mobile/models/active_ride_offer.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/screens/login/login_screen.dart';
-import 'package:mobile/services/auth_service.dart';
-import 'package:mobile/services/interceptor/is_loggedin.dart';
-import 'package:mobile/services/ride_offer_service.dart';
+
+import 'package:poolin/app.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
+import 'package:poolin/models/active_ride_offer.dart';
+import 'package:poolin/models/ride_type_model.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/screens/login/login_screen.dart';
+import 'package:poolin/services/auth_service.dart';
+import 'package:poolin/services/interceptor/is_loggedin.dart';
+import 'package:poolin/services/ride_offer_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

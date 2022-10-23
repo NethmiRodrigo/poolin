@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/cards/home_screen_card.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/current-ride/final_ride_details.dart';
-import 'package:mobile/screens/view-ride-requests/view_ride_requests_screen.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/cards/home_screen_card.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/current-ride/final_ride_details.dart';
+import 'package:poolin/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 class RideCountDown extends StatefulWidget {
   final int endTime;

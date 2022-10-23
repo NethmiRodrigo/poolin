@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/offer-ride/offer_confirmation.dart';
-import 'package:mobile/services/distance_duration_service.dart';
-import 'package:mobile/services/ride_offer_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/ride_offer_cubit.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/offer-ride/offer_confirmation.dart';
+import 'package:poolin/services/distance_duration_service.dart';
+import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class OfferDetailsCard extends StatefulWidget {
   const OfferDetailsCard({Key? key}) : super(key: key);
@@ -32,31 +32,6 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     final RideOfferCubit offerCubit = BlocProvider.of<RideOfferCubit>(context);
-    bool isLoading = false;
-
-    Future<Response> handleOfferCreate() async {
-      setState(() {
-        isLoading = true;
-      });
-
-      offerCubit.setStartTime(startTime);
-      Response response = await getDistanceAndTime(
-          offerCubit.state.source, offerCubit.state.destination);
-      final res = json.decode(response.data);
-      if (response.statusCode == 200) {
-        print(res["rows"][0]["elements"]);
-      }
-      final distance = double.parse(
-          res["rows"][0]["elements"][0]["distance"]["text"].split(' ')[0]);
-      final duration = int.parse(
-          res["rows"][0]["elements"][0]["duration"]["text"].split(' ')[0]);
-      offerCubit.setDistance((distance * 1.60934));
-      offerCubit.setDuration(duration);
-
-      Response postResponse = await postOffer(offerCubit.state);
-
-      return postResponse;
-    }
 
     Future<DateTime?> showDatePicker() {
       return DatePicker.showDateTimePicker(context,
@@ -72,27 +47,31 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: BlipColors.orange,
-              ),
-            )
-          : ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              child: SingleChildScrollView(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  padding: sidePadding,
-                  height: size.height * 0.5,
-                  width: size.width,
+      body: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            padding: sidePadding,
+            height: size.height * 0.5,
+            width: size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                addVerticalSpace(24),
+                const Text(
+                  'Confirm your Offer',
+                  style: BlipFonts.title,
+                ),
+                addVerticalSpace(40),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addVerticalSpace(size.height * 0.5 * 0.05),
                       const Text(
@@ -277,15 +256,11 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                             final distance = double.parse(res["rows"][0]
                                     ["elements"][0]["distance"]["text"]
                                 .split(' ')[0]);
-                            print(distance);
                             final duration = int.parse(res["rows"][0]
                                     ["elements"][0]["duration"]["text"]
                                 .split(' ')[0]);
-                            print(duration);
                             offerCubit.setDistance((distance * 1.60934));
-                            print("done");
                             offerCubit.setDuration(duration);
-
                             Response postResponse =
                                 await postOffer(offerCubit.state);
                             if (postResponse.statusCode == 200) {
@@ -306,8 +281,39 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                     ],
                   ),
                 ),
-              ),
+                addVerticalSpace(32),
+                WideButton(
+                    text:
+                        "I'll arrive at ${Jiffy(startTime).format("h:mm a").split(" ").join('')} ${Jiffy(startTime).startOf(Units.HOUR).fromNow()}",
+                    onPressedAction: () async {
+                      offerCubit.setStartTime(startTime);
+                      Response response = await getDistanceAndTime(
+                          offerCubit.state.source,
+                          offerCubit.state.destination);
+                      final res = response.data;
+                      final distance = double.parse(res["rows"][0]["elements"]
+                              [0]["distance"]["text"]
+                          .split(' ')[0]);
+                      final duration = int.parse(res["rows"][0]["elements"][0]
+                              ["duration"]["text"]
+                          .split(' ')[0]);
+                      offerCubit.setDistance((distance * 1.60934));
+                      offerCubit.setDuration(duration);
+
+                      Response postResponse = await postOffer(offerCubit.state);
+                      if (postResponse.statusCode == 200) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const OfferConfirmation()),
+                        );
+                      }
+                    })
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 }

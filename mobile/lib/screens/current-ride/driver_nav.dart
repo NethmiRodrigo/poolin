@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:location/location.dart';
 
-import 'package:mobile/colors.dart';
+import 'package:poolin/colors.dart';
 
 class DriverNav extends StatefulWidget {
   const DriverNav({Key? key}) : super(key: key);
@@ -87,7 +87,6 @@ class _DriverNavState extends State<DriverNav> {
   }
 
   Future<void> setCustomMarkers() async {
-
     BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",

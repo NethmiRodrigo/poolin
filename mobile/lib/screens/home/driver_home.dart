@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
-import 'package:mobile/custom/cards/home_screen_card.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/custom/cards/home_screen_card.dart';
 
-import 'package:mobile/custom/lists/pass_request_list.dart';
-import 'package:mobile/custom/toggle_to_driver.dart';
-import 'package:mobile/custom/ride_countdown.dart';
-import 'package:mobile/models/passenger_request.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/screens/shared/ride/destination_screen.dart';
-import 'package:mobile/services/ride_offer_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/custom/lists/pass_request_list.dart';
+import 'package:poolin/custom/toggle_to_driver.dart';
+import 'package:poolin/custom/ride_countdown.dart';
+import 'package:poolin/models/passenger_request.dart';
+import 'package:poolin/models/ride_type_model.dart';
+import 'package:poolin/screens/shared/ride/destination_screen.dart';
+import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
+import 'package:poolin/fonts.dart';
 import '../../colors.dart';
 
 class DriverHomeScreen extends StatefulWidget {

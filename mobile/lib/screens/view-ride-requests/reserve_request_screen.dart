@@ -6,16 +6,16 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
-import 'package:mobile/custom/backward_button.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/custom/backward_button.dart';
 
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
-import 'package:mobile/screens/view-ride-requests/accept_request_confirmation_screen.dart';
-import 'package:mobile/services/ride_offer_service.dart';
-import 'package:mobile/services/ride_request_service.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/screens/view-profile/rider_profile_screen.dart';
+import 'package:poolin/screens/view-ride-requests/accept_request_confirmation_screen.dart';
+import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/services/ride_request_service.dart';
 
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';

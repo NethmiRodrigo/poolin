@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class Indicator extends StatelessWidget {
   final IconData icon;

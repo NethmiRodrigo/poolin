@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/user/update-profile/change_password_screen.dart';
-import 'package:mobile/screens/user/update-profile/edit_bio_screen.dart';
-import 'package:mobile/screens/user/update-profile/edit_full_name_screen.dart';
-import 'package:mobile/screens/user/update-profile/edit_personal_details_screen.dart';
-import 'package:mobile/screens/user/update-profile/upload_document_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/screens/user/update-profile/change_password_screen.dart';
+import 'package:poolin/screens/user/update-profile/edit_bio_screen.dart';
+import 'package:poolin/screens/user/update-profile/edit_full_name_screen.dart';
+import 'package:poolin/screens/user/update-profile/edit_personal_details_screen.dart';
+import 'package:poolin/screens/user/update-profile/upload_document_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

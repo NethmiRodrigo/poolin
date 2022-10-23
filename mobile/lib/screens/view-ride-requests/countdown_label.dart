@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/fonts.dart';
 
 class CountDownLabel extends StatelessWidget {
   const CountDownLabel({Key? key}) : super(key: key);

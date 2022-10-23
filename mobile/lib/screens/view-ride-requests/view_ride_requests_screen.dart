@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/ride-details/ride_details_screen.dart';
-import 'package:mobile/screens/view-ride-requests/confirmed_requests_list.dart';
-import 'package:mobile/screens/view-ride-requests/countdown_label.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/ride-details/ride_details_screen.dart';
+import 'package:poolin/screens/view-ride-requests/confirmed_requests_list.dart';
+import 'package:poolin/screens/view-ride-requests/countdown_label.dart';
+import 'package:poolin/screens/view-ride-requests/ride_requests_list.dart';
 
-import 'package:mobile/screens/view-ride-requests/ride_requests_list.dart';
-import 'package:mobile/utils/widget_functions.dart';
-
+import 'package:poolin/utils/widget_functions.dart';
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
 import '../../custom/indicator.dart';

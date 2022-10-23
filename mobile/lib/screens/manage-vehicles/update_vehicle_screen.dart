@@ -1,11 +1,9 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-//import 'package:color_picker_field/color_picker_field.dart';
-
 
 var reports = [
   {'title': 'assets/images/car.png', 'content': 'Car'},
@@ -78,27 +76,25 @@ class UpdateVehicleScreenState extends State<UpdateVehicleScreen> {
                                     i,
                                     Builder(
                                       builder: (BuildContext context) {
-                                        return Container(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Expanded(
-                                                flex: 8,
-                                                child: Image.asset(
-                                                  '${report['title']}',
-                                                  height: 80,
-                                                ),
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Expanded(
+                                              flex: 8,
+                                              child: Image.asset(
+                                                '${report['title']}',
+                                                height: 80,
                                               ),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  '${report['content']}',
-                                                  style: BlipFonts.label,
-                                                ),
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(
+                                                '${report['content']}',
+                                                style: BlipFonts.label,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         );
                                       },
                                     ),

@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
-import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
-import 'package:mobile/services/user_service.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/screens/view-profile/mutual_friends_screen.dart';
+import 'package:poolin/screens/view-ride-offers/view_ride_offers_screen.dart';
+import 'package:poolin/services/user_service.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import '../../../colors.dart';
 
 class DriverProfileScreen extends StatefulWidget {
@@ -224,8 +224,9 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    MutualFriendsScreen(friends: const [],),
+                                builder: (context) => MutualFriendsScreen(
+                                  friends: const [],
+                                ),
                               ),
                             );
                           },

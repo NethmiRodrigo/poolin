@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/auth_cubit.dart';
-import 'package:mobile/cubits/current_user_cubit.dart';
-import 'package:mobile/screens/login/login_screen.dart';
-import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
-import 'package:mobile/services/auth_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/auth_cubit.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
+import 'package:poolin/screens/login/login_screen.dart';
+import 'package:poolin/screens/user/update-profile/edit_profile_screen.dart';
+import 'package:poolin/services/auth_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserProfileScreen extends StatefulWidget {

@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
-import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/ride_role_type.dart';
-import 'package:mobile/services/interceptor/dio_service.dart';
+
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/cubits/ride_offer_cubit.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/models/ride_role_type.dart';
+import 'package:poolin/services/interceptor/dio_service.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
 

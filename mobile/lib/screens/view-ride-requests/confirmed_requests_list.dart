@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/timeline.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/timeline.dart';
+import 'package:poolin/fonts.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:mobile/screens/view-profile/rider_profile_screen.dart';
+import 'package:poolin/screens/view-profile/rider_profile_screen.dart';
 
 class ConfirmedRequestsList extends StatelessWidget {
   ConfirmedRequestsList({Key? key, required this.confirmedRequests})
