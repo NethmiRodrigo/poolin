@@ -32,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
     setLoggedInState();
-    getActiveRide();
   }
 
   void setUser() async {
@@ -42,11 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Response response = await getCurrentUser();
     User loggedInUser = User.fromJson(response.data);
     userCubit?.setUser(
-        loggedInUser.id,
-        loggedInUser.firstName,
-        loggedInUser.lastName,
-        loggedInUser.gender,
-        loggedInUser.email.toString());
+      loggedInUser.id,
+      loggedInUser.firstName,
+      loggedInUser.lastName,
+      loggedInUser.gender,
+      loggedInUser.email.toString(),
+    );
+    getActiveRide();
   }
 
   void setLoggedInState() async {

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/ride_role_type.dart';
-import 'package:mobile/models/ride_type_model.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/models/ride_role_type.dart';
+import 'package:poolin/models/ride_type_model.dart';
 
 class ActiveRide {
   int? id;
