@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,10 +15,12 @@ import 'dart:ui' as ui;
 import 'dart:typed_data';
 
 import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/current-ride/driver_nav.dart';
+import 'package:poolin/services/distance_duration_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 class StartRide extends StatefulWidget {
@@ -26,19 +31,21 @@ class StartRide extends StatefulWidget {
 }
 
 class _StartRideState extends State<StartRide> {
-  int rideStartTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(minutes: 15).inMilliseconds;
   late CountdownTimerController timerController;
+  late ActiveRideCubit activeRideCubit;
 
-  final LatLng startPoint = const LatLng(6.9063474012458, 79.86057108194697);
-  final LatLng destination = const LatLng(6.916662437771989, 79.86387932108144);
+  late LatLng startPoint;
+  late LatLng destination;
+  LocationData? currentLocation;
+
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
 
-  List<LatLng>? _coordinates;
-  late GoogleMapPolyline googleMapPolyline;
-
-  LocationData? currentLocation;
+  // all the pickups and dropoffs
+  List<PolylineWayPoint> routeCheckpoints = [];
+  final Set<Marker> _markers = {};
+  Map<PolylineId, Polyline> polylines = {};
+  PolylinePoints polylinePoints = PolylinePoints();
 
   BitmapDescriptor startMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
@@ -49,22 +56,49 @@ class _StartRideState extends State<StartRide> {
   @override
   void initState() {
     super.initState();
+    activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    startPoint = LatLng(
+        activeRideCubit.state.source.lat, activeRideCubit.state.source.lang);
+    destination = LatLng(activeRideCubit.state.destination.lat,
+        activeRideCubit.state.destination.lang);
     setCustomMarkers();
-    String? apiKey = dotenv.env['MAPS_API_KEY'];
-    googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
-    getPolyPoints();
     getCurrentLocation();
-    timerController =
-        CountdownTimerController(endTime: rideStartTime, onEnd: () => {});
+    setRouteCheckPoints();
+    getPolyPoints();
+
+    timerController = CountdownTimerController(
+        endTime: activeRideCubit.state.departureTime!.millisecondsSinceEpoch);
+  }
+
+  void setRouteCheckPoints() {
+    for (var pass in activeRideCubit.state.partyData) {
+      // passenger's pickup
+      routeCheckpoints.add(PolylineWayPoint(
+          location: "${pass.pickupLocation.lat},${pass.pickupLocation.lang}"));
+      // passenger's dropoff
+      routeCheckpoints.add(PolylineWayPoint(
+          location:
+              "${pass.dropoffLocation.lat},${pass.dropoffLocation.lang}"));
+    }
   }
 
   void getCurrentLocation() async {
     Location location = Location();
-
     LocationData? result = await location.getLocation();
 
     setState(() {
       currentLocation = result;
+      // driver's current location
+      _markers.add(
+        Marker(
+          markerId: const MarkerId('currentLocation'),
+          position: LatLng(
+            currentLocation!.latitude!,
+            currentLocation!.longitude!,
+          ),
+          icon: currentLocationMarker,
+        ),
+      );
     });
 
     location.onLocationChanged.listen((newLocation) {
@@ -79,18 +113,39 @@ class _StartRideState extends State<StartRide> {
   }
 
   void getPolyPoints() async {
-    List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
-        origin: startPoint, destination: destination, mode: RouteMode.driving);
-    setState(() {
-      if (coords != null) {
-        _coordinates = coords;
+    List<LatLng> coordinates = [];
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        apiKey!,
+        PointLatLng(activeRideCubit.state.source.lat,
+            activeRideCubit.state.source.lang),
+        PointLatLng(activeRideCubit.state.destination.lat,
+            activeRideCubit.state.destination.lang),
+        wayPoints: routeCheckpoints);
+
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        coordinates.add(LatLng(point.latitude, point.longitude));
       }
-    });
+    } else {
+      print(result.errorMessage);
+    }
+    _addPolyLine(coordinates);
+  }
+
+  _addPolyLine(List<LatLng> polylineCoords) {
+    PolylineId id = const PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: BlipColors.blue,
+      points: polylineCoords,
+      width: 5,
+    );
+    polylines[id] = polyline;
+    setState(() {});
   }
 
   void setCustomMarkers() async {
-    // Create custom icons
-
+    //Create custom icons
     BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/source-pin-black.png",
@@ -111,17 +166,66 @@ class _StartRideState extends State<StartRide> {
       destinationMarker = destinationIcon;
       startMarker = startIcon;
     });
-  }
 
-  Future<Uint8List> getBytesFromAsset(
-      {String? path, required int width}) async {
-    ByteData data = await rootBundle.load(path!);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    // driver's start
+    _markers.add(
+      Marker(
+        markerId: const MarkerId('Your start'),
+        position: LatLng(
+          activeRideCubit.state.source.lat,
+          activeRideCubit.state.source.lang,
+        ),
+        infoWindow: InfoWindow(
+          title: 'Your start here',
+          snippet: activeRideCubit.state.source.name,
+        ),
+        icon: startMarker,
+      ),
+    );
+
+    // driver's destination
+    _markers.add(
+      Marker(
+        markerId: const MarkerId('Your destination'),
+        position: LatLng(
+          activeRideCubit.state.destination.lat,
+          activeRideCubit.state.destination.lang,
+        ),
+        infoWindow: InfoWindow(
+          title: 'Your end here',
+          snippet: activeRideCubit.state.destination.name,
+        ),
+        icon: destinationMarker,
+      ),
+    );
+
+    for (var pass in activeRideCubit.state.partyData) {
+      // passenger's pickup
+      _markers.add(
+        Marker(
+          markerId: MarkerId('Pickup ${pass.firstname}'),
+          position: LatLng(pass.pickupLocation.lat, pass.pickupLocation.lang),
+          infoWindow: InfoWindow(
+            title: pass.firstname,
+            snippet: 'Pickup at ${pass.pickupLocation.name}',
+          ),
+          icon: startMarker,
+        ),
+      );
+
+      // passenger's dropoff
+      _markers.add(
+        Marker(
+          markerId: MarkerId('Dropoff ${pass.firstname}'),
+          position: LatLng(pass.dropoffLocation.lat, pass.dropoffLocation.lang),
+          infoWindow: InfoWindow(
+            title: pass.firstname,
+            snippet: 'Dropoff at ${pass.dropoffLocation.name}',
+          ),
+          icon: destinationMarker,
+        ),
+      );
+    }
   }
 
   @override
@@ -133,7 +237,7 @@ class _StartRideState extends State<StartRide> {
         BlocProvider.of<CurrentUserCubit>(context);
 
     return Scaffold(
-      body: (currentLocation == null || _coordinates == null)
+      body: (currentLocation == null)
           ? const Center(
               child: CircularProgressIndicator(
                 color: BlipColors.orange,
@@ -184,37 +288,10 @@ class _StartRideState extends State<StartRide> {
                         zoom: 13.0,
                       ),
                       mapType: _currentMapType,
-                      polylines: {
-                        Polyline(
-                          polylineId: const PolylineId("route"),
-                          color: BlipColors.blue,
-                          points: _coordinates!,
-                          width: 5,
-                          onTap: () {},
-                        )
-                      },
+                      polylines: Set<Polyline>.of(polylines.values),
+                      markers: _markers,
                       myLocationButtonEnabled: true,
                       myLocationEnabled: true,
-                      markers: {
-                        Marker(
-                          markerId: const MarkerId('currentLocation'),
-                          position: LatLng(
-                            currentLocation!.latitude!,
-                            currentLocation!.longitude!,
-                          ),
-                          icon: currentLocationMarker,
-                        ),
-                        Marker(
-                          markerId: const MarkerId('source'),
-                          position: startPoint,
-                          icon: startMarker,
-                        ),
-                        Marker(
-                          markerId: const MarkerId('destination'),
-                          position: destination,
-                          icon: destinationMarker,
-                        ),
-                      },
                     ),
                   ),
                   addVerticalSpace(16),

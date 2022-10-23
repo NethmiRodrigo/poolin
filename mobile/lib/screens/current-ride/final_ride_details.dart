@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,12 +36,11 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
   void initState() {
     super.initState();
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    // enable start button from 5mins before the scheduled start time
     controller = CountdownTimerController(
-      endTime: activeRideCubit
-          .getDepartureTime()
-          .subtract(const Duration(minutes: 5))
-          .millisecondsSinceEpoch,
-    );
+        endTime: activeRideCubit.state.departureTime!
+            .subtract(const Duration(minutes: 5))
+            .millisecondsSinceEpoch);
     getRideDetails();
   }
 
@@ -117,7 +118,7 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                           const Spacer(),
                           Expanded(
                             child: Text(
-                              activeRideCubit.state.source,
+                              activeRideCubit.state.source.name,
                               style: BlipFonts.label,
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.clip,
@@ -136,7 +137,7 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                           const Spacer(),
                           Expanded(
                             child: Text(
-                              activeRideCubit.state.destination,
+                              activeRideCubit.state.destination.name,
                               style: BlipFonts.label,
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.clip,

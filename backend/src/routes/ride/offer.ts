@@ -68,21 +68,47 @@ export const getActiveOffer = async (req: Request, res: Response) => {
     return res.status(404).json({ error: "User not found" });
   }
 
-  const rideRepository = AppDataSource.getRepository(RideOffer);
-
-  const response = await rideRepository.findOne({
-    relations: { user: true },
-    where: { user: { email: user.email }, status: In(["booked"]) },
-  });
+  const response = await RideOffer.createQueryBuilder("offer")
+    .where("offer.userId = :id", { id: user.id })
+    .andWhere("offer.status = 'booked'")
+    .select([
+      "offer.id AS id",
+      "offer.from AS fromName",
+      "ST_AsText(offer.fromGeom) AS from",
+      "offer.to AS toName",
+      "ST_AsText(offer.toGeom) AS to",
+      "offer.departureTime AS departureTime",
+      "offer.arrivalTime AS arrivalTime",
+      "offer.pricePerKm AS pricePerKm",
+      "offer.status AS status",
+      "offer.seats AS seats",
+      "offer.distance AS distance",
+    ])
+    .getRawOne();
 
   if (!response) {
     return res.status(200).json({ error: "No active offer", offer: null });
   }
 
-  delete response.polyline;
-  delete response.user;
+  const offer = {
+    id: response.id,
+    departureTime: new Date(+new Date(response.departuretime) + 60000*330),
+    arrivalTime: new Date(+new Date(response.arrivaltime) + 60000*330),
+    pricePerKm: response.priceperkm,
+    status: response.status,
+    seats: response.seats,
+    distance: response.distance,
+    source: {
+      name: response.fromname,
+      coordinates: wktToGeoJSON(response.from).coordinates,
+    },
+    destination: {
+      name: response.toname,
+      coordinates: wktToGeoJSON(response.to).coordinates,
+    },
+  }
 
-  return res.status(200).json({ offer: response });
+  return res.status(200).json({ offer: offer });
 };
 
 export const getOfferRequests = async (req: Request, res: Response) => {

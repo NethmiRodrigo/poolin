@@ -6,8 +6,8 @@ import 'package:poolin/models/ride_type_model.dart';
 class ActiveRide {
   int? id;
   RideType? type;
-  String source;
-  String destination;
+  Coordinate source;
+  Coordinate destination;
   int seats;
   double price;
   late DateTime? departureTime;
@@ -27,8 +27,8 @@ class ActiveRide {
   ActiveRide copyWith({
     int? id,
     RideType? type,
-    String? source,
-    String? destination,
+    Coordinate? source,
+    Coordinate? destination,
     int? seats,
     double? price,
     DateTime? departureTime,
@@ -76,17 +76,17 @@ class ActiveRideCubit extends Cubit<ActiveRide> {
       : super(ActiveRide(
           id: null,
           type: null,
-          source: '',
-          destination: '',
+          source: Coordinate(),
+          destination: Coordinate(),
         ));
 
   void setId(int id) => emit(state.copyWith(id: id));
 
   void setType(RideType type) => emit(state.copyWith(type: type));
 
-  void setSource(String source) => emit(state.copyWith(source: source));
+  void setSource(Coordinate source) => emit(state.copyWith(source: source));
 
-  void setDestination(String destination) =>
+  void setDestination(Coordinate destination) =>
       emit(state.copyWith(destination: destination));
 
   int? getId() => state.id;
