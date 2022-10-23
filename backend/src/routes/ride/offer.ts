@@ -136,8 +136,6 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
     ])
     .getRawMany();
 
-  console.log(fetchedRequests);
-
   let requests = [];
   requests = fetchedRequests.map((req) => {
     return {
@@ -157,8 +155,6 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
       },
     };
   });
-
-  console.log(requests[0]);
 
   return res
     .status(200)

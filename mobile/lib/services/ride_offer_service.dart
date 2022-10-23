@@ -80,12 +80,12 @@ Future<List<RideParticipant>> getConfirmedRequests(int id) async {
           pickupLocation: Coordinate(
             name: req['pickup']['name'],
             lat: req['pickup']['coordinates'][0],
-            lang: req['pickup']['coordinates'][0],
+            lang: req['pickup']['coordinates'][1],
           ),
           dropoffLocation: Coordinate(
             name: req['dropoff']['name'],
             lat: req['dropoff']['coordinates'][0],
-            lang: req['dropoff']['coordinates'][0],
+            lang: req['dropoff']['coordinates'][1],
           ),
           avatar:
               req['avatar'] ?? 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',

@@ -22,12 +22,12 @@ export const postRideRequests = async (req: Request, res: Response) => {
     from: src.name,
     fromGeom: {
       type: "Point",
-      coordinates: [src.lat, src.long],
+      coordinates: [src.lat, src.lang],
     },
     to: dest.name,
     toGeom: {
       type: "Point",
-      coordinates: [dest.lat, dest.long],
+      coordinates: [dest.lat, dest.lang],
     },
     departureTime: startTime,
     timeWindow: window,
