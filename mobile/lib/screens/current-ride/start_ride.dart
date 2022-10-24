@@ -45,8 +45,6 @@ class _StartRideState extends State<StartRide> {
   BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
 
-  bool isLoading = false;
-
   @override
   void initState() {
     super.initState();
@@ -83,8 +81,6 @@ class _StartRideState extends State<StartRide> {
     setState(() {
       currentLocation = result;
     });
-
-    GoogleMapController googleMapController = await _controller.future;
 
     location.onLocationChanged.listen((newLocation) {
       setState(() {

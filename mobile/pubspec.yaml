@@ -88,6 +88,7 @@ dependencies:
   shared_preferences: ^2.0.15
   persistent_bottom_nav_bar: any
   page_transition: ^2.0.9
+  timelines: ^0.1.0
   # flutter_svg: any
 
 dev_dependencies:

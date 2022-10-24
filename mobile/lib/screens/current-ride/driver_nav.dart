@@ -279,16 +279,12 @@ class _DriverNavState extends State<DriverNav> {
                       mapType: _currentMapType,
                       polylines: Set<Polyline>.of(polylines.values),
                       markers: _markers,
-                      myLocationButtonEnabled: true,
-                      myLocationEnabled: true,
                       onCameraMove: _onCameraMove,
                     ),
                   );
                 }),
                 DraggableScrollableSheet(
                   initialChildSize: 0.25,
-                  minChildSize: 0.25,
-                  maxChildSize: 0.25,
                   builder: (context, scrollController) {
                     return Container(
                       padding: const EdgeInsets.all(8.0),
@@ -298,7 +294,7 @@ class _DriverNavState extends State<DriverNav> {
                           topRight: Radius.circular(20.0),
                         ),
                       ),
-                      child: DriverTimeline(),
+                      child: const DriverTimeline(),
                     );
                   },
                 ),
