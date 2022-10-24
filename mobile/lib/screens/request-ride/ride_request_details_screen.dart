@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/services/polyline_service.dart';
-import 'package:mobile/utils/map_utils.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/services/polyline_service.dart';
+import 'package:poolin/utils/map_utils.dart';
 
-import 'package:mobile/screens/request-ride/request_details_card.dart';
+import 'package:poolin/screens/request-ride/request_details_card.dart';
 
 class RideRequestDetailsScreen extends StatefulWidget {
   const RideRequestDetailsScreen({super.key});

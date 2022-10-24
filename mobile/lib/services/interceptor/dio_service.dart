@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:mobile/services/interceptor/auth_interceptor.dart';
+import 'package:poolin/services/interceptor/auth_interceptor.dart';
 
 class DioService {
   static var dio = Dio();

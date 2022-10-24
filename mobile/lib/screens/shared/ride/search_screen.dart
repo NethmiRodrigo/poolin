@@ -4,12 +4,12 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_place/google_place.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/dashed_line.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/screens/shared/ride/map_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/dashed_line.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/screens/shared/ride/map_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

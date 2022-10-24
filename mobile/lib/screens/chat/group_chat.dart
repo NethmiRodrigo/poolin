@@ -1,15 +1,17 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/message.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/utils/widget_functions.dart';
-import 'package:mobile/screens/chat/received_msg_widget.dart';
-import 'package:mobile/screens/chat/sent_msg_widget.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/models/message.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/utils/widget_functions.dart';
+import 'package:poolin/screens/chat/received_msg_widget.dart';
+import 'package:poolin/screens/chat/sent_msg_widget.dart';
 
 class GroupChat extends StatefulWidget {
   const GroupChat({Key? key}) : super(key: key);
@@ -70,7 +72,6 @@ class _GroupChatState extends State<GroupChat> {
 
       socket.on("sendMessage", (res) {
         if (res is String) {
-          String notification = res;
         } else if (res['senderID'] != currentUser.id) {
           Message newMessage = Message(
             msg: res['msg'],

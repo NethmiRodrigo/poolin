@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/screens/home/rider_home.dart';
-import 'package:mobile/services/register_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/home/driver_home.dart';
+import 'package:poolin/services/register_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 import '../../colors.dart';
 

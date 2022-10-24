@@ -3,12 +3,12 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/register/email_otp_screen.dart';
-import 'package:mobile/screens/register/phone_otp_screen.dart';
-import 'package:mobile/services/register_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/register/email_otp_screen.dart';
+import 'package:poolin/screens/register/phone_otp_screen.dart';
+import 'package:poolin/services/register_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
   const PhoneNumberScreen({Key? key}) : super(key: key);
@@ -104,7 +104,7 @@ class PhoneNumberScreenState extends State<PhoneNumberScreen> {
                             if (!mounted) {
                               return;
                             }
-        
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

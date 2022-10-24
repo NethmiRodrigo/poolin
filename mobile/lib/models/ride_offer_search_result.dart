@@ -1,5 +1,5 @@
-import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/user_model.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/models/user_model.dart';
 
 class RideOfferSearchResult {
   String id;

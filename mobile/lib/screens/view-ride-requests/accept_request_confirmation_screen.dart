@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/home/driver_home.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/home/driver_home.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class AcceptRequestConfirmation extends StatelessWidget {
   const AcceptRequestConfirmation({Key? key}) : super(key: key);

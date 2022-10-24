@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/matching_rides_cubit.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
-import 'package:mobile/services/ride_request_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/view-ride-offers/view_ride_offers_screen.dart';
+import 'package:poolin/services/ride_request_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class ConfirmTripDetailsScreen extends StatefulWidget {
   const ConfirmTripDetailsScreen({Key? key}) : super(key: key);
@@ -170,7 +170,8 @@ class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ViewRideOffersScreen()),
+                              builder: (context) =>
+                                  const ViewRideOffersScreen()),
                         );
                       }
                     },

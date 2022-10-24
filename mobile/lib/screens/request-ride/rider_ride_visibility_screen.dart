@@ -1,7 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../custom/outline_button.dart';
@@ -185,8 +185,7 @@ class _RiderRideVisibilityScreenState extends State<RiderRideVisibilityScreen> {
               ),
               MultiSelectDialogField(
                 title: const Text(""),
-                items:
-                    vehicles.map((e) => MultiSelectItem(e, e.name)).toList(),
+                items: vehicles.map((e) => MultiSelectItem(e, e.name)).toList(),
                 listType: MultiSelectListType.CHIP,
                 onConfirm: (List<Vehicle> values) {
                   selectedVehicles = values;

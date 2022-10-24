@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:mobile/models/vehicle_type.dart';
+import 'package:poolin/models/vehicle_type.dart';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 

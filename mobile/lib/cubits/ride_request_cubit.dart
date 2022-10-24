@@ -1,12 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/models/coordinate_model.dart';
+import 'package:poolin/models/coordinate_model.dart';
 
 class RideRequestCubit extends Cubit<RideRequest> {
   RideRequestCubit()
       : super(RideRequest(
-            source: Coordinate(),
-            destination: Coordinate(),
-            window: 30));
+            source: Coordinate(), destination: Coordinate(), window: 30));
 
   void setSource(Coordinate source) => emit(state.copyWith(source: source));
 
@@ -23,9 +21,11 @@ class RideRequestCubit extends Cubit<RideRequest> {
   void setDuration(int duration) => emit(state.copyWith(duration: duration));
   void setPrice(double price) => emit(state.copyWith(price: price));
 
-  void addOffer(int offerID) => emit(state.copyWith(offerIDs: [...state.offerIDs, offerID]));
+  void addOffer(int offerID) =>
+      emit(state.copyWith(offerIDs: [...state.offerIDs, offerID]));
 
-  void removeOffer(int offerID) => emit(state.copyWith(offerIDs: state.offerIDs.where((id) => id != offerID).toList()));
+  void removeOffer(int offerID) => emit(state.copyWith(
+      offerIDs: state.offerIDs.where((id) => id != offerID).toList()));
 }
 
 //class for information

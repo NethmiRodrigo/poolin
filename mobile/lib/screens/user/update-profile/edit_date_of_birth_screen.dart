@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class EditDateOfBirthScreen extends StatefulWidget {

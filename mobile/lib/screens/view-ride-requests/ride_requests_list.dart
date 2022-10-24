@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/outline_button.dart';
-import 'package:mobile/screens/view-ride-requests/reserve_request_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/outline_button.dart';
+import 'package:poolin/screens/view-ride-requests/reserve_request_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class RideRequestsList extends StatelessWidget {
   RideRequestsList({Key? key, required this.pendingRequests}) : super(key: key);

@@ -3,11 +3,11 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/register/personal_details_screen.dart';
-import 'package:mobile/screens/register/phone_number_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/register/personal_details_screen.dart';
+import 'package:poolin/screens/register/phone_number_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import '../../colors.dart';
 import '../../custom/otp_fields.dart';
 import '../../services/register_service.dart';
@@ -53,7 +53,8 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const PhoneNumberScreen()),
+                                builder: (context) =>
+                                    const PhoneNumberScreen()),
                           );
                         },
                       )),
@@ -93,7 +94,7 @@ class PhoneOTPScreenState extends State<PhoneOTPScreen> {
                           if (!mounted) {
                             return;
                           }
-        
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(

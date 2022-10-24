@@ -4,12 +4,12 @@ import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/models/ride_type_model.dart';
-import 'package:mobile/screens/shared/ride/search_screen.dart';
-import 'package:mobile/services/auth_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/models/ride_type_model.dart';
+import 'package:poolin/screens/shared/ride/search_screen.dart';
+import 'package:poolin/services/auth_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class DestinationScreen extends StatefulWidget {
@@ -93,7 +93,8 @@ class DestinationScreenState extends State<DestinationScreen> {
                     ],
                     colorBuilder: (b) => b ? Colors.black : Colors.black,
                     iconBuilder: (value) => value
-                        ? const Icon(Icons.drive_eta_rounded, color: Colors.white)
+                        ? const Icon(Icons.drive_eta_rounded,
+                            color: Colors.white)
                         : const Icon(Icons.airline_seat_recline_extra_rounded,
                             color: Colors.white),
                     textBuilder: (value) => value
@@ -156,7 +157,8 @@ class DestinationScreenState extends State<DestinationScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const SearchScreen(),
+                                      builder: (context) =>
+                                          const SearchScreen(),
                                       fullscreenDialog: true),
                                 );
                               },
@@ -179,7 +181,8 @@ class DestinationScreenState extends State<DestinationScreen> {
                             children: [
                               Text(
                                 'University of Colombo',
-                                style: Theme.of(context).textTheme.headlineMedium,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
                               ),
                               Text(
                                 '206/A, Reid Avenue, Colombo 07',
@@ -199,7 +202,8 @@ class DestinationScreenState extends State<DestinationScreen> {
                             children: [
                               Text(
                                 'University of Colombo',
-                                style: Theme.of(context).textTheme.headlineMedium,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
                               ),
                               Text(
                                 '206/A, Reid Avenue, Colombo 07',

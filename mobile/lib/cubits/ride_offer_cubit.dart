@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/models/coordinate_model.dart';
+import 'package:poolin/models/coordinate_model.dart';
 
 class RideOfferCubit extends Cubit<RideOffer> {
   RideOfferCubit()

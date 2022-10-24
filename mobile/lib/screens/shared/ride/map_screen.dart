@@ -5,21 +5,21 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/models/coordinate_model.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/models/coordinate_model.dart';
 
-import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
-import 'package:mobile/screens/request-ride/confirm_trip_details.dart';
-import 'package:mobile/services/polyline_service.dart';
-import 'package:mobile/utils/map_utils.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/screens/offer-ride/ride_offer_details_screen.dart';
+import 'package:poolin/screens/request-ride/confirm_trip_details.dart';
+import 'package:poolin/services/polyline_service.dart';
+import 'package:poolin/utils/map_utils.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
-import 'package:mobile/models/ride_type_model.dart';
+import 'package:poolin/models/ride_type_model.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/icons.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/icons.dart';
 
 import '../../../cubits/ride_offer_cubit.dart';
 

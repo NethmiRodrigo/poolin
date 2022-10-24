@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/cubits/matching_rides_cubit.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/services/interceptor/dio_service.dart';
+
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/services/interceptor/dio_service.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/ride';
 
@@ -45,8 +46,7 @@ Future<Response> getOfferRequests() async {
   return response;
 }
 
-Future<List<MatchedOffer>> getAvailableOffers(
-    RideRequest rideRequest) async {
+Future<List<MatchedOffer>> getAvailableOffers(RideRequest rideRequest) async {
   dio.options.baseUrl = baseURL;
 
   List<MatchedOffer> rideOffers = [];
