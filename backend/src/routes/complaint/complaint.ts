@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { AppError } from "../../util/error-handler";
 import { isEmpty } from "class-validator";
 import { Complaint } from "../../database/entity/Complaint";
+import { AppDataSource } from "../../data-source";
 
 export const reportUser = async (req: Request, res: Response) => {
   const { complaint, complaintFor, complaintBy, tripId } = req.body;
@@ -30,3 +31,19 @@ export const reportUser = async (req: Request, res: Response) => {
 
   return res.status(200).json({ success: "Complaint successfully added" });
 };
+
+export const acceptRequest = async (req: Request, res: Response) => {
+  const { user, complainee } = req.body;
+
+  const requestRepository = AppDataSource.getRepository(Complaint);
+
+  const response = await requestRepository.findOne({
+    relations: { complainee: true, complainer: true },
+  });
+
+  if (!response) throw new AppError(500, { error: "Could not find request" });
+
+  return res.status(200).json(response);
+};
+
+
