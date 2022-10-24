@@ -90,14 +90,14 @@ class _RideVisibilityScreenState extends State<RideVisibilityScreen> {
                   child: Text('Clear All'),
                 )
               ]),
-              // addVerticalSpace(48),
-              // const Align(
-              //   alignment: Alignment.topLeft,
-              //   child: Text(
-              //     "Contact level",
-              //     style: BlipFonts.heading,
-              //   ),
-              // ),
+              addVerticalSpace(48),
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Contact level",
+                  style: BlipFonts.heading,
+                ),
+              ),
               // Slider(
               //   activeColor: BlipColors.orange,
               //   inactiveColor: BlipColors.black,
