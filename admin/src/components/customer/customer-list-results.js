@@ -23,6 +23,7 @@ import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
 
 export const CustomerListResults = ({ customers, ...rest }) => {
+  console.log(customers);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -82,39 +83,40 @@ export const CustomerListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
-                <TableRow
-                  hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                >
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography color="textPrimary" variant="body1">
-                        {customer.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>{customer.email}</TableCell>
-                  <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell>
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>
-                    <FormGroup>
-                      <FormControlLabel control={<Switch />} label="Label" />
-                    </FormGroup>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {customers.length > 0 &&
+                customers.slice(0, limit).map((customer) => (
+                  <TableRow
+                    hover
+                    key={customer.id}
+                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  >
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
+                          {getInitials(customer.firstName)}
+                        </Avatar> */}
+                        <Typography color="textPrimary" variant="body1">
+                          {customer.firstName}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>{customer.role}</TableCell>
+                    {/* <TableCell>
+                      {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    </TableCell> */}
+                    {/* <TableCell>{customer.phone}</TableCell> */}
+                    <TableCell>
+                      <FormGroup>
+                        <FormControlLabel control={<Switch />} label="Label" />
+                      </FormGroup>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Box>
