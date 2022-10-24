@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
+import 'package:mobile/screens/friends/close_friends.dart';
 import 'package:mobile/screens/ride_visibility/ride_visibility.dart';
 import 'package:mobile/screens/notification/view_notification.dart';
 import 'package:mobile/screens/offer-ride/driver_ride_visibility_screen.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const VehicleTypeScreen(),
+        home: const ClosefriendScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
