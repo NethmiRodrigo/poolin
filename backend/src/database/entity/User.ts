@@ -15,6 +15,8 @@ import { VerificationStatus } from "./TempUser";
 import { Vehicle } from "./Vehicle";
 import { RideOffer } from "./RideOffer";
 import { RideRequest } from "./RideRequest";
+import { Rating } from "./Rating";
+import { Complaint } from "./Complaint";
 
 export enum Gender {
   MALE = "male",
@@ -135,6 +137,18 @@ export class User extends BaseEntity {
 
   @OneToMany(() => RideRequest, (request) => request.user)
   requests: RideRequest[];
+
+  @OneToMany(() => Rating, (rating) => rating.ratingBy)
+  ratingsGiven: Rating[];
+
+  @OneToMany(() => Rating, (rating) => rating.ratingFor)
+  ratingsReceived: Rating[];
+
+  @OneToMany(() => Complaint, (complaint) => complaint.complainer)
+  complaintsGiven: Complaint[];
+
+  @OneToMany(() => Complaint, (complaint) => complaint.complainee)
+  complaintsReceived: Complaint[];
 
   @CreateDateColumn()
   createdAt: Date;

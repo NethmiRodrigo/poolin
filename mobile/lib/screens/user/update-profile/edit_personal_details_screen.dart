@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/screens/user/update-profile/edit_date_of_birth_screen.dart';
-import 'package:mobile/screens/user/update-profile/edit_gender_screen.dart';
-import 'package:mobile/screens/user/update-profile/edit_phone_number_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/screens/user/update-profile/edit_date_of_birth_screen.dart';
+import 'package:poolin/screens/user/update-profile/edit_gender_screen.dart';
+import 'package:poolin/screens/user/update-profile/edit_phone_number_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class EditPersonalDetailsScreen extends StatefulWidget {
   const EditPersonalDetailsScreen({super.key});

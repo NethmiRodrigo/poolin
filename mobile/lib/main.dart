@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile/cubits/active_ride_cubit.dart';
-import 'package:mobile/cubits/auth_cubit.dart';
-import 'package:mobile/cubits/current_user_cubit.dart';
-import 'package:mobile/cubits/matching_rides_cubit.dart';
-import 'package:mobile/cubits/ride_offer_cubit.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/splash.dart';
-import 'package:mobile/theme.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/cubits/auth_cubit.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+
+import 'package:poolin/cubits/ride_offer_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/splash.dart';
+import 'package:poolin/theme.dart';
 
 Future<void> main() async {
   await dotenv.load();

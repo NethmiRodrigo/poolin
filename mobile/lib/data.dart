@@ -1,7 +1,7 @@
-import 'package:mobile/models/ride_offer.dart';
-import 'package:mobile/models/ride_request.dart';
-import 'package:mobile/models/user_model.dart';
-import 'package:mobile/models/vehicle_type.dart';
+import 'package:poolin/models/ride_offer.dart';
+import 'package:poolin/models/ride_request.dart';
+import 'package:poolin/models/user_model.dart';
+import 'package:poolin/models/vehicle_type.dart';
 
 class TestData {
   static RideRequest testRideRequest = RideRequest(

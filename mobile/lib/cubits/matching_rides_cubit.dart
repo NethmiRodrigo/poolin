@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/models/coordinate_model.dart';
-import 'package:mobile/models/user_model.dart';
+import 'package:poolin/models/coordinate_model.dart';
+import 'package:poolin/models/user_model.dart';
 
 class MatchingOffersCubit extends Cubit<MatchingOffersList> {
-  MatchingOffersCubit()
-      : super(MatchingOffersList(offers: []));
+  MatchingOffersCubit() : super(MatchingOffersList(offers: []));
 
-      void addOffer(MatchedOffer offer) => emit(state.copyWith(offers: [...state.offers, offer]));
+  void addOffer(MatchedOffer offer) =>
+      emit(state.copyWith(offers: [...state.offers, offer]));
 
-      void clearOffers() => emit(MatchingOffersList(offers: []));
+  void clearOffers() => emit(MatchingOffersList(offers: []));
 }
 
 class MatchingOffersList {

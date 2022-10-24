@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/cubits/matching_rides_cubit.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/icons.dart';
-import 'package:mobile/models/vehicle_type.dart';
-import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/icons.dart';
+import 'package:poolin/models/vehicle_type.dart';
+import 'package:poolin/screens/view-ride-offers/view_offer_details_screen.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
-import 'package:mobile/colors.dart';
-import 'package:mobile/fonts.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/fonts.dart';
 
 class RideOfferResultList extends StatelessWidget {
   final String type;
@@ -50,7 +50,8 @@ class RideOfferResultList extends StatelessWidget {
             child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  side: (reqCubit.state.offerIDs.contains(matchingOffersCubit.state.offers[index].id))
+                  side: (reqCubit.state.offerIDs
+                          .contains(matchingOffersCubit.state.offers[index].id))
                       ? const BorderSide(
                           color: BlipColors.orange,
                           width: 1.0,
@@ -60,10 +61,12 @@ class RideOfferResultList extends StatelessWidget {
                           width: 1.0,
                         ),
                 ),
-                color: (reqCubit.state.offerIDs.contains(matchingOffersCubit.state.offers[index].id))
+                color: (reqCubit.state.offerIDs
+                        .contains(matchingOffersCubit.state.offers[index].id))
                     ? BlipColors.lightGrey
                     : BlipColors.white,
-                elevation: (reqCubit.state.offerIDs.contains(matchingOffersCubit.state.offers[index].id))
+                elevation: (reqCubit.state.offerIDs
+                        .contains(matchingOffersCubit.state.offers[index].id))
                     ? 0
                     : 3,
                 child: Padding(
@@ -76,7 +79,8 @@ class RideOfferResultList extends StatelessWidget {
                             radius: 20,
                             backgroundColor: BlipColors.lightGrey,
                             foregroundImage: NetworkImage(
-                              matchingOffersCubit.state.offers[index].driver.profilePicURL,
+                              matchingOffersCubit
+                                  .state.offers[index].driver.profilePicURL,
                             ),
                           ),
                           addHorizontalSpace(5.0),
@@ -98,7 +102,9 @@ class RideOfferResultList extends StatelessWidget {
                                   ),
                                   addHorizontalSpace(8.0),
                                   Text(
-                                    matchingOffersCubit.state.offers[index].driver.stars.toString(),
+                                    matchingOffersCubit
+                                        .state.offers[index].driver.stars
+                                        .toString(),
                                     style: BlipFonts.tagline,
                                   ),
                                   addHorizontalSpace(8.0),
@@ -108,9 +114,8 @@ class RideOfferResultList extends StatelessWidget {
                                   ),
                                   addHorizontalSpace(8.0),
                                   Text(
-                                    matchingOffersCubit.state.offers[index]
-                                        .driver
-                                        .totalRatings
+                                    matchingOffersCubit
+                                        .state.offers[index].driver.totalRatings
                                         .toString(),
                                     style: BlipFonts.tagline,
                                   )
@@ -123,13 +128,16 @@ class RideOfferResultList extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          (matchingOffersCubit.state.offers[index].driver.vehicleType == VehicleType.bike)
+                          (matchingOffersCubit
+                                      .state.offers[index].driver.vehicleType ==
+                                  VehicleType.bike)
                               ? const Icon(
                                   BlipIcons.bike,
                                   color: BlipColors.grey,
                                   size: 24.0,
                                 )
-                              : (matchingOffersCubit.state.offers[index].driver.vehicleType ==
+                              : (matchingOffersCubit.state.offers[index].driver
+                                          .vehicleType ==
                                       VehicleType.van)
                                   ? const Icon(
                                       BlipIcons.car,
@@ -143,7 +151,8 @@ class RideOfferResultList extends StatelessWidget {
                                     ),
                           addHorizontalSpace(10.0),
                           Text(
-                            matchingOffersCubit.state.offers[index].driver.vehicleModel,
+                            matchingOffersCubit
+                                .state.offers[index].driver.vehicleModel,
                             style: BlipFonts.outline.merge(
                               const TextStyle(color: BlipColors.grey),
                             ),

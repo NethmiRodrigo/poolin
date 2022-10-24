@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/screens/user/update-profile/edit_phone_number_otp_screen.dart';
-import 'package:mobile/services/update_profile_service.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/screens/user/update-profile/edit_phone_number_otp_screen.dart';
+import 'package:poolin/services/update_profile_service.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class EditPhoneNumberScreen extends StatefulWidget {
   const EditPhoneNumberScreen({Key? key}) : super(key: key);

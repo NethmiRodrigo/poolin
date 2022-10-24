@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobile/services/interceptor/dio_service.dart';
+import 'package:poolin/services/interceptor/dio_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final baseURL = '${dotenv.env['API_URL']}/api/auth';

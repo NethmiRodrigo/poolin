@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/models/vehicle_type.dart';
+import 'package:poolin/models/vehicle_type.dart';
 
 class CurrentUserCubit extends Cubit<CurrentUser> {
   CurrentUserCubit()

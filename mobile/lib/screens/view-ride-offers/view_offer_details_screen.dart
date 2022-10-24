@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile/colors.dart';
-import 'package:mobile/cubits/matching_rides_cubit.dart';
-import 'package:mobile/cubits/ride_request_cubit.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/screens/view-ride-offers/timeline.dart';
-import 'package:mobile/screens/view-ride-offers/user_card.dart';
-import 'package:mobile/screens/view-ride-offers/view_ride_offers_screen.dart';
-import 'package:mobile/utils/map_utils.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/matching_rides_cubit.dart';
+import 'package:poolin/cubits/ride_request_cubit.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/view-ride-offers/timeline.dart';
+import 'package:poolin/screens/view-ride-offers/user_card.dart';
+import 'package:poolin/screens/view-ride-offers/view_ride_offers_screen.dart';
+import 'package:poolin/utils/map_utils.dart';
+import 'package:poolin/utils/widget_functions.dart';
 
 class ViewRideOfferDetails extends StatefulWidget {
   final int offerIndex;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/colors.dart';
+import 'package:poolin/colors.dart';
 
 class DashedLineVerticalPainter extends CustomPainter {
   @override
