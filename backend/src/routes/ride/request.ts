@@ -187,23 +187,43 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
 export const getRequestDetails = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const request = await RideRequest.createQueryBuilder("request")
+  const result = await RideRequest.createQueryBuilder("request")
     //join happens as property of parent
     .leftJoinAndSelect("request.requestToOffers", "rto")
     .where("request.id = :id", { id: +id })
     .leftJoinAndSelect("request.user", "user")
     .select([
-      "user.firstname AS fname",
-      "user.lastname AS lname",
-      "user.id AS id",
+      "user.firstname AS firstname",
+      "user.lastname AS lastname",
+      "user.id AS userId",
       "user.profileImageUri as avatar",
-      "request.from AS pickup",
-      "request.to AS dropOff",
+      "request.id AS id",
+      "ST_AsText(request.fromGeom) AS from",
+      "request.from AS fromName",
+      "ST_AsText(request.toGeom) AS to",
+      "request.to AS toName",
       "request.departureTime AS startTime",
-      "request.updatedAt AS updatedAt",
       "rto.price AS price",
     ])
     .getRawOne();
+
+    const request = {
+      id: result.id,
+      userId: result.userid,
+      firstName: result.firstname,
+      lastName: result.lastname,
+      avatar: result.avatar,
+      startTime: new Date(+new Date(result.starttime) + 60000*330),
+      price: result.price,
+      source: {
+        name: result.fromname,
+        coordinates: wktToGeoJSON(result.from).coordinates,
+      },
+      destination: {
+        name: result.toname,
+        coordinates: wktToGeoJSON(result.to).coordinates,
+      }
+    }
 
   return res
     .status(200)

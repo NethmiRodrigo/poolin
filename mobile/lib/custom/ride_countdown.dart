@@ -124,7 +124,7 @@ class _RideCountDownState extends State<RideCountDown> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ViewRideRequestsScreen(),
+                          builder: (context) => const FinalRideDetailsScreen(),
                         ),
                       );
                     },
