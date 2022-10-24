@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/fonts.dart';
+import 'package:mobile/screens/user-profile-details/vehical_informationdescri.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -128,7 +129,13 @@ class VehicleTypeScreenState extends State<VehicleTypeScreen> {
               addVerticalSpace(44),
               WideButton(
                 text: 'More',
-                onPressedAction: () async {},
+                onPressedAction: () => {
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DescriVehicleScreen()),
+                        )
+                },
               ),
             ],
           ),
