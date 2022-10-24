@@ -34,7 +34,7 @@ function ViewCustomerModal({ open, handleClose, customer }) {
       <DialogContent>
         <Card>
           <CardContent>
-            <Grid container spacing={3}>
+            <Grid container spacing={5}>
               {/* <Grid item md={12} xs={12}> */}
               {/* {customer?.avatarUrl && (
                   <Avatar
@@ -45,22 +45,87 @@ function ViewCustomerModal({ open, handleClose, customer }) {
                   />
                 )} */}
               {/* </Grid> */}
-              {Object.keys(customer).map((key) =>
-                key !== "avatarUrl" && key !== "address" ? (
-                  <Grid item md={6} xs={12} key={`${key}${Math.random() * 1000}`}>
-                    <TextField
-                      label={lodash.startCase(key)}
-                      value={customer[key]}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Grid>
-                ) : (
-                  ""
-                )
-              )}
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="First Name"
+                  value={customer.firstname}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={15}>
+                <TextField
+                  label="Last Name"
+                  value={customer.lastname}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Email Address"
+                  value={customer.email}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Mobile"
+                  value={customer.mobile}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Gender"
+                  value={customer.gender}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Role"
+                  value={customer.role}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Average Rating"
+                  value={customer.totalRatings}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="License"
+                  value=""
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
             </Grid>
           </CardContent>
         </Card>
