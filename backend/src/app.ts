@@ -15,6 +15,7 @@ import adminRoutes from "./routes/admin/index";
 import rideRoutes from "./routes/ride/index";
 import devRoutes from "./routes/dev/index";
 import friendRoutes from "./routes/friends/index";
+import ratingRoutes from "./routes/rating/index";
 
 /** Middleware */
 import trim from "./middleware/trim";
@@ -46,6 +47,7 @@ app.use("/api/admin", [auth, forRole([Role.ADMIN])], adminRoutes);
 app.use("/api/ride", auth, rideRoutes);
 app.use("/api/dev", devRoutes);
 app.use("/api/friends", auth, friendRoutes);
+app.use("/api/rate", auth, ratingRoutes);
 
 // Upstream error handling
 if (process.env.NODE_ENV === "development") app.use(errorLogger);

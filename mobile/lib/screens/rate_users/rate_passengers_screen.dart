@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -6,6 +7,7 @@ import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/complain/complaint.dart';
 import 'package:poolin/services/party_service.dart';
+import 'package:poolin/services/rate_service.dart';
 
 import '../../utils/widget_functions.dart';
 
@@ -113,8 +115,10 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                           size: 8,
                                           color: BlipColors.gold,
                                         ),
-                                        onRatingUpdate: (rating) {
+                                        onRatingUpdate: (rating) async {
                                           print(user["firstname"]);
+                                          Response response = await rateUser(
+                                              5, 1, 3, "rider", 5);
                                         },
                                       ),
                                       IconButton(
