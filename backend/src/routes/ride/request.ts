@@ -38,23 +38,26 @@ export const postRideRequests = async (req: Request, res: Response) => {
 
   await newRequest.save();
 
-  const offerMap = offers.map(async (id) => {
-    const rideOffer = await RideOffer.findOne({ where: { id } });
+  let driverIds = [];
+
+  offers.forEach(async (id) => {
+    const rideOffer = await RideOffer.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+    driverIds.push(rideOffer.user.id);
     const requestToOffer = new RequestToOffer({
       request: newRequest,
       offer: rideOffer,
       price: price ? price : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
-    return rideOffer.user.id;
   });
-
-  const riderIds = await Promise.all(offerMap);
 
   // Send notification to all riders
   await sendNotification({
     title: "You have a new ride request",
-    userIds: riderIds,
+    userIds: driverIds,
     body: `${user.firstname} requested to join your ride`,
   });
 
