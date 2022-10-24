@@ -8,21 +8,38 @@ import {
   Button,
   Card,
   Checkbox,
-  Modal,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  Typography
+  Typography,
+  Modal
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
+import ViewReferralModal from "./view-referral-modal";
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  
 
 export const ComplaintsListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [selectedReferral, setSelectedReferral] = useState(null);
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -64,6 +81,11 @@ export const ComplaintsListResults = ({ customers, ...rest }) => {
     setPage(newPage);
   };
 
+  const handleSelect = (referral) => {
+    setSelectedReferral(referral);
+    setViewModalOpen(true);
+  };
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -90,6 +112,7 @@ export const ComplaintsListResults = ({ customers, ...rest }) => {
                   Ride ID
                 </TableCell>
                 <TableCell>
+                    Blacklist
                 </TableCell>
                 <TableCell>
                 </TableCell>
@@ -117,16 +140,43 @@ export const ComplaintsListResults = ({ customers, ...rest }) => {
                     34
                   </TableCell>
                   <TableCell>
-                    <Button>
-                        somethng 
-                    </Button>
+                    <Switch>
 
-                
+                    </Switch>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant="outlined" onClick={handleSelect}>
+                        View
+                    </Button>
                   </TableCell>
                 </TableRow>
               
             </TableBody>
+            <ViewReferralModal
+        open={viewModalOpen}
+        handleClose={() => {
+          setSelectedReferral(null);
+          setViewModalOpen(false);
+        }}
+        referral={selectedReferral}
+      />
 
+      {/* <Button onClick={handleSelect}>Open modal</Button> */}
+      {/* <Modal
+        open={setViewModalOpen}
+        // onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal> */}
             {/* <TableBody>
               {customers.slice(0, limit).map((customer) => (
                 <TableRow
