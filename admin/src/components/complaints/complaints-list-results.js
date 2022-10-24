@@ -21,35 +21,27 @@ import {
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import viewComplaintsModal from "./view-complaint-modal";
+
 export const ComplaintsListResults = ({ complaints, ...rest }) => {
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   console.log(complaints);
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedComplaintsIds, setSelectedComplaintsIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [viewModalOpen, setViewModalOpen] = useState(false);
-  const [selectedReferral, setSelectedReferral] = useState(null);
+  
+  
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedComplaintIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedComplaintIds = complaints.map((complaints) => complaints.id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedComplaintIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedComplaintsIds(newSelectedComplaintIds);
   };
 
   
@@ -81,10 +73,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-const handleSelect = (referral) => {
-    setSelectedReferral(referral);
-    setViewModalOpen(true);
-  };
+
 
   return (
     
@@ -109,7 +98,7 @@ const handleSelect = (referral) => {
                   <TableRow
                     hover
                     key={complaints.id}
-                    selected={selectedCustomerIds.indexOf(complaints.id) !== -1}
+                    // selected={selectedComplaintsIds.indexOf(complaints.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -124,26 +113,26 @@ const handleSelect = (referral) => {
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{complaints.firstname}</TableCell>
-                    {/* <TableCell>
-                      {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                    </TableCell> */}
-                    {/* <TableCell>{customer.phone}</TableCell> */}
-                    <TableCell>
-                    {complaints.status}
-                    </TableCell>
+                    <TableCell>{complaints.description}</TableCell>
+                    <TableCell>{complaints.status}</TableCell>
+                    <TableCell>{`${complaints.complainee.firstname} ${complaints.complainee.lastname}`} </TableCell>
+                    <TableCell>{`${complaints.complainer.firstname} ${complaints.complainer.lastname}`} </TableCell>
                     <TableCell>
                       <FormGroup>
-                        <FormControlLabel control={<Switch />} label="Label"/>
+                        <FormControlLabel control={<Switch />} label=""/>
                       </FormGroup>
                     </TableCell>
                     <TableCell>
-                    {/* <Button variant="outlined" onClick={handleSelect}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => {
+                          setViewModalOpen(true);
+                          setSelectedComplaintsIds(complaints);
+                        }}
+                      >
                         View
-                    </Button> */}
-                    <Button variant="outlined" onClick={() => handleSelect(referral)}>
-                          View
-                    </Button>
+                      </Button>
+                     
                     </TableCell>
                     
                   </TableRow>
@@ -161,7 +150,17 @@ const handleSelect = (referral) => {
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
-      />
+        />
+        {viewModalOpen && (
+        <viewComplaintsModal
+          open={viewModalOpen}
+          handleClose={() => {
+            setViewModalOpen(false);
+            //selectedCustomerIds(null);
+          }}
+          complaints={selectedComplaintsIds}
+        />
+      )}
     </Card>
     
   );

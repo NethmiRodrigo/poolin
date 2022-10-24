@@ -16,7 +16,8 @@ const Complaints = () => {
   useEffect(async () => {
     try {
       const response = await getAllComplaints();
-      setComplaints(response.allComplaints);
+      console.log(response)
+      setComplaints(response);
     } catch (error) {
       toast.error(error.message, {
         position: "top-right",
