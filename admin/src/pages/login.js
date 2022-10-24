@@ -1,14 +1,12 @@
 import Head from "next/head";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Facebook as FacebookIcon } from "../icons/facebook";
-import { Google as GoogleIcon } from "../icons/google";
-import axios from "axios";
-import { setCookie } from "cookies-next";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
+
+import { login } from "src/services/auth.service";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Login = () => {
   const router = useRouter();
@@ -23,23 +21,33 @@ const Login = () => {
     }),
     onSubmit: async () => {
       try {
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
-          email: formik.values.email,
-          password: formik.values.password,
-        });
-        console.log(res);
-        setCookie("Cookie", res.data.token);
+        await login(formik.values.email, formik.values.password);
         router.push("/");
       } catch (error) {
-        console.log(error);
+        toast.error(error.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        console.error(error);
       }
     },
   });
 
+  useEffect(() => {
+    const cookie = localStorage.getItem("Cookie");
+    if (cookie) router.push("/");
+  }, []);
+
   return (
     <>
       <Head>
-        <title>Login | Material Kit</title>
+        <title>Login | Poolin</title>
       </Head>
       <Box
         component="main"
@@ -51,18 +59,10 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink href="/" passHref>
-            <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
-              Dashboard
-            </Button>
-          </NextLink>
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography color="textPrimary" variant="h4">
                 Sign in
-              </Typography>
-              <Typography color="textSecondary" gutterBottom variant="body2">
-                Sign in on the internal platform
               </Typography>
             </Box>
 
@@ -104,21 +104,6 @@ const Login = () => {
                 Sign In Now
               </Button>
             </Box>
-            <Typography color="textSecondary" variant="body2">
-              Don&apos;t have an account?{" "}
-              <NextLink href="/register">
-                <Link
-                  to="/register"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </NextLink>
-            </Typography>
           </form>
         </Container>
       </Box>
