@@ -27,11 +27,8 @@ export const toggleVerification = async (req: Request, res: Response) => {
   return res.json({ user });
 };
 
-
-
-
 /**
- * 
+ *
  * Fetch all users
  */
 export const fetchAllUsers = async (req: Request, res: Response) => {
@@ -40,5 +37,5 @@ export const fetchAllUsers = async (req: Request, res: Response) => {
   const userRepository = await AppDataSource.getRepository(User);
   const allUsers = await userRepository.find();
   console.log("All users: ", allUsers);
-  return res.json({allUsers})
+  return res.json({ allUsers });
 };

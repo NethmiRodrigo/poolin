@@ -42,7 +42,7 @@ app.use(cookieParser());
 app.get("/", (_, res) => res.send("Poolin is up and running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", auth, userRoutes);
-app.use("/api/admin", [auth, forRole([Role.ADMIN])], adminRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/ride", auth, rideRoutes);
 app.use("/api/dev", devRoutes);
 app.use("/api/friends", auth, friendRoutes);
