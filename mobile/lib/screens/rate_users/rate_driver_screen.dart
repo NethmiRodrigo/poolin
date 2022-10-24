@@ -6,10 +6,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
 
+import '../../custom/wide_button.dart';
 import '../../services/party_service.dart';
 import '../../services/rate_service.dart';
 import '../../utils/widget_functions.dart';
 import '../complain/complaint.dart';
+import '../home/driver_home.dart';
 
 class RateDriverScreen extends StatefulWidget {
   const RateDriverScreen({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class RateDriverScreen extends StatefulWidget {
 
 class _RateDriverScreenState extends State<RateDriverScreen> {
   var isVisible = false;
+  var isDisabled = true;
   List<dynamic>? party;
 
   @override
@@ -171,12 +174,32 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                               ],
                             ),
                           ),
+                          addVerticalSpace(40),
+                          WideButton(
+                              isDisabled: isDisabled,
+                              text: 'Done',
+                              onPressedAction: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DriverHomeScreen()),
+                                );
+                              }),
                         ],
                       ),
                   ],
                 ),
                 const Spacer(),
-                const Text("Skip", style: BlipFonts.outlineBold),
+                GestureDetector(
+                    child: const Text("Skip", style: BlipFonts.outlineBold),
+                    onTap: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DriverHomeScreen()),
+                      );
+                    }),
                 addVerticalSpace(48),
               ],
             ),

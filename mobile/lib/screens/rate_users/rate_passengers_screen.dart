@@ -6,9 +6,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/complain/complaint.dart';
+import 'package:poolin/screens/home/driver_home.dart';
 import 'package:poolin/services/party_service.dart';
 import 'package:poolin/services/rate_service.dart';
 
+import '../../custom/wide_button.dart';
 import '../../utils/widget_functions.dart';
 
 class RatePassengersScreen extends StatefulWidget {
@@ -21,6 +23,7 @@ class RatePassengersScreen extends StatefulWidget {
 class _RatePassengersScreenState extends State<RatePassengersScreen> {
   var isVisible = false;
   List<dynamic>? party;
+  var isDisabled = true;
 
   @override
   void initState() {
@@ -137,6 +140,9 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                                         avatar: user[
                                                             "profileImageUri"],
                                                       )));
+                                          setState(() {
+                                            isDisabled = false;
+                                          });
                                         },
                                         icon: const Icon(
                                           EvaIcons.alertCircleOutline,
@@ -150,10 +156,30 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                             ),
                           ],
                         ),
+                      addVerticalSpace(40),
+                      WideButton(
+                          isDisabled: isDisabled,
+                          text: 'Done',
+                          onPressedAction: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DriverHomeScreen()),
+                            );
+                          }),
                     ],
                   ),
                   const Spacer(),
-                  const Text("Skip", style: BlipFonts.outlineBold),
+                  GestureDetector(
+                      child: const Text("Skip", style: BlipFonts.outlineBold),
+                      onTap: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const DriverHomeScreen()),
+                        );
+                      }),
                   addVerticalSpace(48),
                 ],
               ),
