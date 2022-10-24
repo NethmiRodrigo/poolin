@@ -30,12 +30,12 @@ const items = [
   {
     href: "/products",
     icon: <ShoppingBagIcon fontSize="small" />,
-    title: "Products",
+    title: "Complaints",
   },
   {
     href: "/account",
     icon: <UserIcon fontSize="small" />,
-    title: "Account",
+    title: "Payments",
   },
   {
     href: "/settings",
