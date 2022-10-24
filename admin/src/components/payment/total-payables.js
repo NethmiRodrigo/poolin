@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 
-export const TotalProfit = (props) => (
+export const TotalPayables = (props) => (
   <Card
     sx={{ height: '80%' }}
     {...props}
@@ -17,7 +17,7 @@ export const TotalProfit = (props) => (
             fontSize={20}
             >
                 Total <br></br>
-                Profit
+                Payables
             </Grid>
           </Grid>          
         </Grid>

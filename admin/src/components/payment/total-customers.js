@@ -17,7 +17,7 @@ export const TotalCustomers = (props) => (
             fontSize={20}
             >
                 Total <br></br>
-                Income
+                Users
             </Grid>
           </Grid>          
         </Grid>
@@ -27,7 +27,7 @@ export const TotalCustomers = (props) => (
             color="textPrimary"
             variant="h4"
           >
-            $24k
+            2567
           </Typography>
         </Grid>
       </Grid>
