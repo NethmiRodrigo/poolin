@@ -122,12 +122,12 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                         )
                       },
                   icon2: Icons.arrow_forward_ios),
-              addVerticalSpace(16),
-              buildButton(
-                  title: 'Ride History',
-                  icon: FontAwesomeIcons.clockRotateLeft,
-                  onClicked: () => {},
-                  icon2: Icons.arrow_forward_ios),
+              // addVerticalSpace(16),
+              // buildButton(
+              //     title: 'Ride History',
+              //     icon: FontAwesomeIcons.clockRotateLeft,
+              //     onClicked: () => {},
+              //     icon2: Icons.arrow_forward_ios),
               addVerticalSpace(16),
               buildButton(
                   title: 'Close Friends',

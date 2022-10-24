@@ -10,6 +10,7 @@ import 'package:mobile/screens/ride_visibility/ride_visibility.dart';
 import 'package:mobile/screens/notification/view_notification.dart';
 import 'package:mobile/screens/offer-ride/driver_ride_visibility_screen.dart';
 import 'package:mobile/screens/request-ride/rider_ride_visibility_screen.dart';
+import 'package:mobile/screens/user-profile-details/ride_visibility.dart';
 import 'package:mobile/screens/user/profile/user_profile_screen.dart';
 import 'package:mobile/splash.dart';
 
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const UserProfileScreen(),
+        home: const RideVisibilityScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
