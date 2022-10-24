@@ -175,17 +175,6 @@ export const emailOTPAtSignup = async (email: string) => {
  */
 export const createUserToken = async (response: Response, user: object) => {
   const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-  response.set(
-    "Set-Cookie",
-    cookie.serialize("Token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-    })
-  );
-
   return { token, response };
 };
 

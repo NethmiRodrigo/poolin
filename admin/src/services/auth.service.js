@@ -7,5 +7,5 @@ export const login = async (email, password) => {
   });
   if (res.data.user.role !== "admin") throw new Error("Unauthorized");
   localStorage.setItem("Cookie", `Cookie=${res.data.token}`);
-  axios.defaults.headers.common["cookie"] = `Cookie=${res.data.token}`;
+  axios.defaults.headers.common["token"] = `Cookie=${res.data.token}`;
 };
