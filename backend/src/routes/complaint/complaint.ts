@@ -4,17 +4,18 @@ import { Request, Response } from "express";
 import { AppError } from "../../util/error-handler";
 import { isEmpty } from "class-validator";
 import { Complaint } from "../../database/entity/Complaint";
-import { AppDataSource } from "../../data-source";
+import { User } from "../../database/entity/User";
 
 export const reportUser = async (req: Request, res: Response) => {
-  const { complaint, complaintFor, complaintBy, tripId } = req.body;
+  const { complaint, complaintForUserId, complaintByUserId, tripId } = req.body;
+
   if (isEmpty(complaint))
     throw new AppError(401, { complaint: "Complaint cannot be empty" });
-  if (isEmpty(complaintFor))
+  if (isEmpty(complaintForUserId))
     throw new AppError(401, {
       complaintFor: "Complainee cannot be empty",
     });
-  if (isEmpty(complaintBy))
+  if (isEmpty(complaintByUserId))
     throw new AppError(401, {
       complaintBy: "Complainer cannot be empty",
     });
@@ -22,28 +23,30 @@ export const reportUser = async (req: Request, res: Response) => {
   if (isEmpty(tripId))
     throw new AppError(401, { tripId: "Trip id cannot be empty" });
 
+  const userMakingComplaint = await User.findOneBy({ id: complaintByUserId });
+
+  if (!userMakingComplaint) throw new AppError(500, {}, "Wrong parameters");
+
+  const userBeingComplainedAbout = await User.findOneBy({
+    id: complaintForUserId,
+  });
+
+  if (!userBeingComplainedAbout)
+    throw new AppError(500, {}, "Wrong parameters");
+
   const complaintEntity = new Complaint();
   complaintEntity.description = complaint;
-  complaintEntity.complainee = complaintFor;
-  complaintEntity.complainer = complaintBy;
+  complaintEntity.complainee = userMakingComplaint;
+  complaintEntity.complainer = userBeingComplainedAbout;
   complaintEntity.tripId = tripId;
   await complaintEntity.save();
 
   return res.status(200).json({ success: "Complaint successfully added" });
 };
 
-export const acceptRequest = async (req: Request, res: Response) => {
-  const { user, complainee } = req.body;
-
-  const requestRepository = AppDataSource.getRepository(Complaint);
-
-  const response = await requestRepository.findOne({
+export const getAllComplaints = async (_, res: Response) => {
+  const response = await Complaint.find({
     relations: { complainee: true, complainer: true },
   });
-
-  if (!response) throw new AppError(500, { error: "Could not find request" });
-
   return res.status(200).json(response);
 };
-
-
