@@ -30,11 +30,7 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
 
   getData() async {
     final response = await getParty();
-    print("alohaj");
     party = response.data['users'];
-
-    print(party);
-    print("aloha");
 
     setState(() {
       isVisible = true;
@@ -102,7 +98,7 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                   Row(
                                     children: [
                                       RatingBar.builder(
-                                        initialRating: 3,
+                                        initialRating: 0,
                                         minRating: 1,
                                         direction: Axis.horizontal,
                                         allowHalfRating: true,
