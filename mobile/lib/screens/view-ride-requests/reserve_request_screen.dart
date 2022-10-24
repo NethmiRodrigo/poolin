@@ -96,7 +96,7 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 'Reservation Request',
                 style: BlipFonts.title,
               ),
-              addVerticalSpace(32),
+              addVerticalSpace(16),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: SizedBox(
