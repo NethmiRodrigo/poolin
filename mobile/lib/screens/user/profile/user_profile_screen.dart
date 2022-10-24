@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
 import 'package:mobile/screens/user-profile-details/ride_visibility.dart';
+import 'package:mobile/screens/user-profile-details/vehical_information.dart';
 import 'package:mobile/screens/user/update-profile/edit_profile_screen.dart';
 import 'package:mobile/utils/widget_functions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -145,7 +146,13 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               buildButton(
                   title: 'Vehicle Information',
                   icon: FontAwesomeIcons.car,
-                  onClicked: () => {},
+                  onClicked: () => {
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const VehicleTypeScreen()),
+                        )
+                  },
                   icon2: Icons.arrow_forward_ios),
               addVerticalSpace(16),
               buildButton(
@@ -172,3 +179,4 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 }
+
