@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_map_polyline_new/google_map_polyline_new.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
+import 'package:poolin/screens/current-ride/driver_timeline.dart';
+import 'package:poolin/screens/current-ride/final_ride_details.dart';
+import 'package:poolin/services/polyline_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:location/location.dart';
 
@@ -17,32 +22,54 @@ class DriverNav extends StatefulWidget {
 }
 
 class _DriverNavState extends State<DriverNav> {
-  final LatLng startPoint = const LatLng(6.858241522234863, 79.87051579562947);
-  final LatLng destination = const LatLng(6.9037311247468995, 79.8611484867312);
+  late ActiveRideCubit activeRideCubit;
+
+  late LatLng startPoint;
+  late LatLng destination;
+  LocationData? currentLocation;
+
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
-  GoogleMapController? mapController;
 
-  List<LatLng>? _coordinates;
-  late GoogleMapPolyline googleMapPolyline;
-
-  LocationData? currentLocation;
+  // all the pickups and dropoffs
+  List<PolylineWayPoint> routeCheckpoints = [];
+  final Set<Marker> _markers = {};
+  Map<PolylineId, Polyline> polylines = {};
+  PolylinePoints polylinePoints = PolylinePoints();
 
   BitmapDescriptor startMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
+
+  bool isLoading = false;
 
   late io.Socket socket;
 
   @override
   void initState() {
     super.initState();
-    initSocket();
-    String? apiKey = dotenv.env['MAPS_API_KEY'];
-    googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
-    getPolyPoints();
-    getCurrentLocation();
+     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    startPoint = LatLng(
+        activeRideCubit.state.source.lat, activeRideCubit.state.source.lang);
+    destination = LatLng(activeRideCubit.state.destination.lat,
+        activeRideCubit.state.destination.lang);
     setCustomMarkers();
+    getCurrentLocation();
+    setRouteCheckPoints();
+    getPolyPoints();
+    initSocket();
+  }
+  
+  void setRouteCheckPoints() {
+    for (var pass in activeRideCubit.state.partyData) {
+      // passenger's pickup
+      routeCheckpoints.add(PolylineWayPoint(
+          location: "${pass.pickupLocation.lat},${pass.pickupLocation.lang}"));
+      // passenger's dropoff
+      routeCheckpoints.add(PolylineWayPoint(
+          location:
+              "${pass.dropoffLocation.lat},${pass.dropoffLocation.lang}"));
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -53,7 +80,6 @@ class _DriverNavState extends State<DriverNav> {
 
   void getCurrentLocation() async {
     Location location = Location();
-
     LocationData? result = await location.getLocation();
 
     setState(() {
@@ -79,11 +105,33 @@ class _DriverNavState extends State<DriverNav> {
   }
 
   void getPolyPoints() async {
-    List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
-        origin: startPoint, destination: destination, mode: RouteMode.driving);
-    setState(() {
-      _coordinates = coords;
-    });
+    List<LatLng> coordinates = [];
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        apiKey!,
+        PointLatLng(startPoint.latitude, startPoint.longitude),
+        PointLatLng(destination.latitude, destination.longitude),
+        wayPoints: routeCheckpoints);
+
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        coordinates.add(LatLng(point.latitude, point.longitude));
+      }
+    } else {
+      print(result.errorMessage);
+    }
+    _addPolyLine(coordinates);
+  }
+
+  _addPolyLine(List<LatLng> polylineCoords) {
+    PolylineId id = const PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: BlipColors.blue,
+      points: polylineCoords,
+      width: 5,
+    );
+    polylines[id] = polyline;
+    setState(() {});
   }
 
   Future<void> setCustomMarkers() async {
@@ -107,6 +155,60 @@ class _DriverNavState extends State<DriverNav> {
       destinationMarker = destinationIcon;
       startMarker = startIcon;
     });
+
+    // driver's start
+    _markers.add(
+      Marker(
+        markerId: const MarkerId('Your start'),
+        position: startPoint,
+        infoWindow: InfoWindow(
+          title: 'Your start here',
+          snippet: activeRideCubit.state.source.name,
+        ),
+        icon: startMarker,
+      ),
+    );
+
+    // driver's destination
+    _markers.add(
+      Marker(
+        markerId: const MarkerId('Your destination'),
+        position: destination,
+        infoWindow: InfoWindow(
+          title: 'Your end here',
+          snippet: activeRideCubit.state.destination.name,
+        ),
+        icon: destinationMarker,
+      ),
+    );
+
+    for (var pass in activeRideCubit.state.partyData) {
+      // passenger's pickup
+      _markers.add(
+        Marker(
+          markerId: MarkerId('Pickup ${pass.firstname}'),
+          position: LatLng(pass.pickupLocation.lat, pass.pickupLocation.lang),
+          infoWindow: InfoWindow(
+            title: pass.firstname,
+            snippet: 'Pickup at ${pass.pickupLocation.name}',
+          ),
+          icon: startMarker,
+        ),
+      );
+
+      // passenger's dropoff
+      _markers.add(
+        Marker(
+          markerId: MarkerId('Dropoff ${pass.firstname}'),
+          position: LatLng(pass.dropoffLocation.lat, pass.dropoffLocation.lang),
+          infoWindow: InfoWindow(
+            title: pass.firstname,
+            snippet: 'Dropoff at ${pass.dropoffLocation.name}',
+          ),
+          icon: destinationMarker,
+        ),
+      );
+    }
   }
 
   Future<void> initSocket() async {
@@ -136,56 +238,71 @@ class _DriverNavState extends State<DriverNav> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: (currentLocation == null || _coordinates == null)
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const CircleAvatar(
+            backgroundColor: BlipColors.white,
+            child: Icon(Icons.arrow_back, color: BlipColors.black),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FinalRideDetailsScreen()),
+            );
+          },
+        ),
+      ),
+      body: (currentLocation == null)
           ? const Center(
               child: CircularProgressIndicator(
                 color: BlipColors.orange,
               ),
             )
-          : Container(
-              height: size.height,
-              color: BlipColors.lightGrey,
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: startPoint,
-                  zoom: 13.0,
-                ),
-                mapType: _currentMapType,
-                polylines: {
-                  Polyline(
-                    polylineId: const PolylineId("route"),
-                    color: BlipColors.blue,
-                    points: _coordinates!,
-                    width: 5,
-                    onTap: () {},
-                  )
-                },
-                markers: {
-                  Marker(
-                    markerId: const MarkerId('currentLocation'),
-                    position: LatLng(
-                      currentLocation!.latitude!,
-                      currentLocation!.longitude!,
+          : Stack(
+              children: [
+                LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints constraints) {
+                  return SizedBox(
+                    height: constraints.maxHeight * 0.75,
+                    child: GoogleMap(
+                      onMapCreated: _onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: startPoint,
+                        zoom: 13.0,
+                      ),
+                      mapType: _currentMapType,
+                      polylines: Set<Polyline>.of(polylines.values),
+                      markers: _markers,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      onCameraMove: _onCameraMove,
                     ),
-                    icon: currentLocationMarker,
-                  ),
-                  Marker(
-                    markerId: const MarkerId('source'),
-                    position: startPoint,
-                    icon: startMarker,
-                  ),
-                  Marker(
-                    markerId: const MarkerId('destination'),
-                    position: destination,
-                    icon: destinationMarker,
-                  ),
-                },
-                onCameraMove: _onCameraMove,
-              ),
+                  );
+                }),
+                DraggableScrollableSheet(
+                  initialChildSize: 0.25,
+                  minChildSize: 0.25,
+                  maxChildSize: 0.25,
+                  builder: (context, scrollController) {
+                    return Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                        ),
+                      ),
+                      child: DriverTimeline(),
+                    );
+                  },
+                ),
+              ],
             ),
     );
   }

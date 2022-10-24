@@ -45,6 +45,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
 
   void getOfferDetails() async {
     if (activeRideCubit.state.id != null) {
+      endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
       int offerID = activeRideCubit.state.id!;
       final requestData = await getOfferRequests(offerID);
       pendingRequests = requestData.data['requests'];
@@ -64,7 +65,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       setState(() {
         isDriving = true;
         _passRequests = passengerRequests;
-        endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
         isLoading = false;
       });
     } else {
