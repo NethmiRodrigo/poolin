@@ -1,9 +1,7 @@
 import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-import { FormGroup } from "@mui/material";
-import { FormControlLabel } from "@mui/material";
-import { Switch } from "@mui/material";
+
 import axios from "axios";
 import { format } from "date-fns";
 import {
@@ -18,11 +16,17 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Button,
+  Switch,
+  FormControlLabel,
+  FormGroup,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
+import ViewCustomerModal from "./customer-modal";
 
 export const CustomerListResults = ({ customers, ...rest }) => {
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   console.log(customers);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -79,7 +83,8 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                 <TableCell>User Type</TableCell>
                 <TableCell>Contact Number</TableCell>
                 <TableCell>Registration date</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>View Details</TableCell>
+                <TableCell>Verification</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -88,7 +93,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   <TableRow
                     hover
                     key={customer.id}
-                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -97,19 +102,27 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
-                          {getInitials(customer.firstName)}
-                        </Avatar> */}
+                        {`${customer.firstname} ${customer.lastname}`}
+
                         <Typography color="textPrimary" variant="body1">
                           {customer.firstName}
                         </Typography>
                       </Box>
                     </TableCell>
                     <TableCell>{customer.role}</TableCell>
-                    {/* <TableCell>
-                      {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                    </TableCell> */}
-                    {/* <TableCell>{customer.phone}</TableCell> */}
+                    <TableCell>{customer.mobile}</TableCell>
+                    <TableCell>{customer.createdAt}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          setViewModalOpen(true);
+                          setSelectedCustomerIds(customer);
+                        }}
+                      >
+                        View
+                      </Button>
+                    </TableCell>
                     <TableCell>
                       <FormGroup>
                         <FormControlLabel control={<Switch />} label="Label" />
@@ -130,6 +143,16 @@ export const CustomerListResults = ({ customers, ...rest }) => {
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
+      {viewModalOpen && (
+        <ViewCustomerModal
+          open={viewModalOpen}
+          handleClose={() => {
+            setViewModalOpen(false);
+            //selectedCustomerIds(null);
+          }}
+          customer={selectedCustomerIds}
+        />
+      )}
     </Card>
   );
 };
