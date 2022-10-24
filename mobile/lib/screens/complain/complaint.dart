@@ -9,6 +9,7 @@ import 'package:poolin/app.dart';
 import 'package:poolin/cubits/auth_cubit.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/screens/forgot-password/forgot_password_screen.dart';
+import 'package:poolin/services/complaint_service.dart';
 import 'package:poolin/services/login_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
@@ -16,7 +17,14 @@ import '../../colors.dart';
 import '../../fonts.dart';
 
 class ComplaintScreen extends StatefulWidget {
-  const ComplaintScreen({super.key});
+  ComplaintScreen(
+      {super.key,
+      required this.name,
+      required this.userId,
+      required this.avatar});
+  late int userId;
+  late String avatar;
+  late String name;
 
   @override
   ComplaintScreenState createState() {
@@ -71,14 +79,13 @@ class ComplaintScreenState extends State<ComplaintScreen> {
                           style: BlipFonts.outlineBold,
                         ),
                         addHorizontalSpace(8),
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 16,
-                          backgroundImage:
-                              NetworkImage("https://i.pravatar.cc/700"),
+                          backgroundImage: NetworkImage(widget.avatar),
                         ),
                         addHorizontalSpace(8),
-                        const Text(
-                          "John Doe",
+                        Text(
+                          widget.name,
                           style: BlipFonts.outline,
                         ),
                       ],
@@ -106,23 +113,18 @@ class ComplaintScreenState extends State<ComplaintScreen> {
                     WideButton(
                         text: 'File Complaint',
                         onPressedAction: () async {
-                          Navigator.pop(context);
-                          // if (_formKey.currentState!.validate()) {
-                          //   Response response =
-                          //       await login(_complaint.text);
+                          if (_formKey.currentState!.validate()) {
+                            Response response = await reportUser(
+                                _complaint.text, 1, 4, widget.userId);
 
-                          //   if (response.statusCode == 200) {
-                          //     if (!mounted) {
-                          //       return;
-                          //     }
-                          //     authState.setLoggedIn(true);
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => const App()),
-                          //     );
-                          //   } else {}
-                          // }
+                            if (response.statusCode == 200) {
+                              if (!mounted) {
+                                return;
+                              }
+                              authState.setLoggedIn(true);
+                              Navigator.pop(context);
+                            } else {}
+                          }
                         }),
                   ],
                 ),

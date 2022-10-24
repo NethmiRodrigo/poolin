@@ -132,7 +132,15 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const ComplaintScreen()));
+                                                      ComplaintScreen(
+                                                        name: user[
+                                                                "firstname"] +
+                                                            " " +
+                                                            user["lastname"],
+                                                        userId: user["id"],
+                                                        avatar: user[
+                                                            "profileImageUri"],
+                                                      )));
                                         },
                                         icon: const Icon(
                                           EvaIcons.alertCircleOutline,
