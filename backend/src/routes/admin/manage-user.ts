@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { Polygon } from "wkx";
 
 /** Entities */
 import { User } from "../../database/entity/User";
