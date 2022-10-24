@@ -118,7 +118,12 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                         onRatingUpdate: (rating) async {
                                           print(user["firstname"]);
                                           Response response = await rateUser(
-                                              5, 1, 3, "rider", 5);
+                                            rating,
+                                            1,
+                                            3,
+                                            "rider",
+                                            user["id"],
+                                          );
                                         },
                                       ),
                                       IconButton(
