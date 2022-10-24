@@ -21,16 +21,13 @@ import {
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
-import viewComplaintsModal from "./view-complaint-modal";
+import ViewComplaintsModal from "./view-complaint-modal";
 
 export const ComplaintsListResults = ({ complaints, ...rest }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
-  console.log(complaints);
   const [selectedComplaintsIds, setSelectedComplaintsIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  
-  
 
   const handleSelectAll = (event) => {
     let newSelectedComplaintIds;
@@ -43,8 +40,6 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
 
     setSelectedComplaintsIds(newSelectedComplaintIds);
   };
-
-  
 
   // const handleSelectOne = (event, id) => {
   //   const selectedIndex = selectedCustomerIds.indexOf(id);
@@ -74,9 +69,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
     setPage(newPage);
   };
 
-
   return (
-    
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -107,7 +100,6 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        
                         <Typography color="textPrimary" variant="body1">
                           {complaints.tripId}
                         </Typography>
@@ -115,15 +107,19 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
                     </TableCell>
                     <TableCell>{complaints.description}</TableCell>
                     <TableCell>{complaints.status}</TableCell>
-                    <TableCell>{`${complaints.complainee.firstname} ${complaints.complainee.lastname}`} </TableCell>
-                    <TableCell>{`${complaints.complainer.firstname} ${complaints.complainer.lastname}`} </TableCell>
+                    <TableCell>
+                      {`${complaints.complainee.firstname} ${complaints.complainee.lastname}`}{" "}
+                    </TableCell>
+                    <TableCell>
+                      {`${complaints.complainer.firstname} ${complaints.complainer.lastname}`}{" "}
+                    </TableCell>
                     <TableCell>
                       <FormGroup>
-                        <FormControlLabel control={<Switch />} label=""/>
+                        <FormControlLabel control={<Switch />} label="" />
                       </FormGroup>
                     </TableCell>
                     <TableCell>
-                    <Button
+                      <Button
                         variant="outlined"
                         onClick={() => {
                           setViewModalOpen(true);
@@ -132,11 +128,8 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
                       >
                         View
                       </Button>
-                     
                     </TableCell>
-                    
                   </TableRow>
-                  
                 ))}
             </TableBody>
           </Table>
@@ -150,9 +143,9 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
-        />
-        {viewModalOpen && (
-        <viewComplaintsModal
+      />
+      {viewModalOpen && (
+        <ViewComplaintsModal
           open={viewModalOpen}
           handleClose={() => {
             setViewModalOpen(false);
@@ -162,9 +155,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
         />
       )}
     </Card>
-    
   );
-  
 };
 
 ComplaintsListResults.propTypes = {

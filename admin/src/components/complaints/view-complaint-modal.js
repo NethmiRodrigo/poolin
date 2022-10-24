@@ -19,7 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function viewComplaintsModal({ open, handleClose, complaints }) {
+function ViewComplaintsModal({ open, handleClose, complaints }) {
   return (
     <Dialog
       open={open}
@@ -56,7 +56,6 @@ function viewComplaintsModal({ open, handleClose, complaints }) {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              
             </Grid>
           </CardContent>
         </Card>
@@ -70,10 +69,10 @@ function viewComplaintsModal({ open, handleClose, complaints }) {
   );
 }
 
-viewComplaintsModal.propTypes = {
+ViewComplaintsModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   complaints: PropTypes.object.isRequired,
 };
 
-export default viewComplaintsModal;
+export default ViewComplaintsModal;
