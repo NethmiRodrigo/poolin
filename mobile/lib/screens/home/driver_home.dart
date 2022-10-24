@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
@@ -7,7 +6,6 @@ import 'package:poolin/custom/cards/home_screen_card.dart';
 import 'package:poolin/custom/lists/pass_request_list.dart';
 import 'package:poolin/custom/toggle_to_driver.dart';
 import 'package:poolin/custom/ride_countdown.dart';
-import 'package:poolin/models/active_ride_offer.dart';
 import 'package:poolin/models/passenger_request.dart';
 import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
@@ -26,8 +24,7 @@ class DriverHomeScreen extends StatefulWidget {
 }
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
-  int endTime = DateTime.now().millisecondsSinceEpoch +
-      const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+  late int endTime;
   late ActiveRideCubit activeRideCubit;
   final Map<String, int> stat = {
     'rides': 18,
@@ -43,20 +40,14 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   void initState() {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
     super.initState();
-    getOffer();
+    getOfferDetails();
   }
 
-  void getOffer() async {
-    Response response = await getActiveOffer();
-    if (response.data["offer"] != null) {
-      ActiveRideOffer rideOffer =
-          ActiveRideOffer.fromJson(response.data["offer"]);
-      activeRideCubit.setId(rideOffer.id);
-      activeRideCubit.setDepartureTime(rideOffer.departureTime);
-      DateTime? departureTime = rideOffer.departureTime;
-      int endTimeInSeconds = departureTime.millisecondsSinceEpoch;
-
-      final requestData = await getOfferRequests(rideOffer.id);
+  void getOfferDetails() async {
+    if (activeRideCubit.state.id != null) {
+      endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
+      int offerID = activeRideCubit.state.id!;
+      final requestData = await getOfferRequests(offerID);
       pendingRequests = requestData.data['requests'];
       List<PassengerRequest> passengerRequests = [];
 
@@ -72,7 +63,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       }
 
       setState(() {
-        endTime = endTimeInSeconds;
         isDriving = true;
         _passRequests = passengerRequests;
         isLoading = false;
@@ -90,6 +80,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     final Size size = MediaQuery.of(context).size;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+
     return Scaffold(
       body: isLoading
           ? const Center(
@@ -108,7 +99,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     child: ToggleToDriver(false),
                   ),
                   addVerticalSpace(16),
-                  isDriving
+                  activeRideCubit.state.id != null
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
                           text: 'Offer a ride and get paid',
@@ -159,20 +150,14 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ],
                   ),
                   addVerticalSpace(24),
-                  if (isDriving)
+                  if (activeRideCubit.state.id != null)
                     const Text(
                       'Ride Requests',
                       style: BlipFonts.title,
                     ),
                   SizedBox(
                     height: size.height * 0.3,
-                    child: isDriving
-                        ? PassengerRequestList(_passRequests)
-                        : HomeScreenCard(
-                            text: 'Post an offer for riders to see',
-                            route: DestinationScreen(
-                              rideType: RideType.offer,
-                            )),
+                    child: PassengerRequestList(_passRequests),
                   ),
                 ],
               ),

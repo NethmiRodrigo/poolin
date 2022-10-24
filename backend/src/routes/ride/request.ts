@@ -23,12 +23,12 @@ export const postRideRequests = async (req: Request, res: Response) => {
     from: src.name,
     fromGeom: {
       type: "Point",
-      coordinates: [src.lat, src.long],
+      coordinates: [src.lat, src.lang],
     },
     to: dest.name,
     toGeom: {
       type: "Point",
-      coordinates: [dest.lat, dest.long],
+      coordinates: [dest.lat, dest.lang],
     },
     departureTime: startTime,
     timeWindow: window,
@@ -49,7 +49,7 @@ export const postRideRequests = async (req: Request, res: Response) => {
     const requestToOffer = new RequestToOffer({
       request: newRequest,
       offer: rideOffer,
-      price: price ? price : rideOffer.pricePerKm * distance,
+      price: price ? price * newRequest.distance : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
   });
@@ -131,7 +131,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
         end: destGeom,
       }
     )
-    .andWhere("offer.status IN ('active')")
+    .andWhere("offer.status IN ('booked')")
     .getRawMany();
 
   // from the result set, we filter out offers that are not available at the time of the request
@@ -192,6 +192,7 @@ export const getAvailableOffers = async (req: Request, res: Response) => {
       },
     };
   });
+
   return res
     .status(200)
     .json({ success: "Received available offers", offers: offers });

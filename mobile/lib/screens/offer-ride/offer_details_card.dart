@@ -256,15 +256,11 @@ class OfferDetailsCardState extends State<OfferDetailsCard> {
                             final distance = double.parse(res["rows"][0]
                                     ["elements"][0]["distance"]["text"]
                                 .split(' ')[0]);
-                            print(distance);
                             final duration = int.parse(res["rows"][0]
                                     ["elements"][0]["duration"]["text"]
                                 .split(' ')[0]);
-                            print(duration);
                             offerCubit.setDistance((distance * 1.60934));
-                            print("done");
                             offerCubit.setDuration(duration);
-
                             Response postResponse =
                                 await postOffer(offerCubit.state);
                             if (postResponse.statusCode == 200) {

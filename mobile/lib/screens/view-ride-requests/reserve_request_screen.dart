@@ -218,11 +218,10 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                 children: [
                   Row(
                     children: [
-                      if (widget.request["avatar"] != null)
-                        CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(widget.request["avatar"]),
-                        ),
+                      CircleAvatar(
+                        backgroundColor: BlipColors.lightGrey,
+                        foregroundImage: NetworkImage(widget.request["avatar"]),
+                      ),
                       addHorizontalSpace(8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
