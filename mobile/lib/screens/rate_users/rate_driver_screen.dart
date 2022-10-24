@@ -42,18 +42,28 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                   style: BlipFonts.labelBold,
                 ),
                 addVerticalSpace(16),
-                RatingBar.builder(
-                  initialRating: 3,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => const Icon(
-                    EvaIcons.star,
-                    color: BlipColors.gold,
-                  ),
-                  onRatingUpdate: (rating) {},
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RatingBar.builder(
+                      initialRating: 3,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => const Icon(
+                        EvaIcons.star,
+                        color: BlipColors.gold,
+                      ),
+                      onRatingUpdate: (rating) {},
+                    ),
+                    addHorizontalSpace(8),
+                    Icon(
+                      EvaIcons.alertCircleOutline,
+                      color: BlipColors.blue,
+                    )
+                  ],
                 ),
                 addVerticalSpace(24),
                 const Text(
@@ -97,6 +107,11 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             ),
                             onRatingUpdate: (rating) {},
                           ),
+                          addHorizontalSpace(8),
+                          Icon(
+                            EvaIcons.alertCircleOutline,
+                            color: BlipColors.blue,
+                          )
                         ],
                       ),
                     ),
@@ -135,6 +150,11 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             ),
                             onRatingUpdate: (rating) {},
                           ),
+                          addHorizontalSpace(8),
+                          Icon(
+                            EvaIcons.alertCircleOutline,
+                            color: BlipColors.blue,
+                          )
                         ],
                       ),
                     ),
@@ -173,6 +193,11 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                             ),
                             onRatingUpdate: (rating) {},
                           ),
+                          addHorizontalSpace(8),
+                          Icon(
+                            EvaIcons.alertCircleOutline,
+                            color: BlipColors.blue,
+                          )
                         ],
                       ),
                     ),

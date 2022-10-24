@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/cubits/auth_cubit.dart';
+import 'package:poolin/screens/complain/complaint.dart';
 import 'package:poolin/screens/home/driver_home.dart';
 import 'package:poolin/screens/rate_users/rate_driver_screen.dart';
+import 'package:poolin/screens/rate_users/rate_passengers_screen.dart';
 import 'package:poolin/screens/shared/ride/ride_history.dart';
 import 'package:poolin/screens/user/profile/user_profile_screen.dart';
 import 'package:poolin/services/interceptor/is_loggedin.dart';
@@ -60,7 +62,7 @@ class _AppState extends State<App> {
 
   List<Widget> _buildScreens() {
     return [
-      const RateDriverScreen(),
+      const RatePassengersScreen(),
       const RideHistory(),
       const UserProfileScreen(),
     ];

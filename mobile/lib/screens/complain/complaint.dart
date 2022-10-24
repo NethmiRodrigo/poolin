@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:dio/dio.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,22 +46,50 @@ class ComplaintScreenState extends State<ComplaintScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(44),
+              const Align(
+                  alignment: Alignment.topLeft,
+                  child: Icon(
+                    EvaIcons.arrowBackOutline,
+                    color: Colors.black,
+                  )),
+              addVerticalSpace(32),
               const Text(
                 "Issue Complaint",
-                style: BlipFonts.heading,
+                style: BlipFonts.title,
                 textAlign: TextAlign.left,
               ),
-              addVerticalSpace(48),
+              addVerticalSpace(32),
               Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      children: [
+                        const Text(
+                          "Re:",
+                          style: BlipFonts.outlineBold,
+                        ),
+                        addHorizontalSpace(8),
+                        const CircleAvatar(
+                          radius: 16,
+                          backgroundImage:
+                              NetworkImage("https://i.pravatar.cc/700"),
+                        ),
+                        addHorizontalSpace(8),
+                        const Text(
+                          "John Doe",
+                          style: BlipFonts.outline,
+                        ),
+                      ],
+                    ),
+                    addVerticalSpace(24),
                     TextFormField(
+                      minLines: 8,
+                      maxLines: 10,
                       style: Theme.of(context).textTheme.labelLarge,
                       controller: _complaint,
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.email_outlined),
                         hintText: 'Tell us what happened',
                       ),
                       validator: (value) {
@@ -77,6 +106,7 @@ class ComplaintScreenState extends State<ComplaintScreen> {
                     WideButton(
                         text: 'File Complaint',
                         onPressedAction: () async {
+                          Navigator.pop(context);
                           // if (_formKey.currentState!.validate()) {
                           //   Response response =
                           //       await login(_complaint.text);

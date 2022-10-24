@@ -8,6 +8,7 @@ import {
   getOfferRequests,
   postRideOffer,
 } from "./offer";
+import { getParty } from "./party";
 import {
   acceptRequest,
   getActiveRequest,
@@ -29,5 +30,7 @@ router.post("/post-requests", postRideRequests);
 router.get("/get/request/:id", getRequestDetails);
 router.post("/request/accept", acceptRequest);
 router.get("/get/matching-requests", getAvailableOffers);
+
+router.get("/party", getParty);
 
 export default router;
