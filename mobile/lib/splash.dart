@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:poolin/app.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/models/user_model.dart';
@@ -33,8 +34,13 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     Response response = await getCurrentUser();
     User loggedInUser = User.fromJson(response.data);
-    userCubit?.setUser("1", loggedInUser.firstName, loggedInUser.lastName,
-        loggedInUser.gender, loggedInUser.email.toString());
+    userCubit?.setUser(
+        loggedInUser.id.toString(),
+        loggedInUser.firstName,
+        loggedInUser.lastName,
+        loggedInUser.gender,
+        loggedInUser.email.toString());
+    OneSignal.shared.setExternalUserId(loggedInUser.id.toString());
   }
 
   void setLoggedInState() async {

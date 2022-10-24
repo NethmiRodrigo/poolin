@@ -88,6 +88,7 @@ dependencies:
   shared_preferences: ^2.0.15
   persistent_bottom_nav_bar: any
   page_transition: ^2.0.9
+  onesignal_flutter: ^3.4.1
   # flutter_svg: any
 
 dev_dependencies:

@@ -11,6 +11,7 @@ import { subMinutes, addMinutes } from "date-fns";
 import { getOSRMDuration } from "../../middleware/osrmduration";
 import { AppDataSource } from "../../data-source";
 import { AppError } from "../../util/error-handler";
+import sendNotification from "../../service/notification-service";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { offers, src, dest, startTime, window, distance, price } = req.body;
@@ -37,7 +38,7 @@ export const postRideRequests = async (req: Request, res: Response) => {
 
   await newRequest.save();
 
-  offers.forEach(async (id) => {
+  const offerMap = offers.map(async (id) => {
     const rideOffer = await RideOffer.findOne({ where: { id } });
     const requestToOffer = new RequestToOffer({
       request: newRequest,
@@ -45,6 +46,16 @@ export const postRideRequests = async (req: Request, res: Response) => {
       price: price ? price : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
+    return rideOffer.user;
+  });
+
+  const riderIds = await Promise.all(offerMap);
+
+  // Send notification to all riders
+  await sendNotification({
+    title: "You have a new ride request",
+    userIds: riderIds,
+    body: `${user.firstname} requested to join your ride`,
   });
 
   return res.status(200).json({ success: "Ride Requests posted successfully" });
@@ -221,28 +232,34 @@ export const acceptRequest = async (req: Request, res: Response) => {
 
   if (!response) throw new AppError(500, { error: "Could not find request" });
 
-  if (response) {
-    response.isAccepted = true;
-    await response.save();
+  response.isAccepted = true;
+  await response.save();
 
-    const offerObj: RideOffer = await RideOffer.findOne({
-      where: { id: offer },
-    });
+  const offerObj: RideOffer = await RideOffer.findOne({
+    where: { id: offer },
+  });
 
-    if (offerObj.seats <= 0) {
-      throw new AppError(500, { error: "Seats are all full" });
-    }
-
-    offerObj.seats = offerObj.seats - 1;
-    if (offerObj.seats == 0) offerObj.status = "booked";
-    offerObj.save();
-
-    const requestObject: RideRequest = await RideRequest.findOne({
-      where: { id: request },
-    });
-    requestObject.status = "confirmed";
-    await requestObject.save();
+  if (offerObj.seats <= 0) {
+    throw new AppError(500, { error: "Seats are all full" });
   }
+
+  offerObj.seats = offerObj.seats - 1;
+  if (offerObj.seats == 0) offerObj.status = "booked";
+  offerObj.save();
+
+  const requestObject: RideRequest = await RideRequest.findOne({
+    where: { id: request },
+    relations: { user: true },
+  });
+  requestObject.status = "confirmed";
+  await requestObject.save();
+
+  // Send notification to user
+  await sendNotification({
+    title: `You found a ride!`,
+    userIds: [requestObject.user.id],
+    body: `${requestObject.user.firstname} has accepted your ride request`,
+  });
 
   return res.status(200).json({ message: "Request accepted successfully" });
 };
