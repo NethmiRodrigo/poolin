@@ -23,7 +23,7 @@ class RatePassengersScreen extends StatefulWidget {
 class _RatePassengersScreenState extends State<RatePassengersScreen> {
   var isVisible = false;
   List<dynamic>? party;
-  var isDisabled = true;
+  var _isDisabled = true;
 
   @override
   void initState() {
@@ -104,7 +104,7 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                         initialRating: 0,
                                         minRating: 1,
                                         direction: Axis.horizontal,
-                                        allowHalfRating: true,
+                                        allowHalfRating: false,
                                         itemCount: 5,
                                         itemSize: 16,
                                         itemPadding: const EdgeInsets.symmetric(
@@ -115,7 +115,6 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                           color: BlipColors.gold,
                                         ),
                                         onRatingUpdate: (rating) async {
-                                          print(user["firstname"]);
                                           Response response = await rateUser(
                                             rating,
                                             1,
@@ -123,6 +122,9 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                             "rider",
                                             user["id"],
                                           );
+                                          setState(() {
+                                            _isDisabled = false;
+                                          });
                                         },
                                       ),
                                       IconButton(
@@ -140,9 +142,6 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                                         avatar: user[
                                                             "profileImageUri"],
                                                       )));
-                                          setState(() {
-                                            isDisabled = false;
-                                          });
                                         },
                                         icon: const Icon(
                                           EvaIcons.alertCircleOutline,
@@ -158,7 +157,7 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                         ),
                       addVerticalSpace(40),
                       WideButton(
-                          isDisabled: isDisabled,
+                          isDisabled: _isDisabled,
                           text: 'Done',
                           onPressedAction: () async {
                             Navigator.push(

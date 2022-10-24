@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/home/rider_home.dart';
 
 import '../../custom/wide_button.dart';
 import '../../services/party_service.dart';
@@ -22,7 +23,7 @@ class RateDriverScreen extends StatefulWidget {
 
 class _RateDriverScreenState extends State<RateDriverScreen> {
   var isVisible = false;
-  var isDisabled = true;
+  var _isDisabled = true;
   List<dynamic>? party;
 
   @override
@@ -128,7 +129,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                                       initialRating: 0,
                                       minRating: 1,
                                       direction: Axis.horizontal,
-                                      allowHalfRating: true,
+                                      allowHalfRating: false,
                                       itemCount: 5,
                                       itemSize: 16,
                                       itemPadding: const EdgeInsets.symmetric(
@@ -139,7 +140,6 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                                         color: BlipColors.gold,
                                       ),
                                       onRatingUpdate: (rating) async {
-                                        print(user["firstname"]);
                                         Response response = await rateUser(
                                           rating,
                                           1,
@@ -147,6 +147,9 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                                           "rider",
                                           user["id"],
                                         );
+                                        setState(() {
+                                          _isDisabled = false;
+                                        });
                                       },
                                     ),
                                     IconButton(
@@ -176,14 +179,14 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                           ),
                           addVerticalSpace(40),
                           WideButton(
-                              isDisabled: isDisabled,
+                              isDisabled: _isDisabled,
                               text: 'Done',
                               onPressedAction: () async {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const DriverHomeScreen()),
+                                          const RiderHomeScreen()),
                                 );
                               }),
                         ],
@@ -197,7 +200,7 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const DriverHomeScreen()),
+                            builder: (context) => const RiderHomeScreen()),
                       );
                     }),
                 addVerticalSpace(48),
