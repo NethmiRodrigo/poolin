@@ -46,7 +46,7 @@ export const postRideRequests = async (req: Request, res: Response) => {
       price: price ? price : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
-    return rideOffer.user;
+    return rideOffer.user.id;
   });
 
   const riderIds = await Promise.all(offerMap);
