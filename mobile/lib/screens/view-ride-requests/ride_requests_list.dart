@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/custom/outline_button.dart';
+import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/view-ride-requests/reserve_request_screen.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
@@ -31,15 +32,12 @@ class RideRequestsList extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      if (pendingRequests[index]['avatar'] != null)
-                        CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(pendingRequests[index]['avatar']),
-                        ),
-                      if (pendingRequests[index]['avatar'] == null)
-                        const CircleAvatar(
-                          backgroundImage: AssetImage('assets/images/user.jpg'),
-                        ),
+                      CircleAvatar(
+                        backgroundColor: BlipColors.lightGrey,
+                        foregroundImage: NetworkImage(pendingRequests[index]
+                                ['avatar'] ??
+                            'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
+                      ),
                       Text(
                         pendingRequests[index]['fname'],
                         style: Theme.of(context).textTheme.labelLarge!.merge(
@@ -48,9 +46,9 @@ class RideRequestsList extends StatelessWidget {
                       ),
                       Text(
                         '+ Rs. ${pendingRequests[index]['price']} ',
-                        style: Theme.of(context).textTheme.headlineLarge!.merge(
-                              const TextStyle(color: Colors.white),
-                            ),
+                        style: BlipFonts.labelBold.merge(
+                          const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

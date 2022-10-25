@@ -73,7 +73,7 @@ export class User extends BaseEntity {
   })
   gender: Gender;
 
-  @Column({ nullable: true })
+  @Column({ default: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png' })
   @Exclude()
   profileImageUri: string;
 

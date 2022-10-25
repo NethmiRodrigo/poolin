@@ -59,7 +59,7 @@ class User {
         gender: json["gender"],
         email: json["email"],
         profilePicURL: json["profileImageUri"] ??
-            'https://www.freeiconspng.com/uploads/profile-icon-9.png',
+            'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
         bio: json["bio"],
         occupation: json["occupation"],
         dateOfBirth: json["dateOfBirth"] != null

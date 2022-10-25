@@ -22,4 +22,5 @@ Future<Response> getCurrentUser() async {
 void logout() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove('cookie');
+  await prefs.clear();
 }

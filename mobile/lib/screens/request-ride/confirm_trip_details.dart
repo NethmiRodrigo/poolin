@@ -87,7 +87,7 @@ class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : Padding(
