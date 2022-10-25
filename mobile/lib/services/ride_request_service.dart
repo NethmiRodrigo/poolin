@@ -33,7 +33,7 @@ Future<Response> postRequest(RideRequest rideRequest) async {
 Future<Response> getActiveRequest() async {
   dio.options.baseUrl = baseURL;
 
-  final response = await dio.get('/get/offer/requests/1');
+  final response = await dio.get('/request');
 
   return response;
 }

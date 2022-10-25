@@ -18,7 +18,7 @@ class ActiveRide {
     required this.type,
     required this.source,
     required this.destination,
-    this.seats = 5,
+    this.seats = 1,
     this.price = 0,
     this.partyData = const [],
     DateTime? departTime,

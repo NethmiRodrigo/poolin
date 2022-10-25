@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/custom/lists/close_friends_list.dart';
 import 'package:poolin/custom/lists/ride_offer_list.dart';
 import 'package:poolin/icons.dart';
@@ -22,6 +24,7 @@ class RiderHomeScreen extends StatefulWidget {
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
+  late ActiveRideCubit activeRideCubit;
 
   final List<RideOffer> _rideOffers = [
     RideOffer(
@@ -31,7 +34,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now(),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      profilePicture: 'https://i.pravatar.cc/300?img=1',
+      profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
     ),
     RideOffer(
       id: '2',
@@ -40,7 +43,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      profilePicture: 'https://i.pravatar.cc/300?img=4',
+      profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
     ),
     RideOffer(
       id: '3',
@@ -49,7 +52,7 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
       rideDate: DateTime.now(),
       estimatedArrivalTime: DateTime.now(),
-      profilePicture: 'https://i.pravatar.cc/300?img=3',
+      profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
     ),
     RideOffer(
       id: '4',
@@ -65,34 +68,39 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
         id: '1',
         firstName: 'Dulaj',
         lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=4'),
+        profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
     Friend(
         id: '2',
         firstName: 'Induwara',
         lastName: 'Anderson',
-        profilePicture: 'https://i.pravatar.cc/300?img=3'),
+        profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
     Friend(
         id: '3',
         firstName: 'Sarah',
         lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=22'),
+        profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
     Friend(
         id: '4',
         firstName: 'Nethmi',
         lastName: 'Anderson',
-        profilePicture: 'https://i.pravatar.cc/300?img=1'),
-    Friend(
-        id: '5',
-        firstName: 'Azma',
-        lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=5'),
-    Friend(
-        id: '6',
-        firstName: 'Dulaj',
-        lastName: 'Anderson',
-        profilePicture: 'https://i.pravatar.cc/300?img=6'),
+        profilePicture: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png'),
   ];
   bool isRiding = false; //rider is riding if he currently has a ride
+
+  @override
+  void initState() {
+    super.initState();
+    activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    checkForScheduledRideReq();
+  }
+
+  void checkForScheduledRideReq() {
+    if (activeRideCubit.state.id != null && activeRideCubit.state.type == RideType.request) {
+      setState(() {
+        isRiding = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +120,8 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
               child: ToggleToDriver(true),
             ),
             addVerticalSpace(16),
-            const Text(
-              'Looking for a ride?',
+            Text(
+              isRiding ? 'A ride is scheduled for you' : 'Looking for a ride?',
               style: BlipFonts.title,
             ),
             addVerticalSpace(16),

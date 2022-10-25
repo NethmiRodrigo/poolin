@@ -9,12 +9,14 @@ import 'package:poolin/app.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/models/active_ride_offer.dart';
+import 'package:poolin/models/active_ride_request.dart';
 import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/models/user_model.dart';
 import 'package:poolin/screens/login/login_screen.dart';
 import 'package:poolin/services/auth_service.dart';
 import 'package:poolin/services/interceptor/is_loggedin.dart';
 import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/services/ride_request_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -73,6 +75,16 @@ class _SplashScreenState extends State<SplashScreen> {
       activeRideCubit.setSource(rideOffer.source);
       activeRideCubit.setDestination(rideOffer.destination);
       activeRideCubit.setDepartureTime(rideOffer.departureTime);
+    } else {
+      Response response = await getActiveRequest();
+      ActiveRideRequest rideRequest =
+          ActiveRideRequest.fromJson(response.data["request"]);
+      activeRideCubit.setId(rideRequest.id);
+      activeRideCubit.setType(RideType.request);
+      activeRideCubit.setSource(rideRequest.source);
+      activeRideCubit.setDestination(rideRequest.destination);
+      activeRideCubit.setDepartureTime(rideRequest.departureTime);
+      activeRideCubit.setPrice(rideRequest.price);
     }
   }
 

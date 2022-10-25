@@ -60,18 +60,37 @@ export const getActiveRequest = async (req: Request, res: Response) => {
   }
 
   const result = await RideRequest.createQueryBuilder("request")
+  .leftJoinAndSelect("request.requestToOffers", "rto")
     .where("request.status='confirmed'")
     .leftJoinAndSelect("request.user", "user")
-    .where("user.email = :email", { email: user.email as string })
+    .where("request.userId = :id", { id: user.id })
     .select([
       "request.id AS id",
-      "request.from AS fromName",
       "ST_AsText(request.fromGeom) AS from",
-      "request.to AS toName",
+      "request.from AS fromName",
       "ST_AsText(request.toGeom) AS to",
+      "request.to AS toName",
       "request.departureTime AS departureTime",
+      "request.distance AS distance",
+      "rto.price AS price",
     ])
     .getRawOne();
+
+  // const result = await RideRequest.createQueryBuilder("request")
+  //   .where("request.status='confirmed'")
+  //   .leftJoinAndSelect("request.user", "user")
+  //   .where("user.email = :email", { email: user.email as string })
+  //   .select([
+  //     "request.id AS id",
+  //     "request.from AS fromName",
+  //     "ST_AsText(request.fromGeom) AS from",
+  //     "request.to AS toName",
+  //     "ST_AsText(request.toGeom) AS to",
+  //     "request.departureTime AS departureTime",
+  //     "request.distance AS distance",
+  //   ])
+  //   .getRawOne();
+  
 
   if (!result) {
     return res.status(404).json({ error: "No active request" });
@@ -80,6 +99,8 @@ export const getActiveRequest = async (req: Request, res: Response) => {
   const request = {
     id: result.id,
     departureTime: new Date(+new Date(result.departuretime) + 60000 * 330),
+    distance: result.distance,
+    price: result.price,
     source: {
       name: result.fromname,
       coordinates: wktToGeoJSON(result.from).coordinates,

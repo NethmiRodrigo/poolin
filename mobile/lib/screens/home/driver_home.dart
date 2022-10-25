@@ -44,7 +44,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   }
 
   void getOfferDetails() async {
-    if (activeRideCubit.state.id != null) {
+    if (activeRideCubit.state.id != null && activeRideCubit.state.type == RideType.offer) {
       endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
       int offerID = activeRideCubit.state.id!;
       final requestData = await getOfferRequests(offerID);
@@ -99,10 +99,10 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     child: ToggleToDriver(false),
                   ),
                   addVerticalSpace(16),
-                  activeRideCubit.state.id != null
+                  isDriving
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
-                          text: 'Offer a ride and get paid',
+                          text: isDriving ? 'Your ride is scheduled' : 'Offer a ride and get paid',
                           route: DestinationScreen(
                             rideType: RideType.offer,
                           ),
@@ -150,7 +150,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ],
                   ),
                   addVerticalSpace(24),
-                  if (activeRideCubit.state.id != null)
+                  if (isDriving)
                     const Text(
                       'Ride Requests',
                       style: BlipFonts.title,
