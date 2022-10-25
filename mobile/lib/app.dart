@@ -62,7 +62,7 @@ class _AppState extends State<App> {
 
   List<Widget> _buildScreens() {
     return [
-      const DriverHomeScreen(),
+      const RateDriverScreen(),
       const RideHistory(),
       const UserProfileScreen(),
     ];

@@ -84,6 +84,7 @@ class ComplaintScreenState extends State<ComplaintScreen> {
                         addHorizontalSpace(8),
                         CircleAvatar(
                           radius: 16,
+                          backgroundColor: BlipColors.lightGrey,
                           backgroundImage: NetworkImage(widget.avatar),
                         ),
                         addHorizontalSpace(8),

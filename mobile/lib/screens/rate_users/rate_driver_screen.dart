@@ -98,99 +98,103 @@ class _RateDriverScreenState extends State<RateDriverScreen> {
                 ),
                 Column(
                   children: [
-                    for (var user in party!)
-                      Column(
-                        children: [
-                          addVerticalSpace(16),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 16,
-                                      backgroundImage:
-                                          NetworkImage(user["profileImageUri"]),
-                                    ),
-                                    addHorizontalSpace(8),
-                                    Text(
-                                        user["firstname"] +
-                                            "\n" +
-                                            user["lastname"],
-                                        style: BlipFonts.outline),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    RatingBar.builder(
-                                      initialRating: 0,
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: false,
-                                      itemCount: 5,
-                                      itemSize: 16,
-                                      itemPadding: const EdgeInsets.symmetric(
-                                          horizontal: 4.0),
-                                      itemBuilder: (context, _) => const Icon(
-                                        EvaIcons.star,
-                                        size: 8,
-                                        color: BlipColors.gold,
+                    if (party != null)
+                      for (var user in party!)
+                        Column(
+                          children: [
+                            addVerticalSpace(16),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 16,
+                                        backgroundColor: BlipColors.lightGrey,
+                                        backgroundImage: NetworkImage(
+                                            user["profileImageUri"]),
                                       ),
-                                      onRatingUpdate: (rating) async {
-                                        Response response = await rateUser(
-                                          rating,
-                                          1,
-                                          3,
-                                          "rider",
-                                          user["id"],
-                                        );
-                                        setState(() {
-                                          _isDisabled = false;
-                                        });
-                                      },
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ComplaintScreen(
-                                                      name: user["firstname"] +
-                                                          " " +
-                                                          user["lastname"],
-                                                      userId: user["id"],
-                                                      avatar: user[
-                                                          "profileImageUri"],
-                                                    )));
-                                      },
-                                      icon: const Icon(
-                                        EvaIcons.alertCircleOutline,
-                                        color: BlipColors.blue,
+                                      addHorizontalSpace(8),
+                                      Text(
+                                          user["firstname"] +
+                                              "\n" +
+                                              user["lastname"],
+                                          style: BlipFonts.outline),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      RatingBar.builder(
+                                        initialRating: 0,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: false,
+                                        itemCount: 5,
+                                        itemSize: 16,
+                                        itemPadding: const EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        itemBuilder: (context, _) => const Icon(
+                                          EvaIcons.star,
+                                          size: 8,
+                                          color: BlipColors.gold,
+                                        ),
+                                        onRatingUpdate: (rating) async {
+                                          Response response = await rateUser(
+                                            rating,
+                                            1,
+                                            3,
+                                            "rider",
+                                            user["id"],
+                                          );
+                                          setState(() {
+                                            _isDisabled = false;
+                                          });
+                                        },
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ComplaintScreen(
+                                                        name: user[
+                                                                "firstname"] +
+                                                            " " +
+                                                            user["lastname"],
+                                                        userId: user["id"],
+                                                        avatar: user[
+                                                            "profileImageUri"],
+                                                      )));
+                                        },
+                                        icon: const Icon(
+                                          EvaIcons.alertCircleOutline,
+                                          color: BlipColors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          addVerticalSpace(40),
-                          WideButton(
-                              isDisabled: _isDisabled,
-                              text: 'Done',
-                              onPressedAction: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RiderHomeScreen()),
-                                );
-                              }),
-                        ],
-                      ),
+                          ],
+                        ),
+                    addVerticalSpace(40),
+                    WideButton(
+                        isDisabled: _isDisabled,
+                        text: 'Done',
+                        onPressedAction: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RiderHomeScreen()),
+                          );
+                        }),
                   ],
                 ),
                 const Spacer(),
