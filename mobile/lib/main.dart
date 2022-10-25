@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const MutualllFriendsScreen(),
+        home: const CloseFriendsScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

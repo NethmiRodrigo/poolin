@@ -1,39 +1,60 @@
+import 'package:mobile/models/mutualfriend.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart';
-import 'package:mobile/colors.dart';
+import 'package:mobile/custom/wide_button.dart';
 import 'package:mobile/custom/outline_button.dart';
+import 'package:mobile/fonts.dart';
 import 'package:mobile/utils/widget_functions.dart';
-// import 'package:';
+import '../../../colors.dart';
+import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 
-class ClosefriendScreen extends StatefulWidget {
-  const ClosefriendScreen({super.key});
+class CloseFriendsScreen extends StatefulWidget {
+  const CloseFriendsScreen({super.key});
 
   @override
-  ClosefriendScreenState createState() {
-    return ClosefriendScreenState();
+  CloseFriendsScreenState createState() {
+    return CloseFriendsScreenState();
   }
 }
 
-class ClosefriendScreenState extends State<ClosefriendScreen> {
+class CloseFriendsScreenState extends State<CloseFriendsScreen> {
+  static List<mutualfriendModel> main_friends_list = [
+    mutualfriendModel("Dulaj", "Lecture",
+        "assets/images/man.jpeg","See more"),
+    mutualfriendModel("Nimeshi", "Students",
+        "assets/images/woman.jpeg","See more"),
+    mutualfriendModel("Deshan", "Students",
+        "assets/images/user.jpg","See more"),
+    mutualfriendModel("Shershi", "Students",
+        "assets/images/woman.jpeg","See more"),
+  ];
+
+  List<mutualfriendModel> display_list = List.from(main_friends_list);
+
+  void updatelist(String value) {
+    setState(() {
+      display_list = main_friends_list
+          .where((element) =>
+              element.Name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    // Build a Form widget using the _formKey created above.
     return Scaffold(
-      body: Container(
-        child: GestureDetector(
-          child: Column(
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(48),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    addHorizontalSpace(8),
-                    IconButton(
+              IconButton(
                       icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.black,
@@ -42,328 +63,57 @@ class ClosefriendScreenState extends State<ClosefriendScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    addHorizontalSpace(8),
-                    Text(
-                      'Close friends',
-                      style: Theme.of(context).textTheme.headline3!.merge(
-                          const TextStyle(color: Colors.black, fontSize: 24)),
-                    ),
-                    addHorizontalSpace(156),
-                    // ListView(
-                    //   // children: [],
-                    // ),
-                  ],
+              Text(
+                "Close friends",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              TextField(
+                onChanged: (value) => updatelist(value),
+                autofocus: true,
+                showCursor: true,
+                readOnly: false,
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlignVertical: TextAlignVertical.center,
+                key: const Key('destination-field'),
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(AkarIcons.search),
+                  hintText: "Who are you looking forr?",
                 ),
               ),
-              ////////////////////////////
-              // Container(),
-              // Container(
-              //   margin: EdgeInsets.all(10),
-              //   child: RichText(
-              //     maxLines: 3,
-              //     overflow: TextOverflow.ellipsis,
-              //     text: TextSpan(
-              //       text: 'Today',
-              //       style: TextStyle(
-              //           fontSize: 16,
-              //           color: Colors.black,
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //   ),
-              // ),
-              Container(
-                child: Column(children: [
-                  // prefixIcon(),
-                  // Container(),
-                  SizedBox(
-                    height: 600,
-                    child: ListView.builder(
-                      itemCount: 400,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) => Container(
-                        height: 72,
-                        width: 72,
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  // Icon(
-                                  //   Icons.notifications,
-                                  //   color: Color.fromARGB(255, 0, 0, 0),
-                                  //   size: 48,
-                                  // ),
-                                  Container(
-                                    height: 48,
-                                    width: 48,
-                                    decoration: BoxDecoration(
-                                      // border: Border.all(
-                                      //     width: 1,
-                                      //     color: Theme.of(context)
-                                      //         .scaffoldBackgroundColor),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            spreadRadius: 2,
-                                            blurRadius: 10,
-                                            color:
-                                                Colors.black.withOpacity(0.1),
-                                            offset: const Offset(0, 10))
-                                      ],
-                                      shape: BoxShape.circle,
-                                      image: const DecorationImage(
-                                        image: NetworkImage(
-                                            "https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  ///////////////////////
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Dulaj prabash',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .merge(const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                      Text(
-                                        'Lecture',
-                                        // textAlign: TextAlign.left,
-                                        // style: TextStyle(
-                                        //   color: Color.fromARGB(255, 0, 0, 0),
-                                        // ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .merge(const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14)),
-                                      ),
-                                      // SizedBox(
-                                      //   height: 8,
-                                      // ),
-                                      // Text(
-                                      //   '05-09-2022',
-                                      //   style: Theme.of(context)
-                                      //       .textTheme
-                                      //       .bodySmall!
-                                      //       .merge(const TextStyle(
-                                      //           color: Colors.black,
-                                      //           fontSize: 10)),
-                                      // ),
-                                      // OutlineButton(
-                                      //   onPressedAction: () {},
-                                      //   color: BlipColors.black,
-                                      //   text: "All",
-                                      // ),
-                                      
-                                    ],
-                                  ),
-
-                                  Spacer(),
-
-                                  // Text(
-                                  //   '12:00 am',
-                                  //   style: Theme.of(context)
-                                  //       .textTheme
-                                  //       .bodySmall!
-                                  //       .merge(const TextStyle(
-                                  //           color: Colors.black, fontSize: 10)),
-                                  // ),
-                                  OutlineButton(
-                                        onPressedAction: () {},
-                                        color: BlipColors.black,
-                                        text: "See Profile",
-                                      ),
-                                ],
-                              ),
-                              // addHorizontalSpace(10),
-                              // SizedBox(
-                              //   width: 16,
-                              // ),
-                            ]),
-                        color: Color.fromARGB(255, 243, 243, 243),
-                      ),
-                    ),
-                  )
-                ]),
+              SizedBox(
+                height: 20,
               ),
-              ////////////////////////////////
-              // Container(
-              //   margin: EdgeInsets.all(10),
-              //   child: RichText(
-              //     maxLines: 3,
-              //     overflow: TextOverflow.ellipsis,
-              //     text: TextSpan(
-              //       text: 'Yesterday',
-              //       style: TextStyle(
-              //           fontSize: 16,
-              //           color: Colors.black,
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //   ),
-              // ),
-              // Container(
-              //   child: Column(children: [
-              //     // prefixIcon(),
-              //     // Container(),
-              //     SizedBox(
-              //       height: 160,
-              //       child: ListView.builder(
-              //         itemCount: 4,
-              //         scrollDirection: Axis.vertical,
-              //         itemBuilder: (context, index) => Container(
-              //           height: 72,
-              //           width: 72,
-              //           margin: EdgeInsets.all(10),
-              //           padding: EdgeInsets.all(8),
-              //           child: Column(
-              //             // crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //             Row(
-              //               children: [
-
-              //                 Icon(
-              //                   Icons.notifications,
-              //                   color: Color.fromARGB(255, 0, 0, 0),
-              //                   size: 48,
-              //                 ),
-              //                 SizedBox(width: 16,),
-              //                 ///////////////////////
-              //                 Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                   Text(
-              //                   'Parking booking canceled',
-              //                   style: TextStyle(
-              //                     fontWeight: FontWeight.bold,
-              //                     color: Color.fromARGB(255, 0, 0, 0),
-              //                   ),
-              //                 ),
-              //                   Text(
-              //                   'You have canceled parking at ... ',
-              //                   // textAlign: TextAlign.left,
-              //                   style: TextStyle(
-              //                     color: Color.fromARGB(255, 0, 0, 0),
-              //                   ),
-              //                 ),
-              //                 ],),
-
-              //                 Spacer(),
-              //                 Text(
-              //               '12:00 am',
-              //               style: TextStyle(
-              //                 fontSize: 10,
-              //               ),
-              //             ),
-
-              //               ],
-              //             ),
-              //             // addHorizontalSpace(10),
-              //             SizedBox(width: 16,),
-
-              //           ]),
-              //           color: Color.fromARGB(255, 243, 243, 243),
-              //         ),
-              //       ),
-              //     )
-              //   ]),
-              // ),
-              //////////////////////////////
-              // Container(
-              //   margin: EdgeInsets.all(10),
-              //   child: RichText(
-              //     maxLines: 3,
-              //     overflow: TextOverflow.ellipsis,
-              //     text: TextSpan(
-              //       text: 'August 24 2022',
-              //       style: TextStyle(
-              //           fontSize: 16,
-              //           color: Colors.black,
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //   ),
-              // ),
-              // Container(
-              //   child: Column(children: [
-              //     // prefixIcon(),
-              //     // Container(),
-              //     SizedBox(
-              //       height: 160,
-              //       child: ListView.builder(
-              //         itemCount: 4,
-              //         scrollDirection: Axis.vertical,
-              //         itemBuilder: (context, index) => Container(
-              //           height: 72,
-              //           width: 72,
-              //           margin: EdgeInsets.all(10),
-              //           padding: EdgeInsets.all(8),
-              //           child: Column(
-              //             // crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //             Row(
-              //               children: [
-
-              //                 Icon(
-              //                   Icons.notifications,
-              //                   color: Color.fromARGB(255, 0, 0, 0),
-              //                   size: 48,
-              //                 ),
-              //                 SizedBox(width: 16,),
-              //                 ///////////////////////
-              //                 Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                   Text(
-              //                   'Verification successful',
-              //                   style: TextStyle(
-              //                     fontWeight: FontWeight.bold,
-              //                     color: Color.fromARGB(255, 0, 0, 0),
-              //                   ),
-              //                 ),
-              //                   Text(
-              //                   'You have canceled parking at ... ',
-              //                   // textAlign: TextAlign.left,
-              //                   style: TextStyle(
-              //                     color: Color.fromARGB(255, 0, 0, 0),
-              //                   ),
-              //                 ),
-              //                 ],),
-
-              //                 Spacer(),
-              //                 Text(
-              //               '12:00 am',
-              //               style: TextStyle(
-              //                 fontSize: 10,
-              //               ),
-              //             ),
-
-              //               ],
-              //             ),
-              //             // addHorizontalSpace(10),
-              //             SizedBox(width: 16,),
-
-              //           ]),
-              //           color: Color.fromARGB(255, 243, 243, 243),
-              //         ),
-              //       ),
-              //     )
-              //   ]),
-              // ),
-            ],
-          ),
-        ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: display_list.length,
+                    itemBuilder: ((context, index) => ListTile(
+                          contentPadding: EdgeInsets.all(8),
+                          title: Text(
+                            display_list[index].Name!,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                          subtitle: Text(
+                            display_list[index].position!,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12),
+                          ),
+                          trailing: Text(display_list[index].Seemore!),
+                          leading: CircleAvatar(backgroundImage: AssetImage(display_list[index].friendimageurl!)),
+                          
+                        ))),
+              )
+            ]),
       ),
     );
   }

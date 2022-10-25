@@ -20,10 +20,10 @@ class MutuallFriendsScreen extends StatefulWidget {
 
 class MutuallFriendsScreenState extends State<MutuallFriendsScreen> {
   static List<mutualfriendModel> main_friends_list = [
-    mutualfriendModel("Dulaj", "Lecture",
-        "https://images.pexels.com/photos/1165641/pexels-photo-1165641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
-    mutualfriendModel("Nimeshi", "Students",
-        "https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=600"),
+    // mutualfriendModel("Dulaj", "Lecture",
+    //     "https://images.pexels.com/photos/1165641/pexels-photo-1165641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"),
+    // mutualfriendModel("Nimeshi", "Students",
+    //     "https://images.pexels.com/photos/1642228/pexels-photo-1642228.jpeg?auto=compress&cs=tinysrgb&w=600"),
   ];
 
   List<mutualfriendModel> display_list = List.from(main_friends_list);
