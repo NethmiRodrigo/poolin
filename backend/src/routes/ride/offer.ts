@@ -169,7 +169,7 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
       firstname: req.firstname,
       lastname: req.lastname,
       avatar: req.avatar,
-      pickupTime: req.pickuptime,
+      pickupTime: new Date(+new Date(req.pickuptime) + 60000*330),
       price: parseFloat(req.price).toFixed(2),
       pickup: {
         name: req.fromname,

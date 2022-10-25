@@ -95,7 +95,7 @@ class _DriverNavState extends State<DriverNav> {
           CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(newLocation.latitude!, newLocation.longitude!),
-              zoom: 18,
+              zoom: 14,
             ),
           ),
         );
@@ -278,7 +278,17 @@ class _DriverNavState extends State<DriverNav> {
                       ),
                       mapType: _currentMapType,
                       polylines: Set<Polyline>.of(polylines.values),
-                      markers: _markers,
+                      markers: {
+                        ..._markers,
+                        Marker(
+                          markerId: const MarkerId('currentLocation'),
+                          position: LatLng(
+                            currentLocation!.latitude!,
+                            currentLocation!.longitude!,
+                          ),
+                          icon: currentLocationMarker,
+                        ),
+                      },
                       onCameraMove: _onCameraMove,
                     ),
                   );
