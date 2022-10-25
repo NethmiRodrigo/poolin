@@ -28,9 +28,9 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   }) =>
       TextButton(
         style: ElevatedButton.styleFrom(
+          foregroundColor: BlipColors.black,
+          backgroundColor: BlipColors.white,
           padding: const EdgeInsets.all(16.0),
-          primary: BlipColors.white,
-          onPrimary: BlipColors.black,
         ),
         onPressed: onClicked,
         child: Row(children: [
@@ -84,10 +84,17 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      const CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/images/profilePic.jpg"),
-                      ),
+                      currentUser.getUser().profilePicURL != null
+                          ? CircleAvatar(
+                              backgroundColor: BlipColors.lightGrey,
+                              backgroundImage: NetworkImage(
+                                  currentUser.getUser().profilePicURL!),
+                            )
+                          : const CircleAvatar(
+                              backgroundColor: BlipColors.lightGrey,
+                              backgroundImage: NetworkImage(
+                                  "https://zaytandzaatar.com.au/wp-content/uploads/2022/08/Deafult-Profile-Pitcher.png.webp"),
+                            ),
                       Positioned(
                         bottom: 0,
                         right: -10,
