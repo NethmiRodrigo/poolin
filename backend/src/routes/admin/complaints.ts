@@ -9,7 +9,6 @@ import { AppError } from "../../util/error-handler";
 
 import { AppDataSource } from "../../data-source";
 import { Complaint } from "../../database/entity/Complaint";
-import { open } from "fs";
 
 /**
  * 
