@@ -4,12 +4,13 @@ import { fetchTotalIncome } from "./payments";
 import { fetchTotalPayabaleWeek } from "./payments";
 import { fetchTotalProfit } from "./payments";
 import { fetchAllPayments } from "./payments";
-import { blacklist } from "./complaints";
+// import { blacklist } from "./complaints";
 
 /** Routes */
 import { createEmailFormat } from "./email-format";
 import { toggleVerification } from "./manage-user";
 import { fetchAllUsers } from "./manage-user";
+
 
 const router = Router();
 router.post("/create-email-format", createEmailFormat);
@@ -20,6 +21,8 @@ router.get("/total-income", fetchTotalIncome);
 router.get("/total-payable", fetchTotalPayabaleWeek);
 router.get("/total-profit", fetchTotalProfit);
 router.get("/all-payments", fetchAllPayments);
-router.post("/blacklist-user", blacklist);
+
+
+// router.post("/blacklist-user", blacklist);
 
 export default router;

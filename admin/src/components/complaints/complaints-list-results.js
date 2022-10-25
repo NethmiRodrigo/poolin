@@ -70,6 +70,8 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
     setPage(newPage);
   };
 
+  
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>

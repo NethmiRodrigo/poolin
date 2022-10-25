@@ -32,27 +32,22 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export const PaymentListResults = ({ complaints, ...rest }) => {
-  console.log(complaints);
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+export const PaymentListResults = ({ payment, ...rest }) => {
+  const [selectedPaymentIds, setSelectedPaymentIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const [viewModalOpen, setViewModalOpen] = useState(false);
-  const [selectedReferral, setSelectedReferral] = useState(null);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedPaymentsIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedPaymentIds = payment.map((payment) => payment.id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedPaymentIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedPaymentIds(newSelectedPaymentIds);
   };
-
-  
 
   // const handleSelectOne = (event, id) => {
   //   const selectedIndex = selectedCustomerIds.indexOf(id);
@@ -81,10 +76,6 @@ export const PaymentListResults = ({ complaints, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-const handleSelect = (referral) => {
-    setSelectedReferral(referral);
-    setViewModalOpen(true);
-  };
 
   return (
     
@@ -102,13 +93,13 @@ const handleSelect = (referral) => {
                 <TableCell>Total Income</TableCell>
               </TableRow>
             </TableHead>
-            {/* <TableBody>
-              {complaints.length > 0 &&
-                complaints.slice(0, limit).map((complaints) => (
+            <TableBody>
+              {payment.length > 0 &&
+                payment.slice(0, limit).map((payment) => (
                   <TableRow
                     hover
-                    key={complaints.id}
-                    selected={selectedCustomerIds.indexOf(complaints.id) !== -1}
+                    key={payment.id}
+                    // selected={selectedComplaintsIds.indexOf(complaints.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -117,38 +108,30 @@ const handleSelect = (referral) => {
                           display: "flex",
                         }}
                       >
-                        
                         <Typography color="textPrimary" variant="body1">
-                          {complaints.tripId}
+                          {payment.id}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{complaints}</TableCell>
-                    {/* <TableCell>
-                      {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                    </TableCell> */}
-                    {/* <TableCell>{customer.phone}</TableCell> */}
-                    {/* <TableCell>
-                    {complaints.status}
+                    <TableCell>{payment.totalIncome}</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell>
+                      
+                    </TableCell>
+                    <TableCell>
+                      
                     </TableCell>
                     <TableCell>
                       <FormGroup>
-                        <FormControlLabel control={<Switch />} label="Label"/>
+                        <FormControlLabel control={<Switch />} label="" />
                       </FormGroup>
                     </TableCell>
-                    <TableCell> */}
-                    {/* <Button variant="outlined" onClick={handleSelect}>
-                        View
-                    </Button> */}
-                    {/* <Button variant="outlined" onClick={() => handleSelect(referral)}>
-                          View
-                    </Button>
+                    <TableCell>
+                      
                     </TableCell>
-                    
                   </TableRow>
-                  
                 ))}
-            </TableBody> */} 
+            </TableBody> 
           </Table>
         </Box>
       </PerfectScrollbar>
@@ -167,6 +150,8 @@ const handleSelect = (referral) => {
   
 };
 
-// ComplaintsListResults.propTypes = {
-//   complaints: PropTypes.array.isRequired,
-// };
+
+PaymentListResults.propTypes = {
+  payment: PropTypes.array.isRequired,
+};
+

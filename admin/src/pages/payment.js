@@ -14,7 +14,38 @@ import { TasksProgress } from '../components/dashboard/tasks-progress';
 import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 
-const Dashboard = () => (
+import { getAllPayment } from 'src/services/payments.service';
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+
+const Payment = () => {
+  const [payment, setPayment] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    try {
+      const response = await getAllPayment();
+      console.log(response)
+      setPayment(response);
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return (
   <>
     <Head>
       <title>
@@ -75,18 +106,18 @@ const Dashboard = () => (
             xl={9}
             xs={12}
           >
-            <PaymentListResults />
+            <PaymentListResults payment={payment}/>
           </Grid>
         </Grid>
       </Container>
     </Box>
   </>
-);
+)};
 
-Dashboard.getLayout = (page) => (
+Payment.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Dashboard;
+export default Payment;
