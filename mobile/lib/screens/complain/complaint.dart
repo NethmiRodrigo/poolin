@@ -118,10 +118,7 @@ class ComplaintScreenState extends State<ComplaintScreen> {
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
                             Response response = await reportUser(
-                                _complaint.text,
-                                int.parse(userCubit.state.id),
-                                4,
-                                widget.userId);
+                                _complaint.text, 2, 4, widget.userId);
 
                             if (response.statusCode == 200) {
                               if (!mounted) {
