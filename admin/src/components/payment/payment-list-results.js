@@ -32,7 +32,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export const ComplaintsListResults = ({ complaints, ...rest }) => {
+export const PaymentListResults = ({ complaints, ...rest }) => {
   console.log(complaints);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -94,16 +94,15 @@ const handleSelect = (referral) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Trip ID</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Complainee</TableCell>
-                <TableCell>Complainer</TableCell>
-                <TableCell>Action</TableCell>
-                <TableCell>View</TableCell>
+                <TableCell>Driver ID</TableCell>
+                <TableCell>Passengers</TableCell>
+                <TableCell>Total Number of Rides</TableCell>
+                <TableCell>Total Ride Income</TableCell>
+                <TableCell>Total Ride Payable</TableCell>
+                <TableCell>Total Income</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            {/* <TableBody>
               {complaints.length > 0 &&
                 complaints.slice(0, limit).map((complaints) => (
                   <TableRow
@@ -129,7 +128,7 @@ const handleSelect = (referral) => {
                       {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
                     </TableCell> */}
                     {/* <TableCell>{customer.phone}</TableCell> */}
-                    <TableCell>
+                    {/* <TableCell>
                     {complaints.status}
                     </TableCell>
                     <TableCell>
@@ -137,11 +136,11 @@ const handleSelect = (referral) => {
                         <FormControlLabel control={<Switch />} label="Label"/>
                       </FormGroup>
                     </TableCell>
-                    <TableCell>
+                    <TableCell> */}
                     {/* <Button variant="outlined" onClick={handleSelect}>
                         View
                     </Button> */}
-                    <Button variant="outlined" onClick={() => handleSelect(referral)}>
+                    {/* <Button variant="outlined" onClick={() => handleSelect(referral)}>
                           View
                     </Button>
                     </TableCell>
@@ -149,13 +148,13 @@ const handleSelect = (referral) => {
                   </TableRow>
                   
                 ))}
-            </TableBody>
+            </TableBody> */} 
           </Table>
         </Box>
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={complaints.length}
+        // count={complaints.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -168,6 +167,6 @@ const handleSelect = (referral) => {
   
 };
 
-ComplaintsListResults.propTypes = {
-  complaints: PropTypes.array.isRequired,
-};
+// ComplaintsListResults.propTypes = {
+//   complaints: PropTypes.array.isRequired,
+// };

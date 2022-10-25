@@ -38,7 +38,7 @@ function ViewComplaintsModal({ open, handleClose, complaints }) {
           <CardContent>
             <Grid container spacing={5}>
               <Grid row xs={12}>
-                <Box  m={2} pt={3} mr={30}>
+                <Box  m={2} pt={3} >
                 <Typography>
                 {complaints.description}
                 </Typography>
