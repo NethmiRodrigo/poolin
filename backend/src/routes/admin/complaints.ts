@@ -9,7 +9,6 @@ import { AppError } from "../../util/error-handler";
 
 import { AppDataSource } from "../../data-source";
 import { Complaint } from "../../database/entity/Complaint";
-import { open } from "fs";
 
 /**
  * 
@@ -19,7 +18,7 @@ export const fetchAllComplaint = async (req: Request, res: Response) => {
   // const { id, verified } = req.params;
 
   const userRepository = await AppDataSource.getRepository(Complaint);
-  const allComplaints = await userRepository.find({ where: { status: "OPEN" } });
+  const allComplaints = await userRepository.find();
   console.log("All Complaints: ", allComplaints);
   return res.json({allComplaints})
 };
