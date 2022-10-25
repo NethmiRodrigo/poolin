@@ -117,7 +117,7 @@ class _RatePassengersScreenState extends State<RatePassengersScreen> {
                                         onRatingUpdate: (rating) async {
                                           Response response = await rateUser(
                                             rating,
-                                            1,
+                                            2,
                                             3,
                                             "rider",
                                             user["id"],

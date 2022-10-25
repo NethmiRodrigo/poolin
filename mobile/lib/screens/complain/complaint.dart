@@ -14,6 +14,7 @@ import 'package:poolin/services/login_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 import '../../colors.dart';
+import '../../cubits/current_user_cubit.dart';
 import '../../fonts.dart';
 
 class ComplaintScreen extends StatefulWidget {
@@ -42,6 +43,8 @@ class ComplaintScreenState extends State<ComplaintScreen> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     AuthStateCubit authState = BlocProvider.of<AuthStateCubit>(context);
+    final CurrentUserCubit userCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -115,7 +118,10 @@ class ComplaintScreenState extends State<ComplaintScreen> {
                         onPressedAction: () async {
                           if (_formKey.currentState!.validate()) {
                             Response response = await reportUser(
-                                _complaint.text, 1, 4, widget.userId);
+                                _complaint.text,
+                                int.parse(userCubit.state.id),
+                                4,
+                                widget.userId);
 
                             if (response.statusCode == 200) {
                               if (!mounted) {
