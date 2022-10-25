@@ -11,7 +11,6 @@ import 'package:poolin/screens/view-ride-requests/countdown_label.dart';
 import 'package:poolin/screens/view-ride-requests/ride_requests_list.dart';
 
 import 'package:poolin/utils/widget_functions.dart';
-
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
 import '../../custom/indicator.dart';
@@ -28,36 +27,30 @@ class ViewRideRequestsScreen extends StatefulWidget {
 }
 
 class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
-  late ActiveRideCubit offerCubit;
+  late ActiveRideCubit activeRideOffer;
   late CountdownTimerController controller;
   var isVisible = false;
   List<dynamic>? pendingRequests;
-  List<dynamic>? confirmedRequests;
+  List<RideParticipant> confirmedRequests = [];
 
   @override
   void initState() {
     super.initState();
-    offerCubit = BlocProvider.of<ActiveRideCubit>(context);
-    controller = CountdownTimerController(
-        endTime: offerCubit.getDepartureTime().millisecondsSinceEpoch,
-        onEnd: () => {});
+    activeRideOffer = BlocProvider.of<ActiveRideCubit>(context);
     getData();
   }
 
   getData() async {
-    final requestData = await getOfferRequests(offerCubit.getId());
+    int offerID = activeRideOffer.state.id!;
+    final requestData = await getOfferRequests(offerID);
     pendingRequests = requestData.data['requests'];
-    final partyData = await getConfirmedRequests(offerCubit.getId());
-    confirmedRequests = partyData.data['requests'];
-    if (confirmedRequests != null) {
-      if ((confirmedRequests?.length)! > 0) {
-        var price = 0;
-        for (var request in confirmedRequests!) {
-          int requestPrice = int.parse(request['price']);
-          price = price + requestPrice;
-        }
-        offerCubit.setPrice(price);
+    confirmedRequests = await getConfirmedRequests(offerID);
+    if (confirmedRequests.isNotEmpty) {
+      double price = 0;
+      for (var req in confirmedRequests) {
+        price = price + req.price;
       }
+      activeRideOffer.setPrice(price);
     }
 
     setState(() {
@@ -100,7 +93,6 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                             style: BlipFonts.displayBlack,
                             textAlign: TextAlign.left,
                           ),
-                          // Spacer(),
                           Indicator(
                               icon: FluentIcons.eye_12_regular,
                               text: "500",
@@ -154,8 +146,19 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     if (pendingRequests?.length != null)
                       SizedBox(
                         height: 130,
-                        child:
-                            RideRequestsList(pendingRequests: pendingRequests!),
+                        child: pendingRequests!.isEmpty
+                            ? Container(
+                              color: BlipColors.lightGrey,
+                              child: const Center(
+                                  child: Text(
+                                      'No pending requests at the moment',
+                                      style: BlipFonts.outline,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                ),
+                            )
+                            : RideRequestsList(
+                                pendingRequests: pendingRequests!),
                       ),
                     addVerticalSpace(24),
                     const Text(
@@ -165,7 +168,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     ),
                     if (confirmedRequests != null)
                       ConfirmedRequestsList(
-                          confirmedRequests: confirmedRequests!)
+                          confirmedRequests: confirmedRequests)
                   ],
                 ),
               ),
