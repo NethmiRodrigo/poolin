@@ -77,6 +77,7 @@ import { AppDataSource } from "../../data-source";
     return res.json({ totalProfit });
   };
 
+  
   /**
  *
  * Fetch all payments
