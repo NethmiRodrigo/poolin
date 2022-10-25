@@ -76,7 +76,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
     <Card {...rest}>
       <PerfectScrollbar>
         
-      <Box sx={{ m: 1 }} >
+      {/* <Box sx={{ m: 1 }} >
       <FormControl fullwidth>
   <InputLabel variant="standard" htmlFor="uncontrolled-native">
     Status
@@ -93,7 +93,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
     <option value={30}>All</option>
   </NativeSelect>
 </FormControl>
-        </Box>
+        </Box> */}
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>

@@ -1,32 +1,33 @@
-import Head from "next/head";
-import { Box, CircularProgress, Container, Grid } from "@mui/material";
-import { ComplaintsListResults } from "../components/complaints/complaints-list-results";
-import { ComplaintsListToolbar } from "../components/complaints/complaints-list-toolbar";
-import { DashboardLayout } from "../components/dashboard-layout";
-import { useEffect } from "react";
-import { getAllUsers } from "src/services/users.service";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { getAllComplaints } from "src/services/complaints.services";
-import { getAllIncome, getAllPayments } from "src/services/payments.service";
+import Head from 'next/head';
+import { Box, Container, Grid } from '@mui/material';
+import { Budget } from '../components/dashboard/budget';
 import { TotalIncome } from '../components/payment/total-income';
 import { TotalPayables } from '../components/payment/total-payables';
 import { TotalProfit } from '../components/payment/total-profit';
 import { TotalCustomers } from '../components/payment/total-customers';
-import { PaymentListResults } from "src/components/payment/payment-list-results";
+import { PaymentListResults } from '../components/payment/payment-list-results';
 
-const Payments = () => {
-  const [payments, setPayments] = useState([]);
-  const [incomes, setIncomes] = useState([]);
+import { LatestOrders } from '../components/dashboard/latest-orders';
+import { LatestProducts } from '../components/dashboard/latest-products';
+import { Sales } from '../components/dashboard/sales';
+import { TasksProgress } from '../components/dashboard/tasks-progress';
+import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
+import { DashboardLayout } from '../components/dashboard-layout';
+
+import { getAllPayment, getAllPayments } from 'src/services/payments.service';
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+
+const Payment = () => {
+  const [payment, setPayment] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
     try {
       const response = await getAllPayments();
-      const totalIncome = await getAllIncome();
-      // console.log(response)
-      setPayments(response);
-      setIncomes(totalIncome);
+      // console.log(response.allPayments[0])
+      setPayment(response);
     } catch (error) {
       toast.error(error.message, {
         position: "top-right",
@@ -45,8 +46,8 @@ const Payments = () => {
   }, []);
 
   return (
-    <>
-      <Head>
+  <>
+    <Head>
       <title>
         Payments
       </title>
@@ -70,7 +71,7 @@ const Payments = () => {
             xl={3}
             xs={12}
           >
-            <TotalIncome incomes={incomes}/>
+            <TotalIncome />
           </Grid>
           <Grid
             item
@@ -105,15 +106,18 @@ const Payments = () => {
             xl={9}
             xs={12}
           >
-            <PaymentListResults payments={payments}/>
+            <PaymentListResults payment={payment}/>
           </Grid>
         </Grid>
       </Container>
     </Box>
-    </>
-  );
-};
+  </>
+)};
 
-Payments.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Payment.getLayout = (page) => (
+  <DashboardLayout>
+    {page}
+  </DashboardLayout>
+);
 
-export default Payments;
+export default Payment;

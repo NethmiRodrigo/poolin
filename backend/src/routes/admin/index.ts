@@ -21,7 +21,7 @@ router.get("/total-income", fetchTotalIncome);
 router.get("/total-payable", fetchTotalPayabaleWeek);
 router.get("/total-profit", fetchTotalProfit);
 router.get("/all-payments", fetchAllPayments);
-
+// router.get("/all-payments-tset", fetchAllPaymentsTest);
 
 // router.post("/blacklist-user", blacklist);
 

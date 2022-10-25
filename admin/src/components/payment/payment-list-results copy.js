@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-import { Button, FormControl, FormGroup, InputAdornment, InputLabel, MenuItem, Modal, NativeSelect, Select, TextField } from "@mui/material";
+import { Button, FormGroup, Modal } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import { Switch } from "@mui/material";
 import axios from "axios";
@@ -21,12 +21,20 @@ import {
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
-// import ViewComplaintsModal from "./view-complaint-modal";
-import { ArrowDropDown } from "@mui/icons-material";
-
-export const PaymentListResults = ({ payments, ...rest }) => {
-  const [viewModalOpen, setViewModalOpen] = useState(false);
-  const [selectedPaymentsIds, setSelectedPaymentsIds] = useState([]);
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+export const PaymentListResults = ({ payment, ...rest }) => {
+  console.log(payment)
+  const [selectedPaymentIds, setSelectedPaymentIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -34,12 +42,13 @@ export const PaymentListResults = ({ payments, ...rest }) => {
     let newSelectedPaymentsIds;
 
     if (event.target.checked) {
-      newSelectedPaymentsIds = payments.map((payment) => payments.id);
+      newSelectedPaymentIds = payment.map((payment) => payment.id);
+      console.log(newSelectedPaymentsIds)
     } else {
-      newSelectedPaymentsIds = [];
+      newSelectedPaymentIds = [];
     }
 
-    setSelectedPaymentsIds(newSelectedPaymentsIds);
+    setSelectedPaymentIds(newSelectedPaymentIds);
   };
 
   // const handleSelectOne = (event, id) => {
@@ -70,12 +79,10 @@ export const PaymentListResults = ({ payments, ...rest }) => {
     setPage(newPage);
   };
 
-  
-
   return (
+    
     <Card {...rest}>
       <PerfectScrollbar>
-
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
@@ -89,12 +96,12 @@ export const PaymentListResults = ({ payments, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-            
-              {payments.length > 0 && payments.slice(0, limit).map((payments) => (
+              {payment.length > 0 &&
+                payment.slice(0, limit).map((payment) => (
                   <TableRow
                     hover
-                    key={payments.id}
-                    // selected={selectedPaymentIds.indexOf(Payment.id) !== -1}
+                    key={payment.id}
+                    // selected={selectedComplaintsIds.indexOf(complaints.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -103,53 +110,50 @@ export const PaymentListResults = ({ payments, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        
                         <Typography color="textPrimary" variant="body1">
-                          {payments.id}
+                          {payment.id}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{payments.numberOfPassengers}</TableCell>
-                    <TableCell>Total Number of Rides</TableCell>
+                    <TableCell>{payment.totalIncome}</TableCell>
+                    <TableCell></TableCell>
                     <TableCell>
-                    LKR: {payments.totalIncome}
+                      
                     </TableCell>
                     <TableCell>
-                    LKR: {payments.totalPayable}
+                      
                     </TableCell>
                     <TableCell>
-                    LKR: {payments.totalProfit}
+                      <FormGroup>
+                        <FormControlLabel control={<Switch />} label="" />
+                      </FormGroup>
                     </TableCell>
-                    
+                    <TableCell>
+                      
+                    </TableCell>
                   </TableRow>
                 ))}
-            </TableBody>
+            </TableBody> 
           </Table>
         </Box>
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={payments.length}
+        // count={complaints.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
-      {/* {viewModalOpen && (
-        <ViewComplaintsModal
-          open={viewModalOpen}
-          handleClose={() => {
-            setViewModalOpen(false);
-            //selectedCustomerIds(null);
-          }}
-          payment={selectedPaymentIds}
-        />
-      )} */}
     </Card>
+    
   );
+  
 };
+
 
 PaymentListResults.propTypes = {
   payment: PropTypes.array.isRequired,
 };
+
