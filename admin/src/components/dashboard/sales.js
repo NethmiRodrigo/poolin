@@ -2,10 +2,41 @@ import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+import { getAllsales } from 'src/services/dashboard.services';
 
 export const Sales = (props) => {
   const theme = useTheme();
-
+  const [sales, setSales] = useState([]);
+  const [loading, setLoading] = useState(true);
+      
+  useEffect(async () => {
+    try {
+      const map = [sales];
+      const result = Object.values(map);
+      
+      const response = await getAllsales();
+      console.log(response)
+      setSales(response);
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, 
+  
+  []);
   const data = {
     datasets: [
       {
@@ -15,7 +46,7 @@ export const Sales = (props) => {
         borderRadius: 4,
         categoryPercentage: 0.5,
         data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
+        label: [result],
         maxBarThickness: 10
       },
       {
