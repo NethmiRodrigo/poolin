@@ -36,7 +36,6 @@ class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
         context,
         showTitleActions: true,
         minTime: DateTime.now().add(const Duration(days: 1)),
-        maxTime: DateTime.now().add(const Duration(days: 7)),
         onChanged: (date) {},
         onConfirm: (date) {
           reqCubit.setStartTime(date);

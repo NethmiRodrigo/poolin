@@ -29,8 +29,6 @@ class RideOfferTimeline extends StatefulWidget {
 
 class _RideOfferTimelineState extends State<RideOfferTimeline> {
   String? apiKey = dotenv.env['MAPS_API_KEY'];
-  DateTime pickupTime = DateTime.now().add(const Duration(minutes: 15));
-  DateTime dropOffTime = DateTime.now().add(const Duration(minutes: 30));
 
   @override
   void initState() {
@@ -52,7 +50,6 @@ class _RideOfferTimelineState extends State<RideOfferTimeline> {
 
         setState(() {
           DateTime driverStarts = widget.offer.startTime;
-          pickupTime = driverStarts.add(Duration(seconds: durationInSeconds));
         });
       }
     } catch (e) {
@@ -71,10 +68,6 @@ class _RideOfferTimelineState extends State<RideOfferTimeline> {
       if (response.data["rows"][0]["elements"][0]["status"] == "OK") {
         int durationInSeconds =
             response.data["rows"][0]["elements"][0]["duration"]["value"];
-
-        setState(() {
-          dropOffTime = pickupTime.add(Duration(seconds: durationInSeconds));
-        });
       }
     } catch (e) {
       print(e.toString());
@@ -121,10 +114,6 @@ class _RideOfferTimelineState extends State<RideOfferTimeline> {
                   ],
                 ),
                 const Spacer(),
-                Text(
-                  Jiffy(widget.offer.startTime).format("h:mm a"),
-                  style: BlipFonts.outline,
-                ),
               ],
             ),
             Row(
@@ -168,10 +157,6 @@ class _RideOfferTimelineState extends State<RideOfferTimeline> {
                   ],
                 ),
                 const Spacer(),
-                Text(
-                  Jiffy(pickupTime).format("h:mm a"),
-                  style: BlipFonts.outline,
-                ),
               ],
             ),
             Row(
@@ -216,10 +201,6 @@ class _RideOfferTimelineState extends State<RideOfferTimeline> {
                   ],
                 ),
                 const Spacer(),
-                Text(
-                  Jiffy(dropOffTime).format("h:mm a"),
-                  style: BlipFonts.outline,
-                ),
               ],
             ),
             Row(
