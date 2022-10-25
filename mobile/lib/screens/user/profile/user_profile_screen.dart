@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/colors.dart';
+import 'package:mobile/screens/friends/close_friends.dart';
 import 'package:mobile/screens/user-profile-details/ride_visibility.dart';
 import 'package:mobile/screens/user-profile-details/vehical_information.dart';
 import 'package:mobile/screens/user-profile-details/vehical_informationdescri.dart';
@@ -135,7 +136,13 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               buildButton(
                   title: 'Close Friends',
                   icon: FontAwesomeIcons.userGroup,
-                  onClicked: () => {},
+                  onClicked: () => {
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CloseFriendsScreen()),
+                        )
+                  },
                   icon2: Icons.arrow_forward_ios),
               addVerticalSpace(16),
               buildButton(

@@ -1,4 +1,5 @@
 import 'package:mobile/models/mutualfriend.dart';
+import 'package:mobile/screens/user/profile/user_profile_screen.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +21,14 @@ class CloseFriendsScreen extends StatefulWidget {
 
 class CloseFriendsScreenState extends State<CloseFriendsScreen> {
   static List<mutualfriendModel> main_friends_list = [
-    mutualfriendModel("Dulaj", "Lecture",
-        "assets/images/man.jpeg","See more"),
-    mutualfriendModel("Nimeshi", "Students",
-        "assets/images/woman.jpeg","See more"),
-    mutualfriendModel("Deshan", "Students",
-        "assets/images/user.jpg","See more"),
-    mutualfriendModel("Shershi", "Students",
-        "assets/images/woman.jpeg","See more"),
+    mutualfriendModel(
+        "Dulaj Prabash", "Lecture", "assets/images/man.jpeg", "See more"),
+    mutualfriendModel("Nimeshi karunarathne", "Students",
+        "assets/images/woman.jpeg", "See more"),
+    mutualfriendModel(
+        "Deshan alpitiya", "Students", "assets/images/user.jpg", "See more"),
+    mutualfriendModel(
+        "Shershi gomitri", "Students", "assets/images/woman.jpeg", "See more"),
   ];
 
   List<mutualfriendModel> display_list = List.from(main_friends_list);
@@ -55,14 +56,17 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserProfileScreen()));
+                },
+              ),
               Text(
                 "Close friends",
                 style: TextStyle(
@@ -109,8 +113,9 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                                 fontSize: 12),
                           ),
                           trailing: Text(display_list[index].Seemore!),
-                          leading: CircleAvatar(backgroundImage: AssetImage(display_list[index].friendimageurl!)),
-                          
+                          leading: CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  display_list[index].friendimageurl!)),
                         ))),
               )
             ]),
