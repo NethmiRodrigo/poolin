@@ -31,13 +31,13 @@ import { RideRequest } from "./RideRequest";
     numberOfPassengers: number;
 
     @Column()
-    totalCost: number;
+    totalIncome: number;
   
     @Column()
     totalPayable: number;
 
     @Column()
-    totalIncome: number;
+    totalProfit: number;
 
     @ManyToOne(() => RideRequest, (RideRequest) => RideRequest.id, {
       cascade: ["remove"],
