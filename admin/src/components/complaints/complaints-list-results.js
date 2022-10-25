@@ -74,7 +74,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
     <Card {...rest}>
       <PerfectScrollbar>
       <Box sx={{ m: 1 }} >
-      <FormControl fullwidth alignItems="right">
+      <FormControl fullwidth>
   <InputLabel variant="standard" htmlFor="uncontrolled-native">
     Status
   </InputLabel>
