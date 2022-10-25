@@ -25,31 +25,29 @@ import { RideRequest } from "./RideRequest";
     id: number;
   
     @Column()
-    RideID: number;
+    driverID: number;
   
     @Column()
     numberOfPassengers: number;
 
     @Column()
-    TotalCost: number;
+    totalCost: number;
   
     @Column()
-    TotalPayable: number;
+    totalPayable: number;
 
     @Column()
-    TotalIncome: number;
+    totalIncome: number;
 
     @ManyToOne(() => RideRequest, (RideRequest) => RideRequest.id, {
       cascade: ["remove"],
       onDelete: "CASCADE",
     })
-    //owner: User;
+    owner: User;
   
   
     @CreateDateColumn()
-    createdAt: Date;
+    paymentDate: Date;
   
-    @UpdateDateColumn()
-    updatedAt: Date;
   }
   
