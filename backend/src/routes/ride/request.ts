@@ -90,22 +90,6 @@ export const getActiveRequest = async (req: Request, res: Response) => {
     ])
     .getRawOne();
 
-  // const result = await RideRequest.createQueryBuilder("request")
-  //   .where("request.status='confirmed'")
-  //   .leftJoinAndSelect("request.user", "user")
-  //   .where("user.email = :email", { email: user.email as string })
-  //   .select([
-  //     "request.id AS id",
-  //     "request.from AS fromName",
-  //     "ST_AsText(request.fromGeom) AS from",
-  //     "request.to AS toName",
-  //     "ST_AsText(request.toGeom) AS to",
-  //     "request.departureTime AS departureTime",
-  //     "request.distance AS distance",
-  //   ])
-  //   .getRawOne();
-  
-
   if (!result) {
     return res.status(404).json({ error: "No active request" });
   }

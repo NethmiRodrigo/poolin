@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +7,10 @@ import 'package:jiffy/jiffy.dart';
 import 'package:poolin/colors.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/screens/chat/group_chat.dart';
-import 'package:poolin/screens/current-ride/driver_nav.dart';
 import 'package:poolin/screens/current-ride/start_ride.dart';
+import 'package:poolin/screens/current-ride/track_driver.dart';
 import 'package:poolin/screens/view-ride-requests/confirmed_requests_list.dart';
 import 'package:poolin/services/ride_offer_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
@@ -42,10 +41,10 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
         endTime: activeRideCubit.state.departureTime!
             .subtract(const Duration(minutes: 5))
             .millisecondsSinceEpoch);
-    getRideDetails();
+    getPassengers();
   }
 
-  getRideDetails() async {
+  getPassengers() async {
     int offerID = activeRideCubit.state.id!;
     final List<RideParticipant> partyData = await getConfirmedRequests(offerID);
     activeRideCubit.setParty(partyData);
@@ -118,6 +117,7 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                           ),
                           const Spacer(),
                           Expanded(
+                            flex: 2,
                             child: Text(
                               activeRideCubit.state.source.name,
                               style: BlipFonts.label,
@@ -137,6 +137,7 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                           ),
                           const Spacer(),
                           Expanded(
+                            flex: 2,
                             child: Text(
                               activeRideCubit.state.destination.name,
                               style: BlipFonts.label,
@@ -182,7 +183,9 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                         widgetBuilder: (_, CurrentRemainingTime? time) {
                           if (time == null) {
                             return WideButton(
-                              text: 'Start ride now',
+                              text: activeRideCubit.state.type == RideType.offer
+                                  ? 'Start ride now'
+                                  : 'Track Driver',
                               onPressedAction: () {
                                 Navigator.push(
                                   context,
@@ -204,13 +207,19 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                               ),
                               addVerticalSpace(12),
                               WideButton(
-                                text: 'Start ride now',
+                                text:
+                                    activeRideCubit.state.type == RideType.offer
+                                        ? 'Start ride now'
+                                        : 'Track Driver',
                                 onPressedAction: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const StartRide()),
+                                            activeRideCubit.state.type ==
+                                                    RideType.offer
+                                                ? const StartRide()
+                                                : const TrackDriver()),
                                   );
                                 },
                                 isDisabled: false,
