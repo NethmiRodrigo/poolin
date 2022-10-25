@@ -86,6 +86,9 @@ export class User extends BaseEntity {
   @Column({ default: 0 })
   totalRatings: number;
 
+  @Column({ default: 1 })
+  status: number;
+
   @Column()
   password: string;
 
