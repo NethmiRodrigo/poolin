@@ -22,19 +22,6 @@ class OfferConfirmation extends StatelessWidget {
                 padding: sidePadding,
                 child: Column(
                   children: [
-                    addVerticalSpace(size.height * 0.05),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: const Icon(
-                          EvaIcons.arrowBackOutline,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
                     addVerticalSpace(size.height * 0.12),
                     Image.asset('assets/images/confirmation-tick.png',
                         width: size.width * 0.5),

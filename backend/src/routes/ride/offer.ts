@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { Double, In } from "typeorm";
-import { AppDataSource } from "../../data-source";
 import { wktToGeoJSON } from "@terraformer/wkt";
 
 /** Entities */
@@ -8,12 +6,14 @@ import { RideOffer } from "../../database/entity/RideOffer";
 import { User } from "../../database/entity/User";
 
 import { getOSRMPolyline } from "../../middleware/osrmpolyline";
+import { AppError } from "../../util/error-handler";
 
 export const postRideOffer = async (req: Request, res: Response) => {
-  const { email, src, dest, seats, ppkm, startTime, endTime, distance } =
-    req.body;
+  const { src, dest, seats, ppkm, startTime, endTime, distance } = req.body;
 
-  const user = await User.findOne({ where: { email } });
+  const user = res.locals.user;
+
+  if (!user) throw new AppError(404, {}, "Unauthorized");
 
   const newOffer = new RideOffer({
     user: user,
@@ -42,7 +42,27 @@ export const postRideOffer = async (req: Request, res: Response) => {
 
   await newOffer.save();
 
-  return res.status(200).json({ success: "Ride Offer posted successfully" });
+  const offer = await RideOffer.createQueryBuilder("offer")
+    .where("offer.userId = :id", { id: user.id })
+    .andWhere("offer.status = 'booked'")
+    .select([
+      "offer.id AS id",
+      "offer.from AS fromName",
+      "ST_AsText(offer.fromGeom) AS from",
+      "offer.to AS toName",
+      "ST_AsText(offer.toGeom) AS to",
+      "offer.departureTime AS departureTime",
+      "offer.arrivalTime AS arrivalTime",
+      "offer.pricePerKm AS pricePerKm",
+      "offer.status AS status",
+      "offer.seats AS seats",
+      "offer.distance AS distance",
+    ])
+    .getRawOne();
+
+  return res
+    .status(200)
+    .json({ success: "Ride Offer posted successfully", offer });
 };
 
 export const getOfferDetails = async (req: Request, res: Response) => {
@@ -92,8 +112,8 @@ export const getActiveOffer = async (req: Request, res: Response) => {
 
   const offer = {
     id: response.id,
-    departureTime: new Date(+new Date(response.departuretime) + 60000*330),
-    arrivalTime: new Date(+new Date(response.arrivaltime) + 60000*330),
+    departureTime: new Date(+new Date(response.departuretime) + 60000 * 330),
+    arrivalTime: new Date(+new Date(response.arrivaltime) + 60000 * 330),
     pricePerKm: response.priceperkm,
     status: response.status,
     seats: response.seats,
@@ -106,7 +126,7 @@ export const getActiveOffer = async (req: Request, res: Response) => {
       name: response.toname,
       coordinates: wktToGeoJSON(response.to).coordinates,
     },
-  }
+  };
 
   return res.status(200).json({ offer: offer });
 };
@@ -169,7 +189,7 @@ export const getConfirmedRequests = async (req: Request, res: Response) => {
       firstname: req.firstname,
       lastname: req.lastname,
       avatar: req.avatar,
-      pickupTime: new Date(+new Date(req.pickuptime) + 60000*330),
+      pickupTime: new Date(+new Date(req.pickuptime) + 60000 * 330),
       price: parseFloat(req.price).toFixed(2),
       pickup: {
         name: req.fromname,

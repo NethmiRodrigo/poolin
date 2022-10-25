@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/custom/lists/close_friends_list.dart';
 import 'package:poolin/custom/lists/ride_offer_list.dart';
 import 'package:poolin/icons.dart';
@@ -23,51 +25,19 @@ class RiderHomeScreen extends StatefulWidget {
 
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
   bool isLoading = true;
+  late ActiveRideCubit activeRideCubit;
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
-
-  final List<RideOffer> _rideOffers = [
-    RideOffer(
-      id: '1',
-      startLocation: 'University of Colombo School of Computing',
-      destination: 'Fort Railway Station',
-      offeredOn: DateTime.now(),
-      rideDate: DateTime.now(),
-      estimatedArrivalTime: DateTime.now(),
-      profilePicture: 'https://i.pravatar.cc/300?img=1',
-    ),
-    RideOffer(
-      id: '2',
-      startLocation: 'Negambo town',
-      destination: 'Baththaramulla',
-      offeredOn: DateTime.now().subtract(const Duration(hours: 5)),
-      rideDate: DateTime.now(),
-      estimatedArrivalTime: DateTime.now(),
-      profilePicture: 'https://i.pravatar.cc/300?img=4',
-    ),
-    RideOffer(
-      id: '3',
-      startLocation: 'Piliyandala',
-      destination: 'Nugegoda Bus stand',
-      offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
-      rideDate: DateTime.now(),
-      estimatedArrivalTime: DateTime.now(),
-      profilePicture: 'https://i.pravatar.cc/300?img=3',
-    ),
-    RideOffer(
-      id: '4',
-      startLocation: 'Negambo town',
-      destination: 'Baththaramulla',
-      offeredOn: DateTime.now().subtract(const Duration(minutes: 15)),
-      rideDate: DateTime.now(),
-      estimatedArrivalTime: DateTime.now(),
-    ),
-  ];
   List<Friend> _friends = [];
   bool isRiding = false; //rider is riding if he currently has a ride
 
   @override
   void initState() {
+    activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    if (activeRideCubit.state.id != null) {
+      isRiding = true;
+      endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
+    }
     getFriends();
     super.initState();
   }
@@ -112,11 +82,6 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
                   const Align(
                     alignment: Alignment.topRight,
                     child: ToggleToDriver(true),
-                  ),
-                  addVerticalSpace(16),
-                  const Text(
-                    'Looking for a ride?',
-                    style: BlipFonts.title,
                   ),
                   addVerticalSpace(16),
                   isRiding

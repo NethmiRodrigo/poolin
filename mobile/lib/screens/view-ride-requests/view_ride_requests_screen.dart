@@ -89,14 +89,10 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Text(
-                            'Your ride \nis trending!',
+                            'Your ride details',
                             style: BlipFonts.displayBlack,
                             textAlign: TextAlign.left,
                           ),
-                          Indicator(
-                              icon: FluentIcons.eye_12_regular,
-                              text: "500",
-                              color: BlipColors.green)
                         ],
                       ),
                     ),
@@ -148,15 +144,15 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                         height: 130,
                         child: pendingRequests!.isEmpty
                             ? Container(
-                              color: BlipColors.lightGrey,
-                              child: const Center(
+                                color: BlipColors.lightGrey,
+                                child: const Center(
                                   child: Text(
-                                      'No pending requests at the moment',
-                                      style: BlipFonts.outline,
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    'No pending requests at the moment',
+                                    style: BlipFonts.outline,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                            )
+                              )
                             : RideRequestsList(
                                 pendingRequests: pendingRequests!),
                       ),

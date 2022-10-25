@@ -28,7 +28,6 @@ Future<Response> postOffer(RideOffer rideOffer) async {
       'long': rideOffer.destination.lang,
       'name': rideOffer.destination.name,
     },
-    'email': email,
     'ppkm': rideOffer.ppkm,
     'distance': rideOffer.distance,
     'seats': rideOffer.seatCount,

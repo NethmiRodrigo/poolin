@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/custom/cards/home_screen_card.dart';
 
 import 'package:poolin/custom/lists/pass_request_list.dart';
 import 'package:poolin/custom/toggle_to_driver.dart';
 import 'package:poolin/custom/ride_countdown.dart';
+import 'package:poolin/models/active_ride_offer.dart';
 import 'package:poolin/models/passenger_request.dart';
 import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
@@ -24,7 +26,8 @@ class DriverHomeScreen extends StatefulWidget {
 }
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
-  late int endTime;
+  late int endTime = DateTime.now().millisecondsSinceEpoch +
+      const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
   late ActiveRideCubit activeRideCubit;
   final Map<String, int> stat = {
     'rides': 18,
@@ -39,8 +42,25 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   @override
   void initState() {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    getActiveRide();
     super.initState();
-    getOfferDetails();
+  }
+
+  void getActiveRide() async {
+    Response response = await getActiveOffer();
+    if (response.data["offer"] != null) {
+      ActiveRideOffer rideOffer =
+          ActiveRideOffer.fromJson(response.data["offer"]);
+      activeRideCubit.setId(rideOffer.id);
+      activeRideCubit.setType(RideType.offer);
+      activeRideCubit.setSource(rideOffer.source);
+      activeRideCubit.setDestination(rideOffer.destination);
+      activeRideCubit.setDepartureTime(rideOffer.departureTime);
+      getOfferDetails();
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void getOfferDetails() async {
@@ -65,10 +85,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       setState(() {
         isDriving = true;
         _passRequests = passengerRequests;
-        isLoading = false;
-      });
-    } else {
-      setState(() {
         isLoading = false;
       });
     }

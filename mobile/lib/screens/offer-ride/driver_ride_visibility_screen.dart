@@ -39,18 +39,20 @@ class _DriverRideVisibilityScreenState
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: BlipColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Padding(
           padding: sidePadding,
           child: Column(
             children: [
-              addVerticalSpace(44),
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
-              addVerticalSpace(16),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 const Text('Ride Visibility', style: BlipFonts.title),
                 OutlineButton(
