@@ -19,8 +19,8 @@ import { AppDataSource } from "../../data-source";
     const paymentRepository =  AppDataSource.getRepository(Payment);
     const totalIncome =  await paymentRepository
     .createQueryBuilder('payment')
-    // .select('SUM(payment.totalIncome)', 'totalIncome',)
-    // // .where('payment.paymentDate > CURRENT_DATE - 7')
+    .select('SUM(payment.totalIncome)', 'totalIncome',)
+    // .where('payment.paymentDate > CURRENT_DATE - 7')
     // .groupBy('payment.driverID')
     .getRawMany();
     
@@ -38,7 +38,7 @@ import { AppDataSource } from "../../data-source";
     const totalPayable =  await paymentRepository
     .createQueryBuilder('payment')
     .select('SUM(payment.totalPayable)', 'totalPayable')
-    //.where('payment.paymentDate > CURRENT_DATE - 7')
+    // .where('payment.paymentDate > CURRENT_DATE - 7')
     .getRawOne();
     
     return res.json({ totalPayable });
@@ -88,8 +88,9 @@ export const fetchAllPayments = async (req: Request, res: Response) => {
   
     const userRepository = await AppDataSource.getRepository(Payment);
     const allPayments = await userRepository.find();
-    //console.log("All payments: ", allPayments);
+    console.log("All payments: ", allPayments);
     return res.json({ allPayments });
   };
+
   
 

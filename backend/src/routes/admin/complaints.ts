@@ -19,7 +19,7 @@ export const fetchAllComplaint = async (req: Request, res: Response) => {
   // const { id, verified } = req.params;
 
   const userRepository = await AppDataSource.getRepository(Complaint);
-  const allComplaints = await userRepository.find({ where: { status: "OPEN" } });
+  const allComplaints = await userRepository.find();
   console.log("All Complaints: ", allComplaints);
   return res.json({allComplaints})
 };
