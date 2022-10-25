@@ -9,6 +9,7 @@ import { AppError } from "../../util/error-handler";
 
 import { AppDataSource } from "../../data-source";
 import { Complaint } from "../../database/entity/Complaint";
+import { open } from "fs";
 
 /**
  * 
@@ -18,15 +19,15 @@ export const fetchAllComplaint = async (req: Request, res: Response) => {
   // const { id, verified } = req.params;
 
   const userRepository = await AppDataSource.getRepository(Complaint);
-  const allComplaints = await userRepository.find();
+  const allComplaints = await userRepository.find({ where: { status: "OPEN" } });
   console.log("All Complaints: ", allComplaints);
   return res.json({allComplaints})
 };
 
 /**
- * block user
+ * blacklist user
  */
- export const blockUser = async (req: Request, res: Response) => {
+ export const blacklist = async (req: Request, res: Response) => {
   const { email } = req.body;
 
   const user = await User.findOneBy({ email });

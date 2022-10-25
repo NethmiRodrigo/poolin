@@ -4,8 +4,7 @@ import { fetchTotalIncome } from "./payments";
 import { fetchTotalPayabaleWeek } from "./payments";
 import { fetchTotalProfit } from "./payments";
 import { fetchAllPayments } from "./payments";
-
-//import { blockUser } from "./complaints";
+import { blacklist } from "./complaints";
 
 /** Routes */
 import { createEmailFormat } from "./email-format";
@@ -21,6 +20,6 @@ router.get("/total-income", fetchTotalIncome);
 router.get("/total-payable", fetchTotalPayabaleWeek);
 router.get("/total-profit", fetchTotalProfit);
 router.get("/all-payments", fetchAllPayments);
-//router.post("/block-user", blockUser);
+router.post("/blacklist-user", blacklist);
 
 export default router;
