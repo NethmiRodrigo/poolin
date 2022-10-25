@@ -42,7 +42,9 @@ export const postRideRequests = async (req: Request, res: Response) => {
     const requestToOffer = new RequestToOffer({
       request: newRequest,
       offer: rideOffer,
-      price: price ? price * newRequest.distance : rideOffer.pricePerKm * distance,
+      price: price
+        ? price * newRequest.distance
+        : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
   });
@@ -51,24 +53,42 @@ export const postRideRequests = async (req: Request, res: Response) => {
 };
 
 export const getActiveRequest = async (req: Request, res: Response) => {
-  const email = req.query.email;
-
-  const user = await User.findOne({ where: { email: email as string } });
+  const user: User = res.locals.user;
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
 
-  const request = await RideRequest.createQueryBuilder("request")
+  const result = await RideRequest.createQueryBuilder("request")
     .where("request.status='confirmed'")
     .leftJoinAndSelect("request.user", "user")
-    .where("user.email = :email", { email: email as string })
-    .select(["request.id AS id"])
+    .where("user.email = :email", { email: user.email as string })
+    .select([
+      "request.id AS id",
+      "request.from AS fromName",
+      "ST_AsText(request.fromGeom) AS from",
+      "request.to AS toName",
+      "ST_AsText(request.toGeom) AS to",
+      "request.departureTime AS departureTime",
+    ])
     .getRawOne();
 
-  if (!request) {
+  if (!result) {
     return res.status(404).json({ error: "No active request" });
   }
+
+  const request = {
+    id: result.id,
+    departureTime: new Date(+new Date(result.departuretime) + 60000 * 330),
+    source: {
+      name: result.fromname,
+      coordinates: wktToGeoJSON(result.from).coordinates,
+    },
+    destination: {
+      name: result.toname,
+      coordinates: wktToGeoJSON(result.to).coordinates,
+    },
+  };
 
   return res
     .status(200)
@@ -207,23 +227,23 @@ export const getRequestDetails = async (req: Request, res: Response) => {
     ])
     .getRawOne();
 
-    const request = {
-      id: result.id,
-      userId: result.userid,
-      firstName: result.firstname,
-      lastName: result.lastname,
-      avatar: result.avatar,
-      startTime: new Date(+new Date(result.starttime) + 60000*330),
-      price: result.price,
-      source: {
-        name: result.fromname,
-        coordinates: wktToGeoJSON(result.from).coordinates,
-      },
-      destination: {
-        name: result.toname,
-        coordinates: wktToGeoJSON(result.to).coordinates,
-      }
-    }
+  const request = {
+    id: result.id,
+    userId: result.userid,
+    firstName: result.firstname,
+    lastName: result.lastname,
+    avatar: result.avatar,
+    startTime: new Date(+new Date(result.starttime) + 60000 * 330),
+    price: result.price,
+    source: {
+      name: result.fromname,
+      coordinates: wktToGeoJSON(result.from).coordinates,
+    },
+    destination: {
+      name: result.toname,
+      coordinates: wktToGeoJSON(result.to).coordinates,
+    },
+  };
 
   return res
     .status(200)
