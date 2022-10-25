@@ -57,6 +57,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       activeRideCubit.setDestination(rideOffer.destination);
       activeRideCubit.setDepartureTime(rideOffer.departureTime);
       getOfferDetails();
+    } else {
+      activeRideCubit = ActiveRideCubit();
+      activeRideCubit.reset();
     }
     setState(() {
       isLoading = false;
@@ -115,7 +118,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     child: ToggleToDriver(false),
                   ),
                   addVerticalSpace(16),
-                  activeRideCubit.state.id != null
+                  isDriving
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
                           text: 'Offer a ride and get paid',

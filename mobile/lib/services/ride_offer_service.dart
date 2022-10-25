@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/ride_offer_cubit.dart';
@@ -12,11 +11,7 @@ final baseURL = '${dotenv.env['API_URL']}/api/ride';
 
 final dio = DioService.getService();
 
-const _storage = FlutterSecureStorage();
-
 Future<Response> postOffer(RideOffer rideOffer) async {
-  String? email = await _storage.read(key: 'KEY_EMAIL');
-
   Map data = {
     'src': {
       'lat': rideOffer.source.lat,

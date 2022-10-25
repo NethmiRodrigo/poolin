@@ -1,17 +1,18 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/custom/lists/close_friends_list.dart';
-import 'package:poolin/custom/lists/ride_offer_list.dart';
 import 'package:poolin/icons.dart';
 import 'package:poolin/custom/toggle_to_driver.dart';
 import 'package:poolin/custom/ride_countdown.dart';
+import 'package:poolin/models/active_ride_offer.dart';
 import 'package:poolin/models/friend.dart';
-import 'package:poolin/models/ride_offer.dart';
 import 'package:poolin/models/ride_type_model.dart';
-import 'package:poolin/models/user_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
 import 'package:poolin/services/friend_service.dart';
+import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/services/ride_request_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:poolin/fonts.dart';
 import '../../colors.dart';
@@ -34,12 +35,29 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
   @override
   void initState() {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
-    if (activeRideCubit.state.id != null) {
-      isRiding = true;
-      endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
-    }
+    getActiveRide();
     getFriends();
     super.initState();
+  }
+
+  void getActiveRide() async {
+    Response response = await getActiveOffer();
+    if (response.data["offer"] != null) {
+      ActiveRideOffer rideOffer =
+          ActiveRideOffer.fromJson(response.data["offer"]);
+      activeRideCubit.setId(rideOffer.id);
+      activeRideCubit.setType(RideType.offer);
+      activeRideCubit.setSource(rideOffer.source);
+      activeRideCubit.setDestination(rideOffer.destination);
+      activeRideCubit.setDepartureTime(rideOffer.departureTime);
+      setState(() {
+        endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
+        isRiding = true;
+      });
+    } else {
+      activeRideCubit = ActiveRideCubit();
+      activeRideCubit.reset();
+    }
   }
 
   void getFriends() async {
