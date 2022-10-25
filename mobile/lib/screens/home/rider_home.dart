@@ -7,7 +7,9 @@ import 'package:poolin/custom/ride_countdown.dart';
 import 'package:poolin/models/friend.dart';
 import 'package:poolin/models/ride_offer.dart';
 import 'package:poolin/models/ride_type_model.dart';
+import 'package:poolin/models/user_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
+import 'package:poolin/services/friend_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:poolin/fonts.dart';
 import '../../colors.dart';
@@ -20,6 +22,7 @@ class RiderHomeScreen extends StatefulWidget {
 }
 
 class _RiderHomeScreenState extends State<RiderHomeScreen> {
+  bool isLoading = true;
   int endTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
 
@@ -60,39 +63,34 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
       estimatedArrivalTime: DateTime.now(),
     ),
   ];
-  final List<Friend> _friends = [
-    Friend(
-        id: '1',
-        firstName: 'Dulaj',
-        lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=4'),
-    Friend(
-        id: '2',
-        firstName: 'Induwara',
-        lastName: 'Anderson',
-        profilePicture: 'https://i.pravatar.cc/300?img=3'),
-    Friend(
-        id: '3',
-        firstName: 'Sarah',
-        lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=22'),
-    Friend(
-        id: '4',
-        firstName: 'Nethmi',
-        lastName: 'Anderson',
-        profilePicture: 'https://i.pravatar.cc/300?img=1'),
-    Friend(
-        id: '5',
-        firstName: 'Azma',
-        lastName: 'Doe',
-        profilePicture: 'https://i.pravatar.cc/300?img=5'),
-    Friend(
-        id: '6',
-        firstName: 'Dulaj',
-        lastName: 'Anderson',
-        profilePicture: 'https://i.pravatar.cc/300?img=6'),
-  ];
+  List<Friend> _friends = [];
   bool isRiding = false; //rider is riding if he currently has a ride
+
+  @override
+  void initState() {
+    getFriends();
+    super.initState();
+  }
+
+  void getFriends() async {
+    final response = await getFriendsOfLoggedInUser();
+    List<dynamic> friends = response.data;
+    print(friends);
+    if (friends.isNotEmpty) {
+      for (var user in friends) {
+        _friends.add(Friend(
+            id: user['id'].toString(),
+            firstName: user['firstname'],
+            lastName: user['lastname'],
+            profilePicture: user['profilePictureUri'] != null
+                ? user['profileImageUri']
+                : 'https://zaytandzaatar.com.au/wp-content/uploads/2022/08/Deafult-Profile-Pitcher.png.webp'));
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,92 +99,92 @@ class _RiderHomeScreenState extends State<RiderHomeScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: sidePadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            addVerticalSpace(48),
-            const Align(
-              alignment: Alignment.topRight,
-              child: ToggleToDriver(true),
-            ),
-            addVerticalSpace(16),
-            const Text(
-              'Looking for a ride?',
-              style: BlipFonts.title,
-            ),
-            addVerticalSpace(16),
-            isRiding
-                ? RideCountDown(endTime)
-                : Container(
-                    width: size.width,
-                    padding: const EdgeInsets.all(0),
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: BlipColors.orange,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 16,
-                            bottom: 16,
-                            left: 16,
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              padding: sidePadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  addVerticalSpace(48),
+                  const Align(
+                    alignment: Alignment.topRight,
+                    child: ToggleToDriver(true),
+                  ),
+                  addVerticalSpace(16),
+                  const Text(
+                    'Looking for a ride?',
+                    style: BlipFonts.title,
+                  ),
+                  addVerticalSpace(16),
+                  isRiding
+                      ? RideCountDown(endTime)
+                      : Container(
+                          width: size.width,
+                          padding: const EdgeInsets.all(0),
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: BlipColors.orange,
                           ),
-                          child: SizedBox(
-                            width: size.width * 0.7,
-                            child: Text(
-                              'See who else is travelling your way',
-                              style: BlipFonts.labelBold.merge(
-                                  const TextStyle(color: BlipColors.white)),
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 16,
+                                  bottom: 16,
+                                  left: 16,
+                                ),
+                                child: SizedBox(
+                                  width: size.width * 0.7,
+                                  child: Text(
+                                    'See who else is travelling your way',
+                                    style: BlipFonts.labelBold.merge(
+                                        const TextStyle(
+                                            color: BlipColors.white)),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.bottomRight,
+                                child: IconButton(
+                                  icon: const Icon(
+                                    BlipIcons.arrowRight,
+                                    size: 20,
+                                    color: BlipColors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DestinationScreen(
+                                            rideType: RideType.request,
+                                          ),
+                                        ));
+                                  },
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            icon: const Icon(
-                              BlipIcons.arrowRight,
-                              size: 20,
-                              color: BlipColors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DestinationScreen(
-                                      rideType: RideType.request,
-                                    ),
-                                  ));
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                  addVerticalSpace(24),
+                  const Image(
+                    image: AssetImage('assets/images/waiting-at-stop.png'),
                   ),
-            addVerticalSpace(24),
-            const Text(
-              'Find out where your friends are headed',
-              style: BlipFonts.title,
+                  const Text(
+                    'Find out where your friends are headed',
+                    style: BlipFonts.title,
+                  ),
+                  addVerticalSpace(8),
+                  CloseFriendsList(_friends),
+                ],
+              ),
             ),
-            addVerticalSpace(8),
-            CloseFriendsList(_friends),
-            addVerticalSpace(16),
-            const Text(
-              'Ride offers',
-              style: BlipFonts.title,
-            ),
-            SizedBox(
-              height: size.height * 0.4,
-              child: RideOfferList(_rideOffers),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
