@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:poolin/constants/constants.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/auth_cubit.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
+        scaffoldMessengerKey: snackbarKey,
         home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
