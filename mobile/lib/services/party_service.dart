@@ -18,3 +18,19 @@ Future<Response> getParty() async {
 
   return response;
 }
+
+Future<Response> getOfferParty(int id) async {
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.get('/get/party/offer/$id');
+
+  return response;
+}
+
+Future<Response> getRequestParty(int id) async {
+  dio.options.baseUrl = baseURL;
+
+  final response = await dio.get('/get/party/request/$id');
+
+  return response;
+}
