@@ -7,14 +7,22 @@ import 'package:mobile/cubits/active_ride_cubit.dart';
 import 'package:mobile/cubits/current_user_cubit.dart';
 import 'package:mobile/cubits/ride_offer_cubit.dart';
 import 'package:mobile/screens/friends/close_friends.dart';
+import 'package:mobile/screens/friends/mutual_friends.dart';
+import 'package:mobile/screens/friends/mutual_friendsnew.dart';
+import 'package:mobile/screens/offer-ride/offer_details_card.dart';
+import 'package:mobile/screens/offer-ride/ride_offer_details_screen.dart';
+import 'package:mobile/screens/request-ride/ride_request_details_screen.dart';
 import 'package:mobile/screens/ride_visibility/ride_visibility.dart';
 import 'package:mobile/screens/notification/view_notification.dart';
 import 'package:mobile/screens/offer-ride/driver_ride_visibility_screen.dart';
 import 'package:mobile/screens/request-ride/rider_ride_visibility_screen.dart';
+import 'package:mobile/screens/shared/ride/search_screen.dart';
 import 'package:mobile/screens/user-profile-details/ride_visibility.dart';
 import 'package:mobile/screens/user-profile-details/vehical_information.dart';
 import 'package:mobile/screens/user-profile-details/vehical_informationdescri.dart';
 import 'package:mobile/screens/user/profile/user_profile_screen.dart';
+import 'package:mobile/screens/view-profile/mutual_friends_screen.dart';
+import 'package:mobile/screens/view-ride-offers/view_offer_details_screen.dart';
 import 'package:mobile/splash.dart';
 
 import './theme.dart';
@@ -49,7 +57,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Poolin',
         theme: AppTheme().themeData,
-        home: const ClosefriendScreen(),
+        home: const MutualllFriendsScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
