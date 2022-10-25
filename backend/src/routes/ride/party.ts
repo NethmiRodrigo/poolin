@@ -10,7 +10,7 @@ import { User } from "../../database/entity/User";
 import { getOSRMPolyline } from "../../middleware/osrmpolyline";
 
 export const getParty = async (req: Request, res: Response) => {
-  const users = await User.find();
+  const users = await User.find({ take: 3 });
 
   if (!users) {
     return res.status(404).json({ error: "No party found" });
