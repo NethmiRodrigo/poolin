@@ -203,15 +203,6 @@ class _RideOfferTimelineState extends State<RideOfferTimeline> {
                 const Spacer(),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OutlineButton(
-                    text: "View Ride Details",
-                    color: BlipColors.black,
-                    onPressedAction: () {})
-              ],
-            ),
           ],
         ),
       ),
