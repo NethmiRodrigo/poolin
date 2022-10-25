@@ -12,8 +12,10 @@ import {
   Grid,
   Button,
   Avatar,
+  Typography,
 } from "@mui/material";
 import Slide from "@mui/material/Slide";
+import { Box } from "@mui/system";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -30,32 +32,108 @@ function ViewComplaintsModal({ open, handleClose, complaints }) {
       maxWidth="md"
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>Test</DialogTitle>
+      <DialogTitle>Trip Details</DialogTitle>
       <DialogContent>
         <Card>
           <CardContent>
             <Grid container spacing={5}>
-              {/* <Grid item md={12} xs={12}> */}
-              {/* {customer?.avatarUrl && (
-                  <Avatar
-                    src={customer?.avatarUrl}
-                    alt="profile picture"
-                    variant="rounded"
-                    sx={{ width: 150, height: 150, marginBottom: 2 }}
-                  />
-                )} */}
-              {/* </Grid> */}
+              <Grid row xs={12}>
+                <Box  m={2} pt={3} mr={30}>
+                <Typography>
+                {complaints.description}
+                </Typography>
+                </Box>
+              </Grid>
+              
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Trip ID"
+                  value={complaints.tripId}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+                
+              </Grid>
 
               <Grid item md={6} xs={12}>
                 <TextField
-                  label="First Name"
-                  value=""
+                  label="Staus"
+                  value={complaints.status}
                   InputProps={{
                     readOnly: true,
                   }}
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Complainer Name"
+                  value={`${complaints.complainer.firstname} ${complaints.complainer.lastname}`}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Complainer Email"
+                  value={complaints.complainer.email}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Complainer Number"
+                  value={complaints.complainer.mobile}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Complainee Name"
+                  value={`${complaints.complainee.firstname} ${complaints.complainee.lastname}`}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Complainee Email"
+                  value={complaints.complainee.email}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TextField
+                  label="Complainee Number"
+                  value={complaints.complainee.mobile}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+
             </Grid>
           </CardContent>
         </Card>
@@ -63,6 +141,9 @@ function ViewComplaintsModal({ open, handleClose, complaints }) {
       <DialogActions>
         <Button autofocus onClick={handleClose}>
           Close
+        </Button>
+        <Button autofocus onClick={handleClose}>
+          Blacklist
         </Button>
       </DialogActions>
     </Dialog>

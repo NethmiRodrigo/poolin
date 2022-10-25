@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-import { Button, FormGroup, Modal } from "@mui/material";
+import { Button, FormControl, FormGroup, InputAdornment, InputLabel, MenuItem, Modal, NativeSelect, Select, TextField } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import { Switch } from "@mui/material";
 import axios from "axios";
@@ -22,6 +22,7 @@ import {
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
 import ViewComplaintsModal from "./view-complaint-modal";
+import { ArrowDropDown } from "@mui/icons-material";
 
 export const ComplaintsListResults = ({ complaints, ...rest }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
@@ -72,6 +73,24 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
   return (
     <Card {...rest}>
       <PerfectScrollbar>
+      <Box sx={{ m: 1 }} >
+      <FormControl fullwidth alignItems="right">
+  <InputLabel variant="standard" htmlFor="uncontrolled-native">
+    Status
+  </InputLabel>
+  <NativeSelect
+    defaultValue={30}
+    inputProps={{
+      name: 'status',
+      id: 'uncontrolled-native',
+    }}
+  >
+    <option value={10}>Open</option>
+    <option value={20}>Close</option>
+    <option value={30}>All</option>
+  </NativeSelect>
+</FormControl>
+        </Box>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>

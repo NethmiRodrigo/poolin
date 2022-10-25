@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Box, CircularProgress, Container } from "@mui/material";
 import { ComplaintsListResults } from "../components/complaints/complaints-list-results";
-import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
+import { ComplaintsListToolbar } from "../components/complaints/complaints-list-toolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { useEffect } from "react";
 import { getAllUsers } from "src/services/users.service";
@@ -48,7 +48,7 @@ const Complaints = () => {
         }}
       >
         <Container maxWidth={false}>
-          <CustomerListToolbar />
+          <ComplaintsListToolbar />
           <Box sx={{ mt: 3 }}>
             {loading ? <CircularProgress /> : <ComplaintsListResults complaints={complaints} />}
           </Box>
