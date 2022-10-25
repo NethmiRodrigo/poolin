@@ -15,8 +15,7 @@ import '../../../colors.dart';
 
 class DriverProfileScreen extends StatefulWidget {
   final int driverId;
-  final int offerId;
-  const DriverProfileScreen(this.driverId, this.offerId, {super.key});
+  const DriverProfileScreen(this.driverId, {super.key});
 
   @override
   DriverProfileScreenState createState() {
@@ -240,18 +239,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                       ],
                     ),
                     addVerticalSpace(32),
-                    WideButton(
-                      text: 'Request to join the ride',
-                      onPressedAction: () {
-                        reqCubit.addOffer(widget.offerId);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ViewRideOffersScreen()),
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),

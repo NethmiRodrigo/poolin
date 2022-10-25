@@ -11,7 +11,8 @@ import 'package:poolin/models/active_ride_offer.dart';
 import 'package:poolin/models/passenger_request.dart';
 import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
-import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/services/ride_offer_service.dart' as rideOfferService;
+import 'package:poolin/services/ride_request_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:poolin/fonts.dart';
 import '../../colors.dart';
@@ -47,7 +48,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   }
 
   void getActiveRide() async {
-    Response response = await getActiveOffer();
+    Response response = await rideOfferService.getActiveOffer();
     if (response.data["offer"] != null) {
       ActiveRideOffer rideOffer =
           ActiveRideOffer.fromJson(response.data["offer"]);
@@ -58,6 +59,13 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       activeRideCubit.setDepartureTime(rideOffer.departureTime);
       getOfferDetails();
     } else {
+      Response response = await getActiveRequest();
+      if (response.data["request"] != null) {
+        ActiveRideOffer rideOffer =
+            ActiveRideOffer.fromJson(response.data["request"]);
+        activeRideCubit.setId(rideOffer.id);
+        activeRideCubit.setType(RideType.request);
+      }
       activeRideCubit = ActiveRideCubit();
       activeRideCubit.reset();
     }
@@ -67,10 +75,11 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   }
 
   void getOfferDetails() async {
-    if (activeRideCubit.state.id != null) {
+    if (activeRideCubit.state.id != null &&
+        activeRideCubit.state.type == RideType.offer) {
       endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
       int offerID = activeRideCubit.state.id!;
-      final requestData = await getOfferRequests(offerID);
+      final requestData = await rideOfferService.getOfferRequests(offerID);
       pendingRequests = requestData.data['requests'];
       List<PassengerRequest> passengerRequests = [];
 
