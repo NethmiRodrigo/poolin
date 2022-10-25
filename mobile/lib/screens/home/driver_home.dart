@@ -155,10 +155,14 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                       'Ride Requests',
                       style: BlipFonts.title,
                     ),
-                  SizedBox(
-                    height: size.height * 0.3,
-                    child: PassengerRequestList(_passRequests),
-                  ),
+                  _passRequests.isNotEmpty
+                      ? SizedBox(
+                          height: size.height * 0.3,
+                          child: PassengerRequestList(_passRequests),
+                        )
+                      : const Image(
+                          image: AssetImage('assets/images/driver.png'),
+                        ),
                 ],
               ),
             ),
