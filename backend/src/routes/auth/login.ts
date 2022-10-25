@@ -9,7 +9,6 @@ import { User } from "../../database/entity/User";
 /** Utility functions */
 import { AppError } from "../../util/error-handler";
 import { createUserToken } from "../../util/auth-helper";
-import { getCloseFriends } from "../friends/manage-friends";
 import { findFriendsOfAUser } from "../friends/util";
 
 /**

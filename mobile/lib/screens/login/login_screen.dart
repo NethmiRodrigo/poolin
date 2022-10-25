@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:poolin/app.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/auth_cubit.dart';

@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'package:poolin/app.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
@@ -51,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
       loggedInUser.gender,
       loggedInUser.email.toString(),
     );
+    OneSignal.shared.setExternalUserId(loggedInUser.id.toString());
     getActiveRide();
   }
 
