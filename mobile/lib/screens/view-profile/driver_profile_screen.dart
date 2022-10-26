@@ -188,27 +188,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                           "Mutual friends",
                           style: BlipFonts.title,
                         ),
-                        const Text(
-                          "  (5)",
-                          style: BlipFonts.label,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 15,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MutualFriendsScreen(
-                                  friends: friends,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                       ],
                     ),
                     addVerticalSpace(16),
@@ -221,6 +200,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                               children: [
                                 CircleAvatar(
                                   radius: 30.0,
+                                  backgroundColor: BlipColors.lightGrey,
                                   backgroundImage:
                                       friend['profileImageUri'] != null
                                           ? NetworkImage(

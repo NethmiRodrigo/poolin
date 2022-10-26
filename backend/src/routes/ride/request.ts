@@ -80,8 +80,6 @@ export const getActiveRequest = async (req: Request, res: Response) => {
     .select(["request.id AS id"])
     .getRawOne();
 
-  console.log(request);
-
   if (!request) {
     return res.status(404).json({ error: "No active request" });
   }

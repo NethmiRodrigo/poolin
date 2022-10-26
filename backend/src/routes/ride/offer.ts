@@ -149,6 +149,7 @@ export const getOfferRequests = async (req: Request, res: Response) => {
       "user.profileImageUri as avatar",
       "rideRequest.id AS requestId",
       "request.price AS price",
+      "request.createdAt as date",
     ])
     .getRawMany();
 

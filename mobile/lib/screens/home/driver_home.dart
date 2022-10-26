@@ -89,8 +89,8 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
               id: request['requestid'].toString(),
               rider: request['fname'],
               date: DateTime.now(),
-              profilePicture:
-                  request['avatar'] ?? 'https://i.pravatar.cc/150?img=47'));
+              profilePicture: request['avatar'] ??
+                  'https://zaytandzaatar.com.au/wp-content/uploads/2022/08/Deafult-Profile-Pitcher.png.webp'));
         }
       }
 
