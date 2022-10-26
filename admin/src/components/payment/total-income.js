@@ -1,11 +1,21 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { getAllTotalIncome } from 'src/services/payments.service';
 
-export const TotalIncome = (props) => (
+export const TotalIncome = ({ incomes, ...rest }) => {
+ 
+  console.log(incomes)
+  
+  
+
+  return (
   <Card
     sx={{ height: '80%' }}
-    {...props}
+    
   >
     <CardContent>
+      
       <Grid
         container
         spacing={1}
@@ -17,20 +27,32 @@ export const TotalIncome = (props) => (
             fontSize={20}
             >
                 Total <br></br>
-                Income
+                Income 
+               
             </Grid>
           </Grid>          
         </Grid>
         
-        <Grid item>
+        
+      <Grid item>
+      
         <Typography
             color="textPrimary"
             variant="h4"
-          >
-            $24k
+          >      
+            
+LKR
+         
+            
+               
+            
           </Typography>
+          
         </Grid>
+        
       </Grid>
     </CardContent>
   </Card>
-);
+)};
+
+
