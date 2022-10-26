@@ -25,9 +25,11 @@ export const TotalPayables = (props) => (
         <Grid item>
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >
-            $24k
+            LKR 
+            
+            4080
           </Typography>
         </Grid>
       </Grid>

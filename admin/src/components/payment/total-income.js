@@ -38,10 +38,10 @@ export const TotalIncome = ({ incomes, ...rest }) => {
       
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >      
             
-LKR
+LKR 1080
          
             
                
