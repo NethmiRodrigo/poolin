@@ -27,6 +27,10 @@ class ViewRideOfferDetails extends StatefulWidget {
 class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
   final Completer<GoogleMapController> _controller = Completer();
   Set<Marker> _markers = {};
+  late RideRequestCubit reqCubit;
+  late MatchingOffersCubit matchingOffersCubit;
+  late MatchedOffer offer;
+
   BitmapDescriptor driverSourceMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor riderSourceMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor riderDestinationMarker = BitmapDescriptor.defaultMarker;
@@ -37,9 +41,74 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
 
   @override
   void initState() {
+    reqCubit = BlocProvider.of(context);
+    matchingOffersCubit = BlocProvider.of(context);
+    offer = matchingOffersCubit.state.offers[widget.offerIndex];
+
     String? apiKey = dotenv.env['MAPS_API_KEY'];
     googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
+
+    setCustomMarkers();
+    setDriverPath();
+    setRiderPath();
     super.initState();
+  }
+
+  void setCustomMarkers() async {
+    // Create custom icons
+    BitmapDescriptor startIconBlack = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-black.png",
+    );
+
+    BitmapDescriptor startIconGrey = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-grey.png",
+    );
+
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/location-pin-orange.png",
+    );
+
+    setState(() {
+      riderDestinationMarker = destinationIcon;
+      riderSourceMarker = startIconBlack;
+      driverSourceMarker = startIconGrey;
+    });
+
+    // Create markers
+    Set<Marker> markers = {
+      Marker(
+        markerId: const MarkerId('rider-source'),
+        position: LatLng(
+          reqCubit.state.source.lat,
+          reqCubit.state.source.lang,
+        ),
+        icon: riderSourceMarker,
+        infoWindow: const InfoWindow(title: 'You start here'),
+      ),
+      Marker(
+        markerId: const MarkerId('driver-source'),
+        position: LatLng(
+          offer.source.lat,
+          offer.source.lang,
+        ),
+        icon: driverSourceMarker,
+      ),
+      Marker(
+        markerId: const MarkerId('destination'),
+        position: LatLng(
+          reqCubit.state.destination.lat,
+          reqCubit.state.destination.lang,
+        ),
+        icon: riderDestinationMarker,
+        infoWindow: const InfoWindow(title: 'You finish here'),
+      ),
+    };
+    setState(() {
+      _markers = markers;
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -55,114 +124,45 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
     _controller.complete(controller);
   }
 
+  void setDriverPath() async {
+    List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
+        origin: LatLng(
+          offer.source.lat,
+          offer.source.lang,
+        ),
+        destination: LatLng(
+          reqCubit.state.destination.lat,
+          reqCubit.state.destination.lang,
+        ),
+        mode: RouteMode.driving);
+    setState(() {
+      if (coords != null) {
+        driverCoords = coords;
+      }
+    });
+  }
+
+  void setRiderPath() async {
+    List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
+        origin: LatLng(
+          reqCubit.state.source.lat,
+          reqCubit.state.source.lang,
+        ),
+        destination: LatLng(
+          reqCubit.state.destination.lat,
+          reqCubit.state.destination.lang,
+        ),
+        mode: RouteMode.driving);
+    setState(() {
+      if (coords != null) {
+        riderCoords = coords;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final RideRequestCubit reqCubit =
-        BlocProvider.of<RideRequestCubit>(context);
-    final MatchingOffersCubit matchingOffersCubit =
-        BlocProvider.of<MatchingOffersCubit>(context);
-    final MatchedOffer offer =
-        matchingOffersCubit.state.offers[widget.offerIndex];
-
-    void setCustomMarkers() async {
-      // Create custom icons
-      BitmapDescriptor startIconBlack = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty,
-        "assets/images/source-pin-black.png",
-      );
-
-      BitmapDescriptor startIconGrey = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty,
-        "assets/images/source-pin-grey.png",
-      );
-
-      BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration.empty,
-        "assets/images/location-pin-orange.png",
-      );
-
-      setState(() {
-        riderDestinationMarker = destinationIcon;
-        riderSourceMarker = startIconBlack;
-        driverSourceMarker = startIconGrey;
-      });
-
-      // Create markers
-      Set<Marker> markers = {
-        Marker(
-          markerId: const MarkerId('rider-source'),
-          position: LatLng(
-            reqCubit.state.source.lat,
-            reqCubit.state.source.lang,
-          ),
-          icon: riderSourceMarker,
-          infoWindow: const InfoWindow(title: 'You start here'),
-        ),
-        Marker(
-          markerId: const MarkerId('driver-source'),
-          position: LatLng(
-            offer.source.lat,
-            offer.source.lang,
-          ),
-          icon: driverSourceMarker,
-        ),
-        Marker(
-          markerId: const MarkerId('destination'),
-          position: LatLng(
-            reqCubit.state.destination.lat,
-            reqCubit.state.destination.lang,
-          ),
-          icon: riderDestinationMarker,
-          infoWindow: const InfoWindow(title: 'You finish here'),
-        ),
-      };
-      setState(() {
-        _markers = markers;
-      });
-    }
-
-    setCustomMarkers();
-
-    void setDriverPath() async {
-      List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
-          origin: LatLng(
-            offer.source.lat,
-            offer.source.lang,
-          ),
-          destination: LatLng(
-            reqCubit.state.destination.lat,
-            reqCubit.state.destination.lang,
-          ),
-          mode: RouteMode.driving);
-      setState(() {
-        if (coords != null) {
-          driverCoords = coords;
-        }
-      });
-    }
-
-    setDriverPath();
-
-    void setRiderPath() async {
-      List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
-          origin: LatLng(
-            reqCubit.state.source.lat,
-            reqCubit.state.source.lang,
-          ),
-          destination: LatLng(
-            reqCubit.state.destination.lat,
-            reqCubit.state.destination.lang,
-          ),
-          mode: RouteMode.driving);
-      setState(() {
-        if (coords != null) {
-          riderCoords = coords;
-        }
-      });
-    }
-
-    setRiderPath();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -243,7 +243,7 @@ class _ViewRideOfferDetailsState extends State<ViewRideOfferDetails> {
                         children: [
                           addHorizontalSpace(8.0),
                           Text(
-                            "Rs. ${reqCubit.state.distance}",
+                            "Rs. ${reqCubit.state.distance * offer.pricePerKM}",
                             style: BlipFonts.heading,
                           ),
                           const Spacer(),

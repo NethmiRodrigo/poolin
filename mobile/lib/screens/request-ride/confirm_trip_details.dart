@@ -36,7 +36,6 @@ class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
         context,
         showTitleActions: true,
         minTime: DateTime.now().add(const Duration(days: 1)),
-        maxTime: DateTime.now().add(const Duration(days: 7)),
         onChanged: (date) {},
         onConfirm: (date) {
           reqCubit.setStartTime(date);
@@ -76,13 +75,6 @@ class _ConfirmTripDetailsScreenState extends State<ConfirmTripDetailsScreen> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.filter_list),
-            color: BlipColors.black,
-          )
-        ],
       ),
       body: isLoading
           ? const Center(

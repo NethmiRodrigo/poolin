@@ -2,39 +2,46 @@ import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export const TotalProfit = (props) => (
-  <Card {...props}>
+  <Card
+    sx={{ height: '80%' }}
+    
+  >
     <CardContent>
+      
       <Grid
         container
-        spacing={3}
-        sx={{ justifyContent: 'space-between' }}
+        spacing={1}
+        sx={{ justifyContent: 'space-around' }}
       >
         <Grid item>
-          <Typography
-            color="textSecondary"
-            gutterBottom
-            variant="overline"
-          >
-            TOTAL PROFIT
-          </Typography>
-          <Typography
+          <Grid row>
+            <Grid item
+            fontSize={20}
+            >
+                Total <br></br>
+                varificated user 
+               
+            </Grid>
+          </Grid>          
+        </Grid>
+        
+        
+      <Grid item>
+      
+        <Typography
             color="textPrimary"
             variant="h4"
-          >
-            $23k
+          >      
+            
+20 Users
+         
+            
+               
+            
           </Typography>
+          
         </Grid>
-        <Grid item>
-          <Avatar
-            sx={{
-              backgroundColor: 'primary.main',
-              height: 56,
-              width: 56
-            }}
-          >
-            <AttachMoneyIcon />
-          </Avatar>
-        </Grid>
+        
       </Grid>
     </CardContent>
   </Card>

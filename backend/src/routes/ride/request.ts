@@ -11,6 +11,7 @@ import { subMinutes, addMinutes } from "date-fns";
 import { getOSRMDuration } from "../../middleware/osrmduration";
 import { AppDataSource } from "../../data-source";
 import { AppError } from "../../util/error-handler";
+import sendNotification from "../../service/notification-service";
 
 export const postRideRequests = async (req: Request, res: Response) => {
   const { offers, src, dest, startTime, window, distance, price } = req.body;
@@ -37,23 +38,36 @@ export const postRideRequests = async (req: Request, res: Response) => {
 
   await newRequest.save();
 
+  let driverIds = [];
+
   offers.forEach(async (id) => {
-    const rideOffer = await RideOffer.findOne({ where: { id } });
+    const rideOffer = await RideOffer.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+    driverIds.push(rideOffer.user.id);
     const requestToOffer = new RequestToOffer({
       request: newRequest,
       offer: rideOffer,
-      price: price ? price * newRequest.distance : rideOffer.pricePerKm * distance,
+      price: price
+        ? price * newRequest.distance
+        : rideOffer.pricePerKm * distance,
     });
     await requestToOffer.save();
+  });
+
+  // Send notification to all riders
+  await sendNotification({
+    title: "You have a new ride request",
+    userIds: driverIds,
+    body: `${user.firstname} requested to join your ride`,
   });
 
   return res.status(200).json({ success: "Ride Requests posted successfully" });
 };
 
 export const getActiveRequest = async (req: Request, res: Response) => {
-  const email = req.query.email;
-
-  const user = await User.findOne({ where: { email: email as string } });
+  const user: User = res.locals.user;
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -62,7 +76,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
   const request = await RideRequest.createQueryBuilder("request")
     .where("request.status='confirmed'")
     .leftJoinAndSelect("request.user", "user")
-    .where("user.email = :email", { email: email as string })
+    .where("user.email = :email", { email: user.email as string })
     .select(["request.id AS id"])
     .getRawOne();
 
@@ -72,7 +86,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json({ success: "Ride Offer fetched successfully", request });
+    .json({ success: "Ride Request fetched successfully", request });
 };
 
 export const getAvailableOffers = async (req: Request, res: Response) => {
@@ -207,23 +221,23 @@ export const getRequestDetails = async (req: Request, res: Response) => {
     ])
     .getRawOne();
 
-    const request = {
-      id: result.id,
-      userId: result.userid,
-      firstName: result.firstname,
-      lastName: result.lastname,
-      avatar: result.avatar,
-      startTime: new Date(+new Date(result.starttime) + 60000*330),
-      price: result.price,
-      source: {
-        name: result.fromname,
-        coordinates: wktToGeoJSON(result.from).coordinates,
-      },
-      destination: {
-        name: result.toname,
-        coordinates: wktToGeoJSON(result.to).coordinates,
-      }
-    }
+  const request = {
+    id: result.id,
+    userId: result.userid,
+    firstName: result.firstname,
+    lastName: result.lastname,
+    avatar: result.avatar,
+    startTime: new Date(+new Date(result.starttime) + 60000 * 330),
+    price: result.price,
+    source: {
+      name: result.fromname,
+      coordinates: wktToGeoJSON(result.from).coordinates,
+    },
+    destination: {
+      name: result.toname,
+      coordinates: wktToGeoJSON(result.to).coordinates,
+    },
+  };
 
   return res
     .status(200)
@@ -242,28 +256,34 @@ export const acceptRequest = async (req: Request, res: Response) => {
 
   if (!response) throw new AppError(500, { error: "Could not find request" });
 
-  if (response) {
-    response.isAccepted = true;
-    await response.save();
+  response.isAccepted = true;
+  await response.save();
 
-    const offerObj: RideOffer = await RideOffer.findOne({
-      where: { id: offer },
-    });
+  const offerObj: RideOffer = await RideOffer.findOne({
+    where: { id: offer },
+  });
 
-    if (offerObj.seats <= 0) {
-      throw new AppError(500, { error: "Seats are all full" });
-    }
-
-    offerObj.seats = offerObj.seats - 1;
-    if (offerObj.seats == 0) offerObj.status = "booked";
-    offerObj.save();
-
-    const requestObject: RideRequest = await RideRequest.findOne({
-      where: { id: request },
-    });
-    requestObject.status = "confirmed";
-    await requestObject.save();
+  if (offerObj.seats <= 0) {
+    throw new AppError(500, { error: "Seats are all full" });
   }
+
+  offerObj.seats = offerObj.seats - 1;
+  if (offerObj.seats == 0) offerObj.status = "booked";
+  offerObj.save();
+
+  const requestObject: RideRequest = await RideRequest.findOne({
+    where: { id: request },
+    relations: { user: true },
+  });
+  requestObject.status = "confirmed";
+  await requestObject.save();
+
+  // Send notification to user
+  await sendNotification({
+    title: `You found a ride!`,
+    userIds: [requestObject.user.id],
+    body: `${requestObject.user.firstname} has accepted your ride request`,
+  });
 
   return res.status(200).json({ message: "Request accepted successfully" });
 };

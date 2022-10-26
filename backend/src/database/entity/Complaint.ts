@@ -60,4 +60,10 @@ export class Complaint extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  complaineeId: number;
+
+  @Column()
+  complainerId: number;
 }

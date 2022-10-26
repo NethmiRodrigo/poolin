@@ -100,12 +100,24 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                             itemBuilder: (context, index) {
                               return Align(
                                 widthFactor: 0.6,
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: BlipColors.lightGrey,
-                                  foregroundImage: NetworkImage(
-                                      matchingOffersCubit.state.offers[index]
-                                          .driver.profilePicURL),
+                                child: Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: BlipColors.lightGrey,
+                                      foregroundImage: NetworkImage(
+                                          matchingOffersCubit
+                                              .state
+                                              .offers[index]
+                                              .driver
+                                              .profilePicURL),
+                                    ),
+                                    Text(
+                                      matchingOffersCubit
+                                          .state.offers[index].driver.firstName,
+                                      style: BlipFonts.tagline,
+                                    )
+                                  ],
                                 ),
                               );
                             },

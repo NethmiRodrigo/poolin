@@ -164,7 +164,7 @@ class RideOfferResultList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "Rs. ${matchingOffersCubit.state.offers[index].pricePerKM}",
+                            "Rs. ${matchingOffersCubit.state.offers[index].pricePerKM} Per KM",
                             style: BlipFonts.labelBold,
                           ),
                           addHorizontalSpace(8.0),

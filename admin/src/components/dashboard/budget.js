@@ -4,66 +4,46 @@ import MoneyIcon from '@mui/icons-material/Money';
 
 export const Budget = (props) => (
   <Card
-    sx={{ height: '100%' }}
-    {...props}
+    sx={{ height: '80%' }}
+    
   >
     <CardContent>
+      
       <Grid
         container
-        spacing={3}
-        sx={{ justifyContent: 'space-between' }}
+        spacing={1}
+        sx={{ justifyContent: 'space-around' }}
       >
         <Grid item>
-          <Typography
-            color="textSecondary"
-            gutterBottom
-            variant="overline"
-          >
-            BUDGET
-          </Typography>
-          <Typography
+          <Grid row>
+            <Grid item
+            fontSize={20}
+            >
+                Total <br></br>
+                Profit 
+               
+            </Grid>
+          </Grid>          
+        </Grid>
+        
+        
+      <Grid item>
+      
+        <Typography
             color="textPrimary"
             variant="h4"
-          >
-            $24k
+          >      
+            
+LK : 6220/-
+         
+            
+               
+            
           </Typography>
+          
         </Grid>
-        <Grid item>
-          <Avatar
-            sx={{
-              backgroundColor: 'error.main',
-              height: 56,
-              width: 56
-            }}
-          >
-            <MoneyIcon />
-          </Avatar>
-        </Grid>
+        
       </Grid>
-      <Box
-        sx={{
-          pt: 2,
-          display: 'flex',
-          alignItems: 'center'
-        }}
-      >
-        <ArrowDownwardIcon color="error" />
-        <Typography
-          color="error"
-          sx={{
-            mr: 1
-          }}
-          variant="body2"
-        >
-          12%
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="caption"
-        >
-          Since last month
-        </Typography>
-      </Box>
     </CardContent>
   </Card>
 );

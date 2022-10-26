@@ -3,48 +3,46 @@ import InsertChartIcon from '@mui/icons-material/InsertChartOutlined';
 
 export const TasksProgress = (props) => (
   <Card
-    sx={{ height: '100%' }}
-    {...props}
+    sx={{ height: '80%' }}
+    
   >
     <CardContent>
+      
       <Grid
         container
-        spacing={3}
-        sx={{ justifyContent: 'space-between' }}
+        spacing={1}
+        sx={{ justifyContent: 'space-around' }}
       >
         <Grid item>
-          <Typography
-            color="textSecondary"
-            gutterBottom
-            variant="overline"
-          >
-            TASKS PROGRESS
-          </Typography>
-          <Typography
+          <Grid row>
+            <Grid item
+            fontSize={20}
+            >
+                Total <br></br>
+                Complaints 
+               
+            </Grid>
+          </Grid>          
+        </Grid>
+        
+        
+      <Grid item>
+      
+        <Typography
             color="textPrimary"
             variant="h4"
-          >
-            75.5%
+          >      
+            
+
+         1,000
+            
+               
+            
           </Typography>
+          
         </Grid>
-        <Grid item>
-          <Avatar
-            sx={{
-              backgroundColor: 'warning.main',
-              height: 56,
-              width: 56
-            }}
-          >
-            <InsertChartIcon />
-          </Avatar>
-        </Grid>
+        
       </Grid>
-      <Box sx={{ pt: 3 }}>
-        <LinearProgress
-          value={75.5}
-          variant="determinate"
-        />
-      </Box>
     </CardContent>
   </Card>
 );

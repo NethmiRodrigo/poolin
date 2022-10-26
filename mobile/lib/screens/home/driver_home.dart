@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/custom/cards/home_screen_card.dart';
 
 import 'package:poolin/custom/lists/pass_request_list.dart';
 import 'package:poolin/custom/toggle_to_driver.dart';
 import 'package:poolin/custom/ride_countdown.dart';
+import 'package:poolin/models/active_ride_offer.dart';
 import 'package:poolin/models/passenger_request.dart';
 import 'package:poolin/models/ride_type_model.dart';
 import 'package:poolin/screens/shared/ride/destination_screen.dart';
-import 'package:poolin/services/ride_offer_service.dart';
+import 'package:poolin/services/ride_offer_service.dart' as rideOfferService;
+import 'package:poolin/services/ride_request_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import 'package:poolin/fonts.dart';
 import '../../colors.dart';
@@ -24,7 +27,8 @@ class DriverHomeScreen extends StatefulWidget {
 }
 
 class DriverHomeScreenState extends State<DriverHomeScreen> {
-  late int endTime;
+  late int endTime = DateTime.now().millisecondsSinceEpoch +
+      const Duration(days: 1, hours: 2, minutes: 30).inMilliseconds;
   late ActiveRideCubit activeRideCubit;
   final Map<String, int> stat = {
     'rides': 18,
@@ -39,15 +43,43 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
   @override
   void initState() {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    getActiveRide();
     super.initState();
-    getOfferDetails();
+  }
+
+  void getActiveRide() async {
+    Response response = await rideOfferService.getActiveOffer();
+    if (response.data["offer"] != null) {
+      ActiveRideOffer rideOffer =
+          ActiveRideOffer.fromJson(response.data["offer"]);
+      activeRideCubit.setId(rideOffer.id);
+      activeRideCubit.setType(RideType.offer);
+      activeRideCubit.setSource(rideOffer.source);
+      activeRideCubit.setDestination(rideOffer.destination);
+      activeRideCubit.setDepartureTime(rideOffer.departureTime);
+      getOfferDetails();
+    } else {
+      Response response = await getActiveRequest();
+      if (response.data["request"] != null) {
+        ActiveRideOffer rideOffer =
+            ActiveRideOffer.fromJson(response.data["request"]);
+        activeRideCubit.setId(rideOffer.id);
+        activeRideCubit.setType(RideType.request);
+      }
+      activeRideCubit = ActiveRideCubit();
+      activeRideCubit.reset();
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void getOfferDetails() async {
-    if (activeRideCubit.state.id != null) {
+    if (activeRideCubit.state.id != null &&
+        activeRideCubit.state.type == RideType.offer) {
       endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
       int offerID = activeRideCubit.state.id!;
-      final requestData = await getOfferRequests(offerID);
+      final requestData = await rideOfferService.getOfferRequests(offerID);
       pendingRequests = requestData.data['requests'];
       List<PassengerRequest> passengerRequests = [];
 
@@ -57,18 +89,14 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
               id: request['requestid'].toString(),
               rider: request['fname'],
               date: DateTime.now(),
-              profilePicture:
-                  request['avatar'] ?? 'https://i.pravatar.cc/150?img=47'));
+              profilePicture: request['avatar'] ??
+                  'https://zaytandzaatar.com.au/wp-content/uploads/2022/08/Deafult-Profile-Pitcher.png.webp'));
         }
       }
 
       setState(() {
         isDriving = true;
         _passRequests = passengerRequests;
-        isLoading = false;
-      });
-    } else {
-      setState(() {
         isLoading = false;
       });
     }
@@ -99,7 +127,7 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     child: ToggleToDriver(false),
                   ),
                   addVerticalSpace(16),
-                  activeRideCubit.state.id != null
+                  isDriving
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
                           text: 'Offer a ride and get paid',
@@ -150,14 +178,8 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ],
                   ),
                   addVerticalSpace(24),
-                  if (activeRideCubit.state.id != null)
-                    const Text(
-                      'Ride Requests',
-                      style: BlipFonts.title,
-                    ),
-                  SizedBox(
-                    height: size.height * 0.3,
-                    child: PassengerRequestList(_passRequests),
+                  const Image(
+                    image: AssetImage('assets/images/driver.png'),
                   ),
                 ],
               ),

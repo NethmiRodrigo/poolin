@@ -43,3 +43,10 @@ export const reportUser = async (req: Request, res: Response) => {
 
   return res.status(200).json({ success: "Complaint successfully added" });
 };
+
+export const getAllComplaints = async (_, res: Response) => {
+  const response = await Complaint.find({
+    relations: { complainee: true, complainer: true },
+  });
+  return res.status(200).json(response);
+};

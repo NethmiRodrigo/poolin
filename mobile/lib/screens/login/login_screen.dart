@@ -78,7 +78,8 @@ class LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
-    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
+    const sidePadding =
+        EdgeInsets.symmetric(horizontal: padding, vertical: padding);
 
     // Build a Form widget using the _formKey created above.
     return Scaffold(
@@ -168,7 +169,8 @@ class LoginScreenState extends State<LoginScreen> {
                               text: 'Sign in',
                               onPressedAction: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  bool res = await handleLogin(_email.text, _pass.text);
+                                  bool res = await handleLogin(
+                                      _email.text, _pass.text);
                                   if (res && !isLoading) {
                                     Navigator.push(
                                       context,

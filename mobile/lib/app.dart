@@ -12,6 +12,7 @@ import 'package:poolin/screens/shared/ride/ride_history.dart';
 import 'package:poolin/screens/user/profile/user_profile_screen.dart';
 import 'package:poolin/services/interceptor/is_loggedin.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:poolin/services/user_service.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
