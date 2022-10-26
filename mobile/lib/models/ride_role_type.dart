@@ -1,0 +1,1 @@
+enum RideRole { rider, driver }

@@ -46,13 +46,9 @@ const findUsersWithNeoResult = async (result) => {
 };
 
 export const findFriendsOfAUser = async (userid, level) => {
-  const statement = `MATCH (:User { user_id: $id })-[:TRUSTS*${level}..${level}]-(n) RETURN n`;
+  const statement = `MATCH (:User { user_id: '${userid}' })-[:TRUSTS*${level}..${level}]->(n) RETURN n`;
 
-  const params = {
-    id: userid,
-  };
-
-  const result = await executeCypherQuery(statement, params);
+  const result = await executeCypherQuery(statement, {});
 
   const users = await findUsersWithNeoResult(result);
 

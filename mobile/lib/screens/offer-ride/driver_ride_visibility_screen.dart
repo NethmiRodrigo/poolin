@@ -18,11 +18,9 @@ class DriverRideVisibilityScreen extends StatefulWidget {
 
 class _DriverRideVisibilityScreenState
     extends State<DriverRideVisibilityScreen> {
-  final RangeValues _currentRangeValues = const RangeValues(40, 80);
   List<bool> isSelected = [true, false];
 
-  final double _currentSliderValue = 4;
-  SfRangeValues _values = SfRangeValues(40.0, 80.0);
+  SfRangeValues _values = const SfRangeValues(40.0, 80.0);
 
   List<String> tags = [];
   List<String> options = [
@@ -41,18 +39,20 @@ class _DriverRideVisibilityScreenState
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: BlipColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Padding(
           padding: sidePadding,
           child: Column(
             children: [
-              addVerticalSpace(44),
-              const Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  )),
-              addVerticalSpace(16),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 const Text('Ride Visibility', style: BlipFonts.title),
                 OutlineButton(

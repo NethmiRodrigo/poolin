@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/screens/user/update-profile/change_password_screen.dart';
 import 'package:poolin/screens/user/update-profile/edit_bio_screen.dart';
 import 'package:poolin/screens/user/update-profile/edit_full_name_screen.dart';
@@ -32,6 +34,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   String dropdownValue = 'Students';
   @override
   Widget build(BuildContext context) {
+    CurrentUserCubit currentUser = BlocProvider.of<CurrentUserCubit>(context);
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return Scaffold(
@@ -97,9 +100,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 offset: const Offset(0, 10))
                           ],
                           shape: BoxShape.circle,
-                          image: const DecorationImage(
-                            image: NetworkImage(
-                                "https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                          image: DecorationImage(
+                            image: currentUser.state.profilePicURL != null
+                                ? NetworkImage(currentUser.state.profilePicURL!)
+                                : const NetworkImage(
+                                    'https://zaytandzaatar.com.au/wp-content/uploads/2022/08/Deafult-Profile-Pitcher.png.webp'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -159,13 +164,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 .textTheme
                                 .bodyText1!
                                 .merge(const TextStyle(color: Colors.black)),
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              hintText: "Julianne heignerr",
+                              hintText:
+                                  "${currentUser.state.firstName} ${currentUser.state.lastName}",
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 16),
                             ),
                             validator: (value) {
@@ -198,13 +204,13 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 .textTheme
                                 .bodyText1!
                                 .merge(const TextStyle(color: Colors.black)),
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
-                              hintText: "I'am a person that does things and..",
+                              hintText: currentUser.state.bio,
                               isDense: true,
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 16),
                             ),
                             validator: (value) {

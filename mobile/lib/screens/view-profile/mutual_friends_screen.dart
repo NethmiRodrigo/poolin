@@ -26,6 +26,16 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: BlipColors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -34,19 +44,6 @@ class MutualFriendsScreenState extends State<MutualFriendsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              addVerticalSpace(32),
-              Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    EvaIcons.arrowBackOutline,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
               addVerticalSpace(24),
               const Text(
                 "Mutual Friends",

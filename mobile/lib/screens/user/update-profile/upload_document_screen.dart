@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:poolin/custom/backward_button.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
@@ -79,6 +80,11 @@ class UploadDocumentScreenState extends State<UploadDocumentScreen> {
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: const BackwardButton(),
+        ),
         body: SizedBox(
           width: size.width,
           height: size.height,

@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:poolin/colors.dart';
+import 'package:poolin/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptor extends Interceptor {
@@ -58,6 +61,14 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    return handler.next(err);
+    final SnackBar snackBar = SnackBar(
+      content: Text(err.message),
+      backgroundColor: BlipColors.red,
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(50.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20.0),
+      elevation: 50,
+    );
+    snackbarKey.currentState?.showSnackBar(snackBar);
   }
 }

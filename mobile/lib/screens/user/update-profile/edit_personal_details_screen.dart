@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/screens/user/update-profile/edit_date_of_birth_screen.dart';
 import 'package:poolin/screens/user/update-profile/edit_gender_screen.dart';
 import 'package:poolin/screens/user/update-profile/edit_phone_number_screen.dart';
@@ -16,6 +18,7 @@ class EditPersonalDetailsScreen extends StatefulWidget {
 class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    CurrentUserCubit currentUser = BlocProvider.of<CurrentUserCubit>(context);
     return Scaffold(
         body: SizedBox(
       child: GestureDetector(
@@ -84,14 +87,14 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintText: "Julianne heignerr",
+                          hintText: "Male",
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 16),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Name is required';
+                            return 'Gender is required';
                           }
 
                           return null;
@@ -122,7 +125,7 @@ class EditPersonalDetailsScreenState extends State<EditPersonalDetailsScreen> {
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintText: "I'am a person that does things and..",
+                          hintText: "077522369",
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 16),

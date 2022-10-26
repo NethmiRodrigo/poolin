@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:poolin/colors.dart';
+import 'package:poolin/cubits/ride_offer_cubit.dart';
+import 'package:poolin/models/coordinate_model.dart';
 import 'package:poolin/screens/offer-ride/offer_details_card.dart';
 import 'package:poolin/services/polyline_service.dart';
 
@@ -30,6 +32,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
   BitmapDescriptor sourceMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationMarker = BitmapDescriptor.defaultMarker;
   final MapType _currentMapType = MapType.normal;
+  late RideOfferCubit offerCubit;
 
   Map<PolylineId, Polyline> polylines = {};
 
@@ -52,6 +55,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
 
   @override
   void initState() {
+    offerCubit = BlocProvider.of<RideOfferCubit>(context);
     setCustomMarkers();
     googlePlace = GooglePlace(apiKey!);
     _getPolyline();
@@ -77,25 +81,31 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
   }
 
   _getPolyline() async {
-    var sourceString = (await _storage.read(key: "SOURCE"));
-    var sourceLocation = jsonDecode(sourceString!);
-    var destinationString = (await _storage.read(key: "DESTINATION"));
-    var destinationLocation = jsonDecode(destinationString!);
+    final Coordinate source = offerCubit.state.source;
+    final Coordinate destination = offerCubit.state.destination;
+
+    BitmapDescriptor startIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/source-pin-black.png",
+    );
+
+    BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration.empty,
+      "assets/images/location-pin-orange.png",
+    );
     //Set markers
     Set<Marker> markers = {
       Marker(
         markerId: const MarkerId('source'),
-        position:
-            LatLng(sourceLocation['latitude'], sourceLocation['longitude']),
+        position: LatLng(source.lat, source.lang),
         draggable: false,
-        icon: sourceMarker,
+        icon: startIcon,
       ),
       Marker(
         markerId: const MarkerId('destination'),
-        position: LatLng(
-            destinationLocation['latitude'], destinationLocation['longitude']),
+        position: LatLng(destination.lat, destination.lang),
         draggable: false,
-        icon: destinationMarker,
+        icon: destinationIcon,
       ),
     };
     setState(() {
@@ -103,10 +113,7 @@ class RideOfferDetailsScreenState extends State<RideOfferDetailsScreen> {
     });
 
     var result = await getPolyline(
-        sourceLocation['latitude'],
-        sourceLocation['longitude'],
-        destinationLocation['latitude'],
-        destinationLocation['longitude']);
+        source.lat, source.lang, destination.lat, destination.lang);
     setState(() {
       polylines = result;
     });
