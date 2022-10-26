@@ -178,19 +178,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                     ],
                   ),
                   addVerticalSpace(24),
-                  if (activeRideCubit.state.id != null)
-                    const Text(
-                      'Ride Requests',
-                      style: BlipFonts.title,
-                    ),
-                  _passRequests.isNotEmpty
-                      ? SizedBox(
-                          height: size.height * 0.3,
-                          child: PassengerRequestList(_passRequests),
-                        )
-                      : const Image(
-                          image: AssetImage('assets/images/driver.png'),
-                        ),
+                  const Image(
+                    image: AssetImage('assets/images/driver.png'),
+                  ),
                 ],
               ),
             ),
