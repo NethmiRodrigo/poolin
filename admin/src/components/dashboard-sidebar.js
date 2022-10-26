@@ -12,8 +12,10 @@ import { ShoppingBag as ShoppingBagIcon } from "../icons/shopping-bag";
 import { User as UserIcon } from "../icons/user";
 import { UserAdd as UserAddIcon } from "../icons/user-add";
 import { Users as UsersIcon } from "../icons/users";
+import ArticleIcon from '@mui/icons-material/Article';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { XCircle as XCircleIcon } from "../icons/x-circle";
-import { Logo } from "./logo";
+// import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 
 const items = [
@@ -25,38 +27,38 @@ const items = [
   {
     href: "/customers",
     icon: <UsersIcon fontSize="small" />,
-    title: "Customers",
+    title: "Users",
   },
   {
-    href: "/products",
-    icon: <ShoppingBagIcon fontSize="small" />,
-    title: "Products",
+    href: "/complaints",
+    icon: <ArticleIcon fontSize="small" />,
+    title: "Complaints",
   },
   {
-    href: "/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Account",
+    href: "/payment",
+    icon: <PaymentIcon fontSize="small" />,
+    title: "Payments",
   },
-  {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
-  },
+  // {
+  //   href: "/settings",
+  //   icon: <CogIcon fontSize="small" />,
+  //   title: "Settings",
+  // },
   {
     href: "/login",
     icon: <LockIcon fontSize="small" />,
     title: "Login",
   },
-  {
-    href: "/register",
-    icon: <UserAddIcon fontSize="small" />,
-    title: "Register",
-  },
-  {
-    href: "/404",
-    icon: <XCircleIcon fontSize="small" />,
-    title: "Error",
-  },
+  // {
+  //   href: "/register",
+  //   icon: <UserAddIcon fontSize="small" />,
+  //   title: "Register",
+  // },
+  // {
+  //   href: "/404",
+  //   icon: <XCircleIcon fontSize="small" />,
+  //   title: "Error",
+  // },
 ];
 
 export const DashboardSidebar = (props) => {
@@ -94,12 +96,7 @@ export const DashboardSidebar = (props) => {
           <Box sx={{ p: 3 }}>
             <NextLink href="/" passHref>
               <a>
-                <Logo
-                  sx={{
-                    height: 42,
-                    width: 42,
-                  }}
-                />
+
               </a>
             </NextLink>
           </Box>
@@ -107,13 +104,13 @@ export const DashboardSidebar = (props) => {
             <Box
               sx={{
                 alignItems: "center",
-                backgroundColor: "rgba(255, 255, 255, 0.04)",
                 cursor: "pointer",
                 display: "flex",
                 justifyContent: "space-between",
                 px: 3,
                 py: "11px",
                 borderRadius: 1,
+                fontSize: 40,
               }}
             >
               <div>
@@ -121,13 +118,6 @@ export const DashboardSidebar = (props) => {
                   Poolin
                 </Typography>
               </div>
-              <SelectorIcon
-                sx={{
-                  color: "neutral.500",
-                  width: 14,
-                  height: 14,
-                }}
-              />
             </Box>
           </Box>
         </div>

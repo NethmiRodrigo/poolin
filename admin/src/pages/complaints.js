@@ -1,21 +1,23 @@
 import Head from "next/head";
 import { Box, CircularProgress, Container } from "@mui/material";
-import { CustomerListResults } from "../components/customer/customer-list-results";
-import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
+import { ComplaintsListResults } from "../components/complaints/complaints-list-results";
+import { ComplaintsListToolbar } from "../components/complaints/complaints-list-toolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { useEffect } from "react";
 import { getAllUsers } from "src/services/users.service";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { getAllComplaints } from "src/services/complaints.services";
 
-const Customers = () => {
-  const [customers, setCustomers] = useState([]);
+const Complaints = () => {
+  const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
     try {
-      const response = await getAllUsers();
-      setCustomers(response.allUsers);
+      const response = await getAllComplaints();
+      console.log(response)
+      setComplaints(response);
     } catch (error) {
       toast.error(error.message, {
         position: "top-right",
@@ -46,9 +48,9 @@ const Customers = () => {
         }}
       >
         <Container maxWidth={false}>
-          <CustomerListToolbar />
+          <ComplaintsListToolbar />
           <Box sx={{ mt: 3 }}>
-            {loading ? <CircularProgress /> : <CustomerListResults customers={customers} />}
+            {loading ? <CircularProgress /> : <ComplaintsListResults complaints={complaints} />}
           </Box>
         </Container>
       </Box>
@@ -56,6 +58,6 @@ const Customers = () => {
   );
 };
 
-Customers.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Complaints.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default Customers;
+export default Complaints;

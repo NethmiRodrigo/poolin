@@ -1,7 +1,9 @@
 import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-
+import { Button, FormGroup, Modal } from "@mui/material";
+import { FormControlLabel } from "@mui/material";
+import { Switch } from "@mui/material";
 import axios from "axios";
 import { format } from "date-fns";
 import {
@@ -16,32 +18,37 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button,
-  Switch,
-  FormControlLabel,
-  FormGroup,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
-import ViewCustomerModal from "./customer-modal";
-
-export const CustomerListResults = ({ customers, ...rest }) => {
-  const [viewModalOpen, setViewModalOpen] = useState(false);
-  console.log(customers);
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+export const PaymentListResults = ({ payment, ...rest }) => {
+  console.log(payment)
+  const [selectedPaymentIds, setSelectedPaymentIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedPaymentsIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedPaymentIds = payment.map((payment) => payment.id);
+      console.log(newSelectedPaymentsIds)
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedPaymentIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedPaymentIds(newSelectedPaymentIds);
   };
 
   // const handleSelectOne = (event, id) => {
@@ -73,27 +80,28 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   };
 
   return (
+    
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>User Type</TableCell>
-                <TableCell>Contact Number</TableCell>
-                <TableCell>Registration date</TableCell>
-                <TableCell>View Details</TableCell>
-                <TableCell>Verification</TableCell>
+                <TableCell>Driver ID</TableCell>
+                <TableCell>Passengers</TableCell>
+                <TableCell>Total Number of Rides</TableCell>
+                <TableCell>Total Ride Income</TableCell>
+                <TableCell>Total Ride Payable</TableCell>
+                <TableCell>Total Income</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.length > 0 &&
-                customers.slice(0, limit).map((customer) => (
+              {payment.length > 0 &&
+                payment.slice(0, limit).map((payment) => (
                   <TableRow
                     hover
-                    key={customer.id}
-                    // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    key={payment.id}
+                    // selected={selectedComplaintsIds.indexOf(complaints.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -102,61 +110,50 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        {`${customer.firstname} ${customer.lastname}`}
-
                         <Typography color="textPrimary" variant="body1">
-                          {customer.firstName}
+                          {payment.id}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.role}</TableCell>
-                    <TableCell>{customer.mobile}</TableCell>
-                    <TableCell>{customer.createdAt}</TableCell>
+                    <TableCell>{payment.totalIncome}</TableCell>
+                    <TableCell></TableCell>
                     <TableCell>
-                      <Button
-                        variant="outlined"
-                        onClick={() => {
-                          setViewModalOpen(true);
-                          setSelectedCustomerIds(customer);
-                        }}
-                      >
-                        View
-                      </Button>
+                      
+                    </TableCell>
+                    <TableCell>
+                      
                     </TableCell>
                     <TableCell>
                       <FormGroup>
-                        <FormControlLabel control={<Switch />} label="verified" />
+                        <FormControlLabel control={<Switch />} label="" />
                       </FormGroup>
+                    </TableCell>
+                    <TableCell>
+                      
                     </TableCell>
                   </TableRow>
                 ))}
-            </TableBody>
+            </TableBody> 
           </Table>
         </Box>
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        // count={complaints.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
-      {viewModalOpen && (
-        <ViewCustomerModal
-          open={viewModalOpen}
-          handleClose={() => {
-            setViewModalOpen(false);
-            //selectedCustomerIds(null);
-          }}
-          customer={selectedCustomerIds}
-        />
-      )}
     </Card>
+    
   );
+  
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
+
+PaymentListResults.propTypes = {
+  payment: PropTypes.array.isRequired,
 };
+

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-
+import { Button, FormControl, FormGroup, InputAdornment, InputLabel, MenuItem, Modal, NativeSelect, Select, TextField } from "@mui/material";
+import { FormControlLabel } from "@mui/material";
+import { Switch } from "@mui/material";
 import axios from "axios";
 import { format } from "date-fns";
 import {
@@ -16,32 +18,28 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button,
-  Switch,
-  FormControlLabel,
-  FormGroup,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
-import ViewCustomerModal from "./customer-modal";
+// import ViewComplaintsModal from "./view-complaint-modal";
+import { ArrowDropDown } from "@mui/icons-material";
 
-export const CustomerListResults = ({ customers, ...rest }) => {
+export const PaymentListResults = ({ payments, ...rest }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
-  console.log(customers);
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedPaymentsIds, setSelectedPaymentsIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedPaymentsIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedPaymentsIds = payments.map((payment) => payments.id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedPaymentsIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedPaymentsIds(newSelectedPaymentsIds);
   };
 
   // const handleSelectOne = (event, id) => {
@@ -72,28 +70,31 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     setPage(newPage);
   };
 
+  
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
+
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>User Type</TableCell>
-                <TableCell>Contact Number</TableCell>
-                <TableCell>Registration date</TableCell>
-                <TableCell>View Details</TableCell>
-                <TableCell>Verification</TableCell>
+                <TableCell>Driver ID</TableCell>
+                <TableCell>Passengers</TableCell>
+                <TableCell>Total Number of Rides</TableCell>
+                <TableCell>Total Ride Income</TableCell>
+                <TableCell>Total Ride Payable</TableCell>
+                <TableCell>Total Income</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.length > 0 &&
-                customers.slice(0, limit).map((customer) => (
+            
+              {payments.length > 0 && payments.slice(0, limit).map((payments) => (
                   <TableRow
                     hover
-                    key={customer.id}
-                    // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    key={payments.id}
+                    // selected={selectedPaymentIds.indexOf(Payment.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -102,32 +103,24 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        {`${customer.firstname} ${customer.lastname}`}
-
+                        
                         <Typography color="textPrimary" variant="body1">
-                          {customer.firstName}
+                          {payments.id}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.role}</TableCell>
-                    <TableCell>{customer.mobile}</TableCell>
-                    <TableCell>{customer.createdAt}</TableCell>
+                    <TableCell>{payments.numberOfPassengers}</TableCell>
+                    <TableCell>Total Number of Rides</TableCell>
                     <TableCell>
-                      <Button
-                        variant="outlined"
-                        onClick={() => {
-                          setViewModalOpen(true);
-                          setSelectedCustomerIds(customer);
-                        }}
-                      >
-                        View
-                      </Button>
+                    LKR: {payments.totalIncome}
                     </TableCell>
                     <TableCell>
-                      <FormGroup>
-                        <FormControlLabel control={<Switch />} label="verified" />
-                      </FormGroup>
+                    LKR: {payments.totalPayable}
                     </TableCell>
+                    <TableCell>
+                    LKR: {payments.totalProfit}
+                    </TableCell>
+                    
                   </TableRow>
                 ))}
             </TableBody>
@@ -136,27 +129,27 @@ export const CustomerListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={payments.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
-      {viewModalOpen && (
-        <ViewCustomerModal
+      {/* {viewModalOpen && (
+        <ViewComplaintsModal
           open={viewModalOpen}
           handleClose={() => {
             setViewModalOpen(false);
             //selectedCustomerIds(null);
           }}
-          customer={selectedCustomerIds}
+          payment={selectedPaymentIds}
         />
-      )}
+      )} */}
     </Card>
   );
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
+PaymentListResults.propTypes = {
+  payment: PropTypes.array.isRequired,
 };

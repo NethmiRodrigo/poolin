@@ -1,8 +1,15 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import MoneyIcon from '@mui/icons-material/Money';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { getAllTotalIncome } from 'src/services/payments.service';
 
-export const Budget = (props) => (
+export const TotalIncome = ({ incomes, ...rest }) => {
+ 
+  console.log(incomes)
+  
+  
+
+  return (
   <Card
     sx={{ height: '80%' }}
     
@@ -20,7 +27,7 @@ export const Budget = (props) => (
             fontSize={20}
             >
                 Total <br></br>
-                Profit 
+                Income 
                
             </Grid>
           </Grid>          
@@ -31,10 +38,10 @@ export const Budget = (props) => (
       
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >      
             
-LK : 6220/-
+LKR 1080
          
             
                
@@ -46,4 +53,6 @@ LK : 6220/-
       </Grid>
     </CardContent>
   </Card>
-);
+)};
+
+

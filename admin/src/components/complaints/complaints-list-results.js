@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-
+import { Button, FormControl, FormGroup, InputAdornment, InputLabel, MenuItem, Modal, NativeSelect, Select, TextField } from "@mui/material";
+import { FormControlLabel } from "@mui/material";
+import { Switch } from "@mui/material";
 import axios from "axios";
 import { format } from "date-fns";
 import {
@@ -16,32 +18,28 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button,
-  Switch,
-  FormControlLabel,
-  FormGroup,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import PreviewIcon from "@mui/icons-material/Preview";
-import ViewCustomerModal from "./customer-modal";
+import ViewComplaintsModal from "./view-complaint-modal";
+import { ArrowDropDown } from "@mui/icons-material";
 
-export const CustomerListResults = ({ customers, ...rest }) => {
+export const ComplaintsListResults = ({ complaints, ...rest }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
-  console.log(customers);
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedComplaintsIds, setSelectedComplaintsIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedComplaintIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedComplaintIds = complaints.map((complaints) => complaints.id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedComplaintIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedComplaintsIds(newSelectedComplaintIds);
   };
 
   // const handleSelectOne = (event, id) => {
@@ -72,28 +70,50 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     setPage(newPage);
   };
 
+  
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
+        
+      {/* <Box sx={{ m: 1 }} >
+      <FormControl fullwidth>
+  <InputLabel variant="standard" htmlFor="uncontrolled-native">
+    Status
+  </InputLabel>
+  <NativeSelect
+    defaultValue={30}
+    inputProps={{
+      name: 'status',
+      id: 'uncontrolled-native',
+    }}
+  >
+    <option value={10}>Open</option>
+    <option value={20}>Close</option>
+    <option value={30}>All</option>
+  </NativeSelect>
+</FormControl>
+        </Box> */}
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>User Type</TableCell>
-                <TableCell>Contact Number</TableCell>
-                <TableCell>Registration date</TableCell>
-                <TableCell>View Details</TableCell>
-                <TableCell>Verification</TableCell>
+                <TableCell>Trip ID</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Complainee</TableCell>
+                <TableCell>Complainer</TableCell>
+                <TableCell>Action</TableCell>
+                <TableCell>View</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.length > 0 &&
-                customers.slice(0, limit).map((customer) => (
+              {complaints.length > 0 &&
+                complaints.slice(0, limit).map((complaints) => (
                   <TableRow
                     hover
-                    key={customer.id}
-                    // selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    key={complaints.id}
+                    // selected={selectedComplaintsIds.indexOf(complaints.id) !== -1}
                   >
                     <TableCell>
                       <Box
@@ -102,31 +122,34 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        {`${customer.firstname} ${customer.lastname}`}
-
                         <Typography color="textPrimary" variant="body1">
-                          {customer.firstName}
+                          {complaints.tripId}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.role}</TableCell>
-                    <TableCell>{customer.mobile}</TableCell>
-                    <TableCell>{customer.createdAt}</TableCell>
+                    <TableCell>{complaints.description}</TableCell>
+                    <TableCell>{complaints.status}</TableCell>
+                    <TableCell>
+                      {`${complaints.complainee.firstname} ${complaints.complainee.lastname}`}{" "}
+                    </TableCell>
+                    <TableCell>
+                      {`${complaints.complainer.firstname} ${complaints.complainer.lastname}`}{" "}
+                    </TableCell>
+                    <TableCell>
+                      <FormGroup>
+                        <FormControlLabel control={<Switch />} label="" />
+                      </FormGroup>
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="outlined"
                         onClick={() => {
                           setViewModalOpen(true);
-                          setSelectedCustomerIds(customer);
+                          setSelectedComplaintsIds(complaints);
                         }}
                       >
                         View
                       </Button>
-                    </TableCell>
-                    <TableCell>
-                      <FormGroup>
-                        <FormControlLabel control={<Switch />} label="verified" />
-                      </FormGroup>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -136,7 +159,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={complaints.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -144,19 +167,19 @@ export const CustomerListResults = ({ customers, ...rest }) => {
         rowsPerPageOptions={[5, 10, 25]}
       />
       {viewModalOpen && (
-        <ViewCustomerModal
+        <ViewComplaintsModal
           open={viewModalOpen}
           handleClose={() => {
             setViewModalOpen(false);
             //selectedCustomerIds(null);
           }}
-          customer={selectedCustomerIds}
+          complaints={selectedComplaintsIds}
         />
       )}
     </Card>
   );
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
+ComplaintsListResults.propTypes = {
+  complaints: PropTypes.array.isRequired,
 };

@@ -1,14 +1,11 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import MoneyIcon from '@mui/icons-material/Money';
 
-export const Budget = (props) => (
+export const TotalCustomers = (props) => (
   <Card
     sx={{ height: '80%' }}
-    
+    {...props}
   >
     <CardContent>
-      
       <Grid
         container
         spacing={1}
@@ -20,29 +17,20 @@ export const Budget = (props) => (
             fontSize={20}
             >
                 Total <br></br>
-                Profit 
-               
+                Users
             </Grid>
           </Grid>          
         </Grid>
         
-        
-      <Grid item>
-      
+        <Grid item>
         <Typography
             color="textPrimary"
-            variant="h4"
-          >      
+            variant="h5"
+          >
             
-LK : 6220/-
-         
-            
-               
-            
+            2567
           </Typography>
-          
         </Grid>
-        
       </Grid>
     </CardContent>
   </Card>
