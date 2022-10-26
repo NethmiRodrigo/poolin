@@ -22,11 +22,11 @@ const App = (props) => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    const cookie = localStorage.getItem("Cookie");
-    if (!cookie) router.push("/login");
-    if (cookie) axios.defaults.headers.common["cookie"] = cookie;
-  }, []);
+  // useEffect(() => {
+  //   const cookie = localStorage.getItem("Cookie");
+  //   if (!cookie) router.push("/login");
+  //   if (cookie) axios.defaults.headers.common["cookie"] = cookie;
+  // }, []);
 
   return (
     <CacheProvider value={emotionCache}>

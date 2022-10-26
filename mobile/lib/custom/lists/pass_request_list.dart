@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poolin/colors.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
 import 'package:poolin/fonts.dart';
@@ -9,7 +10,7 @@ class PassengerRequestList extends StatelessWidget {
 
   const PassengerRequestList(this.requests, {Key? key}) : super(key: key);
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (ctx, index) {
@@ -21,8 +22,8 @@ class PassengerRequestList extends StatelessWidget {
             onTap: () {},
             leading: CircleAvatar(
               radius: 20,
-              foregroundImage:
-                  NetworkImage("https://i.pravatar.cc/150?img=$index"),
+              foregroundImage: NetworkImage(requests[index].profilePicture),
+              backgroundColor: BlipColors.lightGrey,
             ),
             title: Text(
               requests[index].rider,
@@ -31,10 +32,6 @@ class PassengerRequestList extends StatelessWidget {
             subtitle: const Text(
               'has requested to join you',
               style: BlipFonts.label,
-            ),
-            trailing: Text(
-              TimeElapsed.fromDateTime(requests[index].date),
-              style: BlipFonts.outline,
             ),
           ),
         );

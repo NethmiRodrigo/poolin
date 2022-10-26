@@ -79,13 +79,6 @@ class _ViewRideOffersScreenState extends State<ViewRideOffersScreen> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.filter_list),
-            color: BlipColors.black,
-          )
-        ],
       ),
       body: isLoading
           ? const Center(

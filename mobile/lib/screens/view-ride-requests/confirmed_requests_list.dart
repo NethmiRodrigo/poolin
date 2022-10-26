@@ -23,37 +23,25 @@ class ConfirmedRequestsList extends StatelessWidget {
       ],
       children: <Widget>[
         for (var request in confirmedRequests)
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      RiderProfileScreen(id: request["user_id"]),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(request.firstname + " " + request.lastname,
+                  style: BlipFonts.outline),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                  color: BlipColors.lightBlue,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-              );
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(request.firstname+ " " + request.lastname,
-                    style: BlipFonts.outline),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: BlipColors.lightBlue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    ("gets on at ${request.pickupLocation.name} at ${Jiffy(request.pickupTime).format("h:mm a").split(" ").join('')}")
-                        .toUpperCase(),
-                    style: BlipFonts.taglineBold
-                        .merge(const TextStyle(color: BlipColors.blue)),
-                  ),
+                child: Text(
+                  ("gets on at ${request.pickupLocation.name} at ${Jiffy(request.pickupTime).format("h:mm a").split(" ").join('')}")
+                      .toUpperCase(),
+                  style: BlipFonts.taglineBold
+                      .merge(const TextStyle(color: BlipColors.blue)),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         //
       ],

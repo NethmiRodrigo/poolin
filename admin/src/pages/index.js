@@ -9,8 +9,36 @@ import { TotalCustomers } from "../components/dashboard/total-customers";
 import { TotalProfit } from "../components/dashboard/total-profit";
 import { TrafficByDevice } from "../components/dashboard/traffic-by-device";
 import { DashboardLayout } from "../components/dashboard-layout";
+import { getAllsales } from "src/services/dashboard.services";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const Dashboard = () => (
+const Dashboard = () => {
+  const [sales, setSales] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    try {
+      const response = await getAllsales();
+      console.log(response)
+      setSales(response);
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  return (
   <>
     <Head>
       <title>Dashboard | Poolin</title>
@@ -37,22 +65,17 @@ const Dashboard = () => (
             <TotalProfit sx={{ height: "100%" }} />
           </Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}>
-            <Sales />
+            <Sales sales={sales} />
           </Grid>
           <Grid item lg={4} md={6} xl={3} xs={12}>
             <TrafficByDevice sx={{ height: "100%" }} />
           </Grid>
-          <Grid item lg={4} md={6} xl={3} xs={12}>
-            <LatestProducts sx={{ height: "100%" }} />
-          </Grid>
-          <Grid item lg={8} md={12} xl={9} xs={12}>
-            <LatestOrders />
-          </Grid>
+          
         </Grid>
       </Container>
     </Box>
   </>
-);
+)};
 
 Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 

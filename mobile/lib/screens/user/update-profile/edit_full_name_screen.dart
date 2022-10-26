@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
+import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/screens/user/update-profile/edit_profile_screen.dart';
 import 'package:poolin/services/update_profile_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
@@ -30,6 +32,7 @@ class EditFullNameScreenState extends State<EditFullNameScreen> {
   // String dropdownValue = 'Students';
   @override
   Widget build(BuildContext context) {
+    CurrentUserCubit currentUser = BlocProvider.of<CurrentUserCubit>(context);
     return Scaffold(
         body: SafeArea(
       child: GestureDetector(

@@ -13,6 +13,7 @@ import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/ride_request_cubit.dart';
 import 'package:poolin/custom/backward_button.dart';
 import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/screens/view-profile/driver_profile_screen.dart';
 import 'package:poolin/screens/view-profile/rider_profile_screen.dart';
 import 'package:poolin/screens/view-ride-requests/accept_request_confirmation_screen.dart';
 import 'package:poolin/services/ride_offer_service.dart';
@@ -170,7 +171,10 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
         backgroundColor: Colors.transparent,
         leading: const BackwardButton(),
       ),
-      body: (requestDetails.isEmpty || isLoading || coords.isEmpty || _markers.isEmpty)
+      body: (requestDetails.isEmpty ||
+              isLoading ||
+              coords.isEmpty ||
+              _markers.isEmpty)
           ? const Center(
               child: CircularProgressIndicator(
                 color: BlipColors.orange,
@@ -342,32 +346,6 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                                         widget.request["lname"],
                                     style: BlipFonts.outline,
                                   ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          //star icon
-                                          const Icon(EvaIcons.star,
-                                              color: BlipColors.gold, size: 8),
-                                          addHorizontalSpace(4),
-                                          const Text(
-                                            "4.5",
-                                            style: BlipFonts.tagline,
-                                          ),
-                                        ],
-                                      ),
-                                      addHorizontalSpace(8),
-                                      const Icon(
-                                        Icons.circle,
-                                        size: 2,
-                                      ),
-                                      addHorizontalSpace(8),
-                                      const Text("250 ratings",
-                                          style: BlipFonts.tagline),
-                                    ],
-                                  )
                                 ],
                               )
                             ],
@@ -377,9 +355,8 @@ class ReserveRequestScreenState extends State<ReserveRequestScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RiderProfileScreen(
-                                      id: requestDetails['id']),
-                                ),
+                                    builder: (context) => DriverProfileScreen(
+                                        requestDetails["id"])),
                               );
                             },
                             text: "See Profile",

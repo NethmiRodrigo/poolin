@@ -2,10 +2,41 @@ import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+import { getAllsales } from 'src/services/dashboard.services';
 
 export const Sales = (props) => {
   const theme = useTheme();
+  const [sales, setSales] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(async () => {
+    try {
+      const map = [sales];
+      const result = Object.values(map);
+
+      const response = await getAllsales();
+      console.log(response)
+      setSales(response);
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  },
+
+  []);
   const data = {
     datasets: [
       {
@@ -14,7 +45,7 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
+        data: [20000, 17250, 9850, 2000, 11200, 1900, 0],
         label: 'This year',
         maxBarThickness: 10
       },
@@ -24,12 +55,12 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [11, 20, 12, 29, 30, 25, 13],
+        data: [],
         label: 'Last year',
         maxBarThickness: 10
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
+    labels: ['May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov']
   };
 
   const options = {

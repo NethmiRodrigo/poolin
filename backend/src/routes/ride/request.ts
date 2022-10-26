@@ -112,7 +112,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json({ success: "Ride Offer fetched successfully", request });
+    .json({ success: "Ride Request fetched successfully", request });
 };
 
 export const getAvailableOffers = async (req: Request, res: Response) => {

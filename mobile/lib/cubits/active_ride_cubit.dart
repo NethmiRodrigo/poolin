@@ -113,4 +113,6 @@ class ActiveRideCubit extends Cubit<ActiveRide> {
 
   void setParty(List<RideParticipant> party) =>
       emit(state.copyWith(partyData: party));
+
+  void reset() => emit(state.copyWith(id: null));
 }
