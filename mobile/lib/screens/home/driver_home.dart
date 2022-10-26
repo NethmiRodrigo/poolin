@@ -41,10 +41,20 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
     activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
     super.initState();
     getOfferDetails();
+    checkIfRideOfferAvailable();
+  }
+
+  void checkIfRideOfferAvailable() {
+    if(activeRideCubit.state.id != null && activeRideCubit.state.type == RideType.offer) {
+      setState(() {
+        isDriving = true;
+      });
+    }
   }
 
   void getOfferDetails() async {
-    if (activeRideCubit.state.id != null && activeRideCubit.state.type == RideType.offer) {
+    if (activeRideCubit.state.id != null &&
+        activeRideCubit.state.type == RideType.offer) {
       endTime = activeRideCubit.state.departureTime!.millisecondsSinceEpoch;
       int offerID = activeRideCubit.state.id!;
       final requestData = await getOfferRequests(offerID);
@@ -63,7 +73,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       }
 
       setState(() {
-        isDriving = true;
         _passRequests = passengerRequests;
         isLoading = false;
       });
@@ -102,7 +111,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                   isDriving
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
-                          text: isDriving ? 'Your ride is scheduled' : 'Offer a ride and get paid',
+                          text: isDriving
+                              ? 'Your ride is scheduled'
+                              : 'Offer a ride and get paid',
                           route: DestinationScreen(
                             rideType: RideType.offer,
                           ),

@@ -23,30 +23,30 @@ class GroupChat extends StatefulWidget {
 class _GroupChatState extends State<GroupChat> {
   final int tripID = 845136993;
   final User currentUser = User(
-    id: 002,
-    firstName: 'Yadeesha',
-    lastName: 'Weerasinghe',
+    id: 003,
+    firstName: 'Azma',
+    lastName: 'Imtiaz',
     gender: 'female',
     email: 'azma@gamil.com',
-    profilePicURL: 'https://i.pravatar.cc/300?img=3',
+    profilePicURL: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
   );
 
   final List<User> participants = [
     User(
       id: 001,
-      firstName: 'Nethmi (You)',
-      lastName: 'Pathirana',
+      firstName: 'Nethmi',
+      lastName: 'Weerasignhe',
       gender: 'female',
       email: 'neth@gamil.com',
-      profilePicURL: 'https://i.pravatar.cc/300?img=9',
+      profilePicURL: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
     ),
     User(
-      id: 005,
+      id: 002,
       firstName: 'Yadeesha',
       lastName: 'Weerasinghe',
       gender: 'female',
       email: 'azma@gamil.com',
-      profilePicURL: 'https://i.pravatar.cc/300?img=3',
+      profilePicURL: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png',
     ),
   ];
   final TextEditingController _messageController = TextEditingController();
@@ -71,8 +71,7 @@ class _GroupChatState extends State<GroupChat> {
       socket.emit("joinRoom", [tripID.toString(), currentUser.firstName]);
 
       socket.on("sendMessage", (res) {
-        if (res is String) {
-        } else if (res['senderID'] != currentUser.id) {
+        if (res['senderID'] != currentUser.id) {
           Message newMessage = Message(
             msg: res['msg'],
             senderID: res['senderID'],

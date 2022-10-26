@@ -199,12 +199,12 @@ class FinalRideDetailsScreenState extends State<FinalRideDetailsScreen> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                "You can start in ${time.min == null ? '00' : time.min.toString().padLeft(2, '0')}:${time.sec.toString().padLeft(2, '0')}",
-                                style: BlipFonts.outline.merge(const TextStyle(
-                                  color: BlipColors.red,
-                                )),
-                              ),
+                              // Text(
+                              //   "You can start in ${time.min == null ? '00' : time.min.toString().padLeft(2, '0')}:${time.sec.toString().padLeft(2, '0')}",
+                              //   style: BlipFonts.outline.merge(const TextStyle(
+                              //     color: BlipColors.red,
+                              //   )),
+                              // ),
                               addVerticalSpace(12),
                               WideButton(
                                 text:

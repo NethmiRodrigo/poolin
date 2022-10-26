@@ -35,7 +35,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
   late LatLng pickupLoc;
   late LatLng dropOffLoc;
-  late LatLng driverLoc;
+  LatLng driverLoc = LatLng(6.806744952118697, 79.92244836145672);
 
   LocationData? currentLocation;
 
@@ -102,6 +102,9 @@ class _TrackDriverState extends State<TrackDriver> {
 
       socket.connect();
       socket.on("position-change", (data) async {
+        setState(() {
+          isLoading = false;
+        });
         var latLng = jsonDecode(data);
 
         final GoogleMapController controller = await _controller.future;
@@ -115,9 +118,8 @@ class _TrackDriverState extends State<TrackDriver> {
           controller
               .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: driverLoc,
-            zoom: 16,
+            zoom: 14,
           )));
-          isLoading = false;
         });
       });
     } catch (e) {

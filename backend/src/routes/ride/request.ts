@@ -96,6 +96,7 @@ export const getActiveRequest = async (req: Request, res: Response) => {
 
   const request = {
     id: result.id,
+    // departureTime: new Date(+new Date(result.departuretime) + 60000 * 330),
     departureTime: new Date(+new Date(result.departuretime) + 60000 * 330),
     distance: result.distance,
     price: result.price,
