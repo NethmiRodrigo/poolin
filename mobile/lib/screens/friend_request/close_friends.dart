@@ -1,12 +1,12 @@
 import 'package:poolin/models/mutual_friends.dart';
-import 'package:mobile/screens/user/profile/user_profile_screen.dart';
+
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/custom/wide_button.dart';
-import 'package:mobile/custom/outline_button.dart';
-import 'package:mobile/fonts.dart';
-import 'package:mobile/utils/widget_functions.dart';
+import 'package:poolin/custom/wide_button.dart';
+import 'package:poolin/custom/outline_button.dart';
+import 'package:poolin/fonts.dart';
+import 'package:poolin/utils/widget_functions.dart';
 import '../../../colors.dart';
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 
@@ -75,6 +75,19 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                 height: 20.0,
               ),
               //////////////////////////////////////////////////
+              TextField(
+                onChanged: (value) => updatelist(value),
+                autofocus: true,
+                showCursor: true,
+                readOnly: false,
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlignVertical: TextAlignVertical.center,
+                key: const Key('destination-field'),
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(AkarIcons.search),
+                  hintText: "Who are you looking for?",
+                ),
+              ),
               
               SizedBox(
                 height: 20,
