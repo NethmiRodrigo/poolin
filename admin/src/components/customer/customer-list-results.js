@@ -109,9 +109,11 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.role}</TableCell>
+                    <TableCell class="capitalize-me">{customer.role}</TableCell>
                     <TableCell>{customer.mobile}</TableCell>
-                    <TableCell>{customer.createdAt}</TableCell>
+                    <TableCell>
+                      {new Date(customer.createdAt).toLocaleDateString("en-US")}
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="outlined"
@@ -125,7 +127,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     </TableCell>
                     <TableCell>
                       <FormGroup>
-                        <FormControlLabel control={<Switch />} label="verified" />
+                        <FormControlLabel control={<Switch />} label="Verified" />
                       </FormGroup>
                     </TableCell>
                   </TableRow>

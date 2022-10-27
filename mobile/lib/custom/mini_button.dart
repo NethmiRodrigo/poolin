@@ -11,8 +11,8 @@ class MiniButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
+          foregroundColor: Colors.white,
           padding: const EdgeInsets.all(16.0),
-          primary: Colors.white,
           backgroundColor: Colors.black,
           minimumSize: const Size.fromHeight(40),
           textStyle: Theme.of(context).textTheme.bodyText1),

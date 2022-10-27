@@ -1,14 +1,6 @@
 import 'package:poolin/models/mutual_friends.dart';
-
-import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:poolin/custom/wide_button.dart';
-import 'package:poolin/custom/outline_button.dart';
-import 'package:poolin/fonts.dart';
 import 'package:poolin/screens/user/profile/user_profile_screen.dart';
-import 'package:poolin/utils/widget_functions.dart';
-import '../../../colors.dart';
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
 
 class CloseFriendsScreen extends StatefulWidget {
@@ -45,13 +37,10 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    const double padding = 16;
-    const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,17 +57,16 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                           builder: (context) => const UserProfileScreen()));
                 },
               ),
-              Text(
+              const Text(
                 "Close friends",
                 style: TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20.0,
               ),
-              //////////////////////////////////////////////////
               TextField(
                 onChanged: (value) => updatelist(value),
                 autofocus: true,
@@ -92,26 +80,24 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                   hintText: "Who are you looking for?",
                 ),
               ),
-              
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              ///////////////////////////////////////////////////////////////
               Expanded(
                 child: ListView.builder(
                     itemCount: display_list.length,
                     itemBuilder: ((context, index) => ListTile(
-                          contentPadding: EdgeInsets.all(8),
+                          contentPadding: const EdgeInsets.all(8),
                           title: Text(
                             display_list[index].Name!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16),
                           ),
                           subtitle: Text(
                             display_list[index].position!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12),
@@ -122,7 +108,6 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                                   display_list[index].friendimageurl!)),
                         ))),
               )
-              
             ]),
       ),
     );

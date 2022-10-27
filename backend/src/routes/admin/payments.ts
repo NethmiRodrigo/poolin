@@ -8,6 +8,7 @@ import { AppError } from "../../util/error-handler";
 
 import { AppDataSource } from "../../data-source";
 
+/* Payment page cards */
 
 /**
  *
@@ -92,5 +93,4 @@ export const fetchAllPayments = async (req: Request, res: Response) => {
     return res.json({ allPayments });
   };
 
-  
-
+  /** Count total number of passengers */
