@@ -56,8 +56,8 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   }) =>
       TextButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: BlipColors.black,
-          backgroundColor: BlipColors.white,
+          // foregroundColor: BlipColors.black,
+          // backgroundColor: BlipColors.white,
           padding: const EdgeInsets.all(16.0),
         ),
         onPressed: onClicked,

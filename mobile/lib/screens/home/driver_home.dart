@@ -95,7 +95,6 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
       }
 
       setState(() {
-        isDriving = true;
         _passRequests = passengerRequests;
         isLoading = false;
       });
@@ -130,7 +129,9 @@ class DriverHomeScreenState extends State<DriverHomeScreen> {
                   isDriving
                       ? RideCountDown(endTime)
                       : HomeScreenCard(
-                          text: 'Offer a ride and get paid',
+                          text: isDriving
+                              ? 'Your ride is scheduled'
+                              : 'Offer a ride and get paid',
                           route: DestinationScreen(
                             rideType: RideType.offer,
                           ),
