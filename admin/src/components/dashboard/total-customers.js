@@ -31,10 +31,10 @@ export const TotalCustomers = (props) => (
       
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >      
             
-LK : 4000
+LKR : 4000
          
             
                
