@@ -97,6 +97,16 @@ class _RideVisibilityScreenState extends State<RideVisibilityScreen> {
               ]),
               addVerticalSpace(8),
               Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                OutlineButton(
+                  onPressedAction: () {},
+                  color: BlipColors.black,
+                  text: "All",
+                ),
+                OutlineButton(
+                  onPressedAction: () {},
+                  color: BlipColors.black,
+                  text: "Close friend",
+                ),
                 
                 // IconButton(
                 //           icon: const Icon(
