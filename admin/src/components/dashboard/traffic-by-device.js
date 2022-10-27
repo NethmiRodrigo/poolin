@@ -44,7 +44,7 @@ export const TrafficByDevice = (props) => {
 
   const devices = [
     {
-      title: 'Desktop',
+      title: 'Ride offers',
       value: 63,
       icon: LaptopMacIcon,
       color: '#3F51B5'
