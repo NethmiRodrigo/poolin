@@ -104,7 +104,7 @@ export const TrafficByDevice = (props) => {
                 color="textPrimary"
                 variant="body1"
               >
-                {title}
+              
               </Typography>
               <Typography
                 style={{ color }}
