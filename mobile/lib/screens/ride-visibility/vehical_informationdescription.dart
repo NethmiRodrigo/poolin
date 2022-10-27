@@ -112,29 +112,7 @@ class DescriVehicleScreenState extends State<DescriVehicleScreen> {
                               ),
                             ),
                             addVerticalSpace(8),
-                            // TextFormField(
-                            //   style: BlipFonts.label,
-                            //   controller: _model,
-                            //   textAlignVertical: TextAlignVertical.center,
-                            //   decoration: InputDecoration(
-                            //     contentPadding: EdgeInsets.symmetric(
-                            //         vertical: 10.0, horizontal: 16),
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(8),
-                            //       borderSide: const BorderSide(
-                            //         width: 0,
-                            //         style: BorderStyle.none,
-                            //       ),
-                            //     ),
-                            //     hintText: "Ex: Prius",
-                            //   ),
-                            //   validator: (value) {
-                            //     if (value == null || value.isEmpty) {
-                            //       return 'Field cannot be empty';
-                            //     }
-                            //     return null;
-                            //   },
-                            // ),
+                            
                           ]),
                         ),
                       ],
@@ -149,28 +127,7 @@ class DescriVehicleScreenState extends State<DescriVehicleScreen> {
                         ),
                       ),
                       addVerticalSpace(8),
-                      // TextFormField(
-                      //   style: BlipFonts.label,
-                      //   textAlignVertical: TextAlignVertical.center,
-                      //   decoration: InputDecoration(
-                      //     contentPadding: EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 16),
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(8),
-                      //       borderSide: const BorderSide(
-                      //         width: 0,
-                      //         style: BorderStyle.none,
-                      //       ),
-                      //     ),
-                      //     hintText: "Ex: 2018",
-                      //   ),
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Field cannot be empty';
-                      //     }
-                      //     return null;
-                      //   },
-                      // ),
+                      
                     ]),
                     Align(
                         alignment: Alignment.centerLeft,
@@ -196,29 +153,7 @@ class DescriVehicleScreenState extends State<DescriVehicleScreen> {
                           style: BlipFonts.outline,
                         ),
                       ),
-                      // TextFormField(
-                      //   style: BlipFonts.label,
-                      //   controller: _plateno,
-                      //   textAlignVertical: TextAlignVertical.center,
-                      //   decoration: InputDecoration(
-                      //     contentPadding: EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 16),
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(8),
-                      //       borderSide: const BorderSide(
-                      //         width: 0,
-                      //         style: BorderStyle.none,
-                      //       ),
-                      //     ),
-                      //     hintText: "Ex: CAT 9345",
-                      //   ),
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Field cannot be empty';
-                      //     }
-                      //     return null;
-                      //   },
-                      // ),
+                      
                     ]),
                     addVerticalSpace(16),
                     Column(children: [
@@ -237,29 +172,7 @@ class DescriVehicleScreenState extends State<DescriVehicleScreen> {
                           style: BlipFonts.outline,
                         ),
                       ),
-                      // TextFormField(
-                      //   style: BlipFonts.label,
-                      //   controller: _color,
-                      //   textAlignVertical: TextAlignVertical.center,
-                      //   decoration: InputDecoration(
-                      //     contentPadding: EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 16),
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(8),
-                      //       borderSide: const BorderSide(
-                      //         width: 0,
-                      //         style: BorderStyle.none,
-                      //       ),
-                      //     ),
-                      //     hintText: "Ex: Blue",
-                      //   ),
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Field cannot be empty';
-                      //     }
-                      //     return null;
-                      //   },
-                      // ),
+                      
                     ]),
                     addVerticalSpace(42),
                     WideButton(
