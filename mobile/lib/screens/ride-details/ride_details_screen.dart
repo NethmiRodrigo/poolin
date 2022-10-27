@@ -24,7 +24,7 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
     final Size size = MediaQuery.of(context).size;
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
-    
+
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(
@@ -72,133 +72,6 @@ class RideDetailsScreenState extends State<RideDetailsScreen> {
                   )
                 ],
               ),
-              SizedBox(
-                  height: 200,
-                  child: Scrollbar(
-                    thumbVisibility: true,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        Timeline(
-                          indicators: const <Widget>[
-                            Icon(
-                              Icons.circle,
-                              color: BlipColors.orange,
-                              size: 12,
-                            ),
-                            Icon(
-                              Icons.circle,
-                              color: BlipColors.black,
-                              size: 12,
-                            ),
-                            Icon(
-                              Icons.circle,
-                              color: BlipColors.black,
-                              size: 12,
-                            ),
-                            Icon(
-                              Icons.circle,
-                              color: BlipColors.orange,
-                              size: 12,
-                            ),
-                          ],
-                          children: <Widget>[
-                            SizedBox(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: const [
-                                      Text('No.20, Borelasgamuwa',
-                                          style: BlipFonts.labelBold),
-                                      Spacer(),
-                                      Text('7:30 AM', style: BlipFonts.outline),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text('No.20, Borelasgamuwa',
-                                              style: BlipFonts.label),
-                                          const Text('Pick up Sarah',
-                                              style: BlipFonts.outline),
-                                          addVerticalSpace(4),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      const Text('7:30 AM',
-                                          style: BlipFonts.outline),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text('No.20, Thunmulla',
-                                              style: BlipFonts.label),
-                                          const Text('Drop off Sarah',
-                                              style: BlipFonts.outline),
-                                          addVerticalSpace(4),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      const Text('7:30 AM',
-                                          style: BlipFonts.outline),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                          'University of Colombo\nSchool of Computing',
-                                          style: BlipFonts.labelBold),
-                                      Spacer(),
-                                      Text('7:30 AM', style: BlipFonts.outline),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
               addVerticalSpace(32),
               Row(
                 children: [

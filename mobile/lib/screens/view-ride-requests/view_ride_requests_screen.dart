@@ -1,3 +1,4 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,13 +6,13 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 
 import 'package:poolin/colors.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/chat/group_chat.dart';
 import 'package:poolin/screens/ride-details/ride_details_screen.dart';
 import 'package:poolin/screens/view-ride-requests/confirmed_requests_list.dart';
 import 'package:poolin/screens/view-ride-requests/countdown_label.dart';
 import 'package:poolin/screens/view-ride-requests/ride_requests_list.dart';
 
 import 'package:poolin/utils/widget_functions.dart';
-
 import '../../cubits/active_ride_cubit.dart';
 import '../../custom/backward_button.dart';
 import '../../custom/indicator.dart';
@@ -28,36 +29,30 @@ class ViewRideRequestsScreen extends StatefulWidget {
 }
 
 class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
-  late ActiveRideCubit offerCubit;
+  late ActiveRideCubit activeRideOffer;
   late CountdownTimerController controller;
   var isVisible = false;
   List<dynamic>? pendingRequests;
-  List<dynamic>? confirmedRequests;
+  List<RideParticipant> confirmedRequests = [];
 
   @override
   void initState() {
     super.initState();
-    offerCubit = BlocProvider.of<ActiveRideCubit>(context);
-    controller = CountdownTimerController(
-        endTime: offerCubit.getDepartureTime().millisecondsSinceEpoch,
-        onEnd: () => {});
+    activeRideOffer = BlocProvider.of<ActiveRideCubit>(context);
     getData();
   }
 
   getData() async {
-    final requestData = await getOfferRequests(offerCubit.getId());
+    int offerID = activeRideOffer.state.id!;
+    final requestData = await getOfferRequests(offerID);
     pendingRequests = requestData.data['requests'];
-    final partyData = await getConfirmedRequests(offerCubit.getId());
-    confirmedRequests = partyData.data['requests'];
-    if (confirmedRequests != null) {
-      if ((confirmedRequests?.length)! > 0) {
-        var price = 0;
-        for (var request in confirmedRequests!) {
-          int requestPrice = int.parse(request['price']);
-          price = price + requestPrice;
-        }
-        offerCubit.setPrice(price);
+    confirmedRequests = await getConfirmedRequests(offerID);
+    if (confirmedRequests.isNotEmpty) {
+      double price = 0;
+      for (var req in confirmedRequests) {
+        price = price + req.price;
       }
+      activeRideOffer.setPrice(price);
     }
 
     setState(() {
@@ -96,15 +91,10 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Text(
-                            'Your ride \nis trending!',
+                            'Your ride details',
                             style: BlipFonts.displayBlack,
                             textAlign: TextAlign.left,
                           ),
-                          // Spacer(),
-                          Indicator(
-                              icon: FluentIcons.eye_12_regular,
-                              text: "500",
-                              color: BlipColors.green)
                         ],
                       ),
                     ),
@@ -125,18 +115,23 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                             ),
                           ],
                         ),
-                        OutlineButton(
-                            onPressedAction: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RideDetailsScreen(),
-                                ),
-                              );
-                            },
-                            text: "View Ride Details",
-                            color: BlipColors.black)
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const GroupChat()),
+                            );
+                          },
+                          child: const CircleAvatar(
+                              radius: 16.0,
+                              backgroundColor: BlipColors.black,
+                              child: Icon(
+                                EvaIcons.messageSquareOutline,
+                                color: BlipColors.white,
+                                size: 14.0,
+                              )),
+                        ),
                       ],
                     ),
                     addVerticalSpace(24),
@@ -154,8 +149,19 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     if (pendingRequests?.length != null)
                       SizedBox(
                         height: 130,
-                        child:
-                            RideRequestsList(pendingRequests: pendingRequests!),
+                        child: pendingRequests!.isEmpty
+                            ? Container(
+                                color: BlipColors.lightGrey,
+                                child: const Center(
+                                  child: Text(
+                                    'No pending requests at the moment',
+                                    style: BlipFonts.outline,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              )
+                            : RideRequestsList(
+                                pendingRequests: pendingRequests!),
                       ),
                     addVerticalSpace(24),
                     const Text(
@@ -165,7 +171,7 @@ class ViewRideRequestsScreenState extends State<ViewRideRequestsScreen> {
                     ),
                     if (confirmedRequests != null)
                       ConfirmedRequestsList(
-                          confirmedRequests: confirmedRequests!)
+                          confirmedRequests: confirmedRequests)
                   ],
                 ),
               ),

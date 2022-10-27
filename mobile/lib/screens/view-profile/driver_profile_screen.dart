@@ -15,8 +15,7 @@ import '../../../colors.dart';
 
 class DriverProfileScreen extends StatefulWidget {
   final int driverId;
-  final int offerId;
-  const DriverProfileScreen(this.driverId, this.offerId, {super.key});
+  const DriverProfileScreen(this.driverId, {super.key});
 
   @override
   DriverProfileScreenState createState() {
@@ -27,6 +26,7 @@ class DriverProfileScreen extends StatefulWidget {
 class DriverProfileScreenState extends State<DriverProfileScreen> {
   late User driver;
   bool isLoading = true;
+  List<dynamic> friends = [];
 
   @override
   void initState() {
@@ -38,6 +38,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
     Response response = await getUserDetails(widget.driverId);
     if (response.statusCode == 200) {
       setState(() {
+        friends = response.data['mutuals'];
         driver = User.fromJson(response.data);
         isLoading = false;
       });
@@ -58,10 +59,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: const CircleAvatar(
-            backgroundColor: BlipColors.white,
-            child: Icon(Icons.arrow_back, color: BlipColors.black),
-          ),
+          icon: const Icon(Icons.arrow_back, color: BlipColors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -70,9 +68,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : SizedBox(
@@ -83,20 +79,7 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    addVerticalSpace(32),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          EvaIcons.arrowBackOutline,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    addVerticalSpace(24),
+                    addVerticalSpace(80),
                     Align(
                       alignment: Alignment.topCenter,
                       child: Stack(
@@ -128,12 +111,6 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                             driver.firstName,
                             style: BlipFonts.title,
                           ),
-                          Text(
-                            driver.occupation == null
-                                ? 'Unknown'
-                                : driver.occupation.toString(),
-                            style: BlipFonts.label,
-                          ),
                         ],
                       ),
                     ),
@@ -144,9 +121,8 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           border: Border.all(width: 1.0),
-                          borderRadius: const BorderRadius.all(Radius.circular(
-                                  7) //                 <--- border radius here
-                              ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(7)),
                         ),
                         child: SizedBox(
                           height: 40,
@@ -212,101 +188,37 @@ class DriverProfileScreenState extends State<DriverProfileScreen> {
                           "Mutual friends",
                           style: BlipFonts.title,
                         ),
-                        const Text(
-                          "  (5)",
-                          style: BlipFonts.label,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 15,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MutualFriendsScreen(
-                                  friends: const [],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                       ],
                     ),
                     addVerticalSpace(16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage: NetworkImage(
-                                'https://i.pravatar.cc/300?img=4',
-                              ),
+                        if (friends.isNotEmpty)
+                          for (var friend in friends)
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundColor: BlipColors.lightGrey,
+                                  backgroundImage:
+                                      friend['profileImageUri'] != null
+                                          ? NetworkImage(
+                                              friend['profileImageUri'],
+                                            )
+                                          : const NetworkImage(
+                                              'https://i.pravatar.cc/300?img=4',
+                                            ),
+                                ),
+                                Text(
+                                  friend['firstname'],
+                                  style: BlipFonts.outline,
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Dulaj",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: const [
-                            CircleAvatar(
-                              radius: 30.0,
-                              backgroundImage:
-                                  AssetImage('assets/images/user.jpg'),
-                            ),
-                            Text(
-                              "John",
-                              style: BlipFonts.outline,
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                     addVerticalSpace(32),
-                    WideButton(
-                      text: 'Request to join the ride',
-                      onPressedAction: () {
-                        reqCubit.addOffer(widget.offerId);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ViewRideOffersScreen()),
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),

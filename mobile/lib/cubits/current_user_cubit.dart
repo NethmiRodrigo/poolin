@@ -4,14 +4,14 @@ import 'package:poolin/models/vehicle_type.dart';
 class CurrentUserCubit extends Cubit<CurrentUser> {
   CurrentUserCubit()
       : super(CurrentUser(
-          id: '',
+          id: 0,
           firstName: '',
           lastName: '',
           gender: '',
           email: '',
         ));
 
-  void setUser(String id, String firstName, String lastName, String gender,
+  void setUser(int id, String firstName, String lastName, String gender,
           String email) =>
       {
         emit(state.copyWith(
@@ -25,7 +25,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
 
   CurrentUser getUser() => state;
 
-  void setId(String id) => emit(state.copyWith(id: id));
+  void setId(int id) => emit(state.copyWith(id: id));
 
   void setFirstName(String firstName) =>
       emit(state.copyWith(firstName: firstName));
@@ -55,7 +55,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
       emit(state.copyWith(totalRatings: totalRatings));
 
   void setVehicleType(String vehicleType) => {
-        if (vehicleType == null)
+        if (vehicleType == 'na')
           {emit(state.copyWith(vehicleType: VehicleType.na))}
         else if (vehicleType == 'Bike')
           {emit(state.copyWith(vehicleType: VehicleType.bike))}
@@ -71,7 +71,7 @@ class CurrentUserCubit extends Cubit<CurrentUser> {
 
 class CurrentUser {
   bool isInitialized = false;
-  String id;
+  int id;
   String firstName;
   String lastName;
   String gender;
@@ -119,7 +119,7 @@ class CurrentUser {
 
 //for modification
   CurrentUser copyWith({
-    String? id,
+    int? id,
     String? firstName,
     String? lastName,
     String? gender,

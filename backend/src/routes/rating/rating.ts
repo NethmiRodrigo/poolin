@@ -17,6 +17,20 @@ export const rateUser = async (req: Request, res: Response) => {
   if (isEmpty(tripId))
     throw new AppError(401, { tripId: "Trip id cannot be empty" });
 
+  const ratingExists = await Rating.findOne({
+    where: {
+      ratingFor: ratingFor,
+      ratingBy: ratingBy,
+      tripId: tripId,
+    },
+  });
+
+  if (ratingExists) {
+    console.log(ratingExists);
+    Rating.save({ ...ratingExists, rating: rating });
+    return res.status(200).json({ success: "Rating updated" });
+  }
+
   const ratingEntity = new Rating();
   ratingEntity.rating = rating;
   ratingEntity.ratingFor = ratingFor;

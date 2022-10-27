@@ -96,7 +96,7 @@ class UserCard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  DriverProfileScreen(driver.id, offerId)),
+                                  DriverProfileScreen(driver.id)),
                         );
                       },
                     )

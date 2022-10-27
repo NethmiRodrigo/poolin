@@ -2,17 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:poolin/colors.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
+import 'package:poolin/colors.dart';
 import 'package:poolin/cubits/matching_rides_cubit.dart';
 import 'package:poolin/cubits/ride_request_cubit.dart';
 import 'package:poolin/screens/request-ride/request_confirmation.dart';
 import 'package:poolin/services/ride_request_service.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/utils/widget_functions.dart';
-
 import 'package:poolin/fonts.dart';
 
 class RequestDetailsCard extends StatefulWidget {
@@ -63,9 +61,7 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
       child: isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : Padding(
@@ -104,12 +100,24 @@ class _RequestDetailsCardState extends State<RequestDetailsCard> {
                             itemBuilder: (context, index) {
                               return Align(
                                 widthFactor: 0.6,
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: BlipColors.lightGrey,
-                                  foregroundImage: NetworkImage(
-                                      matchingOffersCubit.state.offers[index]
-                                          .driver.profilePicURL),
+                                child: Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: BlipColors.lightGrey,
+                                      foregroundImage: NetworkImage(
+                                          matchingOffersCubit
+                                              .state
+                                              .offers[index]
+                                              .driver
+                                              .profilePicURL),
+                                    ),
+                                    Text(
+                                      matchingOffersCubit
+                                          .state.offers[index].driver.firstName,
+                                      style: BlipFonts.tagline,
+                                    )
+                                  ],
                                 ),
                               );
                             },

@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_map_polyline_new/google_map_polyline_new.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:location/location.dart';
+import 'package:poolin/cubits/active_ride_cubit.dart';
 import 'package:poolin/cubits/current_user_cubit.dart';
 import 'package:poolin/screens/home/rider_home.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -30,19 +31,20 @@ class _TrackDriverState extends State<TrackDriver> {
   int rideArrivalTime = DateTime.now().millisecondsSinceEpoch +
       const Duration(minutes: 15).inMilliseconds;
   late CountdownTimerController timerController;
+  late ActiveRideCubit activeRideCubit;
 
-  final LatLng pickupLoc = const LatLng(6.907684923079973, 79.86036268870303);
-  final LatLng startPoint = const LatLng(6.9063474012458, 79.86057108194697);
-  final LatLng dropOffLoc = const LatLng(6.915767773481873, 79.85512531825808);
-  LatLng driverLoc = const LatLng(0.0, 0.0);
+  late LatLng pickupLoc;
+  late LatLng dropOffLoc;
+  LatLng driverLoc = LatLng(6.806744952118697, 79.92244836145672);
+
   LocationData? currentLocation;
+
   final Completer<GoogleMapController> _controller = Completer();
   final MapType _currentMapType = MapType.normal;
 
   List<LatLng>? _coordinates;
   late GoogleMapPolyline googleMapPolyline;
 
-  BitmapDescriptor startPointMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor pickupLocMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor dropOffLocMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentLocationMarker = BitmapDescriptor.defaultMarker;
@@ -52,16 +54,27 @@ class _TrackDriverState extends State<TrackDriver> {
   LatLng camPosition = const LatLng(0, 0);
   bool isDriverAvailable = false;
   bool driverArrived = false;
+  bool isLoading = false;
 
   late io.Socket socket;
 
   @override
   void initState() {
     super.initState();
+    isLoading = true;
+    apiKey = dotenv.env['MAPS_API_KEY'];
+    activeRideCubit = BlocProvider.of<ActiveRideCubit>(context);
+    googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
+    pickupLoc = LatLng(
+      activeRideCubit.state.source.lat,
+      activeRideCubit.state.source.lang,
+    );
+    dropOffLoc = LatLng(
+      activeRideCubit.state.destination.lat,
+      activeRideCubit.state.destination.lang,
+    );
     getCurrentLocation();
     initSocket();
-    apiKey = dotenv.env['MAPS_API_KEY'];
-    googleMapPolyline = GoogleMapPolyline(apiKey: apiKey!);
     setCustomMarkers();
     getPolyPoints();
     timerController =
@@ -89,6 +102,9 @@ class _TrackDriverState extends State<TrackDriver> {
 
       socket.connect();
       socket.on("position-change", (data) async {
+        setState(() {
+          isLoading = false;
+        });
         var latLng = jsonDecode(data);
 
         final GoogleMapController controller = await _controller.future;
@@ -102,7 +118,7 @@ class _TrackDriverState extends State<TrackDriver> {
           controller
               .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: driverLoc,
-            zoom: 16,
+            zoom: 14,
           )));
         });
       });
@@ -157,11 +173,6 @@ class _TrackDriverState extends State<TrackDriver> {
       "assets/images/source-pin-black.png",
     );
 
-    BitmapDescriptor greySourceIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration.empty,
-      "assets/images/source-pin-grey.png",
-    );
-
     BitmapDescriptor destinationIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration.empty,
       "assets/images/location-pin-orange.png",
@@ -179,7 +190,6 @@ class _TrackDriverState extends State<TrackDriver> {
 
     setState(() {
       currentLocationMarker = blueIcon;
-      startPointMarker = greySourceIcon;
       pickupLocMarker = blackSourceIcon;
       dropOffLocMarker = destinationIcon;
       driverMarker = carIcon;
@@ -188,7 +198,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
   void getPolyPoints() async {
     List<LatLng>? coords = await googleMapPolyline.getCoordinatesWithLocation(
-        origin: startPoint, destination: dropOffLoc, mode: RouteMode.driving);
+        origin: pickupLoc, destination: dropOffLoc, mode: RouteMode.driving);
     setState(() {
       _coordinates = coords;
     });
@@ -203,12 +213,10 @@ class _TrackDriverState extends State<TrackDriver> {
         BlocProvider.of<CurrentUserCubit>(context);
 
     return Scaffold(
-      body: (currentLocation == null || _coordinates == null)
+      body: (isLoading || currentLocation == null || _coordinates == null)
           ? const Center(
               child: CircularProgressIndicator(
-                value: null,
-                semanticsLabel: 'Please wait',
-                color: BlipColors.grey,
+                color: BlipColors.orange,
               ),
             )
           : SingleChildScrollView(
@@ -292,11 +300,6 @@ class _TrackDriverState extends State<TrackDriver> {
                                 ),
                               )
                             : const Marker(markerId: MarkerId('NA')),
-                        Marker(
-                          markerId: const MarkerId('source'),
-                          position: startPoint,
-                          icon: startPointMarker,
-                        ),
                         Marker(
                           markerId: const MarkerId('pickUp'),
                           position: pickupLoc,

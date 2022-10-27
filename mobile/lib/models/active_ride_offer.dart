@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:poolin/models/coordinate_model.dart';
+
 ActiveRideOffer offerFromJson(String str) =>
     ActiveRideOffer.fromJson(json.decode(str));
 
@@ -7,8 +9,8 @@ String offerToJson(ActiveRideOffer data) => json.encode(data.toJson());
 
 class ActiveRideOffer {
   late int id;
-  late String from;
-  late String to;
+  late Coordinate source;
+  late Coordinate destination;
   late DateTime departureTime;
   late DateTime arrivalTime;
   late String status;
@@ -18,8 +20,8 @@ class ActiveRideOffer {
 
   ActiveRideOffer({
     required this.id,
-    required this.from,
-    required this.to,
+    required this.source,
+    required this.destination,
     required this.departureTime,
     required this.arrivalTime,
     required this.status,
@@ -31,8 +33,14 @@ class ActiveRideOffer {
   factory ActiveRideOffer.fromJson(Map<String, dynamic> json) {
     return ActiveRideOffer(
         id: json["id"],
-        from: json["from"],
-        to: json["to"],
+        source: Coordinate(
+            name: json["source"]["name"],
+            lat: json["source"]["coordinates"][0],
+            lang: json["source"]["coordinates"][1]),
+        destination: Coordinate(
+            name: json["destination"]["name"],
+            lat: json["destination"]["coordinates"][0],
+            lang: json["destination"]["coordinates"][1]),
         departureTime: DateTime.parse(json["departureTime"]),
         arrivalTime: DateTime.parse(json["arrivalTime"]),
         status: json["status"],
@@ -43,8 +51,8 @@ class ActiveRideOffer {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "from": from,
-        "to": to,
+        "from": source,
+        "to": destination,
         "departureTime": departureTime,
         "arrivalTime": arrivalTime,
         "status": status,
