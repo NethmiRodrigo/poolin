@@ -50,7 +50,7 @@ export const TrafficByDevice = (props) => {
       color: '#3F51B5'
     },
     {
-      title: 'Tablet',
+      title: 'Ride requests',
       value: 15,
       icon: TabletIcon,
       color: '#E53935'
