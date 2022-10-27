@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/custom/outline_button.dart';
 import 'package:poolin/fonts.dart';
+import 'package:poolin/screens/user/profile/user_profile_screen.dart';
 import 'package:poolin/utils/widget_functions.dart';
 import '../../../colors.dart';
 import 'package:akar_icons_flutter/akar_icons_flutter.dart';
@@ -61,7 +62,10 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserProfileScreen()));
                 },
               ),
               Text(
