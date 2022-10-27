@@ -8,6 +8,7 @@ import { AppError } from "../../util/error-handler";
 
 import { AppDataSource } from "../../data-source";
 
+/* Payment page cards */
 
 /**
  *
