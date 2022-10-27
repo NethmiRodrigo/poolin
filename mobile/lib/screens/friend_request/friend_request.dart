@@ -142,6 +142,16 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
                     ),
                     
                     Spacer(),
+                    OutlineButton(
+                      text: "Accept",
+                      color: BlipColors.black,
+                      onPressedAction: () {},
+                    ),
+                    OutlineButton(
+                      text: "Reject",
+                      color: BlipColors.black,
+                      onPressedAction: () {},
+                    ),
                     
                   ],
                 ),
