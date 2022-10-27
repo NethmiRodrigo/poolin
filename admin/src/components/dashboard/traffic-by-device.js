@@ -17,7 +17,7 @@ export const TrafficByDevice = (props) => {
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Ride offers', 'Ride requests', 'Mobile']
+    labels: ['Ride offers', 'Ride requests', 'Canceled rides']
   };
 
   const options = {
