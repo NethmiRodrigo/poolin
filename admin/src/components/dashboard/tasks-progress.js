@@ -19,6 +19,7 @@ export const TasksProgress = (props) => (
             fontSize={20}
             >
                 Total <br></br>
+                
                 Complaints 
                
             </Grid>
@@ -30,7 +31,7 @@ export const TasksProgress = (props) => (
       
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >      
             
 
