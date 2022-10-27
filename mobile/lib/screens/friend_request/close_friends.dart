@@ -93,6 +93,31 @@ class CloseFriendsScreenState extends State<CloseFriendsScreen> {
                 height: 20,
               ),
               ///////////////////////////////////////////////////////////////
+              Expanded(
+                child: ListView.builder(
+                    itemCount: display_list.length,
+                    itemBuilder: ((context, index) => ListTile(
+                          contentPadding: EdgeInsets.all(8),
+                          title: Text(
+                            display_list[index].Name!,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                          subtitle: Text(
+                            display_list[index].position!,
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12),
+                          ),
+                          trailing: Text(display_list[index].Seemore!),
+                          leading: CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  display_list[index].friendimageurl!)),
+                        ))),
+              )
               
             ]),
       ),
