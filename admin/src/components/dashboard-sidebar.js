@@ -12,8 +12,8 @@ import { ShoppingBag as ShoppingBagIcon } from "../icons/shopping-bag";
 import { User as UserIcon } from "../icons/user";
 import { UserAdd as UserAddIcon } from "../icons/user-add";
 import { Users as UsersIcon } from "../icons/users";
-import ArticleIcon from '@mui/icons-material/Article';
-import PaymentIcon from '@mui/icons-material/Payment';
+import ArticleIcon from "@mui/icons-material/Article";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { XCircle as XCircleIcon } from "../icons/x-circle";
 // import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
@@ -47,7 +47,7 @@ const items = [
   {
     href: "/login",
     icon: <LockIcon fontSize="small" />,
-    title: "Login",
+    title: "Logout",
   },
   // {
   //   href: "/register",
@@ -95,9 +95,7 @@ export const DashboardSidebar = (props) => {
         <div>
           <Box sx={{ p: 3 }}>
             <NextLink href="/" passHref>
-              <a>
-
-              </a>
+              <a></a>
             </NextLink>
           </Box>
           <Box sx={{ px: 2 }}>
