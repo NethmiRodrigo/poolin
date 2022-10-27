@@ -139,7 +139,6 @@ export const Sales = (props) => {
           />
         </Box>
       </CardContent>
-      <Divider />
       <Box
         sx={{
           display: 'flex',
