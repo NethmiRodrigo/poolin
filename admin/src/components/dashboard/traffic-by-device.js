@@ -56,7 +56,7 @@ export const TrafficByDevice = (props) => {
       color: '#E53935'
     },
     {
-      title: 'Mobile',
+      title: 'Canceled rides',
       value: 23,
       icon: PhoneIcon,
       color: '#FB8C00'
