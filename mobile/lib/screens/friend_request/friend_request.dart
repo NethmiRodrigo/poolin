@@ -84,7 +84,24 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
                       backgroundImage: AssetImage('assets/images/woman.jpeg'),
                     ),
                     addHorizontalSpace(8),
-                    
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nethmi Dilini ",
+                          style: BlipFonts.labelBold,
+                        ),
+                        Text(
+                          "Student",
+                          style: BlipFonts.label,
+                        ),
+                        // OutlineButton(
+                        //   text: "A",
+                        //   color: BlipColors.black,
+                        //   onPressedAction: () {},
+                        // ),
+                      ],
+                    ),
                     Spacer(),
                     OutlineButton(
                       text: "Accept",
