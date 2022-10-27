@@ -108,15 +108,7 @@ class _RideVisibilityScreenState extends State<RideVisibilityScreen> {
                   text: "Close friend",
                 ),
                 
-                // IconButton(
-                //           icon: const Icon(
-                //             Icons.close,
-                //             color: Colors.black,
-                //           ),
-                //           onPressed: () {
-                //             Navigator.pop(context);
-                //           },
-                //         ),
+                
               ]),
               addVerticalSpace(32),
             ],
