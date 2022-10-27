@@ -5,7 +5,6 @@ import 'package:poolin/colors.dart';
 import 'package:poolin/custom/cards/home_screen_card.dart';
 import 'package:poolin/icons.dart';
 import 'package:poolin/fonts.dart';
-import 'package:poolin/screens/current-ride/final_ride_details.dart';
 import 'package:poolin/screens/view-ride-requests/view_ride_requests_screen.dart';
 
 class RideCountDown extends StatefulWidget {

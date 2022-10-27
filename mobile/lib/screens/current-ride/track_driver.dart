@@ -35,7 +35,7 @@ class _TrackDriverState extends State<TrackDriver> {
 
   late LatLng pickupLoc;
   late LatLng dropOffLoc;
-  LatLng driverLoc = LatLng(6.806744952118697, 79.92244836145672);
+  LatLng driverLoc = const LatLng(6.806744952118697, 79.92244836145672);
 
   LocationData? currentLocation;
 

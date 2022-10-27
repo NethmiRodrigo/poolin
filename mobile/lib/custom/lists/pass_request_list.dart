@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:poolin/colors.dart';
-import 'package:time_elapsed/time_elapsed.dart';
 
 import 'package:poolin/fonts.dart';
 import 'package:poolin/models/passenger_request.dart';

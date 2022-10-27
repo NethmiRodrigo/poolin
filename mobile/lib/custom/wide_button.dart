@@ -17,10 +17,10 @@ class WideButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
+          foregroundColor: BlipColors.white,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(30))),
           padding: const EdgeInsets.all(16.0),
-          primary: BlipColors.white,
           backgroundColor:
               isDisabled ? BlipColors.black.withOpacity(0.3) : BlipColors.black,
           minimumSize: const Size.fromHeight(50),

@@ -2,15 +2,11 @@
 
 import 'package:dio/dio.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poolin/app.dart';
 import 'package:poolin/cubits/auth_cubit.dart';
 import 'package:poolin/custom/wide_button.dart';
-import 'package:poolin/screens/forgot-password/forgot_password_screen.dart';
 import 'package:poolin/services/complaint_service.dart';
-import 'package:poolin/services/login_service.dart';
 import 'package:poolin/utils/widget_functions.dart';
 
 import '../../colors.dart';
@@ -43,8 +39,6 @@ class ComplaintScreenState extends State<ComplaintScreen> {
     const double padding = 16;
     const sidePadding = EdgeInsets.symmetric(horizontal: padding);
     AuthStateCubit authState = BlocProvider.of<AuthStateCubit>(context);
-    final CurrentUserCubit userCubit =
-        BlocProvider.of<CurrentUserCubit>(context);
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       resizeToAvoidBottomInset: false,

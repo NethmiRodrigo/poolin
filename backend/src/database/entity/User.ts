@@ -8,7 +8,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  Double,
 } from "typeorm";
 import { Exclude } from "class-transformer";
 import { VerificationStatus } from "./TempUser";
@@ -17,6 +16,7 @@ import { RideOffer } from "./RideOffer";
 import { RideRequest } from "./RideRequest";
 import { Rating } from "./Rating";
 import { Complaint } from "./Complaint";
+import { VerificationDocument } from "./VerificationDocument";
 
 export enum Gender {
   MALE = "male",
@@ -73,7 +73,10 @@ export class User extends BaseEntity {
   })
   gender: Gender;
 
-  @Column({ default: 'https://i.ibb.co/qgVMXFS/profile-icon-9.png', nullable: true })
+  @Column({
+    default: "https://i.ibb.co/qgVMXFS/profile-icon-9.png",
+    nullable: true,
+  })
   @Exclude()
   profileImageUri: string;
 
@@ -152,6 +155,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Complaint, (complaint) => complaint.complainee)
   complaintsReceived: Complaint[];
+
+  @OneToMany(() => VerificationDocument, (document) => document.user)
+  verificationDocuments: VerificationDocument[];
 
   @CreateDateColumn()
   createdAt: Date;

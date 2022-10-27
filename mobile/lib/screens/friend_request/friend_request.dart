@@ -1,7 +1,5 @@
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:poolin/custom/wide_button.dart';
 import 'package:poolin/custom/outline_button.dart';
 import 'package:poolin/fonts.dart';
 import 'package:poolin/utils/widget_functions.dart';
@@ -75,18 +73,18 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
               ),
               addVerticalSpace(40),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 30.0,
                       backgroundImage: AssetImage('assets/images/woman.jpeg'),
                     ),
                     addHorizontalSpace(8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           "Nethmi Dilini ",
                           style: BlipFonts.labelBold,
@@ -95,11 +93,6 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
                           "Student",
                           style: BlipFonts.label,
                         ),
-                        // OutlineButton(
-                        //   text: "A",
-                        //   color: BlipColors.black,
-                        //   onPressedAction: () {},
-                        // ),
                       ],
                     ),
                     Spacer(),
@@ -140,7 +133,6 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
                         ),
                       ],
                     ),
-                    
                     Spacer(),
                     OutlineButton(
                       text: "Accept",
@@ -152,7 +144,6 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
                       color: BlipColors.black,
                       onPressedAction: () {},
                     ),
-                    
                   ],
                 ),
               ),
