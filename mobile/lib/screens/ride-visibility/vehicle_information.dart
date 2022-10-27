@@ -9,16 +9,16 @@ import 'package:poolin/utils/widget_functions.dart';
 
 import '../../colors.dart';
 
-class DescriVehicleScreen extends StatefulWidget {
-  const DescriVehicleScreen({super.key});
+class VehicleInformationScreen extends StatefulWidget {
+  const VehicleInformationScreen({super.key});
 
   @override
-  DescriVehicleScreenState createState() {
-    return DescriVehicleScreenState();
+  VehicleInformationScreenState createState() {
+    return VehicleInformationScreenState();
   }
 }
 
-class DescriVehicleScreenState extends State<DescriVehicleScreen> {
+class VehicleInformationScreenState extends State<VehicleInformationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _make = TextEditingController();
   final TextEditingController _model = TextEditingController();
