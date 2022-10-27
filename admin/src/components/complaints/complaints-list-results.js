@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-import { Button, FormControl, FormGroup, InputAdornment, InputLabel, MenuItem, Modal, NativeSelect, Select, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormGroup,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Modal,
+  NativeSelect,
+  Select,
+  TextField,
+} from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import { Switch } from "@mui/material";
 import axios from "axios";
@@ -70,13 +81,10 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
     setPage(newPage);
   };
 
-  
-
   return (
     <Card {...rest}>
       <PerfectScrollbar>
-        
-      {/* <Box sx={{ m: 1 }} >
+        {/* <Box sx={{ m: 1 }} >
       <FormControl fullwidth>
   <InputLabel variant="standard" htmlFor="uncontrolled-native">
     Status
@@ -103,7 +111,7 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
                 <TableCell>Status</TableCell>
                 <TableCell>Complainee</TableCell>
                 <TableCell>Complainer</TableCell>
-                <TableCell>Action</TableCell>
+                {/* <TableCell>Action</TableCell> */}
                 <TableCell>View</TableCell>
               </TableRow>
             </TableHead>
@@ -135,11 +143,11 @@ export const ComplaintsListResults = ({ complaints, ...rest }) => {
                     <TableCell>
                       {`${complaints.complainer.firstname} ${complaints.complainer.lastname}`}{" "}
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <FormGroup>
                         <FormControlLabel control={<Switch />} label="" />
                       </FormGroup>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Button
                         variant="outlined"

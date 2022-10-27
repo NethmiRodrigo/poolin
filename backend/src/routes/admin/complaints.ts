@@ -27,15 +27,33 @@ export const fetchAllComplaint = async (req: Request, res: Response) => {
  * blacklist user
  */
  export const blacklist = async (req: Request, res: Response) => {
-  const { email } = req.body;
+  const { complaineeId } = req.params;
 
-  const user = await User.findOneBy({ email });
+  const user = await User.findOneBy({ id: +complaineeId });
 
   if (!user) throw new AppError(401, { error: "User not found" });
 
-  user.status = 0;
+  const { status } = req.body;
+  user.status = status;
 
   await user.save();
 
   return res.json({ user });
+};
+
+/**
+ * close complaint
+ */
+ export const closeComplaint = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const complaint = await Complaint.findOneBy({ id: +id });
+
+  const { status } = req.body;
+
+  complaint.status = status;
+
+  await complaint.save();
+
+  return res.json({ complaint });
 };

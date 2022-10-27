@@ -1,35 +1,21 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
 
 export const TotalPayables = (props) => (
-  <Card
-    sx={{ height: '80%' }}
-    {...props}
-  >
+  <Card sx={{ height: "80%" }} {...props}>
     <CardContent>
-      <Grid
-        container
-        spacing={1}
-        sx={{ justifyContent: 'space-around' }}
-      >
+      <Grid container spacing={1} sx={{ justifyContent: "space-around" }}>
         <Grid item>
           <Grid row>
-            <Grid item
-            fontSize={20}
-            >
-                Total <br></br>
-                Payables
+            <Grid item fontSize={20}>
+              Total <br></br>
+              Payables
             </Grid>
-          </Grid>          
+          </Grid>
         </Grid>
-        
+
         <Grid item>
-        <Typography
-            color="textPrimary"
-            variant="h5"
-          >
-            LKR 
-            
-            4080
+          <Typography color="textPrimary" variant="h5">
+            LKR 19,605
           </Typography>
         </Grid>
       </Grid>
