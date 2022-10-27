@@ -109,7 +109,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.role}</TableCell>
+                    <TableCell class="capitalize-me">{customer.role}</TableCell>
                     <TableCell>{customer.mobile}</TableCell>
                     <TableCell>
                       {new Date(customer.createdAt).toLocaleDateString("en-US")}
