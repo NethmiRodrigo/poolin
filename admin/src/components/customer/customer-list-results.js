@@ -111,7 +111,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     </TableCell>
                     <TableCell>{customer.role}</TableCell>
                     <TableCell>{customer.mobile}</TableCell>
-                    <TableCell>{customer.createdAt}</TableCell>
+                    <TableCell>
+                      {new Date(customer.createdAt).toLocaleDateString("en-US")}
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="outlined"
