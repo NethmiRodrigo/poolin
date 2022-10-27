@@ -125,7 +125,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     </TableCell>
                     <TableCell>
                       <FormGroup>
-                        <FormControlLabel control={<Switch />} label="verified" />
+                        <FormControlLabel control={<Switch />} label="Verified" />
                       </FormGroup>
                     </TableCell>
                   </TableRow>
