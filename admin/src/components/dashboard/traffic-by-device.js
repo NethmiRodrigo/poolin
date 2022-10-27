@@ -99,7 +99,7 @@ export const TrafficByDevice = (props) => {
                 textAlign: 'center'
               }}
             >
-              <Icon color="action" />
+              
               <Typography
                 color="textPrimary"
                 variant="body1"
