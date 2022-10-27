@@ -127,6 +127,19 @@ class FrienreqFriendsScreenState extends State<FrienreqFriendsScreen> {
                       backgroundImage: AssetImage('assets/images/user.jpg'),
                     ),
                     addHorizontalSpace(8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Prabath Silva ",
+                          style: BlipFonts.labelBold,
+                        ),
+                        Text(
+                          "Student",
+                          style: BlipFonts.label,
+                        ),
+                      ],
+                    ),
                     
                     Spacer(),
                     
