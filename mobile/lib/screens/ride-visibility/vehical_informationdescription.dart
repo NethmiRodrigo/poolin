@@ -63,7 +63,9 @@ class DescriVehicleScreenState extends State<DescriVehicleScreen> {
                 style: BlipFonts.title,
               ),
               addVerticalSpace(36),
-              
+              Align(
+                child: Image.asset('assets/images/car.png', height: 137),
+              ),
               Form(
                 key: _formKey,
                 child: Column(
