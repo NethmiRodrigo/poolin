@@ -30,10 +30,10 @@ export const TotalProfit = (props) => (
       
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >      
             
-20 Users
+20 
          
             
                

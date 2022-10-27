@@ -85,7 +85,7 @@ export const PaymentListResults = ({ payments, ...rest }) => {
                 <TableCell>Total Number of Rides</TableCell>
                 <TableCell>Total Ride Income</TableCell>
                 <TableCell>Total Ride Payable</TableCell>
-                <TableCell>Total Income</TableCell>
+                <TableCell>Total Profit</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

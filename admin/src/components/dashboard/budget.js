@@ -31,10 +31,10 @@ export const Budget = (props) => (
       
         <Typography
             color="textPrimary"
-            variant="h4"
+            variant="h5"
           >      
             
-LK : 6220/-
+LKR : 6220/-
          
             
                

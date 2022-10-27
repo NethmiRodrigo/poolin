@@ -45,7 +45,7 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [20000, 17250, 9850, 2000, 11200, 1900, 0],
+        data: [2000, 1725, 985, 200, 1120, 190, 0],
         label: 'This year',
         maxBarThickness: 10
       },
@@ -139,7 +139,6 @@ export const Sales = (props) => {
           />
         </Box>
       </CardContent>
-      <Divider />
       <Box
         sx={{
           display: 'flex',
@@ -147,13 +146,6 @@ export const Sales = (props) => {
           p: 2
         }}
       >
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon fontSize="small" />}
-          size="small"
-        >
-          Overview
-        </Button>
       </Box>
     </Card>
   );

@@ -17,7 +17,7 @@ export const TrafficByDevice = (props) => {
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['Ride offers', 'Ride requests', 'Canceled rides']
   };
 
   const options = {
@@ -44,19 +44,19 @@ export const TrafficByDevice = (props) => {
 
   const devices = [
     {
-      title: 'Desktop',
+      title: 'Ride offers',
       value: 63,
       icon: LaptopMacIcon,
       color: '#3F51B5'
     },
     {
-      title: 'Tablet',
+      title: 'Ride requests',
       value: 15,
       icon: TabletIcon,
       color: '#E53935'
     },
     {
-      title: 'Mobile',
+      title: 'Canceled rides',
       value: 23,
       icon: PhoneIcon,
       color: '#FB8C00'
@@ -99,12 +99,12 @@ export const TrafficByDevice = (props) => {
                 textAlign: 'center'
               }}
             >
-              <Icon color="action" />
+              
               <Typography
                 color="textPrimary"
                 variant="body1"
               >
-                {title}
+              
               </Typography>
               <Typography
                 style={{ color }}
