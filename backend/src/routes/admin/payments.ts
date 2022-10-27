@@ -93,4 +93,4 @@ export const fetchAllPayments = async (req: Request, res: Response) => {
     return res.json({ allPayments });
   };
 
-  /** Count tota; pnumber of passengers */
+  /** Count total number of passengers */
